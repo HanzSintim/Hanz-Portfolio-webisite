@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Engineering Projects</h1>
+
+    <!-- Filter links: they add ?category=... to the URL, app.py reads it -->
+    <div class="filters">
+        <a href="{{ url_for('projects') }}"
+           class="{{ 'active' if not current_category else '' }}">All</a>
+        <a href="{{ url_for('projects', category='Embedded & Hardware') }}"
+           class="{{ 'active' if current_category == 'Embedded & Hardware' else '' }}">Embedded &amp; Hardware</a>
+        <a href="{{ url_for('projects', category='Software & Systems') }}"
+           class="{{ 'active' if current_category == 'Software & Systems' else '' }}">Software &amp; Systems</a>
+    </div>
+
+    <div class="grid">
+        {% for project in projects %}
+        <article class="card">
+            <span class="tag">{{ project.category }}</span>
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.summary }}</p>
+
+            <!-- Technical bullet points -->
+            <ul class="highlights">
+                {% for point in project.highlights %}
+                <li>{{ point }}</li>
+                {% endfor %}
+            </ul>
+
+            <!-- Tech stack badges -->
+            <div class="badges">
+                {% for tech in project.tech_stack %}
+                <span class="badge">{{ tech }}</span>
+                {% endfor %}
+            </div>
+        </article>
+        {% else %}
+        <p>No projects found in this category.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

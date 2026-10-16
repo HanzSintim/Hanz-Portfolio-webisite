@@ -1,6 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hanz Ofosuhene Sintim</h1>
-    <p>Computer Engineering & Microelectronics / Embedded Systems</p>
+    <!-- Hero section: who I am -->
+    <section class="hero">
+        <p class="eyebrow">Electronics &amp; Embedded Systems Engineer</p>
+        <h1>Hanz Ofosuhene-Sintim</h1>
+        <ul class="hero-facts">
+            <li>M1 Electronics &amp; Embedded Systems at JUNIA Lille</li>
+            <li>BSc Computer Engineering at KNUST</li>
+            <li>Former ACES Department President</li>
+        </ul>
+        <div class="hero-actions">
+            <a class="btn" href="{{ url_for('projects') }}">View all projects</a>
+            <a class="btn btn-outline" href="{{ url_for('about') }}">About me</a>
+        </div>
+    </section>
+
+    <!-- Featured projects: app.py sends only the top 3 -->
+    <section>
+        <h2>Featured Projects</h2>
+        <div class="grid">
+            {% for project in projects %}
+            <article class="card">
+                <span class="tag">{{ project.category }}</span>
+                <h3>{{ project.title }}</h3>
+                <p>{{ project.summary }}</p>
+                <div class="badges">
+                    {% for tech in project.tech_stack %}
+                    <span class="badge">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
 {% endblock %}

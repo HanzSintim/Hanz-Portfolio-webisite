@@ -4,21 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hanz Ofosuhene-Sintim | Engineering Portfolio</title>
+  <!-- Load the stylesheet from the static folder -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <nav>
-    <a href="{{url_for('home')}}">Home</a>
-    <a href="{{ url_for('about')}}">About</a>
+  <!-- Navigation bar shown on every page -->
+  <nav class="navbar">
+    <span class="brand">HOS</span>
+    <div class="nav-links">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('projects') }}">Projects</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('api_projects') }}">Raw JSON API</a>
+    </div>
   </nav>
-  <hr>
 
-  <main>
-  {% block content %}
-  {%endblock %}
-
+  <main class="container">
+    <!-- Each page puts its own content here -->
+    {% block content %}
+    {% endblock %}
   </main>
 
-  <hr>
-  <footer>Engineering with Pyhton & Flask</footer>
+  <footer class="footer">Engineering with Python &amp; Flask</footer>
 </body>
 </html>
