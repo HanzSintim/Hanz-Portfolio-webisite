@@ -1,30 +1,840 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ current_lang }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hanz Ofosuhene-Sintim | Engineering Portfolio</title>
-  <!-- Load the stylesheet from the static folder -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>{{ t.meta_title }}</title>
+
+  <!-- Prevent theme flash: apply saved theme override or respect OS preference -->
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("hos_theme");
+        if (savedTheme === "dark" || savedTheme === "light") {
+          document.documentElement.setAttribute("data-theme", savedTheme);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Google Fonts: Inter (400,500,600,700,800) & JetBrains Mono (400,500) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Architectural stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=4">
 </head>
 <body>
-  <!-- Navigation bar shown on every page -->
-  <nav class="navbar">
-    <span class="brand">HOS</span>
-    <div class="nav-links">
-      <a href="{{ url_for('home') }}">Home</a>
-      <a href="{{ url_for('projects') }}">Projects</a>
-      <a href="{{ url_for('about') }}">About</a>
-      <a href="{{ url_for('api_projects') }}">Raw JSON API</a>
+  <div class="app-shell" id="app-shell">
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem("hos_sidebar_pinned") === "true") {
+            var shell = document.getElementById("app-shell");
+            if (shell) shell.classList.add("sidebar-pinned");
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <!-- ==================== LEFT SIDEBAR (3-State Command Rail) ==================== -->
+    <aside class="sidebar" id="command-sidebar" aria-label="{{ t.sidebar.nav_label }}">
+      <div class="sidebar-header">
+        <a href="{{ url_for('home') }}" class="sidebar-brand">
+          <span class="sidebar-icon-col brand-avatar-col" aria-hidden="true">
+            <span class="brand-avatar-badge">
+              HOS
+              <span class="live-dot"></span>
+            </span>
+          </span>
+          <span class="brand-copy sidebar-text">
+            <span class="brand-name">{{ t.sidebar.brand_name }}</span>
+            <span class="brand-status">{{ t.sidebar.brand_status }}</span>
+          </span>
+        </a>
+
+        <button
+          type="button"
+          id="sidebar-pin-btn"
+          class="sidebar-pin-btn sidebar-text"
+          aria-label="Pin or collapse command rail"
+          aria-pressed="false"
+          title="Pin / Collapse Command Rail"
+        >
+          <svg class="pin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="17" x2="12" y2="22"></line>
+            <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('home') }}"
+           class="nav-item nav-link {{ 'active' if request.endpoint == 'home' else '' }}">
+          <span class="sidebar-icon-col" aria-hidden="true">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="9" rx="2"></rect>
+              <rect x="14" y="3" width="7" height="5" rx="2"></rect>
+              <rect x="14" y="12" width="7" height="9" rx="2"></rect>
+              <rect x="3" y="16" width="7" height="5" rx="2"></rect>
+            </svg>
+          </span>
+          <span class="nav-label sidebar-text">{{ t.sidebar.home }}</span>
+        </a>
+
+        <a href="{{ url_for('about') }}"
+           class="nav-item nav-link {{ 'active' if request.endpoint == 'about' else '' }}">
+          <span class="sidebar-icon-col" aria-hidden="true">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4 20c1.8-3.6 5-5.5 8-5.5s6.2 1.9 8 5.5"></path>
+            </svg>
+          </span>
+          <span class="nav-label sidebar-text">{{ t.sidebar.about }}</span>
+        </a>
+
+        <a href="{{ url_for('projects') }}"
+           class="nav-item nav-link {{ 'active' if request.endpoint == 'projects' else '' }}">
+          <span class="sidebar-icon-col" aria-hidden="true">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+              <rect x="9" y="9" width="6" height="6"></rect>
+              <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"></path>
+            </svg>
+          </span>
+          <span class="nav-label sidebar-text">{{ t.sidebar.projects }}</span>
+        </a>
+
+        <a href="{{ url_for('about') }}#experience" class="nav-item nav-link">
+          <span class="sidebar-icon-col" aria-hidden="true">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2"></rect>
+              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path>
+              <path d="M12 12v3"></path>
+              <path d="M2 12h20"></path>
+            </svg>
+          </span>
+          <span class="nav-label sidebar-text">{{ t.sidebar.experience }}</span>
+        </a>
+
+        <a href="{{ url_for('about') }}#education" class="nav-item nav-link">
+          <span class="sidebar-icon-col" aria-hidden="true">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10L12 5 2 10l10 5 10-5z"></path>
+              <path d="M6 12.5V17c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5"></path>
+            </svg>
+          </span>
+          <span class="nav-label sidebar-text">{{ t.sidebar.education }}</span>
+        </a>
+
+        <a href="{{ url_for('about') }}#contact" class="nav-item nav-link">
+          <span class="sidebar-icon-col" aria-hidden="true">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+          </span>
+          <span class="nav-label sidebar-text">{{ t.sidebar.contact }}</span>
+        </a>
+
+        <div class="sidebar-divider" role="separator"></div>
+
+        <a href="{{ url_for('api_projects') }}" class="nav-item nav-link nav-item-api">
+          <span class="sidebar-icon-col" aria-hidden="true">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </span>
+          <span class="nav-label sidebar-text">{{ t.sidebar.api_json }}</span>
+          <span class="mono-tag sidebar-text">JSON</span>
+        </a>
+      </nav>
+
+      <!-- 4.5% Opacity Decorative 45-Degree Geometric PCB Trace & Via Pad Layer -->
+      <svg
+        class="sidebar-pcb-art"
+        viewBox="0 0 256 260"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <g stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Primary 45-degree differential bus traces along left rail & full panel -->
+          <path d="M 18 260 L 18 190 L 42 166 L 42 96 L 26 80 L 26 36" />
+          <path d="M 30 260 L 30 196 L 54 172 L 54 112 L 78 88 L 78 44" />
+          <path d="M 46 260 L 46 210 L 74 182 L 122 182 L 148 156 L 148 92" />
+          <path d="M 62 260 L 62 222 L 86 198 L 144 198 L 176 166 L 218 166 L 236 148" />
+          <path d="M 96 260 L 96 230 L 116 210 L 168 210 L 198 180 L 198 118 L 224 92" />
+          <path d="M 136 260 L 136 236 L 154 218 L 208 218 L 234 192 L 234 112" />
+          <path d="M 10 144 L 28 126 L 28 106" />
+          <path d="M 54 142 L 88 142 L 112 118 L 112 68" />
+          <path d="M 88 182 L 106 164 L 106 138" />
+          <path d="M 148 128 L 170 106 L 204 106" />
+          <!-- Circular PCB Via Pads (outer ring + inner drill hole) -->
+          <circle cx="26" cy="36" r="4" fill="var(--bg-sidebar)" />
+          <circle cx="26" cy="36" r="1.5" fill="currentColor" />
+          <circle cx="78" cy="44" r="4" fill="var(--bg-sidebar)" />
+          <circle cx="78" cy="44" r="1.5" fill="currentColor" />
+          <circle cx="28" cy="106" r="3.5" fill="var(--bg-sidebar)" />
+          <circle cx="28" cy="106" r="1.3" fill="currentColor" />
+          <circle cx="42" cy="96" r="3.5" fill="var(--bg-sidebar)" />
+          <circle cx="112" cy="68" r="4" fill="var(--bg-sidebar)" />
+          <circle cx="112" cy="68" r="1.5" fill="currentColor" />
+          <circle cx="106" cy="138" r="3.5" fill="var(--bg-sidebar)" />
+          <circle cx="148" cy="92" r="4" fill="var(--bg-sidebar)" />
+          <circle cx="148" cy="92" r="1.5" fill="currentColor" />
+          <circle cx="204" cy="106" r="3.5" fill="var(--bg-sidebar)" />
+          <circle cx="224" cy="92" r="4" fill="var(--bg-sidebar)" />
+          <circle cx="224" cy="92" r="1.5" fill="currentColor" />
+          <circle cx="236" cy="148" r="3.5" fill="var(--bg-sidebar)" />
+          <circle cx="234" cy="112" r="4" fill="var(--bg-sidebar)" />
+          <circle cx="54" cy="172" r="3" fill="var(--bg-sidebar)" />
+          <circle cx="122" cy="182" r="3" fill="var(--bg-sidebar)" />
+          <circle cx="176" cy="166" r="3" fill="var(--bg-sidebar)" />
+        </g>
+      </svg>
+    </aside>
+
+    <!-- ==================== MAIN WORKSPACE ==================== -->
+    <div class="app-main">
+      <!-- TOP UTILITY BAR -->
+      <header class="topbar">
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="search"
+            id="portfolio-search"
+            class="search-input"
+            placeholder="{{ t.topbar.search_placeholder }}"
+            aria-label="{{ t.topbar.search_aria }}"
+            autocomplete="off"
+          >
+          <kbd class="search-kbd" aria-hidden="true">/</kbd>
+        </div>
+
+        <div class="topbar-actions">
+          {% if is_local %}
+            <button
+              type="button"
+              id="open-studio-btn"
+              class="utility-pill studio-trigger-pill"
+              onclick="window.openProjectStudio && window.openProjectStudio()"
+            >
+              <span>{{ t.studio.new_project_btn }}</span>
+            </button>
+          {% endif %}
+
+          <!-- Light / Dark Theme Switch -->
+          <button
+            type="button"
+            id="theme-toggle"
+            class="utility-pill theme-toggle-btn"
+            aria-label="{{ t.topbar.theme_toggle_label }}"
+            title="{{ t.topbar.theme_toggle_label }}"
+          >
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <span class="theme-label-light">{{ t.topbar.theme_light }}</span>
+            <span class="theme-label-dark">{{ t.topbar.theme_dark }}</span>
+          </button>
+
+          <!-- Prominent FR | EN Pill Switcher with pulsing inactive option -->
+          <div class="lang-switcher" role="group" aria-label="Language switcher" title="{{ t.topbar.lang_switch_tooltip }}">
+            <a href="{{ url_for('set_lang', lang='fr') }}"
+               class="lang-pill {{ 'active' if current_lang == 'fr' else 'inactive-pulse' }}"
+               aria-current="{{ 'true' if current_lang == 'fr' else 'false' }}">
+              FR
+            </a>
+            <span class="lang-sep" aria-hidden="true">|</span>
+            <a href="{{ url_for('set_lang', lang='en') }}"
+               class="lang-pill {{ 'active' if current_lang == 'en' else 'inactive-pulse' }}"
+               aria-current="{{ 'true' if current_lang == 'en' else 'false' }}">
+              EN
+            </a>
+          </div>
+
+          <!-- Compact Profile Pill -->
+          <a href="{{ url_for('about') }}" class="utility-pill profile-pill">
+            <span class="profile-avatar" aria-hidden="true">HOS</span>
+            <span class="profile-name">{{ t.topbar.profile_name }}</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="dashboard-container" id="main-content">
+        {% block content %}
+        {% endblock %}
+      </main>
+
+      <footer class="footer">
+        <p>{{ t.footer.tagline }}</p>
+      </footer>
     </div>
-  </nav>
 
-  <main class="container">
-    <!-- Each page puts its own content here -->
-    {% block content %}
-    {% endblock %}
-  </main>
+    <!-- ==================== MOBILE BOTTOM DOCK (< 768px) ==================== -->
+    <nav class="mobile-dock" aria-label="{{ t.sidebar.nav_label }}">
+      <a href="{{ url_for('home') }}"
+         class="dock-item {{ 'active' if request.endpoint == 'home' else '' }}">
+        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="9" rx="2"></rect>
+          <rect x="14" y="3" width="7" height="5" rx="2"></rect>
+          <rect x="14" y="12" width="7" height="9" rx="2"></rect>
+          <rect x="3" y="16" width="7" height="5" rx="2"></rect>
+        </svg>
+        <span>{{ t.sidebar.home }}</span>
+      </a>
 
-  <footer class="footer">Engineering with Python &amp; Flask</footer>
+      <a href="{{ url_for('projects') }}"
+         class="dock-item {{ 'active' if request.endpoint == 'projects' else '' }}">
+        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+          <rect x="9" y="9" width="6" height="6"></rect>
+          <path d="M9 1v3M15 1v3M9 20v3M15 20v3"></path>
+        </svg>
+        <span>{{ t.sidebar.projects }}</span>
+      </a>
+
+      <a href="{{ url_for('about') }}"
+         class="dock-item {{ 'active' if request.endpoint == 'about' else '' }}">
+        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 20c1.8-3.6 5-5.5 8-5.5s6.2 1.9 8 5.5"></path>
+        </svg>
+        <span>{{ t.sidebar.about }}</span>
+      </a>
+
+      <a href="{{ url_for('about') }}#experience" class="dock-item">
+        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="7" width="20" height="14" rx="2"></rect>
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path>
+        </svg>
+        <span>{{ t.sidebar.experience }}</span>
+      </a>
+
+      <a href="{{ url_for('api_projects') }}" class="dock-item">
+        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+        <span>API</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- ==================== INTERACTIVE CASE-STUDY DRAWER ==================== -->
+  <div id="drawer-backdrop" class="drawer-backdrop" hidden style="display: none;"></div>
+  <aside
+    id="case-study-drawer"
+    class="case-study-drawer"
+    aria-labelledby="drawer-project-title"
+    aria-hidden="true"
+  >
+    <div class="drawer-header">
+      <div class="drawer-meta-row">
+        <span class="drawer-eyebrow">{{ t.drawer.badge }}</span>
+        <span id="drawer-status-badge" class="status-badge"></span>
+      </div>
+      <div class="drawer-title-row">
+        <h2 id="drawer-project-title" class="drawer-title"></h2>
+        <button
+          type="button"
+          id="drawer-close-btn"
+          class="drawer-close-btn"
+          aria-label="{{ t.drawer.close_aria }}"
+        >
+          ✕
+        </button>
+      </div>
+      <p id="drawer-project-summary" class="drawer-summary"></p>
+
+      {% if is_local %}
+        <form id="drawer-toggle-status-form" method="POST" action="" class="drawer-local-actions">
+          <button type="submit" class="btn-secondary-surface btn-sm">
+            ⇄ {{ t.status.toggle_btn }}
+          </button>
+        </form>
+      {% endif %}
+    </div>
+
+    <div class="drawer-body">
+      <!-- 1. Visual System Block Diagram -->
+      <section class="drawer-section">
+        <h3 class="drawer-section-title">{{ t.drawer.block_diagram_title }}</h3>
+        <div id="drawer-block-diagram" class="block-diagram-flow"></div>
+      </section>
+
+      <!-- 2. Bilingual Technical Highlights -->
+      <section class="drawer-section">
+        <h3 class="drawer-section-title">{{ t.drawer.highlights_title }}</h3>
+        <ul id="drawer-highlights" class="project-highlights"></ul>
+      </section>
+
+      <!-- 3. Tech Stack -->
+      <section class="drawer-section">
+        <h3 class="drawer-section-title">{{ t.drawer.tech_stack_title }}</h3>
+        <div id="drawer-tech-stack" class="badge-row"></div>
+      </section>
+
+      <!-- 4. Prominent Team & Collaborators Acknowledgment Card -->
+      <section class="drawer-section team-ack-card tone-bronze">
+        <div class="team-ack-header">
+          <span class="domain-code tone-bronze">TEAM</span>
+          <h3 class="drawer-section-title">{{ t.drawer.team_title }}</h3>
+        </div>
+        <p id="drawer-team-text" class="team-ack-body"></p>
+
+        {% if is_local %}
+          <form id="drawer-update-team-form" method="POST" action="" class="team-edit-form">
+            <label for="drawer-team-input" class="team-edit-label">
+              {{ t.drawer.team_edit_label }}
+            </label>
+            <textarea
+              id="drawer-team-input"
+              name="team_acknowledgment"
+              rows="3"
+              class="studio-input"
+              required
+            ></textarea>
+            <button type="submit" class="btn-primary-cobalt btn-sm">
+              {{ t.drawer.team_save_btn }}
+            </button>
+          </form>
+        {% endif %}
+      </section>
+    </div>
+  </aside>
+
+  <!-- ==================== LOCALHOST PROJECT STUDIO MODAL ==================== -->
+  {% if is_local %}
+    <div id="studio-modal-backdrop" class="drawer-backdrop" hidden style="display: none;"></div>
+    <div
+      id="project-studio-modal"
+      class="studio-modal card-surface"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="studio-modal-title"
+      hidden
+      style="display: none;"
+    >
+      <div class="drawer-title-row">
+        <div>
+          <span class="drawer-eyebrow">LOCALHOST PROJECT STUDIO</span>
+          <h2 id="studio-modal-title" class="section-title">{{ t.studio.modal_title }}</h2>
+          <p class="section-subtitle">{{ t.studio.modal_subtitle }}</p>
+        </div>
+        <button
+          type="button"
+          id="studio-close-btn"
+          class="drawer-close-btn"
+          onclick="window.closeProjectStudio()"
+          aria-label="{{ t.studio.cancel_btn }}"
+        >
+          ✕
+        </button>
+      </div>
+
+      <form method="POST" action="{{ url_for('create_project') }}" class="studio-form">
+        <div class="studio-grid-2">
+          <label class="studio-field">
+            <span>{{ t.studio.title_en }}</span>
+            <input type="text" name="title_en" class="studio-input" required placeholder="e.g. STM32 CAN-Bus Telemetry Node">
+          </label>
+          <label class="studio-field">
+            <span>{{ t.studio.title_fr }}</span>
+            <input type="text" name="title_fr" class="studio-input" placeholder="ex. Nœud de Télémétrie CAN-Bus STM32">
+          </label>
+        </div>
+
+        <div class="studio-grid-3">
+          <label class="studio-field">
+            <span>{{ t.studio.category }}</span>
+            <select name="category" class="studio-input">
+              <option value="Embedded & Hardware">Embedded &amp; Hardware</option>
+              <option value="Software & Systems">Software &amp; Systems</option>
+            </select>
+          </label>
+
+          <label class="studio-field">
+            <span>{{ t.studio.status }}</span>
+            <select name="status" class="studio-input">
+              <option value="in_progress">🟠 {{ t.status.in_progress }}</option>
+              <option value="completed">🟢 {{ t.status.completed }}</option>
+            </select>
+          </label>
+
+          <label class="studio-field">
+            <span>{{ t.studio.tone }}</span>
+            <select name="domain_tone" class="studio-input">
+              <option value="copper">Rose-Coral (#E11D48 · Hardware/MCU)</option>
+              <option value="navy">Electric Cobalt (#2563EB · C++/Systems)</option>
+              <option value="forest">Emerald (#059669 · Data/Python)</option>
+              <option value="bronze">Amber (#D97706 · Leadership)</option>
+              <option value="zinc">Cyan (#0891B2 · Education/R&amp;D)</option>
+              <option value="steel">Violet (#7C3AED · API/Contact)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="studio-grid-2">
+          <label class="studio-field">
+            <span>{{ t.studio.tech_stack }}</span>
+            <input type="text" name="tech_stack" class="studio-input" required placeholder="C/C++, STM32, FreeRTOS, CAN-Bus">
+          </label>
+          <label class="studio-field">
+            <span>{{ t.studio.block_diagram }}</span>
+            <input type="text" name="block_diagram" class="studio-input" required placeholder="Sensor Input | STM32 MCU | CAN Transceiver | Dashboard">
+          </label>
+        </div>
+
+        <div class="studio-grid-2">
+          <label class="studio-field">
+            <span>{{ t.studio.summary_en }}</span>
+            <textarea name="summary_en" rows="2" class="studio-input" required></textarea>
+          </label>
+          <label class="studio-field">
+            <span>{{ t.studio.summary_fr }}</span>
+            <textarea name="summary_fr" rows="2" class="studio-input"></textarea>
+          </label>
+        </div>
+
+        <div class="studio-grid-2">
+          <label class="studio-field">
+            <span>{{ t.studio.highlights_en }}</span>
+            <input type="text" name="highlights_en" class="studio-input" placeholder="Point 1 | Point 2 | Point 3">
+          </label>
+          <label class="studio-field">
+            <span>{{ t.studio.highlights_fr }}</span>
+            <input type="text" name="highlights_fr" class="studio-input" placeholder="Point 1 | Point 2 | Point 3">
+          </label>
+        </div>
+
+        <label class="studio-field">
+          <span>{{ t.studio.team_ack }}</span>
+          <input type="text" name="team_acknowledgment" class="studio-input" placeholder="Hanz Ofosuhene-Sintim & Engineering Collaborators">
+        </label>
+
+        <div class="studio-actions">
+          <button
+            type="button"
+            id="studio-cancel-btn"
+            class="btn-secondary-surface"
+            onclick="window.closeProjectStudio()"
+          >
+            {{ t.studio.cancel_btn }}
+          </button>
+          <button type="submit" class="btn-primary-cobalt">
+            {{ t.studio.save_btn }}
+          </button>
+        </div>
+      </form>
+    </div>
+  {% endif %}
+
+  <!-- Interactive App-Shell Controls: Theme, Sidebar Rail Pin, Search, Status Filter, Drawer & Studio -->
+  <script>
+    (function () {
+      // 0. 3-State Command Rail Pin / Collapse Toggle
+      var appShell = document.getElementById("app-shell");
+      var pinBtn = document.getElementById("sidebar-pin-btn");
+
+      function syncPinState(isPinned) {
+        if (!appShell) return;
+        appShell.classList.toggle("sidebar-pinned", isPinned);
+        if (pinBtn) {
+          pinBtn.setAttribute("aria-pressed", isPinned ? "true" : "false");
+        }
+      }
+
+      if (appShell) {
+        var initialPinned = appShell.classList.contains("sidebar-pinned");
+        syncPinState(initialPinned);
+      }
+
+      if (pinBtn && appShell) {
+        pinBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var nextPinned = !appShell.classList.contains("sidebar-pinned");
+          syncPinState(nextPinned);
+          try {
+            localStorage.setItem("hos_sidebar_pinned", nextPinned ? "true" : "false");
+          } catch (err) {}
+        });
+      }
+
+      // 1. Theme Toggle Logic (Warm Limestone vs OLED Obsidian)
+      var root = document.documentElement;
+      var themeBtn = document.getElementById("theme-toggle");
+
+      function getEffectiveTheme() {
+        var explicit = root.getAttribute("data-theme");
+        if (explicit === "dark" || explicit === "light") {
+          return explicit;
+        }
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      }
+
+      if (themeBtn) {
+        themeBtn.addEventListener("click", function () {
+          var nextTheme = getEffectiveTheme() === "dark" ? "light" : "dark";
+          root.setAttribute("data-theme", nextTheme);
+          try {
+            localStorage.setItem("hos_theme", nextTheme);
+          } catch (e) {}
+        });
+      }
+
+      // 2. Unified Live Search & Status/Mind-Map Filter
+      var searchInput = document.getElementById("portfolio-search");
+      var emptyNotice = document.getElementById("search-empty-state");
+      var activeStatusFilter = "all";
+      var activeCategoryFilter = "all";
+
+      window.applyProjectFilters = function () {
+        var query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+        var items = document.querySelectorAll("[data-searchable]");
+        var visibleCount = 0;
+
+        items.forEach(function (el) {
+          var text = (el.textContent || "").toLowerCase();
+          var keywords = (el.getAttribute("data-keywords") || "").toLowerCase();
+          var itemStatus = el.getAttribute("data-status") || "";
+          var itemCategory = el.getAttribute("data-category") || "";
+
+          var matchesQuery =
+            !query ||
+            text.indexOf(query) !== -1 ||
+            keywords.indexOf(query) !== -1;
+          var matchesStatus =
+            activeStatusFilter === "all" ||
+            !itemStatus ||
+            itemStatus === activeStatusFilter;
+          var matchesCategory =
+            activeCategoryFilter === "all" ||
+            !itemCategory ||
+            itemCategory === activeCategoryFilter;
+
+          var show = matchesQuery && matchesStatus && matchesCategory;
+          el.style.display = show ? "" : "none";
+          if (show) {
+            visibleCount++;
+          }
+        });
+
+        if (emptyNotice) {
+          emptyNotice.hidden = visibleCount > 0;
+        }
+      };
+
+      window.setStatusFilter = function (statusValue, btnEl) {
+        activeStatusFilter = statusValue || "all";
+        var siblings = document.querySelectorAll("[data-status-pill]");
+        siblings.forEach(function (b) {
+          b.classList.toggle(
+            "active",
+            b.getAttribute("data-status-pill") === activeStatusFilter
+          );
+        });
+        window.applyProjectFilters();
+      };
+
+      if (searchInput) {
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "/" && document.activeElement !== searchInput) {
+            var tag = document.activeElement ? document.activeElement.tagName : "";
+            if (tag !== "INPUT" && tag !== "TEXTAREA" && tag !== "SELECT") {
+              e.preventDefault();
+              searchInput.focus();
+            }
+          } else if (e.key === "Escape") {
+            if (document.activeElement === searchInput) {
+              searchInput.value = "";
+              window.applyProjectFilters();
+              searchInput.blur();
+            }
+            window.closeCaseStudyDrawer();
+            if (window.closeProjectStudio) {
+              window.closeProjectStudio();
+            }
+          }
+        });
+
+        searchInput.addEventListener("input", window.applyProjectFilters);
+      }
+
+      // 3. Interactive Engineering Case-Study Drawer
+      var drawer = document.getElementById("case-study-drawer");
+      var backdrop = document.getElementById("drawer-backdrop");
+      var closeBtn = document.getElementById("drawer-close-btn");
+
+      window.openCaseStudyDrawer = function (btnEl) {
+        var card = btnEl.closest("[data-project-json]");
+        if (!card || !drawer) return;
+
+        try {
+          var data = JSON.parse(card.getAttribute("data-project-json"));
+          var titleEl = document.getElementById("drawer-project-title");
+          var summaryEl = document.getElementById("drawer-project-summary");
+          var statusEl = document.getElementById("drawer-status-badge");
+          var diagramEl = document.getElementById("drawer-block-diagram");
+          var highlightsEl = document.getElementById("drawer-highlights");
+          var stackEl = document.getElementById("drawer-tech-stack");
+          var teamTextEl = document.getElementById("drawer-team-text");
+          var teamInputEl = document.getElementById("drawer-team-input");
+          var toggleForm = document.getElementById("drawer-toggle-status-form");
+          var updateTeamForm = document.getElementById("drawer-update-team-form");
+
+          if (titleEl) titleEl.textContent = data.title || "";
+          if (summaryEl) summaryEl.textContent = data.summary || "";
+
+          if (statusEl) {
+            var isCompleted = data.status === "completed";
+            statusEl.className =
+              "status-badge " +
+              (isCompleted ? "status-completed" : "status-in-progress");
+            statusEl.textContent =
+              (isCompleted ? "🟢 " : "🟠 ") + (data.status_label || data.status);
+          }
+
+          if (diagramEl) {
+            diagramEl.innerHTML = "";
+            var blocks = data.block_diagram || [];
+            blocks.forEach(function (step, idx) {
+              var blockNode = document.createElement("div");
+              blockNode.className = "diagram-step tone-" + (data.tone || "copper");
+              blockNode.innerHTML =
+                '<span class="diagram-step-index">0' +
+                (idx + 1) +
+                "</span><span>" +
+                step +
+                "</span>";
+              diagramEl.appendChild(blockNode);
+
+              if (idx < blocks.length - 1) {
+                var arrow = document.createElement("span");
+                arrow.className = "diagram-arrow";
+                arrow.setAttribute("aria-hidden", "true");
+                arrow.textContent = "➔";
+                diagramEl.appendChild(arrow);
+              }
+            });
+          }
+
+          if (highlightsEl) {
+            highlightsEl.innerHTML = "";
+            (data.highlights || []).forEach(function (pt) {
+              var li = document.createElement("li");
+              li.textContent = pt;
+              highlightsEl.appendChild(li);
+            });
+          }
+
+          if (stackEl) {
+            stackEl.innerHTML = "";
+            (data.tech_stack || []).forEach(function (tech) {
+              var span = document.createElement("span");
+              span.className = "skill-pill tone-" + (data.tone || "copper");
+              span.textContent = tech;
+              stackEl.appendChild(span);
+            });
+          }
+
+          if (teamTextEl) {
+            teamTextEl.textContent = data.team || "";
+          }
+          if (teamInputEl) {
+            teamInputEl.value = data.team || "";
+          }
+          if (toggleForm) {
+            toggleForm.action = "/projects/toggle-status/" + data.slug;
+          }
+          if (updateTeamForm) {
+            updateTeamForm.action = "/projects/update-team/" + data.slug;
+          }
+
+          if (backdrop) {
+            backdrop.hidden = false;
+            backdrop.style.display = "block";
+          }
+          drawer.classList.add("is-open");
+          drawer.setAttribute("aria-hidden", "false");
+        } catch (err) {
+          console.error(err);
+        }
+      };
+
+      window.closeCaseStudyDrawer = function () {
+        if (!drawer) return;
+        drawer.classList.remove("is-open");
+        drawer.setAttribute("aria-hidden", "true");
+        if (backdrop) {
+          backdrop.hidden = true;
+          backdrop.style.display = "none";
+        }
+      };
+
+      if (closeBtn) {
+        closeBtn.addEventListener("click", window.closeCaseStudyDrawer);
+      }
+      if (backdrop) {
+        backdrop.addEventListener("click", window.closeCaseStudyDrawer);
+      }
+
+      // 4. Localhost Project Studio Modal
+      var studioModal = document.getElementById("project-studio-modal");
+      var studioBackdrop = document.getElementById("studio-modal-backdrop");
+      var studioCloseBtn = document.getElementById("studio-close-btn");
+      var studioCancelBtn = document.getElementById("studio-cancel-btn");
+
+      window.openProjectStudio = function () {
+        if (!studioModal) return;
+        studioModal.hidden = false;
+        studioModal.style.display = "flex";
+        if (studioBackdrop) {
+          studioBackdrop.hidden = false;
+          studioBackdrop.style.display = "block";
+        }
+      };
+
+      window.closeProjectStudio = function () {
+        if (!studioModal) return;
+        studioModal.hidden = true;
+        studioModal.style.display = "none";
+        if (studioBackdrop) {
+          studioBackdrop.hidden = true;
+          studioBackdrop.style.display = "none";
+        }
+      };
+
+      if (studioCloseBtn) {
+        studioCloseBtn.addEventListener("click", window.closeProjectStudio);
+      }
+      if (studioCancelBtn) {
+        studioCancelBtn.addEventListener("click", window.closeProjectStudio);
+      }
+      if (studioBackdrop) {
+        studioBackdrop.addEventListener("click", window.closeProjectStudio);
+      }
+    })();
+  </script>
 </body>
 </html>

@@ -1,41 +1,129 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Engineering Projects</h1>
-
-    <!-- Filter links: they add ?category=... to the URL, app.py reads it -->
-    <div class="filters">
-        <a href="{{ url_for('projects') }}"
-           class="{{ 'active' if not current_category else '' }}">All</a>
-        <a href="{{ url_for('projects', category='Embedded & Hardware') }}"
-           class="{{ 'active' if current_category == 'Embedded & Hardware' else '' }}">Embedded &amp; Hardware</a>
-        <a href="{{ url_for('projects', category='Software & Systems') }}"
-           class="{{ 'active' if current_category == 'Software & Systems' else '' }}">Software &amp; Systems</a>
+  <section class="page-header card-surface">
+    <div class="bento-header">
+      <div>
+        <h1 class="section-title">{{ t.projects_page.title }}</h1>
+        <p class="section-subtitle">{{ t.projects_page.subtitle }}</p>
+      </div>
+      {% if is_local %}
+        <button
+          type="button"
+          class="btn-primary-cobalt"
+          onclick="window.openProjectStudio()"
+        >
+          {{ t.studio.new_project_btn }}
+        </button>
+      {% endif %}
     </div>
 
-    <div class="grid">
-        {% for project in projects %}
-        <article class="card">
-            <span class="tag">{{ project.category }}</span>
-            <h3>{{ project.title }}</h3>
-            <p>{{ project.summary }}</p>
+    <!-- Category + Lifecycle Status Filter Bars -->
+    <div class="filters-row">
+      <div class="filters">
+        <a href="{{ url_for('projects', status=current_status) if current_status else url_for('projects') }}"
+           class="filter-pill {{ 'active' if not current_category else '' }}">
+          {{ t.projects_page.filter_all }}
+        </a>
+        <a href="{{ url_for('projects', category='Embedded & Hardware', status=current_status) if current_status else url_for('projects', category='Embedded & Hardware') }}"
+           class="filter-pill {{ 'active' if current_category == 'Embedded & Hardware' else '' }}">
+          {{ t.projects_page.filter_embedded }}
+        </a>
+        <a href="{{ url_for('projects', category='Software & Systems', status=current_status) if current_status else url_for('projects', category='Software & Systems') }}"
+           class="filter-pill {{ 'active' if current_category == 'Software & Systems' else '' }}">
+          {{ t.projects_page.filter_software }}
+        </a>
+      </div>
 
-            <!-- Technical bullet points -->
-            <ul class="highlights">
-                {% for point in project.highlights %}
-                <li>{{ point }}</li>
-                {% endfor %}
-            </ul>
-
-            <!-- Tech stack badges -->
-            <div class="badges">
-                {% for tech in project.tech_stack %}
-                <span class="badge">{{ tech }}</span>
-                {% endfor %}
-            </div>
-        </article>
-        {% else %}
-        <p>No projects found in this category.</p>
-        {% endfor %}
+      <div class="filters">
+        <a href="{{ url_for('projects', category=current_category) if current_category else url_for('projects') }}"
+           class="filter-pill {{ 'active' if not current_status else '' }}">
+          {{ t.status.filter_all }}
+        </a>
+        <a href="{{ url_for('projects', category=current_category, status='completed') if current_category else url_for('projects', status='completed') }}"
+           class="filter-pill {{ 'active' if current_status == 'completed' else '' }}">
+          🟢 {{ t.status.filter_completed }}
+        </a>
+        <a href="{{ url_for('projects', category=current_category, status='in_progress') if current_category else url_for('projects', status='in_progress') }}"
+           class="filter-pill {{ 'active' if current_status == 'in_progress' else '' }}">
+          🟠 {{ t.status.filter_in_progress }}
+        </a>
+      </div>
     </div>
+  </section>
+
+  <div class="projects-catalog-grid">
+    {% for project in projects %}
+      {% set loc = project[current_lang] if current_lang in project else project %}
+      {% set tone = project.domain_tone | default('copper') %}
+      {% set team_str = project.team_acknowledgment[current_lang] if project.team_acknowledgment is mapping else project.team_acknowledgment %}
+      {% set status_label = loc.status_label if loc.status_label is defined else (t.status.completed if project.status == 'completed' else t.status.in_progress) %}
+      {% set drawer_payload = {
+        "slug": project.slug,
+        "status": project.status,
+        "status_label": status_label,
+        "tone": tone,
+        "title": loc.title,
+        "summary": loc.summary,
+        "highlights": loc.highlights,
+        "tech_stack": loc.tech_stack,
+        "block_diagram": loc.block_diagram | default(project.block_diagram),
+        "team": team_str
+      } %}
+
+      <article
+        class="project-bento-card card-surface"
+        data-searchable
+        data-status="{{ project.status }}"
+        data-category="{{ project.category }}"
+        data-keywords="{{ project.slug }} {{ project.category }} {{ project.tech_stack | join(' ') }} {{ loc.tech_stack | join(' ') }}"
+        data-project-json='{{ drawer_payload | tojson | forceescape }}'
+      >
+        <div class="project-card-top">
+          <span class="domain-tag tone-{{ tone }}">
+            {{ loc.category }}
+          </span>
+          <span class="status-badge {{ 'status-completed' if project.status == 'completed' else 'status-in-progress' }}">
+            {{ '🟢' if project.status == 'completed' else '🟠' }}
+            {{ status_label }}
+          </span>
+        </div>
+
+        <h2 class="project-title">{{ loc.title }}</h2>
+        <p class="project-summary">{{ loc.summary }}</p>
+
+        <ul class="project-highlights">
+          {% for point in loc.highlights %}
+            <li>{{ point }}</li>
+          {% endfor %}
+        </ul>
+
+        <div class="project-team-inline">
+          <strong>TEAM:</strong> {{ team_str }}
+        </div>
+
+        <div class="project-card-footer">
+          <div class="badge-row">
+            {% for tech in loc.tech_stack %}
+              <span class="skill-pill tone-{{ tone }}">
+                {{ tech }}
+              </span>
+            {% endfor %}
+          </div>
+
+          <button
+            type="button"
+            class="btn-card-plus"
+            aria-label="{{ t.drawer.open_case_study }}: {{ loc.title }}"
+            title="{{ t.drawer.open_case_study }}"
+            onclick="window.openCaseStudyDrawer(this)"
+          >
+            +
+          </button>
+        </div>
+      </article>
+    {% else %}
+      <p class="search-empty-notice">{{ t.projects_page.empty }}</p>
+    {% endfor %}
+  </div>
 {% endblock %}

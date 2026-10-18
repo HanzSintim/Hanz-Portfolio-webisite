@@ -1,41 +1,129 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>About Me</h1>
+  <section class="page-header card-surface">
+    <h1 class="section-title">{{ t.about_page.title }}</h1>
+    <p class="section-subtitle">{{ t.hero.subtitle }}</p>
+  </section>
 
-    <!-- Education -->
-    <section class="card">
-        <h2>Academic Background</h2>
-        <ul class="timeline">
-            <li><strong>JUNIA Lille</strong> &mdash; M1 Electronics &amp; Embedded Systems</li>
-            <li><strong>KNUST</strong> &mdash; BSc Computer Engineering</li>
-            <li><strong>Presbyterian Boys' Secondary School</strong> &mdash; Secondary education</li>
-        </ul>
-    </section>
+  <!-- Expanded Experience, Leadership & Commercial Ventures -->
+  <section id="experience" class="card-surface about-card" data-searchable>
+    <div class="domain-group-header">
+      <span class="domain-code tone-bronze">{{ t.bento.domains.bronze.code }}</span>
+      <h2 class="section-title">{{ t.about_page.leadership_title }}</h2>
+    </div>
 
-    <!-- Skills -->
-    <section class="card">
-        <h2>Technical Skills</h2>
-        <div class="badges">
-            <span class="badge">Python</span>
-            <span class="badge">C/C++</span>
-            <span class="badge">STM32</span>
-            <span class="badge">ESP32</span>
-            <span class="badge">MSP430</span>
-            <span class="badge">Arduino</span>
-            <span class="badge">KiCad</span>
-            <span class="badge">Linux/WSL</span>
-            <span class="badge">Git</span>
+    <div class="leadership-cards-grid">
+      <!-- 1. ACES Department President (KNUST) -->
+      <article class="domain-group tone-bronze">
+        <div class="domain-group-header">
+          <span class="domain-code tone-bronze">ACES · KNUST</span>
+          <h3 class="domain-group-title">{{ t.about_page.aces_role }}</h3>
         </div>
+        <ul class="project-highlights">
+          {% for pt in t.about_page.aces_points %}
+            <li>{{ pt }}</li>
+          {% endfor %}
+        </ul>
+        <div class="badge-row">
+          <span class="skill-pill tone-bronze">Tech Week</span>
+          <span class="skill-pill tone-bronze">Codefest 2026</span>
+          <span class="skill-pill tone-bronze">Faculty Games</span>
+          <span class="skill-pill tone-bronze">Student Representation</span>
+          <span class="skill-pill tone-bronze">Digital Media Expansion</span>
+        </div>
+      </article>
+
+      <!-- 2. GHAFRA Nord (Lille) Strategic Planning & Organizing -->
+      <article class="domain-group tone-steel">
+        <div class="domain-group-header">
+          <span class="domain-code tone-steel">GHAFRA NORD · LILLE</span>
+          <h3 class="domain-group-title">{{ t.about_page.ghafra_role }}</h3>
+        </div>
+        <ul class="project-highlights">
+          {% for pt in t.about_page.ghafra_points %}
+            <li>{{ pt }}</li>
+          {% endfor %}
+        </ul>
+        <div class="badge-row">
+          <span class="skill-pill tone-steel">Strategic Planning</span>
+          <span class="skill-pill tone-steel">Community Organizing</span>
+          <span class="skill-pill tone-steel">Lille Operations</span>
+        </div>
+      </article>
+
+      <!-- 3. H & D'S HUB & Mobile Hardware Venture -->
+      <article class="domain-group tone-copper">
+        <div class="domain-group-header">
+          <span class="domain-code tone-copper">VENTURE · OPS</span>
+          <h3 class="domain-group-title">{{ t.about_page.venture_role }}</h3>
+        </div>
+        <ul class="project-highlights">
+          {% for pt in t.about_page.venture_points %}
+            <li>{{ pt }}</li>
+          {% endfor %}
+        </ul>
+        <div class="badge-row">
+          <span class="skill-pill tone-copper">H &amp; D'S HUB</span>
+          <span class="skill-pill tone-copper">Mobile Hardware Import/Resale</span>
+          <span class="skill-pill tone-copper">Hardware Diagnostics &amp; Supply</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="about-grid">
+    <!-- Education -->
+    <section id="education" class="card-surface about-card" data-searchable>
+      <div class="domain-group-header">
+        <span class="domain-code tone-zinc">{{ t.bento.domains.zinc.code }}</span>
+        <h2 class="section-title">{{ t.about_page.education_title }}</h2>
+      </div>
+      <ul class="timeline">
+        <li>
+          <strong>JUNIA Lille (France)</strong> &mdash; M1 Electronics &amp; Embedded Systems
+          (Active 7-Member Autonomous Street-Cleaning Robot R&amp;D)
+        </li>
+        <li>
+          <strong>KNUST (Kumasi, Ghana)</strong> &mdash; BSc Computer Engineering
+          (Former ACES Department President)
+        </li>
+        <li>
+          <strong>Presbyterian Boys' Secondary School (PRESEC Legon)</strong> &mdash; Secondary Education
+        </li>
+      </ul>
     </section>
 
-    <!-- Leadership -->
-    <section class="card">
-        <h2>Leadership</h2>
-        <ul class="timeline">
-            <li><strong>ACES President</strong> &mdash; led the department's student association</li>
-            <li><strong>Codefest 2026</strong></li>
-            <li><strong>Tech Week</strong></li>
-        </ul>
+    <!-- Accurate Technical Stack -->
+    <section id="skills" class="card-surface about-card" data-searchable>
+      <div class="domain-group-header">
+        <span class="domain-code tone-copper">{{ t.bento.domains.copper.code }}</span>
+        <h2 class="section-title">{{ t.about_page.skills_title }}</h2>
+      </div>
+      <div class="badge-row">
+        <span class="skill-pill tone-copper">STM32 / ESP32 / MSP430 / Arduino</span>
+        <span class="skill-pill tone-copper">External AI Camera &amp; Ultrasonic Sensors</span>
+        <span class="skill-pill tone-copper">KiCad &amp; Hardware Prototyping</span>
+        <span class="skill-pill tone-navy">C / C++ &amp; OOP Hierarchies</span>
+        <span class="skill-pill tone-navy">C/C++ GCC / GDB Toolchain (WSL)</span>
+        <span class="skill-pill tone-forest">System Data Modeling (ER Diagrams)</span>
+        <span class="skill-pill tone-forest">Associative Tables &amp; Relational Schemas</span>
+        <span class="skill-pill tone-forest">Python 3, Flask &amp; REST APIs</span>
+        <span class="skill-pill tone-steel">Git &amp; Bilingual FR / EN</span>
+      </div>
     </section>
+
+    <!-- CV & Contact -->
+    <section id="contact" class="card-surface about-card" data-searchable>
+      <div class="domain-group-header">
+        <span class="domain-code tone-steel">{{ t.bento.domains.steel.code }}</span>
+        <h2 class="section-title">{{ t.about_page.contact_title }}</h2>
+      </div>
+      <p class="project-summary">{{ t.about_page.contact_text }}</p>
+      <div class="hero-actions">
+        <a href="{{ url_for('projects') }}" class="btn-primary-cobalt">{{ t.hero.secondary_cta }}</a>
+        <a href="{{ url_for('api_projects') }}" class="btn-secondary-surface">{{ t.sidebar.api_json }}</a>
+      </div>
+    </section>
+  </div>
 {% endblock %}

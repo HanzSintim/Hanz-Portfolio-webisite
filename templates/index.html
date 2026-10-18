@@ -1,37 +1,671 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <!-- Hero section: who I am -->
-    <section class="hero">
-        <p class="eyebrow">Electronics &amp; Embedded Systems Engineer</p>
-        <h1>Hanz Ofosuhene-Sintim</h1>
-        <ul class="hero-facts">
-            <li>M1 Electronics &amp; Embedded Systems at JUNIA Lille</li>
-            <li>BSc Computer Engineering at KNUST</li>
-            <li>Former ACES Department President</li>
-        </ul>
-        <div class="hero-actions">
-            <a class="btn" href="{{ url_for('projects') }}">View all projects</a>
-            <a class="btn btn-outline" href="{{ url_for('about') }}">About me</a>
-        </div>
-    </section>
+  {% set active_count = projects | selectattr('status', 'equalto', 'in_progress') | list | length %}
+  {% set completed_count = projects | selectattr('status', 'equalto', 'completed') | list | length %}
 
-    <!-- Featured projects: app.py sends only the top 3 -->
-    <section>
-        <h2>Featured Projects</h2>
-        <div class="grid">
-            {% for project in projects %}
-            <article class="card">
-                <span class="tag">{{ project.category }}</span>
-                <h3>{{ project.title }}</h3>
-                <p>{{ project.summary }}</p>
-                <div class="badges">
-                    {% for tech in project.tech_stack %}
-                    <span class="badge">{{ tech }}</span>
-                    {% endfor %}
-                </div>
-            </article>
-            {% endfor %}
+  <!-- ==================== ZONE A: TOP ASYMMETRIC BENTO ROW (65% / 35%) ==================== -->
+  <section class="bento-zone-a">
+    <!-- Left (65%): Sleek Hero Introduction Banner -->
+    <div class="hero-bento-card card-surface">
+      <div class="hero-copy">
+        <span class="hero-eyebrow">{{ t.hero.eyebrow }}</span>
+        <h1 class="hero-greeting">
+          <span class="greeting-accent">{{ t.hero.greeting }},</span>
+          {{ t.hero.name_intro }}
+        </h1>
+        <p class="hero-subtitle">{{ t.hero.subtitle }}</p>
+        <p class="hero-description">{{ t.hero.description }}</p>
+
+        <div class="hero-actions">
+          <a href="#mindmap-stage" class="btn-primary-cobalt">
+            {{ t.hero.cta }}
+          </a>
+          <a href="{{ url_for('projects') }}" class="btn-secondary-surface">
+            {{ t.hero.secondary_cta }}
+          </a>
+          {% if is_local %}
+            <button
+              type="button"
+              class="btn-secondary-surface"
+              onclick="window.openProjectStudio()"
+            >
+              {{ t.studio.new_project_btn }}
+            </button>
+          {% endif %}
         </div>
-    </section>
+      </div>
+    </div>
+
+    <!-- Right (35%): Live Engineering Telemetry & Current Focus Bento Card -->
+    <aside class="telemetry-bento-card card-surface">
+      <div class="telemetry-header">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span class="telemetry-eyebrow">{{ t.telemetry.eyebrow }}</span>
+      </div>
+
+      <div class="telemetry-focus-box">
+        <div class="telemetry-focus-top">
+          <span class="domain-code tone-copper">M1 R&amp;D</span>
+          <strong class="telemetry-focus-title">{{ t.telemetry.title }}</strong>
+        </div>
+        <p class="telemetry-focus-project">{{ t.telemetry.focus_project }}</p>
+        <span class="telemetry-focus-stack">{{ t.telemetry.focus_stack }}</span>
+      </div>
+
+      <div class="telemetry-counters">
+        <div class="telemetry-stat-pill">
+          <span class="stat-num accent-text-amber">{{ active_count }}</span>
+          <span class="stat-label">{{ t.telemetry.stat_active_label }}</span>
+        </div>
+        <div class="telemetry-stat-pill">
+          <span class="stat-num accent-text-emerald">{{ completed_count }}</span>
+          <span class="stat-label">{{ t.telemetry.stat_completed_label }}</span>
+        </div>
+        <div class="telemetry-stat-pill">
+          <span class="stat-num accent-text-cobalt">{{ projects | length }}</span>
+          <span class="stat-label">{{ t.telemetry.stat_total_label }}</span>
+        </div>
+      </div>
+
+      <div class="telemetry-actions">
+        <a href="{{ url_for('about') }}#contact" class="telemetry-action-link">
+          <span>{{ t.telemetry.cv_btn }}</span>
+          <span aria-hidden="true">→</span>
+        </a>
+        <a href="{{ url_for('api_projects') }}" class="telemetry-action-link">
+          <span>{{ t.telemetry.api_btn }}</span>
+          <span class="mono-tag">JSON</span>
+        </a>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ==================== ZONE B: RADIAL MIND-MAP ORBIT STAGE ==================== -->
+  <section id="mindmap-stage" class="mindmap-stage-card card-surface" aria-label="{{ t.mindmap.title }}">
+    <div class="mindmap-stage-header">
+      <div>
+        <span class="stage-pill tone-navy">{{ t.mindmap.badge }}</span>
+        <h2 class="section-title">{{ t.mindmap.title }}</h2>
+        <p class="section-subtitle">{{ t.mindmap.subtitle }}</p>
+      </div>
+
+      <!-- View Selector Pills + Reset Filter Pill -->
+      <div class="mindmap-controls">
+        <div class="mindmap-view-tabs" role="tablist" aria-label="Mind-map views">
+          {% for view in t.mindmap.views %}
+            <button
+              type="button"
+              role="tab"
+              class="view-tab-pill {{ 'active' if loop.first else '' }}"
+              data-mindmap-tab="{{ loop.index0 }}"
+              aria-selected="{{ 'true' if loop.first else 'false' }}"
+            >
+              {{ view.label }}
+            </button>
+          {% endfor %}
+        </div>
+
+        <button
+          type="button"
+          id="mindmap-reset-filter"
+          class="view-reset-pill"
+          hidden
+        >
+          ✕ {{ t.mindmap.reset_filter }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Radial Orbit Viewport -->
+    <div class="mindmap-stage-viewport">
+      <button
+        type="button"
+        id="mindmap-prev"
+        class="mindmap-carousel-arrow arrow-left"
+        aria-label="{{ t.mindmap.prev_view }}"
+      >
+        &#8249;
+      </button>
+
+      <div id="mindmap-board" class="mindmap-board">
+        <!-- Kinetic SVG Bézier Signal Wires & Animated Data Packets -->
+        <svg
+          class="mindmap-svg-wires"
+          viewBox="0 0 1000 460"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <filter id="signal-glow" x="-25%" y="-25%" width="150%" height="150%">
+              <feGaussianBlur stdDeviation="3.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- 6 Curved Radial Arc Bézier Paths from Center Portrait (500, 230) to Orbiting Capsules -->
+          <!-- Left Arc: Top-Left (inward), Mid-Left (outer equator), Bottom-Left (inward) -->
+          <path id="wire-0" class="mindmap-wire-track" d="M 432 195 C 370 135, 340 82, 285 82" />
+          <path id="wire-1" class="mindmap-wire-track" d="M 420 230 C 345 230, 290 230, 225 230" />
+          <path id="wire-2" class="mindmap-wire-track" d="M 432 265 C 370 325, 340 378, 285 378" />
+
+          <!-- Right Arc: Top-Right (inward), Mid-Right (outer equator), Bottom-Right (inward) -->
+          <path id="wire-3" class="mindmap-wire-track" d="M 568 195 C 630 135, 660 82, 715 82" />
+          <path id="wire-4" class="mindmap-wire-track" d="M 580 230 C 655 230, 710 230, 775 230" />
+          <path id="wire-5" class="mindmap-wire-track" d="M 568 265 C 630 325, 660 378, 715 378" />
+
+          <!-- Animated Flowing Dashed Signal Overlay Paths -->
+          <path id="flow-0" class="mindmap-wire-flow wire-slot-0" d="M 432 195 C 370 135, 340 82, 285 82" />
+          <path id="flow-1" class="mindmap-wire-flow wire-slot-1" d="M 420 230 C 345 230, 290 230, 225 230" />
+          <path id="flow-2" class="mindmap-wire-flow wire-slot-2" d="M 432 265 C 370 325, 340 378, 285 378" />
+          <path id="flow-3" class="mindmap-wire-flow wire-slot-3" d="M 568 195 C 630 135, 660 82, 715 82" />
+          <path id="flow-4" class="mindmap-wire-flow wire-slot-4" d="M 580 230 C 655 230, 710 230, 775 230" />
+          <path id="flow-5" class="mindmap-wire-flow wire-slot-5" d="M 568 265 C 630 325, 660 378, 715 378" />
+
+          <!-- Kinetic Data Packets Traveling Along Each Wire -->
+          <circle class="signal-packet packet-slot-0" r="4.5" filter="url(#signal-glow)">
+            <animateMotion dur="2.8s" repeatCount="indefinite" path="M 432 195 C 370 135, 340 82, 285 82" />
+          </circle>
+          <circle class="signal-packet packet-slot-1" r="4.5" filter="url(#signal-glow)">
+            <animateMotion dur="3.2s" begin="0.4s" repeatCount="indefinite" path="M 420 230 C 345 230, 290 230, 225 230" />
+          </circle>
+          <circle class="signal-packet packet-slot-2" r="4.5" filter="url(#signal-glow)">
+            <animateMotion dur="2.9s" begin="0.8s" repeatCount="indefinite" path="M 432 265 C 370 325, 340 378, 285 378" />
+          </circle>
+          <circle class="signal-packet packet-slot-3" r="4.5" filter="url(#signal-glow)">
+            <animateMotion dur="3.0s" begin="0.2s" repeatCount="indefinite" path="M 568 195 C 630 135, 660 82, 715 82" />
+          </circle>
+          <circle class="signal-packet packet-slot-4" r="4.5" filter="url(#signal-glow)">
+            <animateMotion dur="2.7s" begin="0.6s" repeatCount="indefinite" path="M 580 230 C 655 230, 710 230, 775 230" />
+          </circle>
+          <circle class="signal-packet packet-slot-5" r="4.5" filter="url(#signal-glow)">
+            <animateMotion dur="3.1s" begin="1.0s" repeatCount="indefinite" path="M 568 265 C 630 325, 660 378, 715 378" />
+          </circle>
+        </svg>
+
+        <!-- Center Hub: True 150px Circular Portrait with Animated Story / Radar Ring -->
+        <div class="orbit-center-wrapper">
+          <div class="orbit-radar-halo" aria-hidden="true"></div>
+          <div class="orbit-center-circle">
+            <div class="orbit-gradient-ring" aria-hidden="true"></div>
+            <div class="orbit-portrait-inner">
+              <img
+                src="{{ url_for('static', filename='images/profile.jpg') }}"
+                alt="Hanz Ofosuhene-Sintim"
+                class="orbit-portrait-img"
+                onload="this.parentElement.classList.add('has-portrait')"
+                onerror="this.style.display='none'"
+              >
+              <!-- Sleek Avatar Monogram Fallback if static/images/profile.jpg is not yet placed -->
+              <div class="orbit-portrait-fallback" aria-hidden="true">
+                <span class="fallback-initials">HOS</span>
+                <span class="fallback-sub">M1 · JUNIA</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Pill Label at Bottom Edge of Center Circle -->
+          <div class="orbit-hub-name-pill">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span>{{ t.mindmap.hub_title }}</span>
+          </div>
+        </div>
+
+        <!-- 6 Orbiting Circular-Edge Capsule Pills in a Curved Radial Arc -->
+        {% for view in t.mindmap.views %}
+          <div
+            class="mindmap-nodes-layer {{ 'is-active' if loop.first else '' }}"
+            data-mindmap-view="{{ loop.index0 }}"
+            data-view-label="{{ view.label }}"
+          >
+            {% for node in view.nodes %}
+              <button
+                type="button"
+                class="orbit-capsule-pill orbit-slot-{{ loop.index0 }} tone-{{ node.tone }}"
+                style="--slot-index: {{ loop.index0 }};"
+                data-wire-index="{{ loop.index0 }}"
+                data-tone="{{ node.tone }}"
+                data-code="{{ node.code }}"
+                data-title="{{ node.title }}"
+                data-detail="{{ node.detail }}"
+                data-filter="{{ node.filter }}"
+                data-href="{{ node.href }}"
+              >
+                <!-- Left: 44x44 Circular Icon Badge -->
+                <span class="capsule-icon-bubble tone-{{ node.tone }}">
+                  {{ node.code }}
+                </span>
+
+                <!-- Middle: Bold Title + 1-Line Compact Subtitle -->
+                <span class="capsule-copy">
+                  <strong class="capsule-title">{{ node.title }}</strong>
+                  <span class="capsule-subtitle">{{ node.subtitle }}</span>
+                </span>
+
+                <!-- Right: Interactive Circular Arrow Badge -->
+                <span class="capsule-arrow-badge" aria-hidden="true">↗</span>
+              </button>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <button
+        type="button"
+        id="mindmap-next"
+        class="mindmap-carousel-arrow arrow-right"
+        aria-label="{{ t.mindmap.next_view }}"
+      >
+        &#8250;
+      </button>
+    </div>
+
+    <!-- Sleek Interactive Orbit Detail Bar right below the Orbit -->
+    <div id="mindmap-detail-bar" class="mindmap-detail-bar">
+      <div class="detail-bar-left">
+        <span id="detail-bar-code" class="domain-code tone-navy">ORBIT</span>
+        <div class="detail-bar-text">
+          <strong id="detail-bar-title">{{ t.mindmap.detail_default_title }}</strong>
+          <p id="detail-bar-desc">{{ t.mindmap.detail_default_text }}</p>
+        </div>
+      </div>
+      <a
+        id="detail-bar-action"
+        href="#projects-bento"
+        class="btn-primary-cobalt btn-sm"
+      >
+        {{ t.mindmap.detail_action_btn }}
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== ZONE C: BOTTOM ASYMMETRIC BENTO GRID (50% / 25% / 25%) ==================== -->
+  <section class="bento-zone-c">
+    <!-- PANEL 1 (50%): Featured Projects with + Block-Diagram Drawers -->
+    <div id="projects-bento" class="bento-panel-projects card-surface">
+      <div class="bento-header">
+        <div>
+          <h2 class="section-title">{{ t.bento.projects_title }}</h2>
+          <p class="section-subtitle">{{ t.bento.projects_subtitle }}</p>
+        </div>
+        <div class="bento-header-actions">
+          <a href="{{ url_for('projects') }}" class="bento-link">
+            {{ t.bento.view_all_projects }}
+          </a>
+        </div>
+      </div>
+
+      <!-- Lifecycle Status Filter Pills -->
+      <div class="status-filter-bar" role="group" aria-label="Project status filter">
+        <button
+          type="button"
+          class="filter-pill active"
+          data-status-pill="all"
+          onclick="window.setStatusFilter('all', this)"
+        >
+          {{ t.status.filter_all }}
+        </button>
+        <button
+          type="button"
+          class="filter-pill"
+          data-status-pill="completed"
+          onclick="window.setStatusFilter('completed', this)"
+        >
+          🟢 {{ t.status.filter_completed }}
+        </button>
+        <button
+          type="button"
+          class="filter-pill"
+          data-status-pill="in_progress"
+          onclick="window.setStatusFilter('in_progress', this)"
+        >
+          🟠 {{ t.status.filter_in_progress }}
+        </button>
+      </div>
+
+      <div class="projects-stack">
+        {% for project in projects %}
+          {% set loc = project[current_lang] if current_lang in project else project %}
+          {% set tone = project.domain_tone | default('copper') %}
+          {% set team_str = project.team_acknowledgment[current_lang] if project.team_acknowledgment is mapping else project.team_acknowledgment %}
+          {% set status_label = loc.status_label if loc.status_label is defined else (t.status.completed if project.status == 'completed' else t.status.in_progress) %}
+          {% set drawer_payload = {
+            "slug": project.slug,
+            "status": project.status,
+            "status_label": status_label,
+            "tone": tone,
+            "title": loc.title,
+            "summary": loc.summary,
+            "highlights": loc.highlights,
+            "tech_stack": loc.tech_stack,
+            "block_diagram": loc.block_diagram | default(project.block_diagram),
+            "team": team_str
+          } %}
+
+          <article
+            class="project-bento-card"
+            data-searchable
+            data-status="{{ project.status }}"
+            data-category="{{ project.category }}"
+            data-keywords="{{ project.slug }} {{ project.category }} {{ project.tech_stack | join(' ') }} {{ loc.tech_stack | join(' ') }}"
+            data-project-json='{{ drawer_payload | tojson | forceescape }}'
+          >
+            <div class="project-card-top">
+              <span class="domain-tag tone-{{ tone }}">
+                {{ loc.category }}
+              </span>
+
+              <span class="status-badge {{ 'status-completed' if project.status == 'completed' else 'status-in-progress' }}">
+                {{ '🟢' if project.status == 'completed' else '🟠' }}
+                {{ status_label }}
+              </span>
+            </div>
+
+            <h3 class="project-title">{{ loc.title }}</h3>
+            <p class="project-summary">{{ loc.summary }}</p>
+
+            <div class="project-card-footer">
+              <div class="badge-row">
+                {% for tech in loc.tech_stack %}
+                  <span class="skill-pill tone-{{ tone }}">
+                    {{ tech }}
+                  </span>
+                {% endfor %}
+              </div>
+
+              <!-- Circular + Button to open the Case-Study Drawer -->
+              <button
+                type="button"
+                class="btn-card-plus"
+                aria-label="{{ t.drawer.open_case_study }}: {{ loc.title }}"
+                title="{{ t.drawer.open_case_study }}"
+                onclick="window.openCaseStudyDrawer(this)"
+              >
+                +
+              </button>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <p id="search-empty-state" class="search-empty-notice" hidden>
+        {{ t.bento.no_search_results }}
+      </p>
+    </div>
+
+    <!-- PANEL 2 (25%): Circular Skill Pill Matrix -->
+    <aside id="skills-bento" class="bento-panel-skills card-surface">
+      <div class="bento-header">
+        <div>
+          <h2 class="section-title">{{ t.bento.skills_title }}</h2>
+          <p class="section-subtitle">{{ t.bento.skills_subtitle }}</p>
+        </div>
+      </div>
+
+      <div class="domain-skills-groups">
+        <!-- 1. Embedded MCUs & Sensors -->
+        <div class="domain-group" data-searchable data-keywords="embedded mcu stm32 esp32 msp430 arduino camera ultrasonic sensor">
+          <div class="domain-group-header">
+            <span class="domain-code tone-copper">{{ t.bento.domains.copper.code }}</span>
+            <h3 class="domain-group-title">{{ t.bento.domains.copper.title }}</h3>
+          </div>
+          <div class="badge-row">
+            <span class="skill-pill tone-copper">STM32</span>
+            <span class="skill-pill tone-copper">ESP32</span>
+            <span class="skill-pill tone-copper">MSP430</span>
+            <span class="skill-pill tone-copper">Arduino</span>
+            <span class="skill-pill tone-copper">External AI Camera</span>
+            <span class="skill-pill tone-copper">Ultrasonic &amp; PWM</span>
+            <span class="skill-pill tone-copper">KiCad</span>
+          </div>
+        </div>
+
+        <!-- 2. C/C++ & WSL GCC/GDB Toolchain -->
+        <div class="domain-group" data-searchable data-keywords="c++ c oop gcc gdb wsl toolchain data structures">
+          <div class="domain-group-header">
+            <span class="domain-code tone-navy">{{ t.bento.domains.navy.code }}</span>
+            <h3 class="domain-group-title">{{ t.bento.domains.navy.title }}</h3>
+          </div>
+          <div class="badge-row">
+            <span class="skill-pill tone-navy">C / C++</span>
+            <span class="skill-pill tone-navy">OOP Hierarchies</span>
+            <span class="skill-pill tone-navy">GCC / GDB (WSL)</span>
+            <span class="skill-pill tone-navy">Data Structures</span>
+            <span class="skill-pill tone-navy">Git</span>
+          </div>
+        </div>
+
+        <!-- 3. ER Data Modeling & Python/Flask -->
+        <div class="domain-group" data-searchable data-keywords="python flask er diagram associative tables relational schema json i18n">
+          <div class="domain-group-header">
+            <span class="domain-code tone-forest">{{ t.bento.domains.forest.code }}</span>
+            <h3 class="domain-group-title">{{ t.bento.domains.forest.title }}</h3>
+          </div>
+          <div class="badge-row">
+            <span class="skill-pill tone-forest">ER Diagrams</span>
+            <span class="skill-pill tone-forest">Associative Tables</span>
+            <span class="skill-pill tone-forest">3NF Schema</span>
+            <span class="skill-pill tone-forest">Python 3 &amp; Flask</span>
+            <span class="skill-pill tone-forest">JSON REST API</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- PANEL 3 (25%): Executive Leadership Spotlight -->
+    <aside id="leadership-bento" class="bento-panel-leadership card-surface">
+      <div class="bento-header">
+        <div>
+          <h2 class="section-title">{{ t.bento.leadership_title }}</h2>
+          <p class="section-subtitle">{{ t.bento.leadership_subtitle }}</p>
+        </div>
+      </div>
+
+      <div class="leadership-spotlight-stack">
+        <article class="spotlight-item" data-searchable data-keywords="aces president knust tech week codefest 2026 faculty games digital media">
+          <div class="domain-group-header">
+            <span class="domain-code tone-bronze">ACES · KNUST</span>
+            <h3 class="domain-group-title">ACES Dept. President</h3>
+          </div>
+          <p class="spotlight-copy">
+            Tech Week, Codefest 2026, Faculty Games, official student representation &amp; Digital Media Expansion.
+          </p>
+        </article>
+
+        <article class="spotlight-item" data-searchable data-keywords="ghafra nord lille strategic planning organizing">
+          <div class="domain-group-header">
+            <span class="domain-code tone-steel">LILLE · FR</span>
+            <h3 class="domain-group-title">GHAFRA Nord Lille</h3>
+          </div>
+          <p class="spotlight-copy">
+            Strategic planning, regional operations &amp; community organizing across Lille.
+          </p>
+        </article>
+
+        <article class="spotlight-item" data-searchable data-keywords="h&d hub mobile hardware venture import resale">
+          <div class="domain-group-header">
+            <span class="domain-code tone-copper">VENTURE</span>
+            <h3 class="domain-group-title">H &amp; D'S HUB</h3>
+          </div>
+          <p class="spotlight-copy">
+            Founder &amp; commercial operations in mobile hardware import, diagnostics &amp; resale.
+          </p>
+        </article>
+
+        <article class="spotlight-item" data-searchable data-keywords="junia lille m1 knust bsc education">
+          <div class="domain-group-header">
+            <span class="domain-code tone-zinc">M1 / BSc</span>
+            <h3 class="domain-group-title">JUNIA Lille &amp; KNUST</h3>
+          </div>
+          <p class="spotlight-copy">
+            M1 Electronics &amp; Embedded Systems (Lille) | BSc Computer Engineering (Kumasi).
+          </p>
+        </article>
+      </div>
+
+      <a href="{{ url_for('about') }}#experience" class="bento-link spotlight-footer-link">
+        {{ t.bento.leadership_more }}
+      </a>
+    </aside>
+  </section>
+
+  <!-- Kinetic Radial Orbit Mind-Map Controller -->
+  <script>
+    (function () {
+      var board = document.getElementById("mindmap-board");
+      var tabs = document.querySelectorAll("[data-mindmap-tab]");
+      var layers = document.querySelectorAll("[data-mindmap-view]");
+      var flows = document.querySelectorAll(".mindmap-wire-flow");
+      var tracks = document.querySelectorAll(".mindmap-wire-track");
+      var packets = document.querySelectorAll(".signal-packet");
+      var prevBtn = document.getElementById("mindmap-prev");
+      var nextBtn = document.getElementById("mindmap-next");
+      var resetBtn = document.getElementById("mindmap-reset-filter");
+      var searchInput = document.getElementById("portfolio-search");
+
+      var detailBar = document.getElementById("mindmap-detail-bar");
+      var detailCode = document.getElementById("detail-bar-code");
+      var detailTitle = document.getElementById("detail-bar-title");
+      var detailDesc = document.getElementById("detail-bar-desc");
+      var detailAction = document.getElementById("detail-bar-action");
+
+      var currentView = 0;
+      var totalViews = layers.length;
+
+      function clearWireHighlights() {
+        flows.forEach(function (w) {
+          w.classList.remove("is-active", "is-hovered");
+        });
+        tracks.forEach(function (t) {
+          t.classList.remove("is-active", "is-hovered");
+        });
+        packets.forEach(function (p) {
+          p.classList.remove("is-active");
+        });
+        document.querySelectorAll(".orbit-capsule-pill").forEach(function (n) {
+          n.classList.remove("is-active");
+        });
+      }
+
+      function switchView(index) {
+        if (!totalViews) return;
+        currentView = (index + totalViews) % totalViews;
+
+        tabs.forEach(function (tab, i) {
+          var active = i === currentView;
+          tab.classList.toggle("active", active);
+          tab.setAttribute("aria-selected", active ? "true" : "false");
+        });
+
+        // Trigger radial spring contraction & pop-out animation
+        if (board) {
+          board.classList.remove("orbit-spring-enter");
+          void board.offsetWidth;
+          board.classList.add("orbit-spring-enter");
+        }
+
+        layers.forEach(function (layer, i) {
+          layer.classList.toggle("is-active", i === currentView);
+        });
+
+        clearWireHighlights();
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          var idx = parseInt(tab.getAttribute("data-mindmap-tab"), 10) || 0;
+          switchView(idx);
+        });
+      });
+
+      if (prevBtn) {
+        prevBtn.addEventListener("click", function () {
+          switchView(currentView - 1);
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener("click", function () {
+          switchView(currentView + 1);
+        });
+      }
+
+      // Hover & Click kinetic wire pulse + detail bar update
+      document.querySelectorAll(".orbit-capsule-pill").forEach(function (pill) {
+        pill.addEventListener("mouseenter", function () {
+          var wIdx = pill.getAttribute("data-wire-index");
+          var flow = document.getElementById("flow-" + wIdx);
+          var track = document.getElementById("wire-" + wIdx);
+          if (flow) flow.classList.add("is-hovered");
+          if (track) track.classList.add("is-hovered");
+        });
+
+        pill.addEventListener("mouseleave", function () {
+          var wIdx = pill.getAttribute("data-wire-index");
+          var flow = document.getElementById("flow-" + wIdx);
+          var track = document.getElementById("wire-" + wIdx);
+          if (flow) flow.classList.remove("is-hovered");
+          if (track) track.classList.remove("is-hovered");
+        });
+
+        pill.addEventListener("click", function () {
+          clearWireHighlights();
+          pill.classList.add("is-active");
+
+          var wIdx = pill.getAttribute("data-wire-index");
+          var flow = document.getElementById("flow-" + wIdx);
+          var track = document.getElementById("wire-" + wIdx);
+          var packet = document.querySelector(".packet-slot-" + wIdx);
+          if (flow) flow.classList.add("is-active");
+          if (track) track.classList.add("is-active");
+          if (packet) packet.classList.add("is-active");
+
+          var tone = pill.getAttribute("data-tone") || "navy";
+          var code = pill.getAttribute("data-code") || "NODE";
+          var title = pill.getAttribute("data-title") || "";
+          var detail = pill.getAttribute("data-detail") || "";
+          var filterKw = (pill.getAttribute("data-filter") || "").trim();
+          var href = pill.getAttribute("data-href") || "#projects-bento";
+
+          if (detailCode) {
+            detailCode.className = "domain-code tone-" + tone;
+            detailCode.textContent = code;
+          }
+          if (detailTitle) detailTitle.textContent = title;
+          if (detailDesc) detailDesc.textContent = detail;
+          if (detailAction) detailAction.setAttribute("href", href);
+          if (detailBar) {
+            detailBar.classList.remove("detail-pulse");
+            void detailBar.offsetWidth;
+            detailBar.classList.add("detail-pulse");
+          }
+
+          if (filterKw && searchInput) {
+            var primaryToken = filterKw.split(" ")[0];
+            searchInput.value = primaryToken;
+            if (window.applyProjectFilters) {
+              window.applyProjectFilters();
+            }
+            if (resetBtn) resetBtn.hidden = false;
+          }
+        });
+      });
+
+      if (resetBtn) {
+        resetBtn.addEventListener("click", function () {
+          clearWireHighlights();
+          if (searchInput) {
+            searchInput.value = "";
+            if (window.applyProjectFilters) {
+              window.applyProjectFilters();
+            }
+          }
+          resetBtn.hidden = true;
+        });
+      }
+    })();
+  </script>
 {% endblock %}
