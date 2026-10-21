@@ -1,63 +1,96 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <section class="page-header card-surface">
+  {% set active_projects = projects | selectattr('status', 'equalto', 'in_progress') | list %}
+  {% set completed_projects = projects | selectattr('status', 'equalto', 'completed') | list %}
+
+  <!-- ==================== TOP WORKBENCH HEADER & ZERO-RELOAD FILTER BAR ==================== -->
+  <section class="page-header workbench-header card-surface">
     <div class="bento-header">
       <div>
+        <span class="stage-pill tone-navy">{{ t.projects_page.eyebrow }}</span>
         <h1 class="section-title">{{ t.projects_page.title }}</h1>
         <p class="section-subtitle">{{ t.projects_page.subtitle }}</p>
       </div>
-      {% if is_local %}
+      <div class="workbench-header-actions">
+        <a href="{{ url_for('api_inspector') }}" class="btn-secondary-surface btn-sm">
+          ⚡ {{ t.sidebar.api_inspector }}
+        </a>
+        {% if is_local %}
+          <button
+            type="button"
+            class="btn-primary-cobalt"
+            onclick="window.openProjectStudio()"
+          >
+            {{ t.studio.new_project_btn }}
+          </button>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Instant Zero-Reload Client-Side Status & Tech Stack Filter Bar -->
+    <div class="workbench-filter-bar" role="region" aria-label="Project workbench filters">
+      <div class="filters" role="group" aria-label="Lifecycle status filter">
         <button
           type="button"
-          class="btn-primary-cobalt"
-          onclick="window.openProjectStudio()"
+          class="filter-pill {{ 'active' if not current_status else '' }}"
+          data-wb-status="all"
         >
-          {{ t.studio.new_project_btn }}
+          {{ t.projects_page.status_all }}
+          <span class="filter-count">{{ projects | length }}</span>
         </button>
-      {% endif %}
-    </div>
-
-    <!-- Category + Lifecycle Status Filter Bars -->
-    <div class="filters-row">
-      <div class="filters">
-        <a href="{{ url_for('projects', status=current_status) if current_status else url_for('projects') }}"
-           class="filter-pill {{ 'active' if not current_category else '' }}">
-          {{ t.projects_page.filter_all }}
-        </a>
-        <a href="{{ url_for('projects', category='Embedded & Hardware', status=current_status) if current_status else url_for('projects', category='Embedded & Hardware') }}"
-           class="filter-pill {{ 'active' if current_category == 'Embedded & Hardware' else '' }}">
-          {{ t.projects_page.filter_embedded }}
-        </a>
-        <a href="{{ url_for('projects', category='Software & Systems', status=current_status) if current_status else url_for('projects', category='Software & Systems') }}"
-           class="filter-pill {{ 'active' if current_category == 'Software & Systems' else '' }}">
-          {{ t.projects_page.filter_software }}
-        </a>
+        <button
+          type="button"
+          class="filter-pill {{ 'active' if current_status == 'completed' else '' }}"
+          data-wb-status="completed"
+        >
+          {{ t.projects_page.status_completed }}
+          <span class="filter-count">{{ completed_projects | length }}</span>
+        </button>
+        <button
+          type="button"
+          class="filter-pill {{ 'active' if current_status == 'in_progress' else '' }}"
+          data-wb-status="in_progress"
+        >
+          {{ t.projects_page.status_active }}
+          <span class="filter-count">{{ active_projects | length }}</span>
+        </button>
       </div>
 
-      <div class="filters">
-        <a href="{{ url_for('projects', category=current_category) if current_category else url_for('projects') }}"
-           class="filter-pill {{ 'active' if not current_status else '' }}">
-          {{ t.status.filter_all }}
-        </a>
-        <a href="{{ url_for('projects', category=current_category, status='completed') if current_category else url_for('projects', status='completed') }}"
-           class="filter-pill {{ 'active' if current_status == 'completed' else '' }}">
-          🟢 {{ t.status.filter_completed }}
-        </a>
-        <a href="{{ url_for('projects', category=current_category, status='in_progress') if current_category else url_for('projects', status='in_progress') }}"
-           class="filter-pill {{ 'active' if current_status == 'in_progress' else '' }}">
-          🟠 {{ t.status.filter_in_progress }}
-        </a>
+      <div class="filters workbench-tech-filters" role="group" aria-label="Tech stack filter">
+        <span class="workbench-filter-label">{{ t.projects_page.tech_filter_label }}</span>
+        <button type="button" class="filter-pill filter-pill-sm active" data-wb-tech="all">
+          {{ t.projects_page.tech_all }}
+        </button>
+        <button type="button" class="filter-pill filter-pill-sm" data-wb-tech="c++">
+          C / C++
+        </button>
+        <button type="button" class="filter-pill filter-pill-sm" data-wb-tech="stm32 esp32">
+          STM32 / ESP32
+        </button>
+        <button type="button" class="filter-pill filter-pill-sm" data-wb-tech="arduino">
+          Arduino
+        </button>
+        <button type="button" class="filter-pill filter-pill-sm" data-wb-tech="gdb wsl">
+          GCC / GDB (WSL)
+        </button>
+        <button type="button" class="filter-pill filter-pill-sm" data-wb-tech="er 3nf">
+          ER Schema &amp; 3NF
+        </button>
+        <button type="button" class="filter-pill filter-pill-sm" data-wb-tech="python flask">
+          Python / Flask
+        </button>
       </div>
     </div>
-    <!-- Active mind-map / palette filter chip -->
-    {% if current_query %}
+
+    <!-- Active mind-map / URL query filter chip -->
+    {% if current_query or current_category or current_status %}
       <div class="active-query-row">
         <span class="active-query-chip">
           <span class="mono-label">{{ t.projects_page.filtered_by }}</span>
-          <strong>{{ current_query }}</strong>
+          <strong>{{ current_query or current_category or current_status }}</strong>
           <a
-            href="{{ url_for('projects', category=current_category, status=current_status) }}"
+            href="{{ url_for('projects') }}"
             class="active-query-clear"
             aria-label="{{ t.projects_page.clear_filter }}"
             title="{{ t.projects_page.clear_filter }}"
@@ -67,97 +100,365 @@
     {% endif %}
   </section>
 
-  <div class="projects-catalog-grid" id="projects-catalog">
-    {% for project in projects %}
-      {% set loc = project[current_lang] if current_lang in project else project %}
-      {% set tone = project.domain_tone | default('copper') %}
-      {% set team_str = project.team_acknowledgment[current_lang] if project.team_acknowledgment is mapping else project.team_acknowledgment %}
-      {% set status_label = loc.status_label if loc.status_label is defined else (t.status.completed if project.status == 'completed' else t.status.in_progress) %}
-      {% set drawer_payload = {
-        "slug": project.slug,
-        "status": project.status,
-        "status_label": status_label,
-        "tone": tone,
-        "title": loc.title,
-        "summary": loc.summary,
-        "highlights": loc.highlights,
-        "tech_stack": loc.tech_stack,
-        "block_diagram": loc.block_diagram | default(project.block_diagram),
-        "team": team_str
-      } %}
+  <!-- ==================== ZONE 1: ACTIVE R&D SPOTLIGHT TRACK (HORIZONTAL SPLIT + MILESTONE PIPELINE) ==================== -->
+  <section
+    id="active-rd-section"
+    class="workbench-section"
+    {% if not active_projects %}hidden{% endif %}
+  >
+    <div class="workbench-section-head">
+      <div>
+        <span class="stage-pill tone-bronze">{{ t.projects_page.spotlight_badge }}</span>
+        <h2 class="section-title">{{ t.projects_page.spotlight_title }}</h2>
+        <p class="section-subtitle">{{ t.projects_page.spotlight_subtitle }}</p>
+      </div>
+    </div>
 
-      <article
-        class="project-bento-card card-surface"
-        id="project-{{ project.slug }}"
-        data-slug="{{ project.slug }}"
-        data-searchable
-        data-status="{{ project.status }}"
-        data-category="{{ project.category }}"
-        data-keywords="{{ project.slug }} {{ project.category }} {{ project.tech_stack | join(' ') }} {{ loc.tech_stack | join(' ') }}"
-        data-project-json='{{ drawer_payload | tojson | forceescape }}'
-      >
-        <div class="project-card-top">
-          <span class="domain-tag tone-{{ tone }}">
-            {{ loc.category }}
-          </span>
-          <span class="status-badge {{ 'status-completed' if project.status == 'completed' else 'status-in-progress' }}">
-            {{ '🟢' if project.status == 'completed' else '🟠' }}
-            {{ status_label }}
-          </span>
-        </div>
+    <div class="spotlight-rd-track">
+      {% for project in active_projects %}
+        {% set loc = project[current_lang] if current_lang in project else project %}
+        {% set tone = project.domain_tone | default('copper') %}
+        {% set team_str = project.team_acknowledgment[current_lang] if project.team_acknowledgment is mapping else project.team_acknowledgment %}
+        {% set status_label = loc.status_label if loc.status_label is defined else t.status.in_progress %}
+        {% set milestones = loc.milestones if loc.milestones is defined else (project.milestones | default([])) %}
+        {% set tradeoffs = loc.tradeoffs if loc.tradeoffs is defined else (project.tradeoffs | default([])) %}
+        {% set blocks = loc.block_diagram | default(project.block_diagram) %}
+        {% set drawer_payload = {
+          "slug": project.slug,
+          "status": project.status,
+          "status_label": status_label,
+          "tone": tone,
+          "title": loc.title,
+          "summary": loc.summary,
+          "highlights": loc.highlights,
+          "tradeoffs": tradeoffs,
+          "tech_stack": loc.tech_stack,
+          "block_diagram": blocks,
+          "team": team_str
+        } %}
 
-        <h2 class="project-title">{{ loc.title }}</h2>
-        <p class="project-summary">{{ loc.summary }}</p>
-
-        <ul class="project-highlights">
-          {% for point in loc.highlights %}
-            <li>{{ point }}</li>
-          {% endfor %}
-        </ul>
-
-        <div class="project-team-inline">
-          <strong>TEAM:</strong> {{ team_str }}
-        </div>
-
-        <div class="project-card-footer">
-          <div class="badge-row">
-            {% for tech in loc.tech_stack %}
-              <span class="skill-pill tone-{{ tone }}">
-                {{ tech }}
+        <article
+          class="project-bento-card spotlight-rd-card card-surface"
+          id="project-{{ project.slug }}"
+          data-slug="{{ project.slug }}"
+          data-wb-card
+          data-searchable
+          data-status="{{ project.status }}"
+          data-category="{{ project.category }}"
+          data-keywords="{{ project.slug }} {{ project.category }} {{ project.title }} {{ loc.title }} {{ project.tech_stack | join(' ') }} {{ loc.tech_stack | join(' ') }} {{ loc.summary }}"
+          data-project-json='{{ drawer_payload | tojson | forceescape }}'
+        >
+          <!-- Left Split Column: R&D System Overview & Architecture -->
+          <div class="spotlight-rd-left">
+            <div class="project-card-top">
+              <span class="domain-tag tone-{{ tone }}">
+                {{ loc.category }}
               </span>
+              <span class="status-badge status-in-progress">
+                🟠 {{ status_label }}
+              </span>
+            </div>
+
+            <h3 class="project-title spotlight-rd-title">{{ loc.title }}</h3>
+            <p class="project-summary">{{ loc.summary }}</p>
+
+            <ul class="project-highlights">
+              {% for point in loc.highlights %}
+                <li>{{ point }}</li>
+              {% endfor %}
+            </ul>
+
+            <div class="project-team-inline">
+              <strong>TEAM:</strong> {{ team_str }}
+            </div>
+
+            <div class="project-card-footer">
+              <div class="badge-row">
+                {% for tech in loc.tech_stack %}
+                  <span class="skill-pill tone-{{ tone }}">{{ tech }}</span>
+                {% endfor %}
+              </div>
+
+              <button
+                type="button"
+                class="btn-card-plus"
+                aria-label="{{ t.drawer.open_case_study }}: {{ loc.title }}"
+                title="{{ t.drawer.open_case_study }}"
+                onclick="window.openCaseStudyDrawer(this)"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Split Column: Interactive 3-Stage Milestone Pipeline & Block Trace -->
+          <div class="spotlight-rd-right">
+            <div class="milestone-pipeline-box">
+              <div class="pipeline-box-head">
+                <span class="pipeline-eyebrow">{{ t.projects_page.pipeline_label }}</span>
+                <span class="domain-code tone-{{ tone }}">R&amp;D</span>
+              </div>
+
+              <div class="milestone-steps" role="tablist" aria-label="{{ loc.title }} milestones">
+                {% for ms in milestones %}
+                  {% set is_default_stage = (ms.state == 'active') or (loop.first and (milestones | selectattr('state', 'equalto', 'active') | list | length == 0)) %}
+                  <button
+                    type="button"
+                    role="tab"
+                    class="milestone-step state-{{ ms.state }} {{ 'is-selected' if is_default_stage else '' }}"
+                    aria-selected="{{ 'true' if is_default_stage else 'false' }}"
+                    data-ms-stage="{{ ms.stage }}"
+                    data-ms-detail="{{ ms.detail }}"
+                    data-ms-state="{{ ms.state }}"
+                  >
+                    <span class="ms-indicator" aria-hidden="true">
+                      {% if ms.state == 'done' %}✓{% elif ms.state == 'active' %}●{% else %}○{% endif %}
+                    </span>
+                    <span class="ms-label">{{ ms.stage }}</span>
+                  </button>
+                  {% if not loop.last %}
+                    <span class="ms-connector" aria-hidden="true">➔</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+
+              {% set active_ms = (milestones | selectattr('state', 'equalto', 'active') | first) | default(milestones[0] if milestones else {'stage': '', 'detail': ''}) %}
+              <div class="milestone-detail-readout" aria-live="polite">
+                <strong class="ms-readout-stage">{{ active_ms.stage }}</strong>
+                <p class="ms-readout-text">{{ active_ms.detail }}</p>
+              </div>
+            </div>
+
+            <!-- Compact Inline Block Diagram Strip -->
+            <div class="inline-block-strip">
+              {% for step in blocks %}
+                <span class="inline-block-node tone-{{ tone }}">
+                  <span class="inline-block-idx">0{{ loop.index }}</span>
+                  <span>{{ step }}</span>
+                </span>
+                {% if not loop.last %}
+                  <span class="inline-block-arrow" aria-hidden="true">➔</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ==================== ZONE 2: COMPLETED SYSTEMS BENTO GRID (2-COLUMN) ==================== -->
+  <section
+    id="completed-systems-section"
+    class="workbench-section"
+    {% if not completed_projects %}hidden{% endif %}
+  >
+    <div class="workbench-section-head">
+      <div>
+        <span class="stage-pill tone-forest">{{ t.projects_page.completed_badge }}</span>
+        <h2 class="section-title">{{ t.projects_page.completed_title }}</h2>
+        <p class="section-subtitle">{{ t.projects_page.completed_subtitle }}</p>
+      </div>
+    </div>
+
+    <div class="projects-catalog-grid completed-bento-grid" id="projects-catalog">
+      {% for project in completed_projects %}
+        {% set loc = project[current_lang] if current_lang in project else project %}
+        {% set tone = project.domain_tone | default('copper') %}
+        {% set team_str = project.team_acknowledgment[current_lang] if project.team_acknowledgment is mapping else project.team_acknowledgment %}
+        {% set status_label = loc.status_label if loc.status_label is defined else t.status.completed %}
+        {% set tradeoffs = loc.tradeoffs if loc.tradeoffs is defined else (project.tradeoffs | default([])) %}
+        {% set blocks = loc.block_diagram | default(project.block_diagram) %}
+        {% set drawer_payload = {
+          "slug": project.slug,
+          "status": project.status,
+          "status_label": status_label,
+          "tone": tone,
+          "title": loc.title,
+          "summary": loc.summary,
+          "highlights": loc.highlights,
+          "tradeoffs": tradeoffs,
+          "tech_stack": loc.tech_stack,
+          "block_diagram": blocks,
+          "team": team_str
+        } %}
+
+        <article
+          class="project-bento-card card-surface"
+          id="project-{{ project.slug }}"
+          data-slug="{{ project.slug }}"
+          data-wb-card
+          data-searchable
+          data-status="{{ project.status }}"
+          data-category="{{ project.category }}"
+          data-keywords="{{ project.slug }} {{ project.category }} {{ project.title }} {{ loc.title }} {{ project.tech_stack | join(' ') }} {{ loc.tech_stack | join(' ') }} {{ loc.summary }}"
+          data-project-json='{{ drawer_payload | tojson | forceescape }}'
+        >
+          <div class="project-card-top">
+            <span class="domain-tag tone-{{ tone }}">
+              {{ loc.category }}
+            </span>
+            <span class="status-badge status-completed">
+              🟢 {{ status_label }}
+            </span>
+          </div>
+
+          <h3 class="project-title">{{ loc.title }}</h3>
+          <p class="project-summary">{{ loc.summary }}</p>
+
+          <!-- Compact Sequential Block Diagram Preview -->
+          <div class="inline-block-strip">
+            {% for step in blocks %}
+              <span class="inline-block-node tone-{{ tone }}">
+                <span class="inline-block-idx">0{{ loop.index }}</span>
+                <span>{{ step }}</span>
+              </span>
+              {% if not loop.last %}
+                <span class="inline-block-arrow" aria-hidden="true">➔</span>
+              {% endif %}
             {% endfor %}
           </div>
 
-          <button
-            type="button"
-            class="btn-card-plus"
-            aria-label="{{ t.drawer.open_case_study }}: {{ loc.title }}"
-            title="{{ t.drawer.open_case_study }}"
-            onclick="window.openCaseStudyDrawer(this)"
-          >
-            +
-          </button>
-        </div>
-      </article>
-    {% else %}
-      <p class="search-empty-notice">{{ t.projects_page.empty }}</p>
-    {% endfor %}
-  </div>
+          <ul class="project-highlights">
+            {% for point in loc.highlights %}
+              <li>{{ point }}</li>
+            {% endfor %}
+          </ul>
 
-  <!-- Deep-link support: /projects?highlight=<slug> scrolls to & pulses that card -->
+          {% if tradeoffs %}
+            <div class="project-tradeoff-callout">
+              <strong>{{ t.projects_page.tradeoffs_preview }}</strong> {{ tradeoffs[0] }}
+            </div>
+          {% endif %}
+
+          <div class="project-team-inline">
+            <strong>TEAM:</strong> {{ team_str }}
+          </div>
+
+          <div class="project-card-footer">
+            <div class="badge-row">
+              {% for tech in loc.tech_stack %}
+                <span class="skill-pill tone-{{ tone }}">
+                  {{ tech }}
+                </span>
+              {% endfor %}
+            </div>
+
+            <button
+              type="button"
+              class="btn-card-plus"
+              aria-label="{{ t.drawer.open_case_study }}: {{ loc.title }}"
+              title="{{ t.drawer.open_case_study }}"
+              onclick="window.openCaseStudyDrawer(this)"
+            >
+              +
+            </button>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <p id="workbench-empty-state" class="search-empty-notice" {% if projects %}hidden{% endif %}>
+    {{ t.projects_page.empty }}
+  </p>
+
+  <!-- Workbench Controller: Zero-reload filters, interactive R&D milestone pipeline & deep-link highlight -->
   <script>
     (function () {
-      var slug = new URLSearchParams(window.location.search).get("highlight");
-      if (!slug) return;
-      var card = document.querySelector('[data-slug="' + slug.replace(/"/g, "") + '"]');
-      if (!card) return;
-      window.requestAnimationFrame(function () {
-        card.scrollIntoView({ behavior: "smooth", block: "center" });
-        card.classList.add("is-highlighted");
-        window.setTimeout(function () {
-          card.classList.remove("is-highlighted");
-        }, 3200);
+      var statusBtns = document.querySelectorAll("[data-wb-status]");
+      var techBtns = document.querySelectorAll("[data-wb-tech]");
+      var cards = document.querySelectorAll("[data-wb-card]");
+      var activeSection = document.getElementById("active-rd-section");
+      var completedSection = document.getElementById("completed-systems-section");
+      var emptyNotice = document.getElementById("workbench-empty-state");
+
+      var currentStatus = "all";
+      var currentTech = "all";
+
+      function applyWorkbenchFilter() {
+        var visibleActive = 0;
+        var visibleCompleted = 0;
+        var techTokens = currentTech === "all" ? [] : currentTech.toLowerCase().split(/\s+/).filter(Boolean);
+
+        cards.forEach(function (card) {
+          var st = card.getAttribute("data-status") || "";
+          var kw = (card.getAttribute("data-keywords") || "").toLowerCase();
+
+          var matchStatus = currentStatus === "all" || st === currentStatus;
+          var matchTech =
+            !techTokens.length ||
+            techTokens.some(function (tok) {
+              return kw.indexOf(tok) !== -1;
+            });
+
+          var show = matchStatus && matchTech;
+          card.hidden = !show;
+          card.style.display = show ? "" : "none";
+          if (show) {
+            if (st === "in_progress") visibleActive++;
+            else visibleCompleted++;
+          }
+        });
+
+        if (activeSection) activeSection.hidden = visibleActive === 0;
+        if (completedSection) completedSection.hidden = visibleCompleted === 0;
+        if (emptyNotice) emptyNotice.hidden = visibleActive + visibleCompleted > 0;
+      }
+
+      statusBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          currentStatus = btn.getAttribute("data-wb-status") || "all";
+          statusBtns.forEach(function (b) {
+            b.classList.toggle("active", b === btn);
+          });
+          applyWorkbenchFilter();
+        });
       });
+
+      techBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          currentTech = btn.getAttribute("data-wb-tech") || "all";
+          techBtns.forEach(function (b) {
+            b.classList.toggle("active", b === btn);
+          });
+          applyWorkbenchFilter();
+        });
+      });
+
+      // Interactive Milestone Pipeline stage selector inside each Active R&D card
+      document.querySelectorAll(".milestone-pipeline-box").forEach(function (box) {
+        var steps = box.querySelectorAll(".milestone-step");
+        var stageEl = box.querySelector(".ms-readout-stage");
+        var textEl = box.querySelector(".ms-readout-text");
+
+        steps.forEach(function (step) {
+          step.addEventListener("click", function () {
+            steps.forEach(function (s) {
+              var on = s === step;
+              s.classList.toggle("is-selected", on);
+              s.setAttribute("aria-selected", on ? "true" : "false");
+            });
+            if (stageEl) stageEl.textContent = step.getAttribute("data-ms-stage") || "";
+            if (textEl) textEl.textContent = step.getAttribute("data-ms-detail") || "";
+          });
+        });
+      });
+
+      // Deep-link support: /projects?highlight=<slug> scrolls to & pulses that card
+      var slug = new URLSearchParams(window.location.search).get("highlight");
+      if (slug) {
+        var card = document.querySelector('[data-slug="' + slug.replace(/"/g, "") + '"]');
+        if (card) {
+          window.requestAnimationFrame(function () {
+            card.scrollIntoView({ behavior: "smooth", block: "center" });
+            card.classList.add("is-highlighted");
+            window.setTimeout(function () {
+              card.classList.remove("is-highlighted");
+            }, 3200);
+          });
+        }
+      }
     })();
   </script>
 {% endblock %}

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <!-- ==================== EXECUTIVE LEADERSHIP HEADER & METRICS ==================== -->
+  <section class="page-header workbench-header card-surface">
+    <div class="bento-header">
+      <div>
+        <span class="stage-pill tone-bronze">{{ t.experience_page.eyebrow }}</span>
+        <h1 class="section-title">{{ t.experience_page.title }}</h1>
+        <p class="section-subtitle">{{ t.experience_page.subtitle }}</p>
+      </div>
+      <div class="workbench-header-actions">
+        <a href="{{ url_for('education') }}" class="btn-secondary-surface btn-sm">
+          {{ t.sidebar.education }} →
+        </a>
+        <a href="{{ url_for('about') }}#contact" class="btn-primary-cobalt">
+          {{ t.sidebar.contact }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Executive Impact Telemetry Strip -->
+    <div class="exec-metrics-grid" role="region" aria-label="Executive leadership metrics">
+      {% for metric in t.experience_page.metrics %}
+        <div class="exec-metric-card tone-{{ metric.tone }}">
+          <span class="exec-metric-val">{{ metric.value }}</span>
+          <span class="exec-metric-lbl">{{ metric.label }}</span>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Zero-Reload Mandate Filter Bar -->
+    <div class="workbench-filter-bar" role="region" aria-label="Filter executive roles">
+      <div class="filters" role="group">
+        <button type="button" class="filter-pill active" data-exp-filter="all">
+          {{ t.experience_page.filters.all }}
+        </button>
+        <button type="button" class="filter-pill" data-exp-filter="governance">
+          🏛 {{ t.experience_page.filters.governance }}
+        </button>
+        <button type="button" class="filter-pill" data-exp-filter="strategy">
+          🧭 {{ t.experience_page.filters.strategy }}
+        </button>
+        <button type="button" class="filter-pill" data-exp-filter="venture">
+          ⚡ {{ t.experience_page.filters.venture }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INTERACTIVE EXECUTIVE TIMELINE ==================== -->
+  <section class="exec-timeline" aria-label="Executive timeline">
+    {% for role in t.experience_page.roles %}
+      <article
+        id="{{ role.id }}"
+        class="exec-role-card card-surface tone-{{ role.tone }}"
+        data-exp-card
+        data-exp-category="{{ role.category }}"
+      >
+        <div class="exec-role-rail">
+          <span class="exec-step-num tone-{{ role.tone }}">0{{ loop.index }}</span>
+          <span class="exec-rail-line" aria-hidden="true"></span>
+        </div>
+
+        <div class="exec-role-body">
+          <div class="exec-role-top">
+            <div class="exec-role-badges">
+              <span class="domain-tag tone-{{ role.tone }}">{{ role.code }}</span>
+              <span class="exec-period-pill">{{ role.period }}</span>
+            </div>
+            <span class="exec-location-label">📍 {{ role.location }}</span>
+          </div>
+
+          <h2 class="exec-role-title">{{ role.title }}</h2>
+          <p class="exec-role-summary">{{ role.summary }}</p>
+
+          <!-- Interactive Operational Pillars Grid -->
+          <div class="exec-pillars-grid" role="list">
+            {% for pillar in role.pillars %}
+              <button
+                type="button"
+                class="exec-pillar-card {{ 'is-active' if loop.first else '' }}"
+                data-pillar-card
+              >
+                <div class="exec-pillar-head">
+                  <span class="exec-pillar-idx">0{{ loop.index }}</span>
+                  <strong class="exec-pillar-tag">{{ pillar.tag }}</strong>
+                </div>
+                <p class="exec-pillar-detail">{{ pillar.detail }}</p>
+              </button>
+            {% endfor %}
+          </div>
+
+          <div class="badge-row exec-badge-footer">
+            {% for badge in role.badges %}
+              <span class="skill-pill tone-{{ role.tone }}">{{ badge }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </section>
+
+  <script>
+    (function () {
+      var filterBtns = document.querySelectorAll("[data-exp-filter]");
+      var roleCards = document.querySelectorAll("[data-exp-card]");
+
+      filterBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var cat = btn.getAttribute("data-exp-filter") || "all";
+          filterBtns.forEach(function (b) {
+            b.classList.toggle("active", b === btn);
+          });
+          roleCards.forEach(function (card) {
+            var match = cat === "all" || card.getAttribute("data-exp-category") === cat;
+            card.hidden = !match;
+            card.style.display = match ? "" : "none";
+          });
+        });
+      });
+
+      // Interactive pillar focus inside each role card
+      document.querySelectorAll(".exec-pillars-grid").forEach(function (grid) {
+        var pillars = grid.querySelectorAll("[data-pillar-card]");
+        pillars.forEach(function (card) {
+          card.addEventListener("click", function () {
+            pillars.forEach(function (c) {
+              c.classList.toggle("is-active", c === card);
+            });
+          });
+        });
+      });
+
+      // Highlight hash anchor if navigated from Mind-Map or Command Palette
+      if (window.location.hash) {
+        var target = document.querySelector(window.location.hash);
+        if (target && target.classList.contains("exec-role-card")) {
+          window.requestAnimationFrame(function () {
+            target.scrollIntoView({ behavior: "smooth", block: "center" });
+            target.classList.add("is-highlighted");
+            window.setTimeout(function () {
+              target.classList.remove("is-highlighted");
+            }, 3000);
+          });
+        }
+      }
+    })();
+  </script>
+{% endblock %}

@@ -1142,3 +1142,624 @@ UI_TEXT = {
         },
     },
 }
+
+# Update FR
+UI_TEXT["fr"]["sidebar"]["api_inspector"] = "Inspecteur API"
+UI_TEXT["fr"]["drawer"]["tradeoffs_title"] = (
+    "Arbitrages d'Ingénierie & Décisions d'Architecture"
+)
+UI_TEXT["fr"]["drawer"]["datasheet_btn"] = "Fiche +"
+
+UI_TEXT["fr"]["projects_page"].update(
+    {
+        "eyebrow": "ÉTABLI D'INGÉNIERIE R&D & SYSTÈMES",
+        "title": "Établi d'Ingénierie R&D & Catalogue Systèmes",
+        "subtitle": (
+            "Filtrage instantané sans rechargement, piste R&D active avec "
+            "pipeline de jalons interactif et fiches techniques schémas-blocs."
+        ),
+        "status_all": "Tous les systèmes",
+        "status_completed": "🟢 Systèmes Terminés",
+        "status_active": "🟠 R&D Active",
+        "tech_filter_label": "STACK TECHNIQUE :",
+        "tech_all": "Toutes les stacks",
+        "spotlight_badge": "PISTE R&D ACTIVE · PIPELINE DE JALONS",
+        "spotlight_title": "Systèmes en Recherche & Développement Actif",
+        "spotlight_subtitle": (
+            "Cliquez sur une étape du pipeline pour inspecter ses livrables "
+            "ou sur + pour ouvrir la fiche technique complète."
+        ),
+        "completed_badge": "SYSTÈMES VALIDÉS · GRILLE BENTO 2 COLONNES",
+        "completed_title": "Systèmes & Architectures Terminés",
+        "completed_subtitle": (
+            "Réalisations matérielles et logicielles validées avec "
+            "schémas-blocs et arbitrages d'architecture."
+        ),
+        "pipeline_label": "PIPELINE DE JALONS R&D (CLIQUEZ SUR UNE ÉTAPE)",
+        "open_datasheet": "Fiche +",
+        "tradeoffs_preview": "Arbitrage clé :",
+    }
+)
+
+UI_TEXT["fr"]["experience_page"] = {
+    "eyebrow": "GOUVERNANCE EXÉCUTIVE · STRATÉGIE · ENTREPRENEURIAT",
+    "title": "Leadership Exécutif & Opérations Stratégiques",
+    "subtitle": (
+        "Chronologie interactive des mandats exécutifs, de l'organisation "
+        "régionale en France et des opérations commerciales matérielles."
+    ),
+    "metrics": [
+        {"value": "3", "label": "Mandats Directeurs", "tone": "bronze"},
+        {"value": "500+", "label": "Étudiants Représentés (ACES)", "tone": "navy"},
+        {"value": "2", "label": "Pôles (Ghana · France)", "tone": "forest"},
+    ],
+    "filters": {
+        "all": "Tous les mandats",
+        "governance": "Gouvernance Académique",
+        "strategy": "Stratégie & Communauté",
+        "venture": "Entrepreneuriat Matériel",
+    },
+    "roles": [
+        {
+            "id": "role-aces",
+            "category": "governance",
+            "tone": "bronze",
+            "code": "ACES · KNUST",
+            "period": "Mandat Exécutif · KNUST",
+            "location": "Kumasi, Ghana · Département Génie Informatique",
+            "title": "Président du Département ACES (Association of Computer Engineering Students)",
+            "summary": (
+                "Direction exécutive de l'association des étudiants en génie "
+                "informatique à KNUST, représentation officielle auprès de la "
+                "faculté et pilotage des programmes techniques majeurs."
+            ),
+            "pillars": [
+                {
+                    "tag": "Tech Week & Codefest 2026",
+                    "detail": (
+                        "Direction générale de la Tech Week départementale et "
+                        "de Codefest 2026 : hackathons, ateliers embarqués/logiciels "
+                        "et jurys d'ingénierie."
+                    ),
+                },
+                {
+                    "tag": "Faculty Games & Cohésion",
+                    "detail": (
+                        "Organisation et mobilisation logistique pour les "
+                        "Faculty Games, renforçant l'esprit de corps inter-promotions."
+                    ),
+                },
+                {
+                    "tag": "Digital Media Expansion",
+                    "detail": (
+                        "Modernisation complète de l'identité numérique et "
+                        "des canaux de communication technique du département ACES."
+                    ),
+                },
+                {
+                    "tag": "Bien-être Étudiant & Représentation",
+                    "detail": (
+                        "Porte-parole officiel des étudiants auprès de "
+                        "l'administration académique, mentorat et défense des "
+                        "intérêts étudiants."
+                    ),
+                },
+            ],
+            "badges": [
+                "Tech Week",
+                "Codefest 2026",
+                "Faculty Games",
+                "Digital Media Expansion",
+                "Bien-être Étudiant",
+            ],
+        },
+        {
+            "id": "role-ghafra",
+            "category": "strategy",
+            "tone": "steel",
+            "code": "GHAFRA NORD · LILLE",
+            "period": "Actif · Hauts-de-France",
+            "location": "Lille, France · Métropole Européenne de Lille",
+            "title": "Responsable Planification Stratégique & Organisation — GHAFRA Nord",
+            "summary": (
+                "Structuration stratégique, coordination opérationnelle et "
+                "mobilisation communautaire au sein de GHAFRA Nord à Lille."
+            ),
+            "pillars": [
+                {
+                    "tag": "Planification Stratégique",
+                    "detail": (
+                        "Élaboration des feuilles de route trimestrielles, "
+                        "allocation des ressources et coordination des équipes "
+                        "régionales dans le Nord de la France."
+                    ),
+                },
+                {
+                    "tag": "Organisation Communautaire",
+                    "detail": (
+                        "Accueil, intégration administrative et mise en réseau "
+                        "des étudiants et professionnels ghanéens en France."
+                    ),
+                },
+                {
+                    "tag": "Opérations Lille & Partenariats",
+                    "detail": (
+                        "Pilotage logistique des événements culturels et "
+                        "institutionnels à Lille."
+                    ),
+                },
+            ],
+            "badges": [
+                "Planification Stratégique",
+                "Organisation Communautaire",
+                "Opérations Lille",
+                "Coordination Franco-Ghanéenne",
+            ],
+        },
+        {
+            "id": "role-hub",
+            "category": "venture",
+            "tone": "copper",
+            "code": "H & D'S HUB · VENTURE",
+            "period": "Fondateur & Opérations",
+            "location": "Opérations Commerciales & Import Matériel",
+            "title": "Fondateur & Direction Opérationnelle — H & D'S HUB & Matériel Mobile",
+            "summary": (
+                "Création et gestion de H & D'S HUB ainsi que d'une activité "
+                "commerciale d'importation, diagnostic matériel et revente "
+                "d'appareils mobiles."
+            ),
+            "pillars": [
+                {
+                    "tag": "Importation & Chaîne d'Approvisionnement",
+                    "detail": (
+                        "Sourcing international, négociation fournisseurs et "
+                        "gestion des flux logistiques d'équipements mobiles."
+                    ),
+                },
+                {
+                    "tag": "Diagnostic Matériel & Contrôle Qualité",
+                    "detail": (
+                        "Inspection matérielle systématique, tests de "
+                        "composants et validation fonctionnelle avant mise en vente."
+                    ),
+                },
+                {
+                    "tag": "Opérations Commerciales & Revente",
+                    "detail": (
+                        "Stratégie tarifaire, gestion de trésorerie, relation "
+                        "clientèle et croissance de la marque H & D'S HUB."
+                    ),
+                },
+            ],
+            "badges": [
+                "H & D'S HUB",
+                "Import & Revente Mobile",
+                "Diagnostic Matériel",
+                "Gestion Commerciale",
+            ],
+        },
+    ],
+}
+
+UI_TEXT["fr"]["education_page"] = {
+    "eyebrow": "FORMATION D'INGÉNIEUR · RECHERCHE R&D · TÉLÉMÉTRIE",
+    "title": "Formation Académique, R&D & Console API",
+    "subtitle": (
+        "Parcours d'ingénierie entre la France (JUNIA Lille) et le Ghana "
+        "(KNUST, PRESEC Legon), couplé à l'inspecteur d'API JSON temps réel."
+    ),
+    "institutions": [
+        {
+            "id": "junia",
+            "tone": "zinc",
+            "code": "M1 · LILLE, FRANCE",
+            "period": "En cours · Cycle Ingénieur M1",
+            "school": "JUNIA Lille — Grande École d'Ingénieurs",
+            "degree": "M1 Microélectronique & Systèmes Embarqués",
+            "location": "Lille, France",
+            "summary": (
+                "Formation approfondie en microélectronique, architecture des "
+                "systèmes embarqués, programmation bas niveau C/C++ et "
+                "prototypage robotique collaboratif."
+            ),
+            "highlights": [
+                "R&D Active : Prototype de Robot Autonome de Nettoyage Urbain au sein d'une équipe de 7 élèves-ingénieurs.",
+                "Conception de firmware C/C++ sur STM32 et ESP32, commande moteur PWM et intégration d'un module caméra IA externe.",
+                "Conception électronique, schématique et routage PCB sous KiCad.",
+            ],
+            "modules": [
+                "STM32 / ESP32",
+                "Microélectronique",
+                "C/C++ Embarqué",
+                "Fusion Capteurs",
+                "KiCad PCB",
+                "Robotique Autonome",
+            ],
+        },
+        {
+            "id": "knust",
+            "tone": "navy",
+            "code": "BSc · KUMASI, GHANA",
+            "period": "Diplômé · BSc Engineering",
+            "school": "KNUST — Kwame Nkrumah University of Science & Technology",
+            "degree": "BSc Computer Engineering (Génie Informatique)",
+            "location": "Kumasi, Ghana",
+            "summary": (
+                "Ingénierie informatique couvrant l'architecture des "
+                "ordinateurs, les systèmes embarqués, la programmation orientée "
+                "objet C++ et la modélisation de bases de données."
+            ),
+            "highlights": [
+                "Président du Département ACES : direction de la Tech Week, Codefest 2026, Faculty Games et Digital Media Expansion.",
+                "Chef de Projet pour le Système C++ de Gestion de Centre Commercial (POO, chaîne GCC/GDB sous WSL).",
+                "Modélisation Entité-Association (ER), tables associatives et normalisation 3NF pour systèmes logistiques.",
+            ],
+            "modules": [
+                "C++ & POO",
+                "GCC / GDB (WSL)",
+                "Schémas ER & 3NF",
+                "Arduino & Capteurs",
+                "Architecture Système",
+                "Présidence ACES",
+            ],
+        },
+        {
+            "id": "presec",
+            "tone": "forest",
+            "code": "SCIENCES · ACCRA, GHANA",
+            "period": "Enseignement Secondaire",
+            "school": "Presbyterian Boys' Secondary School (PRESEC Legon)",
+            "degree": "General Science — Mathématiques, Physique & Sciences",
+            "location": "Legon, Accra, Ghana",
+            "summary": (
+                "Formation scientifique d'excellence (tradition Odadeɛ) axée "
+                "sur la physique, les mathématiques avancées et la rigueur "
+                "analytique."
+            ),
+            "highlights": [
+                "Socle intensif en mathématiques pures, mécanique, électromagnétisme et algorithmique.",
+                "Culture d'excellence académique et de leadership collectif.",
+            ],
+            "modules": [
+                "Physique & Électronique",
+                "Mathématiques Avancées",
+                "Analyse Scientifique",
+            ],
+        },
+    ],
+}
+
+UI_TEXT["fr"]["api_inspector_page"] = {
+    "eyebrow": "CONSOLE DE TÉLÉMÉTRIE REST · JSON EN DIRECT",
+    "title": "Inspecteur d'API Temps Réel & Télémétrie JSON",
+    "subtitle": (
+        "Exécutez de vraies requêtes HTTP GET contre /api/projects, mesurez "
+        "la latence en millisecondes et inspectez la charge utile JSON."
+    ),
+    "endpoints_label": "POINTS D'ENTRÉE REST DISPONIBLES :",
+    "ping_btn": "⚡ Ping /api/projects",
+    "copy_btn": "Copier JSON",
+    "copied_btn": "JSON Copié ✓",
+    "raw_btn": "Ouvrir JSON Brut ↗",
+    "full_console_link": "Ouvrir l'Inspecteur API plein écran →",
+    "status_label": "STATUT HTTP",
+    "latency_label": "LATENCE RTT",
+    "size_label": "TAILLE PAYLOAD",
+    "records_label": "PROJETS REÇUS",
+    "schema_title": "Garanties du Schéma REST (`/api/projects`)",
+    "schema_points": [
+        "Sérialisation JSON UTF-8 directe depuis `projects.json` sans surcharge ORM.",
+        "Filtrage par paramètre de requête : `?status=in_progress`, `?status=completed` ou `?slug=<slug>`.",
+        "Chaque entrée expose les clés bilingues (`en`, `fr`), `block_diagram`, `milestones`, `tradeoffs` et `team_acknowledgment`.",
+    ],
+}
+
+# Update EN
+UI_TEXT["en"]["sidebar"]["api_inspector"] = "API Inspector"
+UI_TEXT["en"]["drawer"]["tradeoffs_title"] = (
+    "Engineering Tradeoffs & Design Decisions"
+)
+UI_TEXT["en"]["drawer"]["datasheet_btn"] = "Datasheet +"
+
+UI_TEXT["en"]["projects_page"].update(
+    {
+        "eyebrow": "R&D ENGINEERING WORKBENCH & SYSTEMS CATALOG",
+        "title": "R&D Engineering Workbench & Systems Catalog",
+        "subtitle": (
+            "Zero-reload client-side filtering, Active R&D milestone pipeline, "
+            "and slide-over system block-diagram datasheets."
+        ),
+        "status_all": "All Systems",
+        "status_completed": "🟢 Completed Systems",
+        "status_active": "🟠 Active R&D",
+        "tech_filter_label": "TECH STACK:",
+        "tech_all": "All Tech",
+        "spotlight_badge": "ACTIVE R&D SPOTLIGHT TRACK · MILESTONE PIPELINE",
+        "spotlight_title": "Active Research & Development Spotlight",
+        "spotlight_subtitle": (
+            "Click any stage in the milestone pipeline to inspect its live "
+            "deliverables, or click + to open the full engineering datasheet."
+        ),
+        "completed_badge": "COMPLETED SYSTEMS · 2-COLUMN BENTO GRID",
+        "completed_title": "Completed Engineering Systems",
+        "completed_subtitle": (
+            "Verified hardware and software builds with sequential block "
+            "diagrams and architectural tradeoffs."
+        ),
+        "pipeline_label": "R&D MILESTONE PIPELINE (CLICK STAGE TO INSPECT)",
+        "open_datasheet": "Datasheet +",
+        "tradeoffs_preview": "Key Tradeoff:",
+    }
+)
+
+UI_TEXT["en"]["experience_page"] = {
+    "eyebrow": "EXECUTIVE GOVERNANCE · REGIONAL STRATEGY · HARDWARE VENTURES",
+    "title": "Executive Leadership & Venture Operations",
+    "subtitle": (
+        "Interactive executive timeline spanning departmental presidency at "
+        "KNUST, strategic organizing in Lille, and commercial hardware operations."
+    ),
+    "metrics": [
+        {"value": "3", "label": "Executive Mandates", "tone": "bronze"},
+        {"value": "500+", "label": "Engineering Students Represented", "tone": "navy"},
+        {"value": "2", "label": "Operating Regions (GH · FR)", "tone": "forest"},
+    ],
+    "filters": {
+        "all": "All Mandates",
+        "governance": "Academic Governance",
+        "strategy": "Strategy & Organizing",
+        "venture": "Hardware Venture",
+    },
+    "roles": [
+        {
+            "id": "role-aces",
+            "category": "governance",
+            "tone": "bronze",
+            "code": "ACES · KNUST",
+            "period": "Executive Term · KNUST",
+            "location": "Kumasi, Ghana · Department of Computer Engineering",
+            "title": "ACES Department President (Association of Computer Engineering Students)",
+            "summary": (
+                "Directed full executive governance, financial stewardship, "
+                "and official student representation for the Computer "
+                "Engineering department at KNUST."
+            ),
+            "pillars": [
+                {
+                    "tag": "Tech Week & Codefest 2026",
+                    "detail": (
+                        "Spearheaded the flagship departmental Tech Week and "
+                        "Codefest 2026 hackathon, uniting hardware/software "
+                        "project teams with industry mentors."
+                    ),
+                },
+                {
+                    "tag": "Faculty Games & Department Cohesion",
+                    "detail": (
+                        "Organized cross-cohort participation and logistics "
+                        "for the Faculty Games, strengthening student community."
+                    ),
+                },
+                {
+                    "tag": "Digital Media Expansion",
+                    "detail": (
+                        "Modernized ACES digital communications, technical "
+                        "spotlights, and departmental media presence."
+                    ),
+                },
+                {
+                    "tag": "Student Welfare & Representation",
+                    "detail": (
+                        "Served as the primary student voice before faculty "
+                        "leadership, championing academic support and lab access."
+                    ),
+                },
+            ],
+            "badges": [
+                "Tech Week",
+                "Codefest 2026",
+                "Faculty Games",
+                "Digital Media Expansion",
+                "Student Welfare",
+            ],
+        },
+        {
+            "id": "role-ghafra",
+            "category": "strategy",
+            "tone": "steel",
+            "code": "GHAFRA NORD · LILLE",
+            "period": "Active · Northern France",
+            "location": "Lille, France · Hauts-de-France",
+            "title": "Strategic Planning & Organizing Lead — GHAFRA Nord (Lille, France)",
+            "summary": (
+                "Driving strategic planning, operational logistics, and "
+                "community organizing across the Lille metropolitan area."
+            ),
+            "pillars": [
+                {
+                    "tag": "Strategic Planning",
+                    "detail": (
+                        "Structuring regional roadmaps, event calendars, and "
+                        "cross-team execution for GHAFRA Nord in Lille."
+                    ),
+                },
+                {
+                    "tag": "Community Organizing & Onboarding",
+                    "detail": (
+                        "Coordinating student and professional integration, "
+                        "housing guidance, and peer networks in Northern France."
+                    ),
+                },
+                {
+                    "tag": "Lille Regional Operations",
+                    "detail": (
+                        "Leading venue logistics, institutional outreach, and "
+                        "cultural programming across Lille."
+                    ),
+                },
+            ],
+            "badges": [
+                "Strategic Planning",
+                "Community Organizing",
+                "Lille Operations",
+                "Cross-Cultural Leadership",
+            ],
+        },
+        {
+            "id": "role-hub",
+            "category": "venture",
+            "tone": "copper",
+            "code": "H & D'S HUB · VENTURE",
+            "period": "Founder & Commercial Ops",
+            "location": "Commercial Hardware & Import Operations",
+            "title": "Founder & Commercial Operations — H & D'S HUB & Mobile Hardware Venture",
+            "summary": (
+                "Founded and operated H & D'S HUB alongside a commercial "
+                "mobile hardware import, diagnostics, and resale enterprise."
+            ),
+            "pillars": [
+                {
+                    "tag": "Supply Chain & Hardware Import",
+                    "detail": (
+                        "Managed supplier sourcing, import logistics, and "
+                        "inventory allocation for consumer mobile hardware."
+                    ),
+                },
+                {
+                    "tag": "Hardware Diagnostics & QA",
+                    "detail": (
+                        "Performed systematic device diagnostics, component "
+                        "verification, and quality grading prior to resale."
+                    ),
+                },
+                {
+                    "tag": "Commercial Pricing & Client Fulfillment",
+                    "detail": (
+                        "Directed unit economics, pricing strategy, and "
+                        "end-to-end customer fulfillment."
+                    ),
+                },
+            ],
+            "badges": [
+                "H & D'S HUB",
+                "Mobile Hardware Import/Resale",
+                "Hardware Diagnostics & QA",
+                "Commercial Operations",
+            ],
+        },
+    ],
+}
+
+UI_TEXT["en"]["education_page"] = {
+    "eyebrow": "ACADEMIC FORMATION · EMBEDDED R&D · LIVE TELEMETRY",
+    "title": "Academic Formation, R&D & Live API Telemetry",
+    "subtitle": (
+        "Cross-border engineering formation across JUNIA Lille (France), "
+        "KNUST (Kumasi), and PRESEC Legon, paired with a live JSON API console."
+    ),
+    "institutions": [
+        {
+            "id": "junia",
+            "tone": "zinc",
+            "code": "M1 · LILLE, FRANCE",
+            "period": "Active · M1 Graduate Engineering",
+            "school": "JUNIA Lille — Graduate School of Science & Engineering",
+            "degree": "M1 Microelectronics & Embedded Systems",
+            "location": "Lille, France",
+            "summary": (
+                "Graduate engineering specialization in microelectronics, "
+                "embedded microcontroller systems, real-time C/C++ firmware, "
+                "and collaborative robotics R&D."
+            ),
+            "highlights": [
+                "Active R&D: 7-Member Autonomous Street-Cleaning Robot Prototype engineered for urban Lille pavements.",
+                "Developing embedded C/C++ control firmware across STM32 and ESP32 MCUs with external AI camera integration.",
+                "Hardware schematic capture, sensor conditioning, and PCB layout in KiCad.",
+            ],
+            "modules": [
+                "STM32 / ESP32",
+                "Microelectronics",
+                "Embedded C/C++",
+                "Sensor Fusion",
+                "KiCad PCB",
+                "Autonomous Robotics",
+            ],
+        },
+        {
+            "id": "knust",
+            "tone": "navy",
+            "code": "BSc · KUMASI, GHANA",
+            "period": "Graduated · BSc Engineering",
+            "school": "KNUST — Kwame Nkrumah University of Science & Technology",
+            "degree": "BSc Computer Engineering",
+            "location": "Kumasi, Ghana",
+            "summary": (
+                "Rigorous undergraduate training across computer architecture, "
+                "embedded hardware, object-oriented C++ software systems, and "
+                "relational data modeling."
+            ),
+            "highlights": [
+                "Elected ACES Department President: led Tech Week, Codefest 2026, Faculty Games, and Digital Media Expansion.",
+                "Project Lead for the C++ Shopping Mall Management System (OOP class hierarchies under WSL GCC/GDB).",
+                "Engineered normalized 3NF Entity-Relationship (ER) schemas and closed-loop Arduino ultrasonic control systems.",
+            ],
+            "modules": [
+                "C++ & OOP",
+                "GCC / GDB (WSL)",
+                "ER Schemas & 3NF",
+                "Arduino & Sensors",
+                "Computer Architecture",
+                "ACES Presidency",
+            ],
+        },
+        {
+            "id": "presec",
+            "tone": "forest",
+            "code": "SCIENCE · ACCRA, GHANA",
+            "period": "Secondary Education",
+            "school": "Presbyterian Boys' Secondary School (PRESEC Legon)",
+            "degree": "General Science (Physics, Advanced Mathematics, Chemistry)",
+            "location": "Legon, Accra, Ghana",
+            "summary": (
+                "Foundational scientific training at Ghana's premier "
+                "science secondary institution (Odadeɛ), emphasizing physics, "
+                "calculus, and analytical problem solving."
+            ),
+            "highlights": [
+                "Intensive grounding in mechanics, electromagnetism, calculus, and quantitative reasoning.",
+                "Cultivated disciplined analytical habits and collaborative leadership.",
+            ],
+            "modules": [
+                "Physics & Electromagnetism",
+                "Further Mathematics",
+                "Analytical Science",
+            ],
+        },
+    ],
+}
+
+UI_TEXT["en"]["api_inspector_page"] = {
+    "eyebrow": "LIVE REST TELEMETRY CONSOLE · JSON API",
+    "title": "Interactive API Inspector & Live JSON Telemetry",
+    "subtitle": (
+        "Ping `/api/projects` in real time, inspect the live HTTP 200 payload, "
+        "and measure round-trip response latency in milliseconds."
+    ),
+    "endpoints_label": "LIVE REST ENDPOINTS:",
+    "ping_btn": "⚡ Ping /api/projects",
+    "copy_btn": "Copy JSON",
+    "copied_btn": "Copied JSON ✓",
+    "raw_btn": "Open Raw JSON ↗",
+    "full_console_link": "Open Fullscreen API Inspector →",
+    "status_label": "HTTP STATUS",
+    "latency_label": "RESPONSE TIME",
+    "size_label": "PAYLOAD SIZE",
+    "records_label": "RECORDS RETURNED",
+    "schema_title": "REST Endpoint Guarantees (`/api/projects`)",
+    "schema_points": [
+        "Direct UTF-8 JSON serialization backed by `projects.json` with zero ORM overhead.",
+        "Supports live query filtering via `?status=in_progress`, `?status=completed`, or `?slug=<slug>`.",
+        "Every record exposes bilingual (`en`, `fr`) payloads, `block_diagram`, `milestones`, `tradeoffs`, and `team_acknowledgment`.",
+    ],
+}

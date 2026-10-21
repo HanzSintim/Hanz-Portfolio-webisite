@@ -214,6 +214,8 @@
         class="mindmap-board"
         data-projects-url="{{ url_for('projects') }}"
         data-about-url="{{ url_for('about') }}"
+        data-experience-url="{{ url_for('experience') }}"
+        data-education-url="{{ url_for('education') }}"
       >
         <!-- Kinetic SVG Bézier Signal Wires & Animated Data Packets -->
         <svg
@@ -630,6 +632,8 @@
 
       var projectsUrl = board.getAttribute("data-projects-url") || "/projects";
       var aboutUrl = board.getAttribute("data-about-url") || "/about";
+      var experienceUrl = board.getAttribute("data-experience-url") || "/experience";
+      var educationUrl = board.getAttribute("data-education-url") || "/education";
 
       var defaults = {
         codeClass: detailCode ? detailCode.className : "",
@@ -642,15 +646,20 @@
       var currentView = 0;
       var totalViews = layers.length;
 
-      // Capsules were authored with in-page anchors; route them to the real pages now
-      // that the Home screen no longer carries the projects/skills/leadership panels.
-      function resolveTarget(href, filter) {
+      // Capsules route to the dedicated workbench pages (/projects, /experience, /education, /about).
+      function resolveTarget(href, filter, code) {
         var h = href || "";
+        var c = (code || "").toUpperCase();
+        if (c === "EDU") return educationUrl;
+        if (c === "ACES") return experienceUrl + "#role-aces";
+        if (c === "GHAFRA") return experienceUrl + "#role-ghafra";
+        if (c === "HUB") return experienceUrl + "#role-hub";
         if (h === "#projects-bento") {
           return projectsUrl + (filter ? "?q=" + encodeURIComponent(filter) : "");
         }
         if (h === "#skills-bento") return aboutUrl + "#skills";
-        if (h === "#leadership-bento") return aboutUrl + "#leadership";
+        if (h === "#leadership-bento") return experienceUrl;
+        if (h === "/about#education") return educationUrl;
         return h || projectsUrl;
       }
 
@@ -743,7 +752,7 @@
           var title = pill.getAttribute("data-title") || "";
           var detail = pill.getAttribute("data-detail") || "";
           var filterKw = (pill.getAttribute("data-filter") || "").trim();
-          var href = resolveTarget(pill.getAttribute("data-href"), filterKw);
+          var href = resolveTarget(pill.getAttribute("data-href"), filterKw, code);
 
           if (detailCode) {
             detailCode.className = "domain-code tone-" + tone;

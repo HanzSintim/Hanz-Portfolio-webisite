@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <!-- ==================== INTERACTIVE API INSPECTOR HEADER ==================== -->
+  <section class="page-header workbench-header card-surface">
+    <div class="bento-header">
+      <div>
+        <span class="stage-pill tone-steel">{{ t.api_inspector_page.eyebrow }}</span>
+        <h1 class="section-title">{{ t.api_inspector_page.title }}</h1>
+        <p class="section-subtitle">{{ t.api_inspector_page.subtitle }}</p>
+      </div>
+      <div class="workbench-header-actions">
+        <a
+          href="{{ url_for('api_projects') }}"
+          target="_blank"
+          rel="noopener"
+          class="btn-secondary-surface btn-sm"
+        >
+          {{ t.api_inspector_page.raw_btn }}
+        </a>
+        <a href="{{ url_for('projects') }}" class="btn-primary-cobalt">
+          {{ t.sidebar.projects }} →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LIVE JSON API TELEMETRY CONSOLE ==================== -->
+  <section class="api-console-card card-surface" aria-label="Live JSON API telemetry console">
+    <!-- Preset Endpoint Pills -->
+    <div class="api-preset-row">
+      <span class="workbench-filter-label">{{ t.api_inspector_page.endpoints_label }}</span>
+      <div class="filters">
+        <button
+          type="button"
+          class="filter-pill filter-pill-sm active"
+          data-api-endpoint="/api/projects"
+        >
+          GET /api/projects
+        </button>
+        <button
+          type="button"
+          class="filter-pill filter-pill-sm"
+          data-api-endpoint="/api/projects?status=in_progress"
+        >
+          ?status=in_progress
+        </button>
+        <button
+          type="button"
+          class="filter-pill filter-pill-sm"
+          data-api-endpoint="/api/projects?status=completed"
+        >
+          ?status=completed
+        </button>
+        <button
+          type="button"
+          class="filter-pill filter-pill-sm"
+          data-api-endpoint="/api/projects?slug=autonomous-street-cleaning-robot"
+        >
+          ?slug=autonomous-street-cleaning-robot
+        </button>
+        <button
+          type="button"
+          class="filter-pill filter-pill-sm"
+          data-api-endpoint="/api/projects?slug=cpp-shopping-mall-system"
+        >
+          ?slug=cpp-shopping-mall-system
+        </button>
+      </div>
+    </div>
+
+    <!-- Request Bar -->
+    <div class="api-request-bar">
+      <div class="api-url-box">
+        <span class="api-method-badge">GET</span>
+        <code id="api-current-url" class="api-url-code">/api/projects</code>
+      </div>
+      <div class="api-request-actions">
+        <button type="button" id="api-ping-btn" class="btn-primary-cobalt">
+          {{ t.api_inspector_page.ping_btn }}
+        </button>
+        <button
+          type="button"
+          id="api-copy-btn"
+          class="btn-secondary-surface btn-sm"
+          data-copy-label="{{ t.api_inspector_page.copy_btn }}"
+          data-copied-label="{{ t.api_inspector_page.copied_btn }}"
+        >
+          {{ t.api_inspector_page.copy_btn }}
+        </button>
+      </div>
+    </div>
+
+    <!-- 4-Metric Live HTTP Telemetry Strip -->
+    <div class="api-telemetry-strip" role="status" aria-live="polite">
+      <div class="api-telemetry-cell">
+        <span class="api-telemetry-label">{{ t.api_inspector_page.status_label }}</span>
+        <strong id="api-stat-status" class="api-telemetry-val status-ok">🟢 200 OK</strong>
+      </div>
+      <div class="api-telemetry-cell">
+        <span class="api-telemetry-label">{{ t.api_inspector_page.latency_label }}</span>
+        <strong id="api-stat-latency" class="api-telemetry-val">— ms</strong>
+      </div>
+      <div class="api-telemetry-cell">
+        <span class="api-telemetry-label">{{ t.api_inspector_page.size_label }}</span>
+        <strong id="api-stat-size" class="api-telemetry-val">— KB</strong>
+      </div>
+      <div class="api-telemetry-cell">
+        <span class="api-telemetry-label">{{ t.api_inspector_page.records_label }}</span>
+        <strong id="api-stat-count" class="api-telemetry-val">{{ projects | length }}</strong>
+      </div>
+    </div>
+
+    <!-- Formatted JSON Payload Viewer -->
+    <div class="api-json-container">
+      <pre class="api-json-viewer" tabindex="0"><code id="api-json-output">{{ projects | tojson(indent=2) }}</code></pre>
+    </div>
+  </section>
+
+  <!-- ==================== SCHEMA GUARANTEES ==================== -->
+  <section class="bento-card card-surface">
+    <div class="bento-card-head">
+      <div>
+        <span class="stage-pill tone-forest">REST SCHEMA · UTF-8 JSON</span>
+        <h2 class="bento-title">{{ t.api_inspector_page.schema_title }}</h2>
+      </div>
+    </div>
+    <ul class="project-highlights">
+      {% for pt in t.api_inspector_page.schema_points %}
+        <li>{{ pt }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <script>
+    (function () {
+      var endpointBtns = document.querySelectorAll("[data-api-endpoint]");
+      var urlEl = document.getElementById("api-current-url");
+      var pingBtn = document.getElementById("api-ping-btn");
+      var copyBtn = document.getElementById("api-copy-btn");
+      var statusEl = document.getElementById("api-stat-status");
+      var latencyEl = document.getElementById("api-stat-latency");
+      var sizeEl = document.getElementById("api-stat-size");
+      var countEl = document.getElementById("api-stat-count");
+      var outputEl = document.getElementById("api-json-output");
+      var currentEndpoint = "/api/projects";
+
+      function pingEndpoint(endpoint) {
+        currentEndpoint = endpoint || currentEndpoint;
+        if (urlEl) urlEl.textContent = currentEndpoint;
+        if (pingBtn) pingBtn.disabled = true;
+
+        var t0 = performance.now();
+        fetch(currentEndpoint, {
+          headers: { Accept: "application/json" },
+          cache: "no-store",
+        })
+          .then(function (res) {
+            var rtt = (performance.now() - t0).toFixed(1);
+            if (statusEl) {
+              statusEl.textContent = (res.ok ? "🟢 " : "🔴 ") + res.status + " " + (res.statusText || "OK");
+              statusEl.className = "api-telemetry-val " + (res.ok ? "status-ok" : "status-err");
+            }
+            if (latencyEl) latencyEl.textContent = rtt + " ms";
+            return res.text();
+          })
+          .then(function (rawText) {
+            var bytes = new Blob([rawText]).size;
+            if (sizeEl) sizeEl.textContent = (bytes / 1024).toFixed(2) + " KB";
+            try {
+              var parsed = JSON.parse(rawText);
+              if (countEl) {
+                countEl.textContent = Array.isArray(parsed) ? String(parsed.length) : "1";
+              }
+              if (outputEl) {
+                outputEl.textContent = JSON.stringify(parsed, null, 2);
+              }
+            } catch (e) {
+              if (outputEl) outputEl.textContent = rawText;
+            }
+          })
+          .catch(function (err) {
+            if (statusEl) {
+              statusEl.textContent = "🔴 Network Error";
+              statusEl.className = "api-telemetry-val status-err";
+            }
+            if (outputEl) outputEl.textContent = String(err);
+          })
+          .finally(function () {
+            if (pingBtn) pingBtn.disabled = false;
+          });
+      }
+
+      endpointBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var ep = btn.getAttribute("data-api-endpoint") || "/api/projects";
+          endpointBtns.forEach(function (b) {
+            b.classList.toggle("active", b === btn);
+          });
+          pingEndpoint(ep);
+        });
+      });
+
+      if (pingBtn) {
+        pingBtn.addEventListener("click", function () {
+          pingEndpoint(currentEndpoint);
+        });
+      }
+
+      if (copyBtn && outputEl) {
+        copyBtn.addEventListener("click", function () {
+          var text = outputEl.textContent || "";
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+              copyBtn.textContent = copyBtn.getAttribute("data-copied-label") || "Copied ✓";
+              window.setTimeout(function () {
+                copyBtn.textContent = copyBtn.getAttribute("data-copy-label") || "Copy JSON";
+              }, 2000);
+            });
+          }
+        });
+      }
+
+      // Execute initial live telemetry ping on mount
+      pingEndpoint("/api/projects");
+    })();
+  </script>
+{% endblock %}

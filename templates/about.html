@@ -123,7 +123,9 @@
       <p class="project-summary">{{ t.about_page.contact_text }}</p>
       <div class="hero-actions">
         <a href="{{ url_for('projects') }}" class="btn-primary-cobalt">{{ t.hero.secondary_cta }}</a>
-        <a href="{{ url_for('api_projects') }}" class="btn-secondary-surface">{{ t.sidebar.api_json }}</a>
+        <a href="{{ url_for('experience') }}" class="btn-secondary-surface">{{ t.sidebar.experience }} →</a>
+        <a href="{{ url_for('education') }}" class="btn-secondary-surface">{{ t.sidebar.education }} →</a>
+        <a href="{{ url_for('api_inspector') }}" class="btn-secondary-surface">⚡ {{ t.sidebar.api_inspector }}</a>
       </div>
     </section>
   </div>

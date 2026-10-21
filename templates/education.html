@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <!-- ==================== EDUCATION & R&D HEADER ==================== -->
+  <section class="page-header workbench-header card-surface">
+    <div class="bento-header">
+      <div>
+        <span class="stage-pill tone-zinc">{{ t.education_page.eyebrow }}</span>
+        <h1 class="section-title">{{ t.education_page.title }}</h1>
+        <p class="section-subtitle">{{ t.education_page.subtitle }}</p>
+      </div>
+      <div class="workbench-header-actions">
+        <a href="{{ url_for('api_inspector') }}" class="btn-secondary-surface btn-sm">
+          ⚡ {{ t.sidebar.api_inspector }}
+        </a>
+        <a href="{{ url_for('projects') }}" class="btn-primary-cobalt">
+          {{ t.sidebar.projects }} →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ACADEMIC INSTITUTIONS & R&D TIMELINE ==================== -->
+  <section class="edu-timeline-grid" aria-label="Academic formation">
+    {% for inst in t.education_page.institutions %}
+      <article
+        id="edu-{{ inst.id }}"
+        class="edu-card card-surface tone-{{ inst.tone }}"
+      >
+        <div class="edu-card-top">
+          <div class="exec-role-badges">
+            <span class="domain-tag tone-{{ inst.tone }}">{{ inst.code }}</span>
+            <span class="exec-period-pill">{{ inst.period }}</span>
+          </div>
+          <span class="exec-location-label">📍 {{ inst.location }}</span>
+        </div>
+
+        <h2 class="edu-school-title">{{ inst.school }}</h2>
+        <p class="edu-degree-subtitle">{{ inst.degree }}</p>
+        <p class="edu-summary">{{ inst.summary }}</p>
+
+        <ul class="project-highlights">
+          {% for pt in inst.highlights %}
+            <li>{{ pt }}</li>
+          {% endfor %}
+        </ul>
+
+        <div class="edu-card-footer">
+          <div class="badge-row">
+            {% for mod in inst.modules %}
+              <span class="skill-pill tone-{{ inst.tone }}">{{ mod }}</span>
+            {% endfor %}
+          </div>
+
+          {% if inst.id == 'junia' %}
+            <a
+              href="{{ url_for('projects') }}?highlight=autonomous-street-cleaning-robot"
+              class="btn-secondary-surface btn-sm"
+            >
+              R&amp;D Robot →
+            </a>
+          {% elif inst.id == 'knust' %}
+            <a
+              href="{{ url_for('experience') }}#role-aces"
+              class="btn-secondary-surface btn-sm"
+            >
+              ACES →
+            </a>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </section>
+
+  <!-- ==================== EMBEDDED LIVE JSON API TELEMETRY CONSOLE ==================== -->
+  <section
+    id="api-telemetry-console"
+    class="api-console-card card-surface"
+    aria-label="Live JSON API telemetry console"
+  >
+    <div class="bento-card-head">
+      <div>
+        <span class="stage-pill tone-steel">{{ t.api_inspector_page.eyebrow }}</span>
+        <h2 class="bento-title">{{ t.api_inspector_page.title }}</h2>
+        <p class="bento-subtitle">{{ t.api_inspector_page.subtitle }}</p>
+      </div>
+      <a href="{{ url_for('api_inspector') }}" class="btn-secondary-surface btn-sm">
+        {{ t.api_inspector_page.full_console_link }}
+      </a>
+    </div>
+
+    <div class="api-preset-row">
+      <span class="workbench-filter-label">{{ t.api_inspector_page.endpoints_label }}</span>
+      <div class="filters">
+        <button
+          type="button"
+          class="filter-pill filter-pill-sm active"
+          data-edu-api-ep="/api/projects"
+        >
+          GET /api/projects
+        </button>
+        <button
+          type="button"
+          class="filter-pill filter-pill-sm"
+          data-edu-api-ep="/api/projects?status=in_progress"
+        >
+          ?status=in_progress
+        </button>
+        <button
+          type="button"
+          class="filter-pill filter-pill-sm"
+          data-edu-api-ep="/api/projects?status=completed"
+        >
+          ?status=completed
+        </button>
+      </div>
+    </div>
+
+    <div class="api-request-bar">
+      <div class="api-url-box">
+        <span class="api-method-badge">GET</span>
+        <code id="edu-api-url" class="api-url-code">/api/projects</code>
+      </div>
+      <div class="api-request-actions">
+        <button type="button" id="edu-api-ping" class="btn-primary-cobalt">
+          {{ t.api_inspector_page.ping_btn }}
+        </button>
+        <button
+          type="button"
+          id="edu-api-copy"
+          class="btn-secondary-surface btn-sm"
+          data-copy-label="{{ t.api_inspector_page.copy_btn }}"
+          data-copied-label="{{ t.api_inspector_page.copied_btn }}"
+        >
+          {{ t.api_inspector_page.copy_btn }}
+        </button>
+      </div>
+    </div>
+
+    <div class="api-telemetry-strip" role="status" aria-live="polite">
+      <div class="api-telemetry-cell">
+        <span class="api-telemetry-label">{{ t.api_inspector_page.status_label }}</span>
+        <strong id="edu-api-status" class="api-telemetry-val status-ok">🟢 200 OK</strong>
+      </div>
+      <div class="api-telemetry-cell">
+        <span class="api-telemetry-label">{{ t.api_inspector_page.latency_label }}</span>
+        <strong id="edu-api-latency" class="api-telemetry-val">— ms</strong>
+      </div>
+      <div class="api-telemetry-cell">
+        <span class="api-telemetry-label">{{ t.api_inspector_page.size_label }}</span>
+        <strong id="edu-api-size" class="api-telemetry-val">— KB</strong>
+      </div>
+      <div class="api-telemetry-cell">
+        <span class="api-telemetry-label">{{ t.api_inspector_page.records_label }}</span>
+        <strong id="edu-api-count" class="api-telemetry-val">{{ projects | length }}</strong>
+      </div>
+    </div>
+
+    <div class="api-json-container">
+      <pre class="api-json-viewer api-json-viewer-compact" tabindex="0"><code id="edu-api-output">{{ projects | tojson(indent=2) }}</code></pre>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var epBtns = document.querySelectorAll("[data-edu-api-ep]");
+      var urlEl = document.getElementById("edu-api-url");
+      var pingBtn = document.getElementById("edu-api-ping");
+      var copyBtn = document.getElementById("edu-api-copy");
+      var statusEl = document.getElementById("edu-api-status");
+      var latencyEl = document.getElementById("edu-api-latency");
+      var sizeEl = document.getElementById("edu-api-size");
+      var countEl = document.getElementById("edu-api-count");
+      var outputEl = document.getElementById("edu-api-output");
+      var currentEp = "/api/projects";
+
+      function runPing(ep) {
+        currentEp = ep || currentEp;
+        if (urlEl) urlEl.textContent = currentEp;
+        if (pingBtn) pingBtn.disabled = true;
+
+        var t0 = performance.now();
+        fetch(currentEp, {
+          headers: { Accept: "application/json" },
+          cache: "no-store",
+        })
+          .then(function (res) {
+            var rtt = (performance.now() - t0).toFixed(1);
+            if (statusEl) {
+              statusEl.textContent = (res.ok ? "🟢 " : "🔴 ") + res.status + " " + (res.statusText || "OK");
+              statusEl.className = "api-telemetry-val " + (res.ok ? "status-ok" : "status-err");
+            }
+            if (latencyEl) latencyEl.textContent = rtt + " ms";
+            return res.text();
+          })
+          .then(function (rawText) {
+            var bytes = new Blob([rawText]).size;
+            if (sizeEl) sizeEl.textContent = (bytes / 1024).toFixed(2) + " KB";
+            try {
+              var parsed = JSON.parse(rawText);
+              if (countEl) {
+                countEl.textContent = Array.isArray(parsed) ? String(parsed.length) : "1";
+              }
+              if (outputEl) {
+                outputEl.textContent = JSON.stringify(parsed, null, 2);
+              }
+            } catch (e) {
+              if (outputEl) outputEl.textContent = rawText;
+            }
+          })
+          .catch(function (err) {
+            if (statusEl) {
+              statusEl.textContent = "🔴 Error";
+              statusEl.className = "api-telemetry-val status-err";
+            }
+            if (outputEl) outputEl.textContent = String(err);
+          })
+          .finally(function () {
+            if (pingBtn) pingBtn.disabled = false;
+          });
+      }
+
+      epBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var ep = btn.getAttribute("data-edu-api-ep") || "/api/projects";
+          epBtns.forEach(function (b) {
+            b.classList.toggle("active", b === btn);
+          });
+          runPing(ep);
+        });
+      });
+
+      if (pingBtn) {
+        pingBtn.addEventListener("click", function () {
+          runPing(currentEp);
+        });
+      }
+
+      if (copyBtn && outputEl) {
+        copyBtn.addEventListener("click", function () {
+          var text = outputEl.textContent || "";
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+              copyBtn.textContent = copyBtn.getAttribute("data-copied-label") || "Copied ✓";
+              window.setTimeout(function () {
+                copyBtn.textContent = copyBtn.getAttribute("data-copy-label") || "Copy JSON";
+              }, 2000);
+            });
+          }
+        });
+      }
+
+      runPing("/api/projects");
+    })();
+  </script>
+{% endblock %}

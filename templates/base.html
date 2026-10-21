@@ -23,7 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Architectural stylesheet -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=6">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=7">
 </head>
 <body>
   <div class="app-shell" id="app-shell">
@@ -114,7 +114,8 @@
           <span class="nav-label sidebar-text">{{ t.sidebar.projects }}</span>
         </a>
 
-        <a href="{{ url_for('about') }}#experience" class="nav-item nav-link">
+        <a href="{{ url_for('experience') }}"
+           class="nav-item nav-link {{ 'active' if request.endpoint == 'experience' else '' }}">
           <span class="sidebar-icon-col" aria-hidden="true">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="7" width="20" height="14" rx="2"></rect>
@@ -126,7 +127,8 @@
           <span class="nav-label sidebar-text">{{ t.sidebar.experience }}</span>
         </a>
 
-        <a href="{{ url_for('about') }}#education" class="nav-item nav-link">
+        <a href="{{ url_for('education') }}"
+           class="nav-item nav-link {{ 'active' if request.endpoint == 'education' else '' }}">
           <span class="sidebar-icon-col" aria-hidden="true">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M22 10L12 5 2 10l10 5 10-5z"></path>
@@ -147,6 +149,17 @@
         </a>
 
         <div class="sidebar-divider" role="separator"></div>
+
+        <a href="{{ url_for('api_inspector') }}"
+           class="nav-item nav-link nav-item-api {{ 'active' if request.endpoint == 'api_inspector' else '' }}">
+          <span class="sidebar-icon-col" aria-hidden="true">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </span>
+          <span class="nav-label sidebar-text">{{ t.sidebar.api_inspector }}</span>
+          <span class="mono-tag sidebar-text">200</span>
+        </a>
 
         <a href="{{ url_for('api_projects') }}" class="nav-item nav-link nav-item-api">
           <span class="sidebar-icon-col" aria-hidden="true">
@@ -351,7 +364,8 @@
         <span>{{ t.sidebar.about }}</span>
       </a>
 
-      <a href="{{ url_for('about') }}#experience" class="dock-item">
+      <a href="{{ url_for('experience') }}"
+         class="dock-item {{ 'active' if request.endpoint == 'experience' else '' }}">
         <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="2" y="7" width="20" height="14" rx="2"></rect>
           <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path>
@@ -359,7 +373,8 @@
         <span>{{ t.sidebar.experience }}</span>
       </a>
 
-      <a href="{{ url_for('api_projects') }}" class="dock-item">
+      <a href="{{ url_for('api_inspector') }}"
+         class="dock-item {{ 'active' if request.endpoint == 'api_inspector' else '' }}">
         <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <polyline points="16 18 22 12 16 6"></polyline>
           <polyline points="8 6 2 12 8 18"></polyline>
@@ -415,6 +430,12 @@
       <section class="drawer-section">
         <h3 class="drawer-section-title">{{ t.drawer.highlights_title }}</h3>
         <ul id="drawer-highlights" class="project-highlights"></ul>
+      </section>
+
+      <!-- 2b. Engineering Tradeoffs & Design Decisions -->
+      <section id="drawer-tradeoffs-section" class="drawer-section">
+        <h3 class="drawer-section-title">{{ t.drawer.tradeoffs_title }}</h3>
+        <ul id="drawer-tradeoffs" class="project-highlights drawer-tradeoffs-list"></ul>
       </section>
 
       <!-- 3. Tech Stack -->
@@ -952,6 +973,8 @@
           var statusEl = document.getElementById("drawer-status-badge");
           var diagramEl = document.getElementById("drawer-block-diagram");
           var highlightsEl = document.getElementById("drawer-highlights");
+          var tradeoffsEl = document.getElementById("drawer-tradeoffs");
+          var tradeoffsSec = document.getElementById("drawer-tradeoffs-section");
           var stackEl = document.getElementById("drawer-tech-stack");
           var teamTextEl = document.getElementById("drawer-team-text");
           var teamInputEl = document.getElementById("drawer-team-input");
@@ -1000,6 +1023,19 @@
               var li = document.createElement("li");
               li.textContent = pt;
               highlightsEl.appendChild(li);
+            });
+          }
+
+          if (tradeoffsEl) {
+            tradeoffsEl.innerHTML = "";
+            var trList = data.tradeoffs || [];
+            if (tradeoffsSec) {
+              tradeoffsSec.hidden = trList.length === 0;
+            }
+            trList.forEach(function (tr) {
+              var li = document.createElement("li");
+              li.textContent = tr;
+              tradeoffsEl.appendChild(li);
             });
           }
 

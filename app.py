@@ -24,8 +24,7 @@ VALID_TONES = ("copper", "navy", "forest", "bronze", "zinc", "steel")
 COOKIE_MAX_AGE = 60 * 60 * 24 * 365  # 1 year in seconds
 
 # Address copied by the "Copy Email" button in the Live Telemetry popover.
-# TODO: replace the placeholder with your real contact address.
-CONTACT_EMAIL = "your.email@example.com"
+CONTACT_EMAIL = "hanz.ofosuhene-sintim@student.junia.com"
 
 
 def is_local_request():
@@ -75,33 +74,44 @@ def _localized(project, lang):
 def build_palette_index(lang, ui):
     """Build the global index searched by the top-bar command palette.
 
-    Covers every page, every project (titles + tech stack) and the
-    leadership roles, with language-aware labels and deep-link targets.
+    Covers every dedicated route, every project (titles + tech stack), and
+    executive leadership roles with language-aware labels and deep links.
     """
     palette = ui["palette"]
     sidebar = ui["sidebar"]
     entries = []
 
     pages = (
-        ("home", sidebar["home"], url_for("home"), "home dashboard index"),
+        ("home", sidebar["home"], url_for("home"), "home dashboard orbit index"),
         (
             "projects",
             sidebar["projects"],
             url_for("projects"),
-            "projects catalog builds engineering",
+            "projects workbench catalog builds r&d engineering",
         ),
-        ("about", sidebar["about"], url_for("about"), "about profile bio"),
         (
             "experience",
             sidebar["experience"],
-            url_for("about") + "#experience",
-            "experience leadership ventures work",
+            url_for("experience"),
+            "experience leadership aces ghafra hub executive timeline ventures",
         ),
         (
             "education",
             sidebar["education"],
-            url_for("about") + "#education",
-            "education junia knust presec school degree",
+            url_for("education"),
+            "education junia lille knust presec legon m1 bsc academic",
+        ),
+        (
+            "api-inspector",
+            sidebar.get("api_inspector", "API Inspector"),
+            url_for("api_inspector"),
+            "api inspector console telemetry latency json ping benchmark http 200",
+        ),
+        (
+            "about",
+            sidebar["about"],
+            url_for("about"),
+            "about profile bio architecture skills",
         ),
         (
             "contact",
@@ -165,26 +175,29 @@ def build_palette_index(lang, ui):
             "aces",
             palette["role_aces"],
             "ACES · KNUST",
-            "aces president knust tech week codefest faculty games "
-            "student representation digital media",
+            "aces president knust tech week codefest 2026 faculty games "
+            "student representation welfare digital media",
             "bronze",
+            url_for("experience") + "#role-aces",
         ),
         (
             "ghafra",
             palette["role_ghafra"],
             "GHAFRA Nord · Lille",
-            "ghafra nord lille strategic planning community organizing",
+            "ghafra nord lille strategic planning community organizing france",
             "steel",
+            url_for("experience") + "#role-ghafra",
         ),
         (
             "hub",
             palette["role_hub"],
             "H & D'S HUB",
-            "h&d hub venture founder mobile hardware import resale",
+            "h&d hub venture founder mobile hardware import resale diagnostics",
             "copper",
+            url_for("experience") + "#role-hub",
         ),
     )
-    for key, title, subtitle, keywords, tone in roles:
+    for key, title, subtitle, keywords, tone, href in roles:
         entries.append(
             {
                 "type": "leadership",
@@ -193,7 +206,7 @@ def build_palette_index(lang, ui):
                 "id": f"lead-{key}",
                 "title": title,
                 "subtitle": subtitle,
-                "href": url_for("about") + "#leadership",
+                "href": href,
                 "keywords": keywords,
                 "tags": [],
             }
@@ -258,7 +271,7 @@ def home():
 
 @app.route("/projects")
 def projects():
-    """Render the engineering projects catalog with category/status filters."""
+    """Render the R&D Engineering Workbench & Completed Systems catalog."""
     all_projects = load_projects()
     category = request.args.get("category")
     status_filter = request.args.get("status")
@@ -269,7 +282,6 @@ def projects():
     if status_filter in VALID_STATUSES:
         filtered = [p for p in filtered if p.get("status") == status_filter]
 
-    # `?q=` is set by the Home mind-map capsules (tech / domain filters).
     query = (request.args.get("q") or "").strip()[:80]
     if query:
         lang = get_current_lang()
@@ -280,21 +292,52 @@ def projects():
     return render_template(
         "projects.html",
         projects=filtered,
+        all_projects_count=len(all_projects),
         current_category=category,
         current_status=status_filter,
         current_query=query,
     )
 
 
+@app.route("/experience")
+def experience():
+    """Render the dedicated Executive Leadership & Venture Operations timeline."""
+    return render_template("experience.html")
+
+
+@app.route("/education")
+def education():
+    """Render the dedicated Academic Formation, R&D & API Telemetry view."""
+    all_projects = load_projects()
+    return render_template("education.html", projects=all_projects)
+
+
+@app.route("/api-inspector")
+def api_inspector():
+    """Render the dedicated interactive Live JSON API Telemetry Workbench."""
+    all_projects = load_projects()
+    return render_template("api_inspector.html", projects=all_projects)
+
+
 @app.route("/api/projects")
 def api_projects():
-    """Return machine-readable JSON representation of all projects."""
-    return jsonify(load_projects())
+    """Return machine-readable JSON representation of projects with optional filters."""
+    all_projects = load_projects()
+    status_filter = request.args.get("status")
+    slug_filter = request.args.get("slug")
+
+    data = all_projects
+    if status_filter in VALID_STATUSES:
+        data = [p for p in data if p.get("status") == status_filter]
+    if slug_filter:
+        data = [p for p in data if p.get("slug") == slug_filter]
+
+    return jsonify(data)
 
 
 @app.route("/about")
 def about():
-    """Render the About, Education, Experience, and Contact page."""
+    """Render the About, Core Architecture, Leadership, Education, and Contact page."""
     return render_template("about.html")
 
 
@@ -356,6 +399,48 @@ def create_project():
         _split_list(payload.get("highlights_fr"), sep="|") or highlights_en
     )
 
+    tradeoffs_en = _split_list(payload.get("tradeoffs_en"), sep="|") or [
+        "Modular hardware/software partitioning for deterministic execution and maintainability."
+    ]
+    tradeoffs_fr = (
+        _split_list(payload.get("tradeoffs_fr"), sep="|") or tradeoffs_en
+    )
+
+    default_milestones_en = [
+        {
+            "stage": "Stage 1: Architecture & Sensor Selection",
+            "state": "done",
+            "detail": block_diagram[0],
+        },
+        {
+            "stage": "Stage 2: MCU Control",
+            "state": "done" if status == "completed" else "active",
+            "detail": block_diagram[1] if len(block_diagram) > 1 else summary_en,
+        },
+        {
+            "stage": "Stage 3: Integration",
+            "state": "done" if status == "completed" else "upcoming",
+            "detail": block_diagram[-1],
+        },
+    ]
+    default_milestones_fr = [
+        {
+            "stage": "Étape 1 : Architecture & Sélection Capteurs",
+            "state": "done",
+            "detail": block_diagram[0],
+        },
+        {
+            "stage": "Étape 2 : Commande MCU",
+            "state": "done" if status == "completed" else "active",
+            "detail": block_diagram[1] if len(block_diagram) > 1 else summary_fr,
+        },
+        {
+            "stage": "Étape 3 : Intégration",
+            "state": "done" if status == "completed" else "upcoming",
+            "detail": block_diagram[-1],
+        },
+    ]
+
     team_raw = payload.get("team_acknowledgment", "")
     if isinstance(team_raw, dict):
         team_en = team_raw.get("en", "Hanz Ofosuhene-Sintim & Project Team")
@@ -385,6 +470,8 @@ def create_project():
         "title": title_en,
         "tech_stack": tech_stack,
         "block_diagram": block_diagram,
+        "milestones": default_milestones_en,
+        "tradeoffs": tradeoffs_en,
         "team_acknowledgment": {
             "en": team_en,
             "fr": team_fr,
@@ -401,6 +488,8 @@ def create_project():
             ),
             "tech_stack": tech_stack,
             "block_diagram": block_diagram,
+            "milestones": default_milestones_en,
+            "tradeoffs": tradeoffs_en,
             "summary": summary_en,
             "highlights": highlights_en,
         },
@@ -414,6 +503,8 @@ def create_project():
             ),
             "tech_stack": tech_stack,
             "block_diagram": block_diagram,
+            "milestones": default_milestones_fr,
+            "tradeoffs": tradeoffs_fr,
             "summary": summary_fr,
             "highlights": highlights_fr,
         },
