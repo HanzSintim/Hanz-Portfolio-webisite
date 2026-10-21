@@ -23,7 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Architectural stylesheet -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=4">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=6">
 </head>
 <body>
   <div class="app-shell" id="app-shell">
@@ -41,10 +41,19 @@
     <aside class="sidebar" id="command-sidebar" aria-label="{{ t.sidebar.nav_label }}">
       <div class="sidebar-header">
         <a href="{{ url_for('home') }}" class="sidebar-brand">
-          <span class="sidebar-icon-col brand-avatar-col" aria-hidden="true">
+          <span class="sidebar-icon-col brand-avatar-col">
             <span class="brand-avatar-badge">
-              HOS
-              <span class="live-dot"></span>
+              <span aria-hidden="true">HOS</span>
+              <span
+                class="live-dot beacon-trigger"
+                data-beacon
+                role="button"
+                tabindex="0"
+                aria-haspopup="dialog"
+                aria-expanded="false"
+                aria-controls="beacon-popover"
+                aria-label="{{ t.beacon.aria }}"
+              ></span>
             </span>
           </span>
           <span class="brand-copy sidebar-text">
@@ -212,8 +221,30 @@
             placeholder="{{ t.topbar.search_placeholder }}"
             aria-label="{{ t.topbar.search_aria }}"
             autocomplete="off"
+            spellcheck="false"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded="false"
+            aria-controls="palette-results"
           >
           <kbd class="search-kbd" aria-hidden="true">/</kbd>
+
+          <!-- Floating Spotlight Command Dropdown -->
+          <div
+            id="palette-dropdown"
+            class="palette-dropdown"
+            data-label-suggested="{{ t.palette.suggested }}"
+            data-label-results="{{ t.palette.results }}"
+            data-label-empty="{{ t.palette.empty }}"
+            hidden
+          >
+            <div id="palette-results" class="palette-results" role="listbox" aria-label="{{ t.palette.listbox_label }}"></div>
+            <div class="palette-footer" aria-hidden="true">
+              <span><kbd>↑</kbd><kbd>↓</kbd> {{ t.palette.hint_navigate }}</span>
+              <span><kbd>↵</kbd> {{ t.palette.hint_open }}</span>
+              <span><kbd>esc</kbd> {{ t.palette.hint_close }}</span>
+            </div>
+          </div>
         </div>
 
         <div class="topbar-actions">
@@ -421,6 +452,50 @@
     </div>
   </aside>
 
+  <!-- ==================== LIVE ENGINEER TELEMETRY POPOVER (anchored to the green status dots) ==================== -->
+  <div
+    id="beacon-popover"
+    class="beacon-popover"
+    role="dialog"
+    aria-label="{{ t.beacon.aria }}"
+    data-email="{{ contact_email }}"
+    data-label-copy="{{ t.beacon.copy_email }}"
+    data-label-copied="{{ t.beacon.copied }}"
+    data-label-failed="{{ t.beacon.copy_failed }}"
+    hidden
+  >
+    <div class="beacon-head">
+      <span class="beacon-head-dot" aria-hidden="true"></span>
+      <span class="beacon-title">{{ t.beacon.title }}</span>
+    </div>
+
+    <dl class="beacon-rows">
+      <div class="beacon-row">
+        <dt>{{ t.beacon.status_label }}</dt>
+        <dd>🟢 {{ t.beacon.status }}</dd>
+      </div>
+      <div class="beacon-row">
+        <dt>{{ t.beacon.location_label }}</dt>
+        <dd>{{ t.beacon.location }} — <span id="beacon-clock" class="beacon-clock">--:--:--</span></dd>
+      </div>
+      <div class="beacon-row">
+        <dt>{{ t.beacon.focus_label }}</dt>
+        <dd>{{ t.beacon.focus }}</dd>
+      </div>
+    </dl>
+
+    <button type="button" id="beacon-copy" class="beacon-copy-btn" title="{{ contact_email }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="9" y="9" width="12" height="12" rx="2"></rect>
+        <path d="M5 15V5a2 2 0 0 1 2-2h10"></path>
+      </svg>
+      <span id="beacon-copy-label">{{ t.beacon.copy_email }}</span>
+    </button>
+  </div>
+
+  <!-- Global command palette search index -->
+  <script id="palette-data" type="application/json">{{ palette_index | tojson }}</script>
+
   <!-- ==================== LOCALHOST PROJECT STUDIO MODAL ==================== -->
   {% if is_local %}
     <div id="studio-modal-backdrop" class="drawer-backdrop" hidden style="display: none;"></div>
@@ -603,83 +678,263 @@
         });
       }
 
-      // 2. Unified Live Search & Status/Mind-Map Filter
+      // 2. Global Command Palette — floating Spotlight dropdown under the top search bar
       var searchInput = document.getElementById("portfolio-search");
-      var emptyNotice = document.getElementById("search-empty-state");
-      var activeStatusFilter = "all";
-      var activeCategoryFilter = "all";
+      var paletteDropdown = document.getElementById("palette-dropdown");
+      var paletteResults = document.getElementById("palette-results");
+      var paletteIndex = [];
+      var paletteVisible = [];
+      var paletteActive = -1;
 
-      window.applyProjectFilters = function () {
-        var query = searchInput ? searchInput.value.trim().toLowerCase() : "";
-        var items = document.querySelectorAll("[data-searchable]");
-        var visibleCount = 0;
+      try {
+        paletteIndex = JSON.parse(document.getElementById("palette-data").textContent) || [];
+      } catch (err) {
+        paletteIndex = [];
+      }
 
-        items.forEach(function (el) {
-          var text = (el.textContent || "").toLowerCase();
-          var keywords = (el.getAttribute("data-keywords") || "").toLowerCase();
-          var itemStatus = el.getAttribute("data-status") || "";
-          var itemCategory = el.getAttribute("data-category") || "";
+      function normalize(str) {
+        return String(str || "")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+      }
 
-          var matchesQuery =
-            !query ||
-            text.indexOf(query) !== -1 ||
-            keywords.indexOf(query) !== -1;
-          var matchesStatus =
-            activeStatusFilter === "all" ||
-            !itemStatus ||
-            itemStatus === activeStatusFilter;
-          var matchesCategory =
-            activeCategoryFilter === "all" ||
-            !itemCategory ||
-            itemCategory === activeCategoryFilter;
+      paletteIndex.forEach(function (entry) {
+        entry._title = normalize(entry.title);
+        entry._tags = (entry.tags || []).map(normalize);
+        entry._hay = normalize(
+          [entry.title, entry.subtitle, entry.keywords, entry.badge, (entry.tags || []).join(" ")].join(" ")
+        );
+      });
 
-          var show = matchesQuery && matchesStatus && matchesCategory;
-          el.style.display = show ? "" : "none";
-          if (show) {
-            visibleCount++;
+      function scoreEntry(entry, tokens) {
+        var total = 0;
+        for (var i = 0; i < tokens.length; i++) {
+          var tok = tokens[i];
+          if (entry._hay.indexOf(tok) === -1) return -1;
+          if (entry._title.indexOf(tok) === 0) total += 30;
+          else if (entry._title.indexOf(" " + tok) !== -1) total += 20;
+          else if (entry._title.indexOf(tok) !== -1) total += 12;
+          else if (entry._tags.some(function (tag) { return tag.indexOf(tok) !== -1; })) total += 8;
+          else total += 3;
+        }
+        if (entry.type === "page") total += 2;
+        return total;
+      }
+
+      function searchPalette(query) {
+        var tokens = normalize(query).split(/\s+/).filter(Boolean);
+        if (!tokens.length) {
+          return {
+            tokens: tokens,
+            items: paletteIndex.filter(function (e) { return e.type === "page"; })
+          };
+        }
+        var scored = [];
+        paletteIndex.forEach(function (entry, order) {
+          var s = scoreEntry(entry, tokens);
+          if (s >= 0) scored.push({ entry: entry, score: s, order: order });
+        });
+        scored.sort(function (a, b) { return b.score - a.score || a.order - b.order; });
+        return {
+          tokens: tokens,
+          items: scored.slice(0, 9).map(function (s) { return s.entry; })
+        };
+      }
+
+      function appendHighlighted(parent, text, tokens) {
+        var plain = String(text || "");
+        var norm = normalize(plain);
+        if (!tokens.length || norm.length !== plain.length) {
+          parent.appendChild(document.createTextNode(plain));
+          return;
+        }
+        var marks = new Array(plain.length);
+        tokens.forEach(function (tok) {
+          var at = norm.indexOf(tok);
+          while (at !== -1) {
+            for (var k = at; k < at + tok.length; k++) marks[k] = true;
+            at = norm.indexOf(tok, at + tok.length);
           }
         });
-
-        if (emptyNotice) {
-          emptyNotice.hidden = visibleCount > 0;
+        var i = 0;
+        while (i < plain.length) {
+          var on = !!marks[i];
+          var j = i;
+          while (j < plain.length && !!marks[j] === on) j++;
+          var chunk = plain.slice(i, j);
+          if (on) {
+            var m = document.createElement("mark");
+            m.textContent = chunk;
+            parent.appendChild(m);
+          } else {
+            parent.appendChild(document.createTextNode(chunk));
+          }
+          i = j;
         }
-      };
+      }
 
-      window.setStatusFilter = function (statusValue, btnEl) {
-        activeStatusFilter = statusValue || "all";
-        var siblings = document.querySelectorAll("[data-status-pill]");
-        siblings.forEach(function (b) {
-          b.classList.toggle(
-            "active",
-            b.getAttribute("data-status-pill") === activeStatusFilter
-          );
+      function renderPalette(result, query) {
+        var tokens = result.tokens;
+        paletteVisible = result.items;
+        paletteActive = paletteVisible.length ? 0 : -1;
+        paletteResults.innerHTML = "";
+
+        var heading = document.createElement("div");
+        heading.className = "palette-heading";
+        heading.textContent = tokens.length
+          ? paletteDropdown.getAttribute("data-label-results")
+          : paletteDropdown.getAttribute("data-label-suggested");
+        paletteResults.appendChild(heading);
+
+        if (!paletteVisible.length) {
+          var empty = document.createElement("div");
+          empty.className = "palette-empty";
+          empty.textContent = paletteDropdown.getAttribute("data-label-empty") + " “" + query.trim() + "”";
+          paletteResults.appendChild(empty);
+          return;
+        }
+
+        paletteVisible.forEach(function (entry, i) {
+          var row = document.createElement("a");
+          row.className = "palette-item";
+          row.id = "palette-opt-" + i;
+          row.href = entry.href;
+          row.setAttribute("role", "option");
+          row.setAttribute("data-palette-index", i);
+
+          var badge = document.createElement("span");
+          badge.className = "palette-badge tone-" + (entry.tone || "navy");
+          badge.textContent = entry.badge;
+
+          var body = document.createElement("span");
+          body.className = "palette-body";
+
+          var title = document.createElement("span");
+          title.className = "palette-title";
+          appendHighlighted(title, entry.title, tokens);
+          body.appendChild(title);
+
+          var sub = document.createElement("span");
+          sub.className = "palette-sub";
+          if (entry.type === "project" && entry.tags && entry.tags.length) {
+            var tags = entry.tags.slice().sort(function (a, b) {
+              var am = tokens.some(function (t) { return normalize(a).indexOf(t) !== -1; }) ? 0 : 1;
+              var bm = tokens.some(function (t) { return normalize(b).indexOf(t) !== -1; }) ? 0 : 1;
+              return am - bm;
+            }).slice(0, 3);
+            tags.forEach(function (tag) {
+              var chip = document.createElement("span");
+              var hit = tokens.some(function (t) { return normalize(tag).indexOf(t) !== -1; });
+              chip.className = "palette-tag" + (hit ? " is-match" : "");
+              chip.textContent = tag;
+              sub.appendChild(chip);
+            });
+          } else {
+            sub.textContent = entry.subtitle || "";
+          }
+          body.appendChild(sub);
+
+          var enter = document.createElement("span");
+          enter.className = "palette-enter";
+          enter.setAttribute("aria-hidden", "true");
+          enter.textContent = "↵";
+
+          row.appendChild(badge);
+          row.appendChild(body);
+          row.appendChild(enter);
+          row.addEventListener("mousemove", function () { setPaletteActive(i, false); });
+          paletteResults.appendChild(row);
         });
-        window.applyProjectFilters();
-      };
 
-      if (searchInput) {
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "/" && document.activeElement !== searchInput) {
-            var tag = document.activeElement ? document.activeElement.tagName : "";
-            if (tag !== "INPUT" && tag !== "TEXTAREA" && tag !== "SELECT") {
+        setPaletteActive(0, false);
+      }
+
+      function setPaletteActive(i, scroll) {
+        var rows = paletteResults.querySelectorAll(".palette-item");
+        if (!rows.length) {
+          searchInput.removeAttribute("aria-activedescendant");
+          return;
+        }
+        paletteActive = (i + rows.length) % rows.length;
+        rows.forEach(function (row, idx) {
+          var on = idx === paletteActive;
+          row.classList.toggle("is-active", on);
+          row.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        searchInput.setAttribute("aria-activedescendant", "palette-opt-" + paletteActive);
+        if (scroll) rows[paletteActive].scrollIntoView({ block: "nearest" });
+      }
+
+      function openPalette() {
+        if (!paletteDropdown) return;
+        renderPalette(searchPalette(searchInput.value), searchInput.value);
+        paletteDropdown.hidden = false;
+        searchInput.setAttribute("aria-expanded", "true");
+      }
+
+      function closePalette() {
+        if (!paletteDropdown) return;
+        paletteDropdown.hidden = true;
+        searchInput.setAttribute("aria-expanded", "false");
+        searchInput.removeAttribute("aria-activedescendant");
+      }
+
+      function isTypingTarget(el) {
+        if (!el) return false;
+        var tag = el.tagName;
+        return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el.isContentEditable;
+      }
+
+      if (searchInput && paletteDropdown) {
+        searchInput.addEventListener("input", openPalette);
+        searchInput.addEventListener("focus", openPalette);
+
+        searchInput.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if (paletteDropdown.hidden) openPalette();
+            else setPaletteActive(paletteActive + 1, true);
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if (paletteDropdown.hidden) openPalette();
+            else setPaletteActive(paletteActive - 1, true);
+          } else if (e.key === "Enter") {
+            var target = paletteVisible[paletteActive];
+            if (!paletteDropdown.hidden && target) {
               e.preventDefault();
-              searchInput.focus();
+              window.location.href = target.href;
             }
           } else if (e.key === "Escape") {
-            if (document.activeElement === searchInput) {
+            e.preventDefault();
+            if (!paletteDropdown.hidden) {
+              closePalette();
+            } else {
               searchInput.value = "";
-              window.applyProjectFilters();
               searchInput.blur();
-            }
-            window.closeCaseStudyDrawer();
-            if (window.closeProjectStudio) {
-              window.closeProjectStudio();
             }
           }
         });
 
-        searchInput.addEventListener("input", window.applyProjectFilters);
+        document.addEventListener("mousedown", function (e) {
+          if (!e.target.closest(".search-wrapper")) closePalette();
+        });
       }
+
+      document.addEventListener("keydown", function (e) {
+        var wantsSearch =
+          (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey) ||
+          ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k");
+        if (wantsSearch && searchInput && !isTypingTarget(document.activeElement)) {
+          e.preventDefault();
+          searchInput.focus();
+          searchInput.select();
+          openPalette();
+        } else if (e.key === "Escape") {
+          if (window.closeCaseStudyDrawer) window.closeCaseStudyDrawer();
+          if (window.closeProjectStudio) window.closeProjectStudio();
+        }
+      });
 
       // 3. Interactive Engineering Case-Study Drawer
       var drawer = document.getElementById("case-study-drawer");
@@ -834,6 +1089,197 @@
       if (studioBackdrop) {
         studioBackdrop.addEventListener("click", window.closeProjectStudio);
       }
+
+      // 5. Live Engineer Telemetry Beacon (interactive green status dot)
+      var beaconPop = document.getElementById("beacon-popover");
+      var beaconTriggers = document.querySelectorAll("[data-beacon]");
+      var beaconClock = document.getElementById("beacon-clock");
+      var beaconCopyBtn = document.getElementById("beacon-copy");
+      var beaconCopyLabel = document.getElementById("beacon-copy-label");
+      var beaconActive = null;
+      var beaconPinned = false;
+      var beaconHideTimer = null;
+      var beaconClockTimer = null;
+      var beaconCopyTimer = null;
+      var beaconFormatter = null;
+
+      try {
+        beaconFormatter = new Intl.DateTimeFormat("en-GB", {
+          timeZone: "Europe/Paris",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+          timeZoneName: "short"
+        });
+      } catch (err) {
+        beaconFormatter = null;
+      }
+
+      function tickBeaconClock() {
+        if (!beaconClock) return;
+        if (!beaconFormatter) {
+          beaconClock.textContent = new Date().toLocaleTimeString();
+          return;
+        }
+        var parts = beaconFormatter.formatToParts(new Date());
+        var out = { hour: "--", minute: "--", second: "--", timeZoneName: "CET" };
+        parts.forEach(function (p) { out[p.type] = p.value; });
+        beaconClock.textContent = out.hour + ":" + out.minute + ":" + out.second + " " + out.timeZoneName;
+      }
+
+      function positionBeacon() {
+        if (!beaconPop || !beaconActive) return;
+        var r = beaconActive.getBoundingClientRect();
+        var pw = beaconPop.offsetWidth;
+        var ph = beaconPop.offsetHeight;
+        var vw = document.documentElement.clientWidth;
+        var vh = document.documentElement.clientHeight;
+        var gap = 14;
+        var left;
+        var top;
+
+        if (beaconActive.closest(".sidebar")) {
+          left = r.right + gap + 8;
+          top = r.top + r.height / 2 - 28;
+        } else {
+          left = r.left + r.width / 2 - pw / 2;
+          top = r.bottom + gap;
+          if (top + ph > vh - 8) top = r.top - ph - gap;
+        }
+        left = Math.max(8, Math.min(left, vw - pw - 8));
+        top = Math.max(8, Math.min(top, vh - ph - 8));
+        beaconPop.style.left = left + "px";
+        beaconPop.style.top = top + "px";
+      }
+
+      function showBeacon(trigger) {
+        if (!beaconPop) return;
+        window.clearTimeout(beaconHideTimer);
+        if (beaconActive && beaconActive !== trigger) {
+          beaconActive.setAttribute("aria-expanded", "false");
+        }
+        beaconActive = trigger;
+        trigger.setAttribute("aria-expanded", "true");
+        beaconPop.hidden = false;
+        positionBeacon();
+        tickBeaconClock();
+        window.clearInterval(beaconClockTimer);
+        beaconClockTimer = window.setInterval(tickBeaconClock, 1000);
+        window.requestAnimationFrame(function () {
+          beaconPop.classList.add("is-visible");
+        });
+      }
+
+      function hideBeacon() {
+        if (!beaconPop || !beaconActive) return;
+        window.clearTimeout(beaconHideTimer);
+        beaconPop.classList.remove("is-visible");
+        beaconActive.setAttribute("aria-expanded", "false");
+        beaconActive = null;
+        beaconPinned = false;
+        window.clearInterval(beaconClockTimer);
+        beaconHideTimer = window.setTimeout(function () {
+          if (!beaconActive) beaconPop.hidden = true;
+        }, 170);
+      }
+
+      function scheduleBeaconHide() {
+        if (beaconPinned) return;
+        window.clearTimeout(beaconHideTimer);
+        beaconHideTimer = window.setTimeout(hideBeacon, 240);
+      }
+
+      function toggleBeaconPinned(trigger) {
+        if (beaconPinned && beaconActive === trigger) {
+          hideBeacon();
+        } else {
+          showBeacon(trigger);
+          beaconPinned = true;
+        }
+      }
+
+      beaconTriggers.forEach(function (trigger) {
+        trigger.addEventListener("mouseenter", function () { showBeacon(trigger); });
+        trigger.addEventListener("mouseleave", scheduleBeaconHide);
+        trigger.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleBeaconPinned(trigger);
+        });
+        trigger.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleBeaconPinned(trigger);
+          }
+        });
+      });
+
+      if (beaconPop) {
+        beaconPop.addEventListener("mouseenter", function () {
+          window.clearTimeout(beaconHideTimer);
+        });
+        beaconPop.addEventListener("mouseleave", scheduleBeaconHide);
+
+        document.addEventListener("click", function (e) {
+          if (!beaconActive) return;
+          if (e.target.closest("[data-beacon]") || e.target.closest("#beacon-popover")) return;
+          hideBeacon();
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && beaconActive) {
+            var returnTo = beaconActive;
+            hideBeacon();
+            returnTo.focus();
+          }
+        });
+        window.addEventListener("resize", positionBeacon);
+        window.addEventListener("scroll", function () {
+          if (beaconActive) window.requestAnimationFrame(positionBeacon);
+        }, true);
+      }
+
+      function fallbackCopy(text) {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+        document.body.removeChild(ta);
+        return ok;
+      }
+
+      if (beaconCopyBtn && beaconPop) {
+        beaconCopyBtn.addEventListener("click", function () {
+          var email = beaconPop.getAttribute("data-email") || "";
+          var idleLabel = beaconPop.getAttribute("data-label-copy");
+
+          function flash(ok) {
+            beaconCopyLabel.textContent = beaconPop.getAttribute(ok ? "data-label-copied" : "data-label-failed");
+            beaconCopyBtn.classList.toggle("is-copied", ok);
+            window.clearTimeout(beaconCopyTimer);
+            beaconCopyTimer = window.setTimeout(function () {
+              beaconCopyLabel.textContent = idleLabel;
+              beaconCopyBtn.classList.remove("is-copied");
+            }, 1900);
+          }
+
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(email).then(
+              function () { flash(true); },
+              function () { flash(fallbackCopy(email)); }
+            );
+          } else {
+            flash(fallbackCopy(email));
+          }
+        });
+      }
+
     })();
   </script>
 </body>

@@ -37,46 +37,127 @@
       </div>
     </div>
 
-    <!-- Right (35%): Live Engineering Telemetry & Current Focus Bento Card -->
-    <aside class="telemetry-bento-card card-surface">
-      <div class="telemetry-header">
-        <span class="live-dot" aria-hidden="true"></span>
-        <span class="telemetry-eyebrow">{{ t.telemetry.eyebrow }}</span>
-      </div>
+    <!-- Right: Embedded Photo Gallery Carousel (16:9) -->
+    <aside class="hero-gallery" aria-label="{{ t.gallery.aria }}">
+      <div
+        id="hero-gallery"
+        class="gallery-frame"
+        tabindex="0"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="{{ t.gallery.aria }}"
+      >
+        <div class="gallery-slides" aria-live="off">
+          {% for slide in t.gallery.slides %}
+            <figure
+              class="gallery-slide {{ 'is-active' if loop.first else '' }}"
+              data-slide-index="{{ loop.index0 }}"
+              data-caption="{{ slide.caption }}"
+              role="group"
+              aria-roledescription="slide"
+              aria-label="{{ loop.index }} / {{ loop.length }}"
+              aria-hidden="{{ 'false' if loop.first else 'true' }}"
+            >
+              <!-- Architectural fallback visual (visible until the photo file exists) -->
+              <div class="gallery-fallback fb-{{ slide.id }}" aria-hidden="true">
+                {% if slide.id == 'lille' %}
+                  <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M0 320H640" />
+                    <path d="M30 320V215L70 175 110 215V320" />
+                    <path d="M58 262V250a12 12 0 0 1 24 0V262Z" />
+                    <path d="M200 320V170H215V150H235V130H255V110H275V90L320 58 365 90V110H385V130H405V150H425V170H440V320" />
+                    <path d="M225 240V215a20 20 0 0 1 40 0V240Z M300 240V215a20 20 0 0 1 40 0V240Z M375 240V215a20 20 0 0 1 40 0V240Z" />
+                    <path d="M225 320V285a20 20 0 0 1 40 0V320 M300 320V285a20 20 0 0 1 40 0V320 M375 320V285a20 20 0 0 1 40 0V320" />
+                    <path d="M310 125a10 10 0 0 1 20 0V145H310Z" />
+                    <path d="M490 320V130H510V112H550V130H570V320" />
+                    <path d="M512 112L530 38 548 112" />
+                    <path d="M518 175H542M518 215H542M518 255H542" />
+                    <path d="M590 320V240L615 210 640 240" />
+                  </svg>
+                {% elif slide.id == 'lab' %}
+                  <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="150" y="62" width="340" height="226" rx="14" />
+                    <rect x="270" y="138" width="100" height="84" rx="6" />
+                    <path d="M285 138V124M305 138V124M325 138V124M345 138V124M365 138V124M285 222V236M305 222V236M325 222V236M345 222V236M365 222V236M270 158H256M270 180H256M270 202H256M370 158H384M370 180H384M370 202H384" />
+                    <path d="M285 124V104L265 84H215M345 124V98L365 78H420M256 180H226L206 200V250M384 180H414L434 200V246M305 236V256L285 276H240M365 236V260L385 280H430" />
+                    <circle cx="215" cy="84" r="4" /><circle cx="420" cy="78" r="4" /><circle cx="206" cy="250" r="4" />
+                    <circle cx="434" cy="246" r="4" /><circle cx="240" cy="276" r="4" /><circle cx="430" cy="280" r="4" />
+                    <circle cx="322" cy="180" r="5" />
+                    <path class="fb-soft" d="M10 330C50 300 90 360 130 330S210 300 250 330 330 360 370 330 450 300 490 330 570 360 630 330" />
+                  </svg>
+                {% elif slide.id == 'knust' %}
+                  <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M130 320H510M148 304H492" />
+                    <path d="M170 304V236H470V304" />
+                    <path d="M170 236L320 168 470 236" />
+                    <path d="M200 236V304M250 236V304M300 236V304M340 236V304M390 236V304M440 236V304" />
+                    <path d="M268 200C268 138 372 138 372 200" />
+                    <path d="M320 150V112M310 112H330M320 112V84" />
+                    <path d="M75 140L45 170 75 200M120 140L150 170 120 200" />
+                    <path d="M565 140L595 170 565 200M520 140L490 170 520 200" />
+                    <path class="fb-soft" d="M60 90L110 60 170 80M470 80L530 60 590 90M60 270L110 290M530 290L580 270" />
+                    <circle cx="60" cy="90" r="4" /><circle cx="110" cy="60" r="4" /><circle cx="170" cy="80" r="4" />
+                    <circle cx="470" cy="80" r="4" /><circle cx="530" cy="60" r="4" /><circle cx="590" cy="90" r="4" />
+                  </svg>
+                {% else %}
+                  <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="130" y="86" width="380" height="188" rx="12" />
+                    <rect x="98" y="152" width="52" height="58" rx="4" />
+                    <rect x="268" y="128" width="92" height="92" rx="6" />
+                    <circle cx="314" cy="174" r="22" />
+                    <rect x="392" y="116" width="96" height="72" rx="4" />
+                    <path d="M404 134H474V146H404V158H474V170H404" />
+                    <circle cx="205" cy="186" r="15" />
+                    <circle cx="170" cy="234" r="4" /><circle cx="440" cy="226" r="4" /><circle cx="460" cy="226" r="4" />
+                    <path class="fb-pins" d="M158 108H482M158 252H482" stroke-width="8" stroke-dasharray="6 9" stroke-linecap="butt" />
+                    <path d="M150 181H268M360 196H392" />
+                  </svg>
+                {% endif %}
+                <span class="gallery-fallback-hint">static/images/{{ slide.file }}</span>
+              </div>
 
-      <div class="telemetry-focus-box">
-        <div class="telemetry-focus-top">
-          <span class="domain-code tone-copper">M1 R&amp;D</span>
-          <strong class="telemetry-focus-title">{{ t.telemetry.title }}</strong>
-        </div>
-        <p class="telemetry-focus-project">{{ t.telemetry.focus_project }}</p>
-        <span class="telemetry-focus-stack">{{ t.telemetry.focus_stack }}</span>
-      </div>
+              <img
+                class="gallery-photo"
+                src="{{ url_for('static', filename='images/' ~ slide.file) }}"
+                alt="{{ slide.alt }}"
+                {% if not loop.first %}loading="lazy"{% endif %}
+                decoding="async"
+                onload="this.closest('.gallery-slide').classList.add('has-photo')"
+                onerror="this.style.display='none'"
+              >
 
-      <div class="telemetry-counters">
-        <div class="telemetry-stat-pill">
-          <span class="stat-num accent-text-amber">{{ active_count }}</span>
-          <span class="stat-label">{{ t.telemetry.stat_active_label }}</span>
+              <figcaption class="gallery-caption-pill">
+                <span class="gallery-caption-dot" aria-hidden="true"></span>
+                <span>{{ slide.caption }}</span>
+              </figcaption>
+            </figure>
+          {% endfor %}
         </div>
-        <div class="telemetry-stat-pill">
-          <span class="stat-num accent-text-emerald">{{ completed_count }}</span>
-          <span class="stat-label">{{ t.telemetry.stat_completed_label }}</span>
-        </div>
-        <div class="telemetry-stat-pill">
-          <span class="stat-num accent-text-cobalt">{{ projects | length }}</span>
-          <span class="stat-label">{{ t.telemetry.stat_total_label }}</span>
-        </div>
-      </div>
 
-      <div class="telemetry-actions">
-        <a href="{{ url_for('about') }}#contact" class="telemetry-action-link">
-          <span>{{ t.telemetry.cv_btn }}</span>
-          <span aria-hidden="true">→</span>
-        </a>
-        <a href="{{ url_for('api_projects') }}" class="telemetry-action-link">
-          <span>{{ t.telemetry.api_btn }}</span>
-          <span class="mono-tag">JSON</span>
-        </a>
+        <!-- Glass overlay controls -->
+        <button type="button" class="gallery-btn gallery-prev" id="gallery-prev" aria-label="{{ t.gallery.prev }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button type="button" class="gallery-btn gallery-next" id="gallery-next" aria-label="{{ t.gallery.next }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <button type="button" class="gallery-expand" id="gallery-expand" aria-label="{{ t.gallery.expand_aria }}">
+          <span>{{ t.gallery.expand }}</span><span aria-hidden="true">⤢</span>
+        </button>
+
+        <div class="gallery-dots" role="tablist" aria-label="{{ t.gallery.dots_label }}">
+          {% for slide in t.gallery.slides %}
+            <button
+              type="button"
+              role="tab"
+              class="gallery-dot {{ 'is-active' if loop.first else '' }}"
+              data-dot-index="{{ loop.index0 }}"
+              aria-label="{{ slide.caption }}"
+              aria-selected="{{ 'true' if loop.first else 'false' }}"
+            ></button>
+          {% endfor %}
+        </div>
       </div>
     </aside>
   </section>
@@ -128,7 +209,12 @@
         &#8249;
       </button>
 
-      <div id="mindmap-board" class="mindmap-board">
+      <div
+        id="mindmap-board"
+        class="mindmap-board"
+        data-projects-url="{{ url_for('projects') }}"
+        data-about-url="{{ url_for('about') }}"
+      >
         <!-- Kinetic SVG Bézier Signal Wires & Animated Data Packets -->
         <svg
           class="mindmap-svg-wires"
@@ -209,7 +295,16 @@
 
           <!-- Floating Pill Label at Bottom Edge of Center Circle -->
           <div class="orbit-hub-name-pill">
-            <span class="live-dot" aria-hidden="true"></span>
+            <span
+              class="live-dot beacon-trigger"
+              data-beacon
+              role="button"
+              tabindex="0"
+              aria-haspopup="dialog"
+              aria-expanded="false"
+              aria-controls="beacon-popover"
+              aria-label="{{ t.beacon.aria }}"
+            ></span>
             <span>{{ t.mindmap.hub_title }}</span>
           </div>
         </div>
@@ -274,7 +369,7 @@
       </div>
       <a
         id="detail-bar-action"
-        href="#projects-bento"
+        href="{{ url_for('projects') }}"
         class="btn-primary-cobalt btn-sm"
       >
         {{ t.mindmap.detail_action_btn }}
@@ -282,235 +377,237 @@
     </div>
   </section>
 
-  <!-- ==================== ZONE C: BOTTOM ASYMMETRIC BENTO GRID (50% / 25% / 25%) ==================== -->
-  <section class="bento-zone-c">
-    <!-- PANEL 1 (50%): Featured Projects with + Block-Diagram Drawers -->
-    <div id="projects-bento" class="bento-panel-projects card-surface">
-      <div class="bento-header">
-        <div>
-          <h2 class="section-title">{{ t.bento.projects_title }}</h2>
-          <p class="section-subtitle">{{ t.bento.projects_subtitle }}</p>
-        </div>
-        <div class="bento-header-actions">
-          <a href="{{ url_for('projects') }}" class="bento-link">
-            {{ t.bento.view_all_projects }}
-          </a>
-        </div>
+  <!-- ==================== QUICK TELEMETRY & NAVIGATION STRIP (60px) ==================== -->
+  <nav class="telemetry-strip" aria-label="{{ t.dock.aria }}">
+    <a href="{{ url_for('projects') }}" class="strip-pill" style="--strip-accent: var(--accent-navy);">
+      <span class="strip-icon" aria-hidden="true">⚡</span>
+      <span class="strip-text">
+        {{ projects | length }} {{ t.dock.projects }}
+        <span class="strip-sub">({{ completed_count }} {{ t.dock.completed }} · {{ active_count }} {{ t.dock.active }})</span>
+      </span>
+      <span class="strip-arrow" aria-hidden="true">→</span>
+    </a>
+
+    <a href="{{ url_for('about') }}" class="strip-pill" style="--strip-accent: var(--accent-copper);">
+      <span class="strip-icon" aria-hidden="true">🛠</span>
+      <span class="strip-text">
+        <span class="strip-label">{{ t.dock.architecture }}</span>
+        {{ t.dock.architecture_value }}
+      </span>
+      <span class="strip-arrow" aria-hidden="true">→</span>
+    </a>
+
+    <a href="{{ url_for('about') }}#leadership" class="strip-pill" style="--strip-accent: var(--accent-bronze);">
+      <span class="strip-icon" aria-hidden="true">🏛</span>
+      <span class="strip-text">
+        <span class="strip-label">{{ t.dock.leadership }}</span>
+        {{ t.dock.leadership_value }}
+      </span>
+      <span class="strip-arrow" aria-hidden="true">→</span>
+    </a>
+  </nav>
+
+  <!-- ==================== GALLERY LIGHTBOX (fullscreen) ==================== -->
+  <div id="gallery-lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="{{ t.gallery.aria }}" hidden>
+    <div class="lightbox-backdrop" data-lightbox-close></div>
+    <div class="lightbox-dialog">
+      <div id="lightbox-stage" class="lightbox-stage"></div>
+      <div class="lightbox-caption-row">
+        <span class="gallery-caption-pill lightbox-caption-pill">
+          <span class="gallery-caption-dot" aria-hidden="true"></span>
+          <span id="lightbox-caption"></span>
+        </span>
+        <span id="lightbox-counter" class="lightbox-counter"></span>
       </div>
-
-      <!-- Lifecycle Status Filter Pills -->
-      <div class="status-filter-bar" role="group" aria-label="Project status filter">
-        <button
-          type="button"
-          class="filter-pill active"
-          data-status-pill="all"
-          onclick="window.setStatusFilter('all', this)"
-        >
-          {{ t.status.filter_all }}
-        </button>
-        <button
-          type="button"
-          class="filter-pill"
-          data-status-pill="completed"
-          onclick="window.setStatusFilter('completed', this)"
-        >
-          🟢 {{ t.status.filter_completed }}
-        </button>
-        <button
-          type="button"
-          class="filter-pill"
-          data-status-pill="in_progress"
-          onclick="window.setStatusFilter('in_progress', this)"
-        >
-          🟠 {{ t.status.filter_in_progress }}
-        </button>
-      </div>
-
-      <div class="projects-stack">
-        {% for project in projects %}
-          {% set loc = project[current_lang] if current_lang in project else project %}
-          {% set tone = project.domain_tone | default('copper') %}
-          {% set team_str = project.team_acknowledgment[current_lang] if project.team_acknowledgment is mapping else project.team_acknowledgment %}
-          {% set status_label = loc.status_label if loc.status_label is defined else (t.status.completed if project.status == 'completed' else t.status.in_progress) %}
-          {% set drawer_payload = {
-            "slug": project.slug,
-            "status": project.status,
-            "status_label": status_label,
-            "tone": tone,
-            "title": loc.title,
-            "summary": loc.summary,
-            "highlights": loc.highlights,
-            "tech_stack": loc.tech_stack,
-            "block_diagram": loc.block_diagram | default(project.block_diagram),
-            "team": team_str
-          } %}
-
-          <article
-            class="project-bento-card"
-            data-searchable
-            data-status="{{ project.status }}"
-            data-category="{{ project.category }}"
-            data-keywords="{{ project.slug }} {{ project.category }} {{ project.tech_stack | join(' ') }} {{ loc.tech_stack | join(' ') }}"
-            data-project-json='{{ drawer_payload | tojson | forceescape }}'
-          >
-            <div class="project-card-top">
-              <span class="domain-tag tone-{{ tone }}">
-                {{ loc.category }}
-              </span>
-
-              <span class="status-badge {{ 'status-completed' if project.status == 'completed' else 'status-in-progress' }}">
-                {{ '🟢' if project.status == 'completed' else '🟠' }}
-                {{ status_label }}
-              </span>
-            </div>
-
-            <h3 class="project-title">{{ loc.title }}</h3>
-            <p class="project-summary">{{ loc.summary }}</p>
-
-            <div class="project-card-footer">
-              <div class="badge-row">
-                {% for tech in loc.tech_stack %}
-                  <span class="skill-pill tone-{{ tone }}">
-                    {{ tech }}
-                  </span>
-                {% endfor %}
-              </div>
-
-              <!-- Circular + Button to open the Case-Study Drawer -->
-              <button
-                type="button"
-                class="btn-card-plus"
-                aria-label="{{ t.drawer.open_case_study }}: {{ loc.title }}"
-                title="{{ t.drawer.open_case_study }}"
-                onclick="window.openCaseStudyDrawer(this)"
-              >
-                +
-              </button>
-            </div>
-          </article>
-        {% endfor %}
-      </div>
-
-      <p id="search-empty-state" class="search-empty-notice" hidden>
-        {{ t.bento.no_search_results }}
-      </p>
     </div>
+    <button type="button" class="gallery-btn lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="{{ t.gallery.prev }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <button type="button" class="gallery-btn lightbox-nav lightbox-next" id="lightbox-next" aria-label="{{ t.gallery.next }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+    <button type="button" class="gallery-expand lightbox-close" id="lightbox-close" aria-label="{{ t.gallery.close }}">
+      <span>{{ t.gallery.close }}</span><span aria-hidden="true">✕</span>
+    </button>
+  </div>
 
-    <!-- PANEL 2 (25%): Circular Skill Pill Matrix -->
-    <aside id="skills-bento" class="bento-panel-skills card-surface">
-      <div class="bento-header">
-        <div>
-          <h2 class="section-title">{{ t.bento.skills_title }}</h2>
-          <p class="section-subtitle">{{ t.bento.skills_subtitle }}</p>
-        </div>
-      </div>
+  <!-- Embedded Photo Gallery: carousel, autoplay (pause on hover/focus) & lightbox -->
+  <script>
+    (function () {
+      var frame = document.getElementById("hero-gallery");
+      if (!frame) return;
 
-      <div class="domain-skills-groups">
-        <!-- 1. Embedded MCUs & Sensors -->
-        <div class="domain-group" data-searchable data-keywords="embedded mcu stm32 esp32 msp430 arduino camera ultrasonic sensor">
-          <div class="domain-group-header">
-            <span class="domain-code tone-copper">{{ t.bento.domains.copper.code }}</span>
-            <h3 class="domain-group-title">{{ t.bento.domains.copper.title }}</h3>
-          </div>
-          <div class="badge-row">
-            <span class="skill-pill tone-copper">STM32</span>
-            <span class="skill-pill tone-copper">ESP32</span>
-            <span class="skill-pill tone-copper">MSP430</span>
-            <span class="skill-pill tone-copper">Arduino</span>
-            <span class="skill-pill tone-copper">External AI Camera</span>
-            <span class="skill-pill tone-copper">Ultrasonic &amp; PWM</span>
-            <span class="skill-pill tone-copper">KiCad</span>
-          </div>
-        </div>
+      var slides = Array.prototype.slice.call(frame.querySelectorAll(".gallery-slide"));
+      var dots = Array.prototype.slice.call(frame.querySelectorAll(".gallery-dot"));
+      var total = slides.length;
+      var index = 0;
+      var timer = null;
+      var AUTOPLAY_MS = 5200;
+      var hovering = false;
+      var keyboardFocus = false;
+      var lightboxOpen = false;
 
-        <!-- 2. C/C++ & WSL GCC/GDB Toolchain -->
-        <div class="domain-group" data-searchable data-keywords="c++ c oop gcc gdb wsl toolchain data structures">
-          <div class="domain-group-header">
-            <span class="domain-code tone-navy">{{ t.bento.domains.navy.code }}</span>
-            <h3 class="domain-group-title">{{ t.bento.domains.navy.title }}</h3>
-          </div>
-          <div class="badge-row">
-            <span class="skill-pill tone-navy">C / C++</span>
-            <span class="skill-pill tone-navy">OOP Hierarchies</span>
-            <span class="skill-pill tone-navy">GCC / GDB (WSL)</span>
-            <span class="skill-pill tone-navy">Data Structures</span>
-            <span class="skill-pill tone-navy">Git</span>
-          </div>
-        </div>
+      // Autoplay stays on (pause-on-hover/focus is the control); with
+      // prefers-reduced-motion the CSS swaps the slide animation for a quick fade.
 
-        <!-- 3. ER Data Modeling & Python/Flask -->
-        <div class="domain-group" data-searchable data-keywords="python flask er diagram associative tables relational schema json i18n">
-          <div class="domain-group-header">
-            <span class="domain-code tone-forest">{{ t.bento.domains.forest.code }}</span>
-            <h3 class="domain-group-title">{{ t.bento.domains.forest.title }}</h3>
-          </div>
-          <div class="badge-row">
-            <span class="skill-pill tone-forest">ER Diagrams</span>
-            <span class="skill-pill tone-forest">Associative Tables</span>
-            <span class="skill-pill tone-forest">3NF Schema</span>
-            <span class="skill-pill tone-forest">Python 3 &amp; Flask</span>
-            <span class="skill-pill tone-forest">JSON REST API</span>
-          </div>
-        </div>
-      </div>
-    </aside>
+      // Mark photos that were already cached/loaded before the inline onload ran.
+      slides.forEach(function (slide) {
+        var img = slide.querySelector(".gallery-photo");
+        if (img && img.complete && img.naturalWidth > 0) {
+          slide.classList.add("has-photo");
+        }
+      });
 
-    <!-- PANEL 3 (25%): Executive Leadership Spotlight -->
-    <aside id="leadership-bento" class="bento-panel-leadership card-surface">
-      <div class="bento-header">
-        <div>
-          <h2 class="section-title">{{ t.bento.leadership_title }}</h2>
-          <p class="section-subtitle">{{ t.bento.leadership_subtitle }}</p>
-        </div>
-      </div>
+      var lightbox = document.getElementById("gallery-lightbox");
+      var stage = document.getElementById("lightbox-stage");
+      var lbCaption = document.getElementById("lightbox-caption");
+      var lbCounter = document.getElementById("lightbox-counter");
+      var lbClose = document.getElementById("lightbox-close");
+      var lbPrev = document.getElementById("lightbox-prev");
+      var lbNext = document.getElementById("lightbox-next");
+      var lastFocus = null;
 
-      <div class="leadership-spotlight-stack">
-        <article class="spotlight-item" data-searchable data-keywords="aces president knust tech week codefest 2026 faculty games digital media">
-          <div class="domain-group-header">
-            <span class="domain-code tone-bronze">ACES · KNUST</span>
-            <h3 class="domain-group-title">ACES Dept. President</h3>
-          </div>
-          <p class="spotlight-copy">
-            Tech Week, Codefest 2026, Faculty Games, official student representation &amp; Digital Media Expansion.
-          </p>
-        </article>
+      if (lightbox && lightbox.parentNode !== document.body) {
+        document.body.appendChild(lightbox);
+      }
 
-        <article class="spotlight-item" data-searchable data-keywords="ghafra nord lille strategic planning organizing">
-          <div class="domain-group-header">
-            <span class="domain-code tone-steel">LILLE · FR</span>
-            <h3 class="domain-group-title">GHAFRA Nord Lille</h3>
-          </div>
-          <p class="spotlight-copy">
-            Strategic planning, regional operations &amp; community organizing across Lille.
-          </p>
-        </article>
+      function isPaused() {
+        return hovering || keyboardFocus || lightboxOpen || document.hidden;
+      }
 
-        <article class="spotlight-item" data-searchable data-keywords="h&d hub mobile hardware venture import resale">
-          <div class="domain-group-header">
-            <span class="domain-code tone-copper">VENTURE</span>
-            <h3 class="domain-group-title">H &amp; D'S HUB</h3>
-          </div>
-          <p class="spotlight-copy">
-            Founder &amp; commercial operations in mobile hardware import, diagnostics &amp; resale.
-          </p>
-        </article>
+      function restartTimer() {
+        if (timer) window.clearInterval(timer);
+        timer = null;
+        if (total < 2) return;
+        timer = window.setInterval(function () {
+          if (!isPaused()) show(index + 1, true);
+        }, AUTOPLAY_MS);
+      }
 
-        <article class="spotlight-item" data-searchable data-keywords="junia lille m1 knust bsc education">
-          <div class="domain-group-header">
-            <span class="domain-code tone-zinc">M1 / BSc</span>
-            <h3 class="domain-group-title">JUNIA Lille &amp; KNUST</h3>
-          </div>
-          <p class="spotlight-copy">
-            M1 Electronics &amp; Embedded Systems (Lille) | BSc Computer Engineering (Kumasi).
-          </p>
-        </article>
-      </div>
+      function show(n, fromTimer) {
+        index = (n + total) % total;
+        slides.forEach(function (slide, i) {
+          var active = i === index;
+          slide.classList.toggle("is-active", active);
+          slide.setAttribute("aria-hidden", active ? "false" : "true");
+        });
+        dots.forEach(function (dot, i) {
+          var active = i === index;
+          dot.classList.toggle("is-active", active);
+          dot.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        if (lightboxOpen) renderLightbox();
+        if (!fromTimer) restartTimer();
+      }
 
-      <a href="{{ url_for('about') }}#experience" class="bento-link spotlight-footer-link">
-        {{ t.bento.leadership_more }}
-      </a>
-    </aside>
-  </section>
+      document.getElementById("gallery-prev").addEventListener("click", function () {
+        show(index - 1);
+      });
+      document.getElementById("gallery-next").addEventListener("click", function () {
+        show(index + 1);
+      });
+      dots.forEach(function (dot) {
+        dot.addEventListener("click", function () {
+          show(parseInt(dot.getAttribute("data-dot-index"), 10) || 0);
+        });
+      });
+
+      // Pause on hover / keyboard focus
+      frame.addEventListener("mouseenter", function () { hovering = true; });
+      frame.addEventListener("mouseleave", function () { hovering = false; });
+      frame.addEventListener("focusin", function (e) {
+        try { keyboardFocus = e.target.matches(":focus-visible"); } catch (err) { keyboardFocus = false; }
+      });
+      frame.addEventListener("focusout", function () { keyboardFocus = false; });
+
+      frame.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowLeft") { e.preventDefault(); show(index - 1); }
+        else if (e.key === "ArrowRight") { e.preventDefault(); show(index + 1); }
+      });
+
+      // Touch / pointer swipe
+      var startX = null;
+      frame.addEventListener("pointerdown", function (e) {
+        if (e.target.closest("button")) return;
+        startX = e.clientX;
+      });
+      frame.addEventListener("pointerup", function (e) {
+        if (startX === null) return;
+        var dx = e.clientX - startX;
+        startX = null;
+        if (Math.abs(dx) > 48) show(index + (dx < 0 ? 1 : -1));
+      });
+      frame.addEventListener("pointercancel", function () { startX = null; });
+
+      // ---------- Lightbox ----------
+      function renderLightbox() {
+        var slide = slides[index];
+        var img = slide.querySelector(".gallery-photo");
+        var hasPhoto = slide.classList.contains("has-photo") && img;
+
+        stage.innerHTML = "";
+        stage.classList.toggle("is-photo", !!hasPhoto);
+        if (hasPhoto) {
+          var big = document.createElement("img");
+          big.src = img.currentSrc || img.src;
+          big.alt = img.alt;
+          big.className = "lightbox-photo";
+          stage.appendChild(big);
+        } else {
+          var fb = slide.querySelector(".gallery-fallback");
+          if (fb) stage.appendChild(fb.cloneNode(true));
+        }
+        lbCaption.textContent = slide.getAttribute("data-caption") || "";
+        lbCounter.textContent = pad(index + 1) + " / " + pad(total);
+      }
+
+      function pad(n) { return n < 10 ? "0" + n : String(n); }
+
+      function openLightbox() {
+        if (!lightbox) return;
+        lastFocus = document.activeElement;
+        lightboxOpen = true;
+        renderLightbox();
+        lightbox.hidden = false;
+        document.body.classList.add("lightbox-open");
+        window.requestAnimationFrame(function () {
+          lightbox.classList.add("is-open");
+          lbClose.focus();
+        });
+      }
+
+      function closeLightbox() {
+        if (!lightbox || !lightboxOpen) return;
+        lightboxOpen = false;
+        lightbox.classList.remove("is-open");
+        lightbox.hidden = true;
+        stage.innerHTML = "";
+        document.body.classList.remove("lightbox-open");
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+
+      document.getElementById("gallery-expand").addEventListener("click", openLightbox);
+      lbClose.addEventListener("click", closeLightbox);
+      lbPrev.addEventListener("click", function () { show(index - 1); });
+      lbNext.addEventListener("click", function () { show(index + 1); });
+      lightbox.querySelector("[data-lightbox-close]").addEventListener("click", closeLightbox);
+
+      document.addEventListener("keydown", function (e) {
+        if (!lightboxOpen) return;
+        if (e.key === "Escape") { e.preventDefault(); closeLightbox(); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); show(index - 1); }
+        else if (e.key === "ArrowRight") { e.preventDefault(); show(index + 1); }
+        else if (e.key === "Tab") {
+          var order = [lbPrev, lbNext, lbClose];
+          var at = order.indexOf(document.activeElement);
+          e.preventDefault();
+          order[(at + (e.shiftKey ? -1 : 1) + order.length) % order.length].focus();
+        }
+      });
+
+      restartTimer();
+    })();
+  </script>
 
   <!-- Kinetic Radial Orbit Mind-Map Controller -->
   <script>
@@ -524,7 +621,6 @@
       var prevBtn = document.getElementById("mindmap-prev");
       var nextBtn = document.getElementById("mindmap-next");
       var resetBtn = document.getElementById("mindmap-reset-filter");
-      var searchInput = document.getElementById("portfolio-search");
 
       var detailBar = document.getElementById("mindmap-detail-bar");
       var detailCode = document.getElementById("detail-bar-code");
@@ -532,22 +628,50 @@
       var detailDesc = document.getElementById("detail-bar-desc");
       var detailAction = document.getElementById("detail-bar-action");
 
+      var projectsUrl = board.getAttribute("data-projects-url") || "/projects";
+      var aboutUrl = board.getAttribute("data-about-url") || "/about";
+
+      var defaults = {
+        codeClass: detailCode ? detailCode.className : "",
+        code: detailCode ? detailCode.textContent : "",
+        title: detailTitle ? detailTitle.textContent : "",
+        desc: detailDesc ? detailDesc.textContent : "",
+        href: detailAction ? detailAction.getAttribute("href") : projectsUrl
+      };
+
       var currentView = 0;
       var totalViews = layers.length;
 
+      // Capsules were authored with in-page anchors; route them to the real pages now
+      // that the Home screen no longer carries the projects/skills/leadership panels.
+      function resolveTarget(href, filter) {
+        var h = href || "";
+        if (h === "#projects-bento") {
+          return projectsUrl + (filter ? "?q=" + encodeURIComponent(filter) : "");
+        }
+        if (h === "#skills-bento") return aboutUrl + "#skills";
+        if (h === "#leadership-bento") return aboutUrl + "#leadership";
+        return h || projectsUrl;
+      }
+
       function clearWireHighlights() {
-        flows.forEach(function (w) {
-          w.classList.remove("is-active", "is-hovered");
-        });
-        tracks.forEach(function (t) {
-          t.classList.remove("is-active", "is-hovered");
-        });
-        packets.forEach(function (p) {
-          p.classList.remove("is-active");
-        });
+        flows.forEach(function (w) { w.classList.remove("is-active", "is-hovered"); });
+        tracks.forEach(function (t) { t.classList.remove("is-active", "is-hovered"); });
+        packets.forEach(function (p) { p.classList.remove("is-active"); });
         document.querySelectorAll(".orbit-capsule-pill").forEach(function (n) {
           n.classList.remove("is-active");
         });
+      }
+
+      function resetDetailBar() {
+        if (detailCode) {
+          detailCode.className = defaults.codeClass;
+          detailCode.textContent = defaults.code;
+        }
+        if (detailTitle) detailTitle.textContent = defaults.title;
+        if (detailDesc) detailDesc.textContent = defaults.desc;
+        if (detailAction) detailAction.setAttribute("href", defaults.href);
+        if (resetBtn) resetBtn.hidden = true;
       }
 
       function switchView(index) {
@@ -572,26 +696,17 @@
         });
 
         clearWireHighlights();
+        resetDetailBar();
       }
 
       tabs.forEach(function (tab) {
         tab.addEventListener("click", function () {
-          var idx = parseInt(tab.getAttribute("data-mindmap-tab"), 10) || 0;
-          switchView(idx);
+          switchView(parseInt(tab.getAttribute("data-mindmap-tab"), 10) || 0);
         });
       });
 
-      if (prevBtn) {
-        prevBtn.addEventListener("click", function () {
-          switchView(currentView - 1);
-        });
-      }
-
-      if (nextBtn) {
-        nextBtn.addEventListener("click", function () {
-          switchView(currentView + 1);
-        });
-      }
+      if (prevBtn) prevBtn.addEventListener("click", function () { switchView(currentView - 1); });
+      if (nextBtn) nextBtn.addEventListener("click", function () { switchView(currentView + 1); });
 
       // Hover & Click kinetic wire pulse + detail bar update
       document.querySelectorAll(".orbit-capsule-pill").forEach(function (pill) {
@@ -628,7 +743,7 @@
           var title = pill.getAttribute("data-title") || "";
           var detail = pill.getAttribute("data-detail") || "";
           var filterKw = (pill.getAttribute("data-filter") || "").trim();
-          var href = pill.getAttribute("data-href") || "#projects-bento";
+          var href = resolveTarget(pill.getAttribute("data-href"), filterKw);
 
           if (detailCode) {
             detailCode.className = "domain-code tone-" + tone;
@@ -642,28 +757,14 @@
             void detailBar.offsetWidth;
             detailBar.classList.add("detail-pulse");
           }
-
-          if (filterKw && searchInput) {
-            var primaryToken = filterKw.split(" ")[0];
-            searchInput.value = primaryToken;
-            if (window.applyProjectFilters) {
-              window.applyProjectFilters();
-            }
-            if (resetBtn) resetBtn.hidden = false;
-          }
+          if (resetBtn) resetBtn.hidden = false;
         });
       });
 
       if (resetBtn) {
         resetBtn.addEventListener("click", function () {
           clearWireHighlights();
-          if (searchInput) {
-            searchInput.value = "";
-            if (window.applyProjectFilters) {
-              window.applyProjectFilters();
-            }
-          }
-          resetBtn.hidden = true;
+          resetDetailBar();
         });
       }
     })();

@@ -23,6 +23,10 @@ VALID_STATUSES = ("in_progress", "completed")
 VALID_TONES = ("copper", "navy", "forest", "bronze", "zinc", "steel")
 COOKIE_MAX_AGE = 60 * 60 * 24 * 365  # 1 year in seconds
 
+# Address copied by the "Copy Email" button in the Live Telemetry popover.
+# TODO: replace the placeholder with your real contact address.
+CONTACT_EMAIL = "your.email@example.com"
+
 
 def is_local_request():
     """Return True when the request originates from localhost."""
@@ -62,14 +66,176 @@ def _split_list(raw_value, sep=","):
     return [part.strip() for part in str(raw_value).split(sep) if part.strip()]
 
 
+def _localized(project, lang):
+    """Return the language-specific view of a project (falls back to root)."""
+    loc = project.get(lang)
+    return loc if isinstance(loc, dict) else project
+
+
+def build_palette_index(lang, ui):
+    """Build the global index searched by the top-bar command palette.
+
+    Covers every page, every project (titles + tech stack) and the
+    leadership roles, with language-aware labels and deep-link targets.
+    """
+    palette = ui["palette"]
+    sidebar = ui["sidebar"]
+    entries = []
+
+    pages = (
+        ("home", sidebar["home"], url_for("home"), "home dashboard index"),
+        (
+            "projects",
+            sidebar["projects"],
+            url_for("projects"),
+            "projects catalog builds engineering",
+        ),
+        ("about", sidebar["about"], url_for("about"), "about profile bio"),
+        (
+            "experience",
+            sidebar["experience"],
+            url_for("about") + "#experience",
+            "experience leadership ventures work",
+        ),
+        (
+            "education",
+            sidebar["education"],
+            url_for("about") + "#education",
+            "education junia knust presec school degree",
+        ),
+        (
+            "contact",
+            sidebar["contact"],
+            url_for("about") + "#contact",
+            "contact cv resume email",
+        ),
+        (
+            "api",
+            sidebar["api_json"],
+            url_for("api_projects"),
+            "json api rest raw data endpoint",
+        ),
+    )
+    for key, title, href, keywords in pages:
+        entries.append(
+            {
+                "type": "page",
+                "badge": palette["badge_page"],
+                "tone": "navy",
+                "id": f"page-{key}",
+                "title": title,
+                "subtitle": href,
+                "href": href,
+                "keywords": keywords,
+                "tags": [],
+            }
+        )
+
+    for project in load_projects():
+        loc = _localized(project, lang)
+        slug = project.get("slug", "")
+        techs = list(
+            dict.fromkeys(
+                (loc.get("tech_stack") or []) + (project.get("tech_stack") or [])
+            )
+        )
+        titles = {
+            project.get("title", ""),
+            _localized(project, "en").get("title", ""),
+            _localized(project, "fr").get("title", ""),
+        }
+        entries.append(
+            {
+                "type": "project",
+                "badge": palette["badge_project"],
+                "tone": project.get("domain_tone", "copper"),
+                "id": f"project-{slug}",
+                "title": loc.get("title") or project.get("title", slug),
+                "subtitle": " · ".join(techs[:3]),
+                "href": url_for("projects", highlight=slug),
+                "keywords": " ".join(
+                    [slug, project.get("category", ""), *titles, *techs]
+                ),
+                "tags": techs,
+            }
+        )
+
+    roles = (
+        (
+            "aces",
+            palette["role_aces"],
+            "ACES · KNUST",
+            "aces president knust tech week codefest faculty games "
+            "student representation digital media",
+            "bronze",
+        ),
+        (
+            "ghafra",
+            palette["role_ghafra"],
+            "GHAFRA Nord · Lille",
+            "ghafra nord lille strategic planning community organizing",
+            "steel",
+        ),
+        (
+            "hub",
+            palette["role_hub"],
+            "H & D'S HUB",
+            "h&d hub venture founder mobile hardware import resale",
+            "copper",
+        ),
+    )
+    for key, title, subtitle, keywords, tone in roles:
+        entries.append(
+            {
+                "type": "leadership",
+                "badge": palette["badge_leadership"],
+                "tone": tone,
+                "id": f"lead-{key}",
+                "title": title,
+                "subtitle": subtitle,
+                "href": url_for("about") + "#leadership",
+                "keywords": keywords,
+                "tags": [],
+            }
+        )
+
+    return entries
+
+
+def _project_matches_query(project, lang, query):
+    """Whole-word, any-token match of `query` against a project's text."""
+    tokens = [tok for tok in re.split(r"[\s,]+", query.lower()) if tok]
+    if not tokens:
+        return True
+    loc = _localized(project, lang)
+    haystack = " ".join(
+        [
+            project.get("slug", ""),
+            project.get("category", ""),
+            loc.get("title", ""),
+            loc.get("summary", ""),
+            " ".join(loc.get("tech_stack") or []),
+            " ".join(project.get("tech_stack") or []),
+            " ".join(loc.get("highlights") or []),
+        ]
+    ).lower()
+    return any(
+        re.search(r"(?<![a-z0-9])" + re.escape(tok) + r"(?![a-z0-9])", haystack)
+        for tok in tokens
+    )
+
+
 @app.context_processor
 def inject_localization():
-    """Inject `t`, `current_lang`, and `is_local` into all templates."""
+    """Inject `t`, `current_lang`, `is_local`, palette index and contact email."""
     lang = get_current_lang()
+    ui = UI_TEXT[lang]
     return {
-        "t": UI_TEXT[lang],
+        "t": ui,
         "current_lang": lang,
         "is_local": is_local_request(),
+        "palette_index": build_palette_index(lang, ui),
+        "contact_email": CONTACT_EMAIL,
     }
 
 
@@ -103,11 +269,20 @@ def projects():
     if status_filter in VALID_STATUSES:
         filtered = [p for p in filtered if p.get("status") == status_filter]
 
+    # `?q=` is set by the Home mind-map capsules (tech / domain filters).
+    query = (request.args.get("q") or "").strip()[:80]
+    if query:
+        lang = get_current_lang()
+        filtered = [
+            p for p in filtered if _project_matches_query(p, lang, query)
+        ]
+
     return render_template(
         "projects.html",
         projects=filtered,
         current_category=category,
         current_status=status_filter,
+        current_query=query,
     )
 
 

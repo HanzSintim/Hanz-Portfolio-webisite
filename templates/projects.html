@@ -50,9 +50,24 @@
         </a>
       </div>
     </div>
+    <!-- Active mind-map / palette filter chip -->
+    {% if current_query %}
+      <div class="active-query-row">
+        <span class="active-query-chip">
+          <span class="mono-label">{{ t.projects_page.filtered_by }}</span>
+          <strong>{{ current_query }}</strong>
+          <a
+            href="{{ url_for('projects', category=current_category, status=current_status) }}"
+            class="active-query-clear"
+            aria-label="{{ t.projects_page.clear_filter }}"
+            title="{{ t.projects_page.clear_filter }}"
+          >✕</a>
+        </span>
+      </div>
+    {% endif %}
   </section>
 
-  <div class="projects-catalog-grid">
+  <div class="projects-catalog-grid" id="projects-catalog">
     {% for project in projects %}
       {% set loc = project[current_lang] if current_lang in project else project %}
       {% set tone = project.domain_tone | default('copper') %}
@@ -73,6 +88,8 @@
 
       <article
         class="project-bento-card card-surface"
+        id="project-{{ project.slug }}"
+        data-slug="{{ project.slug }}"
         data-searchable
         data-status="{{ project.status }}"
         data-category="{{ project.category }}"
@@ -126,4 +143,21 @@
       <p class="search-empty-notice">{{ t.projects_page.empty }}</p>
     {% endfor %}
   </div>
+
+  <!-- Deep-link support: /projects?highlight=<slug> scrolls to & pulses that card -->
+  <script>
+    (function () {
+      var slug = new URLSearchParams(window.location.search).get("highlight");
+      if (!slug) return;
+      var card = document.querySelector('[data-slug="' + slug.replace(/"/g, "") + '"]');
+      if (!card) return;
+      window.requestAnimationFrame(function () {
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        card.classList.add("is-highlighted");
+        window.setTimeout(function () {
+          card.classList.remove("is-highlighted");
+        }, 3200);
+      });
+    })();
+  </script>
 {% endblock %}

@@ -64,12 +64,92 @@ UI_TEXT = {
             "cv_btn": "CV & Contact",
             "api_btn": "API JSON Brute",
         },
+        "gallery": {
+            "aria": "Galerie photo",
+            "prev": "Photo précédente",
+            "next": "Photo suivante",
+            "expand": "Agrandir",
+            "expand_aria": "Ouvrir la photo en plein écran",
+            "close": "Fermer",
+            "dots_label": "Choisir une photo",
+            "slides": [
+                {
+                    "id": "lille",
+                    "file": "gallery-lille.jpg",
+                    "caption": "Palais Rameau & architecture lilloise",
+                    "alt": "Palais Rameau et architecture de Lille",
+                },
+                {
+                    "id": "lab",
+                    "file": "gallery-lab.jpg",
+                    "caption": (
+                        "JUNIA Lille — M1 Microélectronique & "
+                        "Systèmes Embarqués"
+                    ),
+                    "alt": "Laboratoire d'électronique à JUNIA Lille",
+                },
+                {
+                    "id": "knust",
+                    "file": "gallery-knust.jpg",
+                    "caption": "KNUST — Présidence ACES & Codefest",
+                    "alt": "Campus KNUST, présidence ACES et Codefest",
+                },
+                {
+                    "id": "hardware",
+                    "file": "gallery-hardware.jpg",
+                    "caption": (
+                        "Matériel embarqué — STM32 · ESP32 · "
+                        "prototypage KiCad"
+                    ),
+                    "alt": "Cartes de prototypage embarqué",
+                },
+            ],
+        },
+        "dock": {
+            "aria": "Télémétrie rapide et navigation",
+            "projects": "Projets d'ingénierie",
+            "completed": "Terminés",
+            "active": "R&D active",
+            "architecture": "Architecture clé :",
+            "architecture_value": "C++ · STM32/ESP32 · Python · KiCad",
+            "leadership": "Leadership exécutif :",
+            "leadership_value": "Président ACES · GHAFRA Nord",
+        },
+        "palette": {
+            "badge_page": "Page",
+            "badge_project": "Projet",
+            "badge_leadership": "Leadership",
+            "role_aces": "Président du département ACES",
+            "role_ghafra": "GHAFRA Nord Lille — Planification stratégique",
+            "role_hub": "H & D'S HUB — Fondateur",
+            "listbox_label": "Résultats de recherche",
+            "suggested": "Accès rapide",
+            "results": "Résultats",
+            "empty": "Aucun résultat pour",
+            "hint_navigate": "naviguer",
+            "hint_open": "ouvrir",
+            "hint_close": "fermer",
+        },
+        "beacon": {
+            "aria": "Télémétrie en direct de l'ingénieur",
+            "title": "TÉLÉMÉTRIE EN DIRECT",
+            "status_label": "Statut",
+            "status": "Disponible pour R&D Embarqué & Logiciel / Stages",
+            "location_label": "Lieu & heure locale",
+            "location": "Lille, France",
+            "focus_label": "Focus actuel",
+            "focus": "M1 JUNIA Lille · Robotique autonome & systèmes C++",
+            "copy_email": "Copier l'e-mail",
+            "copied": "Copié ✓",
+            "copy_failed": "Copie impossible",
+        },
         "mindmap": {
             "badge": "ORBITE RADIALE INTERACTIVE · 3 VUES",
             "title": "Cartographie Radiale & Flux Système",
             "subtitle": (
                 "Cliquez sur une capsule orbitale pour pulser son flux "
-                "SVG, inspecter les détails et filtrer le dashboard."
+                "SVG, inspecter les détails et ouvrir la page ou le filtre "
+                "de projets correspondant."
             ),
             "reset_filter": "Réinitialiser le filtre",
             "prev_view": "Vue précédente",
@@ -81,7 +161,7 @@ UI_TEXT = {
             ),
             "detail_default_text": (
                 "Chaque capsule déclenche une impulsion de données SVG "
-                "et filtre dynamiquement les projets ou ouvre la section."
+                "et ouvre la section ou le filtre de projets correspondant."
             ),
             "detail_action_btn": "Ouvrir / Filtrer →",
             "views": [
@@ -420,6 +500,8 @@ UI_TEXT = {
             "filter_embedded": "Embarqué & Matériel",
             "filter_software": "Logiciel & Systèmes",
             "empty": "Aucun projet trouvé pour ce filtre.",
+            "filtered_by": "FILTRE",
+            "clear_filter": "Effacer le filtre",
         },
         "about_page": {
             "title": "Parcours, Leadership & Architecture",
@@ -553,12 +635,92 @@ UI_TEXT = {
             "cv_btn": "CV & Contact",
             "api_btn": "Raw JSON API",
         },
+        "gallery": {
+            "aria": "Photo gallery",
+            "prev": "Previous photo",
+            "next": "Next photo",
+            "expand": "Expand",
+            "expand_aria": "Open photo in fullscreen",
+            "close": "Close",
+            "dots_label": "Choose a photo",
+            "slides": [
+                {
+                    "id": "lille",
+                    "file": "gallery-lille.jpg",
+                    "caption": "Palais Rameau & Lille Architecture",
+                    "alt": "Palais Rameau and Lille architecture",
+                },
+                {
+                    "id": "lab",
+                    "file": "gallery-lab.jpg",
+                    "caption": (
+                        "JUNIA Lille — M1 Microelectronics & "
+                        "Embedded Systems"
+                    ),
+                    "alt": "Electronics lab at JUNIA Lille",
+                },
+                {
+                    "id": "knust",
+                    "file": "gallery-knust.jpg",
+                    "caption": "KNUST — ACES Presidency & Codefest",
+                    "alt": "KNUST campus, ACES presidency and Codefest",
+                },
+                {
+                    "id": "hardware",
+                    "file": "gallery-hardware.jpg",
+                    "caption": (
+                        "Embedded Hardware — STM32 · ESP32 · "
+                        "KiCad Prototyping"
+                    ),
+                    "alt": "Embedded prototyping boards",
+                },
+            ],
+        },
+        "dock": {
+            "aria": "Quick telemetry and navigation",
+            "projects": "Engineering Projects",
+            "completed": "Completed",
+            "active": "Active R&D",
+            "architecture": "Core Architecture:",
+            "architecture_value": "C++ · STM32/ESP32 · Python · KiCad",
+            "leadership": "Executive Leadership:",
+            "leadership_value": "ACES President · GHAFRA Nord",
+        },
+        "palette": {
+            "badge_page": "Page",
+            "badge_project": "Project",
+            "badge_leadership": "Leadership",
+            "role_aces": "ACES Department President",
+            "role_ghafra": "GHAFRA Nord Lille — Strategic Planning",
+            "role_hub": "H & D'S HUB — Founder",
+            "listbox_label": "Search results",
+            "suggested": "Quick jump",
+            "results": "Results",
+            "empty": "No results for",
+            "hint_navigate": "navigate",
+            "hint_open": "open",
+            "hint_close": "close",
+        },
+        "beacon": {
+            "aria": "Live engineer telemetry",
+            "title": "LIVE ENGINEER TELEMETRY",
+            "status_label": "Status",
+            "status": "Available for Embedded & Software R&D / Internships",
+            "location_label": "Location & local time",
+            "location": "Lille, France",
+            "focus_label": "Current focus",
+            "focus": "M1 JUNIA Lille · Autonomous Robotics & C++ Systems",
+            "copy_email": "Copy Email",
+            "copied": "Copied ✓",
+            "copy_failed": "Copy failed",
+        },
         "mindmap": {
             "badge": "RADIAL ORBIT ARCHITECTURE · 3 VIEWS",
             "title": "Interactive Radial Orbit & Signal Trace",
             "subtitle": (
                 "Click any orbiting capsule pill to pulse its kinetic SVG "
-                "signal wire, inspect details, and filter the workspace."
+                "signal wire, inspect details, then jump to the matching "
+                "page or project filter."
             ),
             "reset_filter": "Reset project filter",
             "prev_view": "Previous view",
@@ -570,7 +732,7 @@ UI_TEXT = {
             ),
             "detail_default_text": (
                 "Each capsule triggers a high-contrast kinetic SVG signal "
-                "pulse and filters matching engineering builds below."
+                "pulse and opens the matching section or project filter."
             ),
             "detail_action_btn": "Open / Filter →",
             "views": [
@@ -910,6 +1072,8 @@ UI_TEXT = {
             "filter_embedded": "Embedded & Hardware",
             "filter_software": "Software & Systems",
             "empty": "No projects found matching this filter.",
+            "filtered_by": "FILTER",
+            "clear_filter": "Clear filter",
         },
         "about_page": {
             "title": "Trajectory, Leadership & System Architecture",
