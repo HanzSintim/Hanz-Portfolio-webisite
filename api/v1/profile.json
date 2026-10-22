@@ -1,0 +1,79 @@
+{
+  "engineer": {
+    "name": "Hanz Ofosuhene-Sintim",
+    "handle": "@HanzSintim",
+    "github_url": "https://github.com/HanzSintim",
+    "email": "hanz.ofosuhene-sintim@student.junia.com",
+    "secondary_email": "hanzsintim@gmail.com",
+    "location": "Lille, France 🇫🇷  ⇄  Kumasi / Accra, Ghana 🇬🇭",
+    "headline_en": "Python & C++ Systems Architect · Microelectronics & Embedded Engineer",
+    "headline_fr": "Architecte Systèmes Python & C++ · Ingénieur Microélectronique & Embarqué",
+    "tagline_en": "Start your change for the future — bridging high-level Python intelligence & relational data systems with deterministic C++17 POS engines and STM32/ESP32 silicon hardware.",
+    "tagline_fr": "Préparer l'ingénierie de demain — allier l'intelligence logicielle Python & les bases de données 3NF à la précision du C++17 et des systèmes embarqués STM32/ESP32."
+  },
+  "telemetry_summary": {
+    "average_proficiency_pct": 92.8,
+    "production_systems_count": 6,
+    "core_languages": [
+      "Python 3",
+      "C++17",
+      "Embedded C",
+      "SQL (3NF)",
+      "JavaScript ES6"
+    ],
+    "active_corridor": "Accra / Kumasi (GH) -> Lille (FR)",
+    "generated_at_utc": "2026-10-22 23:06 UTC"
+  },
+  "leadership": [
+    {
+      "badge": "PRESIDENT",
+      "role_en": "Department President — ACES KNUST",
+      "role_fr": "Président de Département — ACES KNUST",
+      "organization": "Association of Computer Engineering Students (KNUST)",
+      "location": "Kumasi, Ghana",
+      "period": "2024 – 2025",
+      "highlights_en": [
+        "Chief executive representative for 800+ Computer Engineering undergraduates at KNUST.",
+        "Directed ACES Tech Week, Codefest hackathons, academic mentorship, and industry partnerships.",
+        "Oversaw departmental software repositories (ACES Website, CareerHub, Techware automation)."
+      ],
+      "highlights_fr": [
+        "Président exécutif représentant plus de 800 étudiants en Génie Informatique à KNUST.",
+        "Direction de l'ACES Tech Week, du hackathon Codefest, du mentorat académique et des partenariats.",
+        "Supervision des dépôts logiciels du département (Site ACES, CareerHub, automatisation Techware)."
+      ]
+    },
+    {
+      "badge": "STRATEGY LEAD",
+      "role_en": "Strategic Planning & Organizing Lead",
+      "role_fr": "Responsable Planification Stratégique & Organisation",
+      "organization": "GHAFRA Nord (Ghanaian Community in Northern France)",
+      "location": "Lille, France",
+      "period": "2025 – Present",
+      "highlights_en": [
+        "Architects operational roadmaps, student integration programs, and institutional events across Lille & Hauts-de-France.",
+        "Coordinates cross-cultural academic and professional networking between Ghanaian scholars and French institutions."
+      ],
+      "highlights_fr": [
+        "Conception des feuilles de route opérationnelles, programmes d'accueil étudiant et événements à Lille.",
+        "Coordination des réseaux académiques et professionnels franco-ghanéens dans les Hauts-de-France."
+      ]
+    },
+    {
+      "badge": "CO-LEAD OPS",
+      "role_en": "Co-Lead, Commercial & Hardware Operations",
+      "role_fr": "Co-Responsable Opérations Commerciales & Matérielles",
+      "organization": "H & D'S HUB",
+      "location": "Ghana",
+      "period": "2023 – Present",
+      "highlights_en": [
+        "Managed international hardware procurement, pre-shipment device diagnostics, and unit-economics pricing.",
+        "Streamlined inventory tracking and last-mile customer fulfillment workflows."
+      ],
+      "highlights_fr": [
+        "Gestion des approvisionnements matériels, diagnostics techniques avant expédition et tarification.",
+        "Optimisation du suivi des stocks et de la chaîne de distribution client."
+      ]
+    }
+  ]
+}

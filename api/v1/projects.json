@@ -1,0 +1,240 @@
+{
+  "count": 6,
+  "projects": [
+    {
+      "index": "01",
+      "slug": "python-telemetry-portfolio-engine",
+      "title_en": "Python 3 & Flask Telemetry Portfolio Engine",
+      "title_fr": "Moteur de Portfolio & Télémétrie en Python 3 / Flask",
+      "category": "python",
+      "primary_lang": "Python 3.12 · Flask",
+      "status_en": "Production · Live API & Static Compiler",
+      "status_fr": "En Production · API Live & Compilateur Statique",
+      "repo_url": "https://github.com/HanzSintim/Hanz-Portfolio-webisite",
+      "summary_en": "Full-stack Python application and static site generator powering this portfolio. Combines typed Python dataclasses, algorithmic telemetry endpoints, bilingual (EN/FR) content negotiation, and a Python financial/POS simulation engine.",
+      "summary_fr": "Application Python full-stack et générateur statique propulsant ce portfolio. Combine dataclasses typées, points de terminaison REST de télémétrie, négociation bilingue (FR/EN) et simulateur algorithmique de caisse en Python.",
+      "architecture_en": [
+        "Typed Python 3 domain layer (SkillPetal, EngineeringProject, AcademicNode dataclasses)",
+        "Flask WSGI REST API endpoints (/api/v1/profile, /api/v1/projects, /api/v1/pos-simulator)",
+        "Hybrid Static Freezer (--build-static) compiling Jinja2 templates for zero-latency GitHub Pages hosting",
+        "Algorithmic Euro centime & TVA 20% verification engine with divmod() greedy change optimization"
+      ],
+      "architecture_fr": [
+        "Couche domaine Python 3 typée (dataclasses SkillPetal, EngineeringProject, AcademicNode)",
+        "Points de terminaison REST Flask WSGI (/api/v1/profile, /api/v1/projects, /api/v1/pos-simulator)",
+        "Compilateur statique hybride (--build-static) générant le build GitHub Pages depuis Jinja2",
+        "Moteur algorithmique Euro en centimes & TVA 20% avec rendu de monnaie glouton via divmod()"
+      ],
+      "tech_stack": [
+        "Python 3.12",
+        "Flask",
+        "Jinja2",
+        "Dataclasses",
+        "REST JSON API",
+        "HTML5 / CSS3 / ES6"
+      ],
+      "code_Filename": "data_engine.py",
+      "code_snippet": "def compute_euro_checkout_simulation(amount_eur: float, cash_tendered_eur: float) -> dict:\n    \"\"\"Exact integer-centime French TVA (20%) & Greedy Euro Change Dispenser in Python.\"\"\"\n    total_cents = int(round(amount_eur * 100))\n    tendered_cents = int(round(cash_tendered_eur * 100))\n    total_ht_cents = int(round(total_cents / 1.20))\n    tva_cents = total_cents - total_ht_cents\n\n    denominations = [5000, 2000, 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1]\n    remaining = max(0, tendered_cents - total_cents)\n    dispensed = {}\n    for d in denominations:\n        count, remaining = divmod(remaining, d)\n        if count:\n            dispensed[f\"{d / 100:.2f} €\"] = count\n    return {\"ttc\": total_cents / 100, \"ht\": total_ht_cents / 100, \"tva\": tva_cents / 100, \"change\": dispensed}",
+      "metrics": {
+        "Language": "Python 3.12",
+        "API Routes": "5 REST Endpoints",
+        "Precision": "100% Integer Centimes"
+      }
+    },
+    {
+      "index": "02",
+      "slug": "leclerc-self-checkout-pos",
+      "title_en": "E.Leclerc Self-Checkout Terminal (Caisse Libre-Service)",
+      "title_fr": "Terminal Caisse Libre-Service E.Leclerc (C++17 POS)",
+      "category": "cpp",
+      "primary_lang": "C++17 · OOP & RTTI",
+      "status_en": "Completed · 0 Warnings (-Wall -Wextra)",
+      "status_fr": "Terminé · 0 Avertissement (-Wall -Wextra)",
+      "repo_url": "https://github.com/HanzSintim/LECLERC-Self-Checkout",
+      "summary_en": "French hypermarket self-checkout simulator engineered in C++17. Implements runtime polymorphism (virtual destructor + dynamic_cast) for load-cell bagging scale verification, a 12-denomination Euro cash validator with greedy change dispensing, and French PSD2 NFC/EMV card rules.",
+      "summary_fr": "Simulateur de caisse libre-service d'hypermarché français conçu en C++17. Implémente le polymorphisme d'exécution (dynamic_cast) pour la balance d'ensachage, un monnayeur Euro à 12 coupures avec algorithme glouton, et les règles bancaires NFC <= 50€ / Puce EMV + PIN.",
+      "architecture_en": [
+        "Polymorphic Product hierarchy (Physicalproducts & Digitalproduct) with RTTI dynamic_cast",
+        "Load-cell bagging scale verification accumulating physical mass (kg) while bypassing digital licenses",
+        "Hybrid Payment Terminal supporting Cash (Espèces), Card (CB/NFC <= 50€), and Split Payment (Paiement Mixte)",
+        "Greedy Change-Making Algorithm over 12 Euro denominations (50€ down to 0.01€) + TVA 20% thermal receipt"
+      ],
+      "architecture_fr": [
+        "Hiérarchie polymorphe Product (Physicalproducts & Digitalproduct) avec RTTI dynamic_cast",
+        "Balance de sécurité vérifiant la masse physique (kg) avec contournement pour licences numériques",
+        "Terminal de paiement hybride : Espèces, Carte Bancaire (NFC <= 50€ ou EMV+PIN) et Paiement Mixte",
+        "Algorithme glouton de rendu de monnaie sur 12 coupures Euro (50€ à 0.01€) + Ticket TVA 20%"
+      ],
+      "tech_stack": [
+        "C++17",
+        "Polymorphism & RTTI",
+        "Greedy Algorithms",
+        "STL Vectors",
+        "IEEE-754 Mitigation",
+        "GCC"
+      ],
+      "code_Filename": "L'ECLERC.cpp",
+      "code_snippet": "// Runtime polymorphism via dynamic_cast on the E.Leclerc load-cell bagging scale\nPhysicalproducts *physPtr = dynamic_cast<Physicalproducts *>(p);\nif (physPtr != nullptr) {\n    float itemTotalWeightKg = physPtr->getweight() * ci.getquantity();\n    totalBaggingWeightKg += itemTotalWeightKg;\n}\n// Greedy Change-Making Algorithm over the 12 official Euro denominations in centimes\nconst int euroDenomCents[12] = {5000, 2000, 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1};\nfor (int d = 0; d < 12; ++d) {\n    int count = remainderToDispense / euroDenomCents[d];\n    remainderToDispense = remainderToDispense % euroDenomCents[d];\n}",
+      "metrics": {
+        "Language": "C++17",
+        "Denominations": "12 Euro Bills/Coins",
+        "NFC Ceiling": "50.00 € (PSD2)"
+      }
+    },
+    {
+      "index": "03",
+      "slug": "autonomous-street-cleaning-robot",
+      "title_en": "Autonomous Street-Cleaning Robot (Dual-MCU Architecture)",
+      "title_fr": "Robot Autonome de Nettoyage Urbain (Architecture Double-MCU)",
+      "category": "embedded",
+      "primary_lang": "Embedded C · STM32 & ESP32",
+      "status_en": "Active R&D · JUNIA ISEN Lille M1 Team",
+      "status_fr": "R&D Active · Équipe M1 JUNIA ISEN Lille",
+      "repo_url": "https://github.com/HanzSintim",
+      "summary_en": "7-member M1 engineering R&D system at JUNIA Lille combining deterministic STM32 motor/actuator control with ESP32 wireless telemetry, UART AI vision debris detection, and an ultrasonic time-of-flight obstacle avoidance curtain.",
+      "summary_fr": "Projet R&D M1 à 7 ingénieurs chez JUNIA Lille combinant commande moteur temps-réel sur STM32, télémétrie sans fil sur ESP32, caméra IA de détection de déchets sur UART et rideau de sécurité ultrasonique à temps de vol (ToF).",
+      "architecture_en": [
+        "Dual-MCU partitioning: STM32 handles hard real-time PWM H-bridge traction & brush actuation",
+        "ESP32 co-processor manages Wi-Fi/BLE telemetry uplink and operator diagnostics dashboard",
+        "External AI vision camera streams bounding-box coordinates over high-speed UART",
+        "Multi-sensor ultrasonic ToF array enforces deterministic emergency braking"
+      ],
+      "architecture_fr": [
+        "Partitionnement Double-MCU : STM32 dédié au contrôle PWM temps-réel des moteurs et balais",
+        "Co-processeur ESP32 gérant la télémétrie Wi-Fi/BLE et le tableau de bord opérateur",
+        "Caméra IA externe transmettant les coordonnées de détection via bus UART haute vitesse",
+        "Réseau de capteurs ultrasoniques ToF assurant le freinage d'urgence déterministe"
+      ],
+      "tech_stack": [
+        "Embedded C",
+        "STM32",
+        "ESP32",
+        "UART AI Vision",
+        "PWM H-Bridge",
+        "Ultrasonic ToF"
+      ],
+      "code_Filename": "robot_control_loop.c",
+      "code_snippet": "// Deterministic safety check & UART AI vision debris alignment loop (STM32)\nvoid Robot_ControlStep(const UltrasonicArray_t *tof, const VisionFrame_t *ai) {\n    if (tof->front_distance_cm < SAFETY_STOP_THRESHOLD_CM) {\n        PWM_SetDutyCycle(MOTOR_LEFT | MOTOR_RIGHT, 0); // Hard real-time emergency brake\n        UART_SendTelemetry(ESP32_PORT, STATUS_OBSTACLE_HALT);\n        return;\n    }\n    int16_t steering_err = ai->debris_centroid_x - FRAME_CENTER_X;\n    PWM_ApplyDifferentialDrive(BASE_SPEED_PWM, KP_STEER * steering_err);\n}",
+      "metrics": {
+        "Architecture": "STM32 + ESP32",
+        "Team Size": "7 M1 Engineers",
+        "Lab": "JUNIA Lille, France"
+      }
+    },
+    {
+      "index": "04",
+      "slug": "smart-logistics-3nf-database",
+      "title_en": "Smart Logistics & Delivery 3NF Relational Data Model",
+      "title_fr": "Modèle Relationnel 3NF de Logistique & Livraison Intelligente",
+      "category": "data",
+      "primary_lang": "SQL · Python · 3NF ER Modeling",
+      "status_en": "Completed · Normalized to 3NF",
+      "status_fr": "Terminé · Normalisé en 3NF",
+      "repo_url": "https://github.com/HanzSintim/CoE_group22",
+      "summary_en": "End-to-end relational database architecture for multi-hub parcel routing, fleet dispatch, and customer tracking. Resolves M:N cardinalities via composite-key associative junction tables and eliminates transitive dependencies through strict Third Normal Form (3NF).",
+      "summary_fr": "Architecture de base de données relationnelle pour le routage multi-entrepôts et le suivi de flotte. Résout les cardinalités M:N par tables de jonction associatives et élimine les dépendances transitives via une normalisation stricte en 3NF.",
+      "architecture_en": [
+        "Conceptual Entity-Relationship (ER) schema covering Shipments, Hubs, Couriers, Vehicles &SLAs",
+        "Resolution of M:N routing legs via Shipment_Route_Hop composite primary/foreign keys",
+        "Full 1NF -> 2NF -> 3NF normalization eliminating partial and transitive functional dependencies",
+        "Python verification scripts & indexed SQL analytical queries for hub bottleneck telemetry"
+      ],
+      "architecture_fr": [
+        "Schéma Entité-Association (EA) couvrant Colis, Entrepôts, Livreurs, Véhicules et SLA",
+        "Résolution des relations M:N via tables associatives à clés primaires composites",
+        "Normalisation 1NF -> 2NF -> 3NF éliminant toute redondance et dépendance transitive",
+        "Scripts Python de validation et requêtes SQL indexées pour l'analyse des flux logistiques"
+      ],
+      "tech_stack": [
+        "SQL",
+        "3NF Normalization",
+        "ER Modeling",
+        "Python Data Validation",
+        "Composite Keys"
+      ],
+      "code_Filename": "schema_3nf.sql",
+      "code_snippet": "CREATE TABLE Shipment_Route_Hop (\n    shipment_id      INT NOT NULL REFERENCES Shipment(shipment_id),\n    hop_sequence     SMALLINT NOT NULL CHECK (hop_sequence >= 1),\n    origin_hub_id    INT NOT NULL REFERENCES Logistics_Hub(hub_id),\n    dest_hub_id      INT NOT NULL REFERENCES Logistics_Hub(hub_id),\n    courier_id       INT NOT NULL REFERENCES Courier(courier_id),\n    dispatched_at    TIMESTAMP NOT NULL,\n    arrived_at       TIMESTAMP NULL,\n    PRIMARY KEY (shipment_id, hop_sequence) -- 3NF Composite Associative Key\n);",
+      "metrics": {
+        "Normal Form": "Strict 3NF",
+        "Cardinalities": "M:N Resolved",
+        "Integrity": "Referential FK"
+      }
+    },
+    {
+      "index": "05",
+      "slug": "automatic-water-tank-control",
+      "title_en": "Automatic Water Tank Ultrasonic Monitoring & Relay Control",
+      "title_fr": "Contrôle Automatique de Réservoir par Ultrasons & Hystérésis",
+      "category": "embedded",
+      "primary_lang": "Embedded C/C++ · AVR MCU",
+      "status_en": "Completed · Hardware Validated",
+      "status_fr": "Terminé · Validé sur Matériel",
+      "repo_url": "https://github.com/HanzSintim",
+      "summary_en": "Closed-loop liquid level controller utilizing non-contact 40 kHz ultrasonic time-of-flight ranging (d = v * t / 2), dual-threshold Schmitt hysteresis to prevent relay contact chatter, and real-time 16x2 LCD operator telemetry.",
+      "summary_fr": "Système d'asservissement de niveau d'eau sans contact par ultrasons 40 kHz (d = v * t / 2), commande de pompe à hystérésis double-seuil éliminant le broutage du relais, et affichage temps-réel sur écran LCD 16x2.",
+      "architecture_en": [
+        "40 kHz acoustic pulse-echo Time-of-Flight calculation with speed-of-sound scaling",
+        "Dual-threshold hysteresis state machine (LOW_TRIGGER = 20%, HIGH_CUTOFF = 90%)",
+        "Opto-isolated relay actuation protecting the microcontroller from inductive pump flyback",
+        "Live 16x2 parallel LCD interface displaying fill percentage, distance (cm), and pump state"
+      ],
+      "architecture_fr": [
+        "Calcul précis de distance par temps de vol acoustique 40 kHz (d = v * t / 2)",
+        "Machine à états à hystérésis double-seuil (Seuil Bas = 20%, Arrêt Haut = 90%)",
+        "Actionnement relais opto-isolé protégeant le MCU contre les surtensions inductives",
+        "Interface opérateur LCD 16x2 affichant le pourcentage de remplissage et l'état pompe"
+      ],
+      "tech_stack": [
+        "Embedded C++",
+        "Arduino AVR",
+        "40kHz Ultrasonic ToF",
+        "Hysteresis Control",
+        "KiCad PCB"
+      ],
+      "code_Filename": "water_tank_hysteresis.ino",
+      "code_snippet": "float measureWaterLevelPercent(long echoDurationUs, float tankHeightCm) {\n    float distanceCm = (echoDurationUs * 0.0343f) / 2.0f; // Acoustic Time-of-Flight\n    float fillCm = max(0.0f, tankHeightCm - distanceCm);\n    return constrain((fillCm / tankHeightCm) * 100.0f, 0.0f, 100.0f);\n}\n// Dual-threshold hysteresis prevents rapid relay oscillation at boundary levels\nif (!pumpActive && levelPct <= LOW_LEVEL_THRESHOLD_PCT)  pumpActive = true;\nif (pumpActive  && levelPct >= HIGH_LEVEL_CUTOFF_PCT)    pumpActive = false;",
+      "metrics": {
+        "Sensor": "40 kHz Ultrasonic",
+        "Control Law": "Dual Hysteresis",
+        "Display": "16x2 HD44780 LCD"
+      }
+    },
+    {
+      "index": "06",
+      "slug": "agricconnect-data-ecosystem",
+      "title_en": "AgricConnect & Relational Web Data Systems",
+      "title_fr": "AgricConnect & Systèmes de Données Web Relationnels",
+      "category": "python",
+      "primary_lang": "Python · JS · Full-Stack Data",
+      "status_en": "Collaborative Ecosystem · GitHub",
+      "status_fr": "Écosystème Collaboratif · GitHub",
+      "repo_url": "https://github.com/AgriKorn/AgricConnect",
+      "summary_en": "Freshness-aware agricultural supply-chain marketplace connecting farmers, buyers, and logistics drivers, paired with structured web data-table ingestion pipelines.",
+      "summary_fr": "Plateforme logistique agricole sensible à la fraîcheur connectant producteurs, acheteurs et transporteurs, couplée à des tables de données dynamiques.",
+      "architecture_en": [
+        "Multi-actor marketplace matching perishable farm inventory with cold-chain transport routes",
+        "Structured form-to-table validation and DOM state synchronization (Data-Table repo)",
+        "Collaborative Git workflow across multi-developer engineering teams"
+      ],
+      "architecture_fr": [
+        "Mise en relation multi-acteurs entre stocks agricoles périssables et transporteurs",
+        "Validation de formulaires structurés et synchronisation de tables de données (Data-Table)",
+        "Flux de travail Git collaboratif au sein d'équipes d'ingénierie distribuées"
+      ],
+      "tech_stack": [
+        "Python",
+        "JavaScript ES6",
+        "HTML5 / CSS3",
+        "Supply-Chain Logistics",
+        "Git"
+      ],
+      "code_Filename": "freshness_scorer.py",
+      "code_snippet": "def compute_freshness_priority(harvest_hours_ago: float, transit_hours: float, temp_c: float) -> float:\n    \"\"\"Ranks farm lots by remaining shelf-life urgency for dispatch prioritization.\"\"\"\n    thermal_factor = math.exp(0.045 * max(0.0, temp_c - 4.0))\n    effective_age = (harvest_hours_ago + transit_hours) * thermal_factor\n    return round(max(0.0, 100.0 - effective_age * 1.25), 2)",
+      "metrics": {
+        "Ecosystem": "AgriKorn / HanzSintim",
+        "Focus": "Perishable Logistics",
+        "Stack": "Python & Web"
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "total_ttc_eur": 47.97,
+  "total_ht_eur": 39.98,
+  "tva_20_eur": 7.99,
+  "cash_tendered_eur": 60.0,
+  "change_returned_eur": 12.03,
+  "change_cents": 1203,
+  "nfc_eligible": true,
+  "dispensed_denominations": [
+    {
+      "denomination": "10.00 € Bill",
+      "cents": 1000,
+      "count": 1,
+      "subtotal_eur": "10.00 €"
+    },
+    {
+      "denomination": "2.00 € Coin",
+      "cents": 200,
+      "count": 1,
+      "subtotal_eur": "2.00 €"
+    },
+    {
+      "denomination": "0.02 € Coin",
+      "cents": 2,
+      "count": 1,
+      "subtotal_eur": "0.02 €"
+    },
+    {
+      "denomination": "0.01 € Coin",
+      "cents": 1,
+      "count": 1,
+      "subtotal_eur": "0.01 €"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "average_proficiency_pct": 92.8,
+  "skill_petals": [
+    {
+      "code": "01",
+      "title_en": "Python 3 & Backend Architecture",
+      "title_fr": "Python 3 & Architecture Backend",
+      "score": 95,
+      "accent": "#10b981",
+      "metrics_en": "Flask WSGI · REST APIs · Data Modeling · Automation & CLI Tooling",
+      "metrics_fr": "Flask WSGI · APIs REST · Modélisation de Données · Automatisation",
+      "tools": [
+        "Python 3.12",
+        "Flask",
+        "Jinja2",
+        "Dataclasses",
+        "REST / JSON",
+        "Pytest"
+      ]
+    },
+    {
+      "code": "02",
+      "title_en": "C / C++17 & POS Systems",
+      "title_fr": "C / C++17 & Systèmes TPV",
+      "score": 94,
+      "accent": "#34d399",
+      "metrics_en": "Polymorphic OOP · RTTI dynamic_cast · Greedy Algorithms · STL",
+      "metrics_fr": "POO Polymorphe · RTTI dynamic_cast · Algorithmes Gloutons · STL",
+      "tools": [
+        "C++17",
+        "C99",
+        "GCC / G++",
+        "GDB",
+        "WSL2 Linux",
+        "Make / CMake"
+      ]
+    },
+    {
+      "code": "03",
+      "title_en": "Microelectronics & Embedded MCU",
+      "title_fr": "Microélectronique & MCU Embarqués",
+      "score": 91,
+      "accent": "#059669",
+      "metrics_en": "STM32 & ESP32 Dual-MCU · Cadence IC · Ultrasonic ToF · PWM Control",
+      "metrics_fr": "Double-MCU STM32 & ESP32 · Cadence IC · Ultrasons ToF · Commande PWM",
+      "tools": [
+        "STM32",
+        "ESP32",
+        "MSP430",
+        "Arduino AVR",
+        "Cadence Virtuoso",
+        "UART / I2C / SPI"
+      ]
+    },
+    {
+      "code": "04",
+      "title_en": "Relational Data & 3NF Schemas",
+      "title_fr": "Données Relationnelles & Schémas 3NF",
+      "score": 92,
+      "accent": "#6ee7b7",
+      "metrics_en": "Conceptual ER Modeling · M:N Junction Resolution · 3NF Normalization",
+      "metrics_fr": "Modélisation ER Conceptuelle · Résolution M:N · Normalisation 3NF",
+      "tools": [
+        "SQL",
+        "3NF Schema Design",
+        "ER Diagrams",
+        "PostgreSQL / SQLite",
+        "JSON Stores"
+      ]
+    },
+    {
+      "code": "05",
+      "title_en": "PCB Hardware & Sensor Fusion",
+      "title_fr": "Conception PCB & Fusion Capteurs",
+      "score": 89,
+      "accent": "#14b8a6",
+      "metrics_en": "KiCad Schematic Capture · FeCl3 Etching · Hysteresis Relay Loops",
+      "metrics_fr": "Saisie Schématique KiCad · Gravure FeCl3 · Boucles Relais à Hystérésis",
+      "tools": [
+        "KiCad PCB",
+        "FeCl3 Etching",
+        "H-Bridge PWM",
+        "40kHz Ultrasonic",
+        "16x2 LCD"
+      ]
+    },
+    {
+      "code": "06",
+      "title_en": "Executive & Technical Leadership",
+      "title_fr": "Leadership Exécutif & Technique",
+      "score": 96,
+      "accent": "#a7f3d0",
+      "metrics_en": "ACES President (KNUST) · GHAFRA Nord Lead (Lille) · Cross-Functional R&D",
+      "metrics_fr": "Président ACES (KNUST) · Responsable GHAFRA Nord (Lille) · R&D",
+      "tools": [
+        "Engineering Governance",
+        "Agile R&D",
+        "Bilingual EN/FR",
+        "Supply Chain Ops"
+      ]
+    }
+  ]
+}

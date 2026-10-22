@@ -1,0 +1,43 @@
+{
+  "corridor": [
+    {
+      "code": "FR-LILLE",
+      "institution": "JUNIA — Grande École d'Ingénieurs (ISEN Lille)",
+      "short_name": "JUNIA ISEN Lille",
+      "degree_en": "M1 Microelectronics, Nanotechnology & Embedded Systems",
+      "degree_fr": "M1 Microélectronique, Nanotechnologies & Systèmes Embarqués",
+      "city": "Lille",
+      "country": "France",
+      "coordinates": "50.6292° N, 3.0573° E",
+      "period": "2025 – Present",
+      "focus_en": "IC Design (Cadence), STM32/ESP32 Embedded Systems, Smart Sensors, Autonomous Robotics & Nanotech.",
+      "focus_fr": "Conception IC (Cadence), Systèmes Embarqués STM32/ESP32, Capteurs Intelligents, Robotique & Nanotech."
+    },
+    {
+      "code": "GH-KUMASI",
+      "institution": "Kwame Nkrumah University of Science and Technology (KNUST)",
+      "short_name": "KNUST Kumasi",
+      "degree_en": "BSc Computer Engineering (ACES President)",
+      "degree_fr": "BSc Génie Informatique (Président ACES)",
+      "city": "Kumasi",
+      "country": "Ghana",
+      "coordinates": "6.6745° N, 1.5716° W",
+      "period": "2022 – 2025",
+      "focus_en": "Computer Architecture, C/C++ OOP, Python Software Engineering, 3NF Database Systems & Embedded Labs.",
+      "focus_fr": "Architecture des Ordinateurs, POO C/C++, Ingénierie Python, Bases de Données 3NF & Labs Embarqués."
+    },
+    {
+      "code": "GH-ACCRA",
+      "institution": "Presbyterian Boys' Secondary School (PRESEC-Legon)",
+      "short_name": "PRESEC-Legon (Odadeɛ)",
+      "degree_en": "General Science (Physics, Chemistry, Elective Mathematics)",
+      "degree_fr": "Sciences Générales (Physique, Chimie, Mathématiques Approfondies)",
+      "city": "Accra (Legon)",
+      "country": "Ghana",
+      "coordinates": "5.6506° N, 0.1862° W",
+      "period": "Graduated 2022",
+      "focus_en": "Rigorous analytical foundation in physical sciences, calculus, and competitive STEM problem-solving.",
+      "focus_fr": "Socle analytique rigoureux en sciences physiques, calcul différentiel et résolution de problèmes STEM."
+    }
+  ]
+}
