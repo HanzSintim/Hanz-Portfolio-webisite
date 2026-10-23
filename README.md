@@ -1,55 +1,69 @@
-# Hanz Ofosuhene-Sintim — Python 3, C++17 & Embedded Systems Portfolio
+<div align="center">
 
-[![Python 3.12 + Flask](https://img.shields.io/badge/PYTHON-3.12%20%C2%B7%20Flask%20WSGI-00E676?style=for-the-badge&logo=python&logoColor=04140d)](https://github.com/HanzSintim/Hanz-Portfolio-webisite)
-[![C++17 & POS Systems](https://img.shields.io/badge/C%2B%2B17-Polymorphic%20POS%20%C2%B7%20RTTI-10B981?style=for-the-badge&logo=cplusplus&logoColor=white)](https://github.com/HanzSintim/LECLERC-Self-Checkout)
-[![Embedded Silicon](https://img.shields.io/badge/SILICON-STM32%20%C2%B7%20ESP32%20%C2%B7%20Cadence-059669?style=for-the-badge)](https://github.com/HanzSintim)
-[![Bilingual EN/FR](https://img.shields.io/badge/i18n-EN%20%E2%87%84%20FR%20Bilingual-34D399?style=for-the-badge)](https://hanzsintim.github.io/Hanz-Portfolio-webisite/)
+  <!-- =====================================================================
+       SECTION 1: CODECRAFT + AARAV + DIKSHANT ILLUSTRATED HERO STAGE
+       ===================================================================== -->
+  <a href="https://hanzsintim.github.io/Hanz-Portfolio-webisite/">
+    <img src="./assets/hanzcraft-hero-v4.svg" alt="Hi, I'm Hanz — Python 3, C++17 & Embedded Systems Architect" width="100%" />
+  </a>
 
-> **"Start your change for the future"** — Bridging high-level **Python 3** intelligence & **3NF relational data systems** with deterministic **C++17 POS engines** and **STM32/ESP32 microelectronic hardware**.
+  <br /><br />
+
+  [![Launch Interactive Portfolio & Live Sandbox](https://img.shields.io/badge/▶%20LAUNCH%20INTERACTIVE%20PORTFOLIO-Live%20Showreel%20%26%203--in--1%20Sandbox-7C3AED?style=for-the-badge&logo=googlechrome&logoColor=white)](https://hanzsintim.github.io/Hanz-Portfolio-webisite/)
+  [![Python 3.12 & Flask Engine](https://img.shields.io/badge/PYTHON%203.12-Flask%20WSGI%20%C2%B7%20REST%20API%20%C2%B7%20Data%20Engine-38BDF8?style=for-the-badge&logo=python&logoColor=070a13)](https://github.com/HanzSintim/Hanz-Portfolio-webisite)
+  [![C++17 POS Terminal](https://img.shields.io/badge/C%2B%2B17-E.Leclerc%20Self--Checkout%20POS-A3E635?style=for-the-badge&logo=cplusplus&logoColor=070a13)](https://github.com/HanzSintim/LECLERC-Self-Checkout)
+  [![JUNIA ISEN Lille](https://img.shields.io/badge/JUNIA%20ISEN%20LILLE-M1%20Microelectronics%20%26%20Embedded-10B981?style=for-the-badge)](mailto:hanz.ofosuhene-sintim@student.junia.com)
+
+</div>
+
+<br />
+
+<div align="center">
+
+  <!-- =====================================================================
+       SECTION 2: ABOUT ME + 2x2 GLOWING STATS + 3-COLUMN SKILLS MATRIX
+       ===================================================================== -->
+  <a href="https://hanzsintim.github.io/Hanz-Portfolio-webisite/#skills">
+    <img src="./assets/hanzcraft-skills-v4.svg" alt="About Me, 2x2 Impact Stats & Technologies I Master 3-Column Progress Matrix" width="100%" />
+  </a>
+
+</div>
+
+<br />
+
+<div align="center">
+
+  <!-- =====================================================================
+       SECTION 3: ALTERNATING JOURNEY TIMELINE + VISUAL PROJECT CARDS
+       ===================================================================== -->
+  <a href="https://hanzsintim.github.io/Hanz-Portfolio-webisite/#projects">
+    <img src="./assets/hanzcraft-journey-projects-v4.svg" alt="Alternating Journey Timeline & Featured Projects Visual Mockup Cards" width="100%" />
+  </a>
+
+</div>
+
+<br />
+
+<div align="center">
+
+  <!-- =====================================================================
+       SECTION 4: 5-STEP ENGINEERING PROCESS & DEDICATED CV DOWNLOAD BANNER
+       ===================================================================== -->
+  <a href="https://hanzsintim.github.io/Hanz-Portfolio-webisite/#resume">
+    <img src="./assets/hanzcraft-resume-process-v4.svg" alt="5-Step Engineering Process & Resume Download Banner" width="100%" />
+  </a>
+
+</div>
 
 ---
 
-## 1. Visual & Architectural Design System (*Alpine Mist + LEAFE Emerald-Obsidian*)
+### 🚀 Complete Systems & Repository Directory
 
-This portfolio is engineered with a dual-mode **Python 3 / Flask** backend (`app.py` + `data_engine.py`) and an interactive **Alpine Mist & LEAFE Emerald-Obsidian** frontend (`templates/index.html`, `static/css/emerald_obsidian.css`, `static/js/portfolio_engine.js`):
-
-1. **Zone 1 — Misty Alpine-to-Obsidian Hero & 6-Node Capability Matrix:**
-   - Layered SVG alpine ridges transitioning from alabaster mist into deep obsidian-emerald (`#060d0a`), accented by sweeping cubic Bézier trajectories and floating glassmorphic telemetry orbs (`PY 3.12`, `C++17`, `STM32`, `3NF`).
-2. **Zone 2 — LEAFE Teardrop & Organic Portal Showcase:**
-   - Asymmetric obsidian cards with diagonal emerald ribbons and teardrop-masked portals highlighting **Python 3 Backend/Data Architecture** and **C++17 / Embedded Silicon**.
-3. **Zone 3 — Interactive 3D Laptop Workstation & Live Euro POS Simulator:**
-   - Inspect all **6 production engineering systems** inside a 3D workstation monitor, complete with a live **Python/C++ E.Leclerc Greedy Change-Making & French TVA (20%) Calculator**.
-4. **Zone 4 — Executive Dossier & 6-Petal Radial Flower Infographic:**
-   - Highlights executive leadership (**ACES Department President @ KNUST**, **GHAFRA Nord Strategic Planning Lead @ Lille**, **H & D'S HUB Co-Lead**) alongside a quantitative **6-Petal Radial Flower Diagram** (`92.8%` average proficiency).
-5. **Zone 5 — Global Engineering Corridor Map (`Ghana ⇄ France`):**
-   - Custom dark-emerald vector map tracing the academic & R&D corridor from **PRESEC-Legon (Accra)** and **KNUST (Kumasi)** to **JUNIA ISEN (Lille, France)**.
-
----
-
-## 2. Python 3 Architecture & REST API Endpoints
-
-| File / Endpoint | Role & Specification |
-| :--- | :--- |
-| `data_engine.py` | Pure Python 3 domain & analytics module (`SkillPetal`, `EngineeringProject`, `LeadershipRole`, `AcademicNode` dataclasses + `compute_euro_checkout_simulation()`). |
-| `app.py` | Flask WSGI application server + CLI static site compiler (`python app.py --build-static`). |
-| `GET /` | Renders the interactive bilingual (`EN` / `FR`) portfolio page. |
-| `GET /api/v1/profile` | Returns engineer identity, telemetry summary, and executive leadership roles in JSON. |
-| `GET /api/v1/projects` | Returns all 6 engineering systems (supports `?category=python\|cpp\|embedded\|data`). |
-| `GET /api/v1/infographics` | Returns the 6-petal radial proficiency vector and quantitative scores. |
-| `GET /api/v1/corridor` | Returns the 3-node Ghana $\longleftrightarrow$ France academic corridor coordinates. |
-| `GET /api/v1/pos-simulator` | Executes the Python integer-centime French TVA (20%) & 12-denomination Euro greedy change algorithm (`?amount=47.97&tendered=60.00`). |
-
----
-
-## 3. Running Locally (Python Flask Server) or Compiling for GitHub Pages
-
-```powershell
-# 1. Install dependencies
-pip install -r requirements.txt
-
-# 2. Launch the live Python Flask server on http://127.0.0.1:5000
-python app.py
-
-# 3. Compile static HTML + JSON API snapshots for GitHub Pages hosting
-python app.py --build-static
-```
+| # | System / Repository | Primary Stack & Subject Focus | Architectural Summary |
+| :-: | :--- | :--- | :--- |
+| **01** | **[`Hanz-Portfolio-webisite`](https://github.com/HanzSintim/Hanz-Portfolio-webisite)**<br/>*[▶ Open Interactive Showreel & Sandbox ↗](https://hanzsintim.github.io/Hanz-Portfolio-webisite/)* | **`Python 3.12`** · `Flask WSGI` · `Jinja2` · `REST JSON API` · `ES6` | Full-stack **Python** telemetry & portfolio engine (`data_engine.py`, `app.py`) featuring a 3-in-1 interactive hardware/POS sandbox, 3D mouse-parallax illustrated hero, dual Dark Neon / Frosted Glass themes, downloadable EN/FR CVs, and static GitHub Pages compiler. |
+| **02** | **[`LECLERC-Self-Checkout`](https://github.com/HanzSintim/LECLERC-Self-Checkout)**<br/>*Caisse Libre-Service POS* | **`C++17`** · `OOP Polymorphism` · `RTTI dynamic_cast` · `STL` | French **E.Leclerc Self-Checkout Terminal** with optical/load-cell bagging scale verification (`Physicalproducts` vs `Digitalproduct`), 12-denomination Euro cash validator + **Greedy Change-Making Algorithm**, French PSD2 NFC (`<= 50€`) / EMV Chip+PIN, and TVA 20% receipt engine. |
+| **03** | **Autonomous Street-Cleaning Robot**<br/>*JUNIA ISEN Lille M1 R&D* | **`Embedded C`** · `STM32` · `ESP32` · `UART AI Vision` · `ToF` | 7-member M1 R&D architecture partitioning hard real-time **STM32** PWM H-bridge traction & brush control from **ESP32** wireless telemetry, UART AI debris vision, and ultrasonic time-of-flight emergency braking. |
+| **04** | **[`CoE_group22`](https://github.com/HanzSintim/CoE_group22)**<br/>*Smart Logistics & 3NF Schema* | **`SQL`** · **`Python`** · `3NF Normalization` · `ER Modeling` | End-to-end relational database schema resolving complex `M:N` cardinalities via composite-key associative junction tables and strict **Third Normal Form (3NF)** normalization. |
+| **05** | **Automatic Water Tank Controller**<br/>*Closed-Loop Embedded Lab* | **`Embedded C/C++`** · `Arduino AVR` · `40kHz Ultrasonic` · `KiCad` | Non-contact acoustic Time-of-Flight liquid level sensing ($d = \frac{v \cdot t}{2}$) with dual-threshold Schmitt hysteresis relay control to eliminate pump chatter and live `16x2 LCD` operator telemetry. |
+| **06** | **[`AgriKorn/AgricConnect`](https://github.com/AgriKorn/AgricConnect)** & **[`Data-Table`](https://github.com/HanzSintim/Data-Table)** | **`Python`** · `JavaScript ES6` · `HTML5 / CSS3` · `Data Tables` | Freshness-aware farm-to-market supply chain platform connecting farmers, buyers, and drivers, paired with structured relational web data tables. |

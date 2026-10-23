@@ -11,16 +11,20 @@
   <link rel="stylesheet" href="{{ 'static/css/emerald_obsidian.css' if static_mode else url_for('static', filename='css/emerald_obsidian.css') }}" />
 </head>
 <body>
-  <!-- Ambient Liquid Gradient Blobs & Interactive Cursor Spotlight -->
+  <!-- Ambient Liquid Gradient Blobs, Interactive Starfield Canvas & Ring Cursor -->
+  <canvas class="starfield-canvas" id="starfieldCanvas" aria-hidden="true"></canvas>
   <div class="ambient-backdrop" aria-hidden="true">
     <div class="ambient-blob blob-1"></div>
     <div class="ambient-blob blob-2"></div>
     <div class="ambient-blob blob-3"></div>
   </div>
   <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <div class="cursor-ring-outer" id="cursorRing" aria-hidden="true">
+    <span class="cursor-ring-dot"></span>
+  </div>
 
   <!-- ========================================================================
-       STICKY GLASS NAVIGATION BAR (CodeCraft + Aarav Singh Style)
+       STICKY GLASS NAVIGATION BAR (CodeCraft + Aarav Singh + AgyemangDEV Style)
        ======================================================================== -->
   <header class="navbar">
     <nav class="navbar-inner" aria-label="Primary Navigation">
@@ -30,20 +34,24 @@
       </a>
 
       <ul class="nav-links">
-        <li><a href="#top" class="active" data-i18n-en="Home" data-i18n-fr="Accueil">Home</a></li>
-        <li><a href="#showreel" data-i18n-en="Live Sandbox" data-i18n-fr="Labo Live">Live Sandbox</a></li>
         <li><a href="#about" data-i18n-en="About" data-i18n-fr="À Propos">About</a></li>
-        <li><a href="#services" data-i18n-en="Services" data-i18n-fr="Expertise">Services</a></li>
         <li><a href="#skills" data-i18n-en="Skills" data-i18n-fr="Compétences">Skills</a></li>
+        <li><a href="#journey" data-i18n-en="Journey" data-i18n-fr="Parcours">Journey</a></li>
         <li><a href="#projects" data-i18n-en="Projects" data-i18n-fr="Projets">Projects</a></li>
-        <li><a href="#process" data-i18n-en="Process" data-i18n-fr="Méthode">Process</a></li>
+        <li><a href="#showreel" data-i18n-en="Live Sandbox" data-i18n-fr="Labo Live">Live Sandbox</a></li>
+        <li><a href="#resume" data-i18n-en="Resume" data-i18n-fr="CV">Resume</a></li>
+        <li><a href="#contact" data-i18n-en="Contact" data-i18n-fr="Contact">Contact</a></li>
       </ul>
 
       <div class="nav-actions">
-        <button type="button" class="pill-toggle" id="langToggleBtn" title="Switch Language (EN / FR)">
-          <span>🌐</span>
-          <span id="langLabel">EN</span>
-        </button>
+        <div class="lang-segmented-switch" role="group" aria-label="Language Switcher">
+          <button type="button" class="lang-seg-btn active" data-lang-btn="en">
+            <span>🇬🇧</span><span>EN</span>
+          </button>
+          <button type="button" class="lang-seg-btn" data-lang-btn="fr">
+            <span>🇫🇷</span><span>FR</span>
+          </button>
+        </div>
         <button type="button" class="pill-toggle" id="themeToggleBtn" title="Switch Dark Neon / Frosted Light Theme">
           <span id="themeIcon">☀️</span>
           <span id="themeLabel">Glass Light</span>
@@ -1043,64 +1051,142 @@
     </section>
 
     <!-- ======================================================================
-         SECTION 8: ACADEMIC CORRIDOR & EXECUTIVE LEADERSHIP (GHANA ⇄ FRANCE)
+         SECTION 8: JOURNEY — ALTERNATING CENTER-SPINE TIMELINE (AgyemangDEV Style)
          ====================================================================== -->
-    <section class="section-block" id="corridor">
+    <section class="section-block" id="journey">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header centered">
+          <div class="section-eyebrow">✦ <span data-i18n-en="MY JOURNEY" data-i18n-fr="MON PARCOURS">MY JOURNEY</span></div>
+          <h2 class="section-title" data-i18n-en="Education &amp; Executive Leadership Corridor" data-i18n-fr="Parcours Académique &amp; Leadership Exécutif">Education &amp; Executive Leadership Corridor</h2>
+          <p class="section-subtitle" data-i18n-en="From PRESEC-Legon &amp; ACES President at KNUST (Ghana 🇬🇭) to M1 Microelectronics &amp; Embedded Systems at JUNIA ISEN Lille (France 🇫🇷)." data-i18n-fr="De PRESEC-Legon &amp; la Présidence ACES à KNUST (Ghana 🇬🇭) au Master 1 Microélectronique &amp; Systèmes Embarqués à JUNIA ISEN Lille (France 🇫🇷).">
+            From PRESEC-Legon &amp; ACES President at KNUST (Ghana 🇬🇭) to M1 Microelectronics &amp; Embedded Systems at JUNIA ISEN Lille (France 🇫🇷).
+          </p>
+        </div>
+
+        <div class="journey-timeline-wrap" id="corridor">
+          <div class="journey-center-spine" aria-hidden="true"></div>
+
+          <!-- Milestone 1 (LEFT): M1 JUNIA ISEN Lille -->
+          <div class="journey-row">
+            <div class="journey-card align-right">
+              <div class="journey-period">2025 - PRESENT</div>
+              <h3 class="journey-role-title" data-i18n-en="M1 Microelectronics, Nanotech &amp; Embedded Systems" data-i18n-fr="M1 Microélectronique, Nanotechnologies &amp; Embarqué">M1 Microelectronics, Nanotech &amp; Embedded Systems</h3>
+              <div class="journey-org-sub">JUNIA — Grande École d'Ingénieurs (ISEN Lille, France 🇫🇷)</div>
+              <p class="journey-desc" data-i18n-en="Engineering IC design (Cadence Virtuoso), dual-MCU STM32/ESP32 autonomous robotics, smart sensor fusion, and embedded C/C++ firmware." data-i18n-fr="Conception de circuits intégrés (Cadence), robotique autonome double-MCU STM32/ESP32, capteurs intelligents et firmware C/C++.">
+                Engineering IC design (Cadence Virtuoso), dual-MCU STM32/ESP32 autonomous robotics, smart sensor fusion, and embedded C/C++ firmware.
+              </p>
+            </div>
+            <div class="journey-node-col"><span class="journey-spine-dot"></span></div>
+            <div class="journey-empty-col"></div>
+          </div>
+
+          <!-- Milestone 2 (RIGHT): GHAFRA Nord Strategic Planning Lead -->
+          <div class="journey-row">
+            <div class="journey-empty-col"></div>
+            <div class="journey-node-col"><span class="journey-spine-dot"></span></div>
+            <div class="journey-card align-left">
+              <div class="journey-period">2025 - PRESENT</div>
+              <h3 class="journey-role-title" data-i18n-en="Strategic Planning &amp; Organizing Lead" data-i18n-fr="Responsable Planification Stratégique &amp; Organisation">Strategic Planning &amp; Organizing Lead</h3>
+              <div class="journey-org-sub">GHAFRA Nord (Lille &amp; Hauts-de-France 🇫🇷)</div>
+              <p class="journey-desc" data-i18n-en="Architecting operational roadmaps, student integration programs, and cross-cultural institutional partnerships across Northern France." data-i18n-fr="Conception des feuilles de route opérationnelles, programmes d'intégration étudiante et partenariats institutionnels dans les Hauts-de-France.">
+                Architecting operational roadmaps, student integration programs, and cross-cultural institutional partnerships across Northern France.
+              </p>
+            </div>
+          </div>
+
+          <!-- Milestone 3 (LEFT): Department President — ACES KNUST -->
+          <div class="journey-row">
+            <div class="journey-card align-right">
+              <div class="journey-period">2024 - 2025</div>
+              <h3 class="journey-role-title" data-i18n-en="Department President — ACES KNUST" data-i18n-fr="Président de Département — ACES KNUST">Department President — ACES KNUST</h3>
+              <div class="journey-org-sub">Association of Computer Engineering Students (KNUST, Ghana 🇬🇭)</div>
+              <p class="journey-desc" data-i18n-en="Chief executive representative for 800+ Computer Engineering students. Directed ACES Tech Week, Codefest hackathons, academic mentorship, and departmental software platforms." data-i18n-fr="Président exécutif représentant plus de 800 étudiants en Génie Informatique. Direction de l'ACES Tech Week, du hackathon Codefest et des plateformes logicielles.">
+                Chief executive representative for 800+ Computer Engineering students. Directed ACES Tech Week, Codefest hackathons, academic mentorship, and departmental software platforms.
+              </p>
+            </div>
+            <div class="journey-node-col"><span class="journey-spine-dot"></span></div>
+            <div class="journey-empty-col"></div>
+          </div>
+
+          <!-- Milestone 4 (RIGHT): Co-Lead Operations — H & D'S HUB -->
+          <div class="journey-row">
+            <div class="journey-empty-col"></div>
+            <div class="journey-node-col"><span class="journey-spine-dot"></span></div>
+            <div class="journey-card align-left">
+              <div class="journey-period">2023 - PRESENT</div>
+              <h3 class="journey-role-title" data-i18n-en="Co-Lead, Commercial &amp; Hardware Operations" data-i18n-fr="Co-Responsable Opérations Commerciales &amp; Matérielles">Co-Lead, Commercial &amp; Hardware Operations</h3>
+              <div class="journey-org-sub">H &amp; D'S HUB (Ghana 🇬🇭)</div>
+              <p class="journey-desc" data-i18n-en="Led international hardware procurement, pre-shipment device diagnostics, unit-economics pricing, and last-mile fulfillment workflows." data-i18n-fr="Gestion des approvisionnements matériels internationaux, diagnostics techniques avant expédition et chaîne logistique.">
+                Led international hardware procurement, pre-shipment device diagnostics, unit-economics pricing, and last-mile fulfillment workflows.
+              </p>
+            </div>
+          </div>
+
+          <!-- Milestone 5 (LEFT): BSc Computer Engineering — KNUST -->
+          <div class="journey-row">
+            <div class="journey-card align-right">
+              <div class="journey-period">2022 - 2025</div>
+              <h3 class="journey-role-title" data-i18n-en="BSc Computer Engineering" data-i18n-fr="BSc Génie Informatique (Computer Engineering)">BSc Computer Engineering</h3>
+              <div class="journey-org-sub">KNUST (Kumasi, Ghana 🇬🇭)</div>
+              <p class="journey-desc" data-i18n-en="Studied computer architecture, C/C++ object-oriented systems, Python software engineering, strict 3NF relational databases, and embedded microcontroller labs." data-i18n-fr="Étude de l'architecture des ordinateurs, POO C/C++, ingénierie logicielle Python, bases de données relationnelles 3NF et systèmes embarqués.">
+                Studied computer architecture, C/C++ object-oriented systems, Python software engineering, strict 3NF relational databases, and embedded microcontroller labs.
+              </p>
+            </div>
+            <div class="journey-node-col"><span class="journey-spine-dot"></span></div>
+            <div class="journey-empty-col"></div>
+          </div>
+
+          <!-- Milestone 6 (RIGHT): PRESEC-Legon -->
+          <div class="journey-row">
+            <div class="journey-empty-col"></div>
+            <div class="journey-node-col"><span class="journey-spine-dot"></span></div>
+            <div class="journey-card align-left">
+              <div class="journey-period">2022</div>
+              <h3 class="journey-role-title" data-i18n-en="General Science (Odadeɛ)" data-i18n-fr="Sciences Générales (Odadeɛ)">General Science (Odadeɛ)</h3>
+              <div class="journey-org-sub">Presbyterian Boys' Secondary School — PRESEC-Legon (Accra, Ghana 🇬🇭)</div>
+              <p class="journey-desc" data-i18n-en="Rigorous analytical foundation in Physics, Chemistry, Elective Mathematics, and competitive STEM problem-solving." data-i18n-fr="Socle analytique rigoureux en Physique, Chimie, Mathématiques Approfondies et résolution de problèmes STEM.">
+                Rigorous analytical foundation in Physics, Chemistry, Elective Mathematics, and competitive STEM problem-solving.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 9: RESUME — DOWNLOAD MY CV IN EN OR FR (AgyemangDEV Screenshot 4)
+         ====================================================================== -->
+    <section class="section-block" id="resume">
+      <div class="container">
+        <div class="section-header" style="max-width:960px; margin:0 auto 28px;">
           <div>
-            <div class="section-eyebrow">✦ <span data-i18n-en="EDUCATION &amp; LEADERSHIP" data-i18n-fr="FORMATION &amp; LEADERSHIP">EDUCATION &amp; LEADERSHIP</span></div>
-            <h2 class="section-title" data-i18n-en="Ghana 🇬🇭 ⇄ France 🇫🇷 Engineering Corridor" data-i18n-fr="Corridor Académique &amp; Exécutif Ghana 🇬🇭 ⇄ France 🇫🇷">Ghana 🇬🇭 ⇄ France 🇫🇷 Engineering Corridor</h2>
+            <h2 class="section-title" style="font-size:clamp(2.2rem, 4vw, 3.1rem);" data-i18n-en="Resume" data-i18n-fr="Curriculum Vitae">Resume</h2>
+            <p class="section-subtitle" data-i18n-en="Download my CV" data-i18n-fr="Télécharger mon CV">Download my CV</p>
           </div>
         </div>
 
-        <div class="corridor-split-grid">
-          <!-- Academic Institutions Column -->
-          <div>
-            <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:16px; color:var(--accent-cyan);" data-i18n-en="🎓 Academic Journey" data-i18n-fr="🎓 Parcours Académique">🎓 Academic Journey</h3>
-            <div class="timeline-stack">
-              {% for node in data.corridor %}
-              <div class="timeline-glass-card">
-                <div class="timeline-badge-row">
-                  <span class="timeline-pill">{{ node.code }} · {{ node.city }}, {{ node.country }}</span>
-                  <span class="timeline-period">{{ node.period }}</span>
-                </div>
-                <h4 style="font-size:1.08rem; font-weight:800; margin-bottom:4px;">{{ node.institution }}</h4>
-                <div style="font-size:0.88rem; font-weight:700; color:var(--accent-lime); margin-bottom:6px;" data-i18n-en="{{ node.degree_en }}" data-i18n-fr="{{ node.degree_fr }}">
-                  {{ node.degree_en }}
-                </div>
-                <p style="font-size:0.83rem; color:var(--text-secondary);" data-i18n-en="{{ node.focus_en }}" data-i18n-fr="{{ node.focus_fr }}">
-                  {{ node.focus_en }}
-                </p>
-              </div>
-              {% endfor %}
+        <div class="resume-banner-card">
+          <div class="resume-copy-col">
+            <p data-i18n-en="Grab a PDF copy of my résumé in English or French — same engineering depth, tailored language." data-i18n-fr="Téléchargez une copie PDF de mon CV en anglais ou en français — même rigueur technique, langue adaptée.">
+              Grab a PDF copy of my résumé in English or French — same engineering depth, tailored language.
+            </p>
+            <div class="resume-updated-tag" data-i18n-en="Updated 2026 · JUNIA ISEN Lille &amp; KNUST" data-i18n-fr="Mis à jour 2026 · JUNIA ISEN Lille &amp; KNUST">
+              Updated 2026 · JUNIA ISEN Lille &amp; KNUST
             </div>
           </div>
 
-          <!-- Executive Leadership Column -->
-          <div>
-            <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:16px; color:var(--accent-lime);" data-i18n-en="🏛️ Executive Leadership &amp; Governance" data-i18n-fr="🏛️ Leadership Exécutif &amp; Gouvernance">🏛️ Executive Leadership &amp; Governance</h3>
-            <div class="timeline-stack">
-              {% for role in data.leadership %}
-              <div class="timeline-glass-card">
-                <div class="timeline-badge-row">
-                  <span class="timeline-pill">{{ role.badge }} · {{ role.location }}</span>
-                  <span class="timeline-period">{{ role.period }}</span>
-                </div>
-                <h4 style="font-size:1.08rem; font-weight:800; margin-bottom:4px;" data-i18n-en="{{ role.role_en }}" data-i18n-fr="{{ role.role_fr }}">
-                  {{ role.role_en }}
-                </h4>
-                <div style="font-size:0.85rem; font-weight:700; color:var(--accent-cyan); margin-bottom:8px;">
-                  {{ role.organization }}
-                </div>
-                <ul style="padding-left:18px; font-size:0.82rem; color:var(--text-secondary);">
-                  {% for item in role.highlights_en %}
-                  <li>{{ item }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-              {% endfor %}
-            </div>
+          <div class="resume-buttons-col">
+            <a href="{{ 'cv_en.html' if static_mode else '/cv/en' }}" target="_blank" rel="noopener" class="btn-cv-en">
+              <span class="cv-lang-chip">EN</span>
+              <span data-i18n-en="Download CV (EN)" data-i18n-fr="Télécharger CV (EN)">Download CV (EN)</span>
+              <span>↓</span>
+            </a>
+
+            <a href="{{ 'cv_fr.html' if static_mode else '/cv/fr' }}" target="_blank" rel="noopener" class="btn-cv-fr">
+              <span class="cv-lang-chip-fr">FR</span>
+              <span data-i18n-en="Download CV (FR)" data-i18n-fr="Télécharger CV (FR)">Download CV (FR)</span>
+              <span>↓</span>
+            </a>
           </div>
         </div>
       </div>

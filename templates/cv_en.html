@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hanz Ofosuhene-Sintim — Curriculum Vitae (EN)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #0f172a;
+      --sub: #475569;
+      --accent: #4f46e5;
+      --border: #e2e8f0;
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--text);
+      background: #f8fafc;
+      margin: 0;
+      padding: 32px 16px;
+      line-height: 1.5;
+    }
+    .cv-container {
+      max-width: 820px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 48px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    .cv-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+    }
+    .cv-name {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0 0 6px;
+      letter-spacing: -0.02em;
+    }
+    .cv-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 0 0 8px;
+    }
+    .cv-contacts {
+      font-size: 0.85rem;
+      color: var(--sub);
+    }
+    .cv-contacts a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .btn-print {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    h2 {
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      border-bottom: 1.5px solid var(--border);
+      padding-bottom: 6px;
+      margin: 24px 0 14px;
+    }
+    .entry {
+      margin-bottom: 16px;
+    }
+    .entry-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 3px;
+    }
+    .entry-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .entry-date {
+      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--sub);
+      font-weight: 600;
+    }
+    .entry-sub {
+      font-size: 0.86rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .entry-desc, ul {
+      font-size: 0.85rem;
+      color: var(--sub);
+      margin: 4px 0 0;
+      padding-left: 18px;
+    }
+    li {
+      margin-bottom: 3px;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      font-size: 0.85rem;
+    }
+    .skill-category strong {
+      color: #0f172a;
+    }
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .cv-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+      }
+      .btn-print {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="cv-container">
+    <div class="cv-header">
+      <div>
+        <h1 class="cv-name">Hanz Ofosuhene-Sintim</h1>
+        <div class="cv-title">Python 3 &amp; C++17 Systems Architect · Microelectronics &amp; Embedded Systems</div>
+        <div class="cv-contacts">
+          Lille, France 🇫🇷 &nbsp;|&nbsp; Kumasi / Accra, Ghana 🇬🇭<br>
+          Email: <a href="mailto:hanz.ofosuhene-sintim@student.junia.com">hanz.ofosuhene-sintim@student.junia.com</a> &nbsp;|&nbsp;
+          GitHub: <a href="https://github.com/HanzSintim">github.com/HanzSintim</a> &nbsp;|&nbsp;
+          Portfolio: <a href="https://hanzsintim.github.io/Hanz-Portfolio-webisite/">hanzsintim.github.io</a>
+        </div>
+      </div>
+      <button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+    </div>
+
+    <h2>Education &amp; Academic Corridor</h2>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">JUNIA ISEN Lille — Grande École d'Ingénieurs</span>
+        <span class="entry-date">2025 – Present</span>
+      </div>
+      <div class="entry-sub">M1 Microelectronics, Nanotechnology &amp; Embedded Systems | Lille, France</div>
+      <div class="entry-desc">Focus: IC Design (Cadence Virtuoso), STM32 &amp; ESP32 Embedded Systems, Autonomous Robotics, Smart Sensors &amp; Nanotechnology.</div>
+    </div>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">Kwame Nkrumah University of Science and Technology (KNUST)</span>
+        <span class="entry-date">2022 – 2025</span>
+      </div>
+      <div class="entry-sub">BSc Computer Engineering (ACES Department President) | Kumasi, Ghana</div>
+      <div class="entry-desc">Focus: Computer Architecture, C/C++ OOP, Python Software Engineering, 3NF Relational Databases, Microcontrollers.</div>
+    </div>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">Presbyterian Boys' Secondary School (PRESEC-Legon)</span>
+        <span class="entry-date">Graduated 2022</span>
+      </div>
+      <div class="entry-sub">General Science (Physics, Chemistry, Elective Mathematics) | Accra, Ghana</div>
+      <div class="entry-desc">Odadeɛ alum with rigorous analytical training in calculus, physical sciences, and STEM problem solving.</div>
+    </div>
+
+    <h2>Executive Leadership &amp; Governance</h2>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">Department President — ACES KNUST</span>
+        <span class="entry-date">2024 – 2025</span>
+      </div>
+      <div class="entry-sub">Association of Computer Engineering Students | Kumasi, Ghana</div>
+      <ul>
+        <li>Chief executive representative for 800+ Computer Engineering undergraduates at KNUST.</li>
+        <li>Spearheaded ACES Tech Week, Codefest hackathons, academic mentorship programs, and industry partnerships.</li>
+        <li>Oversaw departmental software repositories (ACES Portal, CareerHub, automated registry pipelines).</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">Strategic Planning &amp; Organizing Lead — GHAFRA Nord</span>
+        <span class="entry-date">2025 – Present</span>
+      </div>
+      <div class="entry-sub">Ghanaian Community in Northern France | Lille, France</div>
+      <ul>
+        <li>Architects operational roadmaps, student integration programs, and institutional events across Northern France.</li>
+        <li>Coordinates cross-cultural academic and professional networking between scholars and French industry.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">Co-Lead, Commercial &amp; Hardware Operations — H &amp; D'S HUB</span>
+        <span class="entry-date">2023 – Present</span>
+      </div>
+      <div class="entry-sub">Ghana</div>
+      <ul>
+        <li>Managed international hardware procurement, pre-shipment device diagnostics, and unit-economics pricing.</li>
+      </ul>
+    </div>
+
+    <h2>Featured Engineering Projects</h2>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">Python 3 &amp; Flask Telemetry Portfolio Engine</span>
+        <span class="entry-date">Python 3.12 · Flask · Jinja2</span>
+      </div>
+      <div class="entry-desc">Full-stack Python telemetry system with typed dataclasses, WSGI REST API endpoints, 3-in-1 hardware/POS simulators, and a static freezer compiling to zero-latency GitHub Pages.</div>
+    </div>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">E.Leclerc Self-Checkout Terminal (Caisse Libre-Service)</span>
+        <span class="entry-date">C++17 · OOP · RTTI · STL</span>
+      </div>
+      <div class="entry-desc">French hypermarket terminal with runtime polymorphism (dynamic_cast) load-cell bagging scale verification, 12-denomination greedy Euro change dispenser, French PSD2 NFC &lt;= 50€, and TVA 20% receipt engine.</div>
+    </div>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">Autonomous Street-Cleaning Robot</span>
+        <span class="entry-date">Embedded C · STM32 · ESP32 · UART AI</span>
+      </div>
+      <div class="entry-desc">7-member M1 engineering R&amp;D at JUNIA Lille partitioning hard real-time PWM H-bridge motor/brush control on STM32 from ESP32 wireless telemetry and UART AI camera debris tracking.</div>
+    </div>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">Smart Logistics 3NF Relational Database</span>
+        <span class="entry-date">SQL · 3NF Normalization · Python</span>
+      </div>
+      <div class="entry-desc">Enterprise relational database resolving multi-hop M:N routing cardinalities via associative composite-key tables with strict Third Normal Form integrity.</div>
+    </div>
+
+    <h2>Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-category"><strong>Languages:</strong> Python 3.12, C/C++17, Embedded C, SQL, JavaScript ES6</div>
+      <div class="skill-category"><strong>Hardware &amp; MCUs:</strong> STM32, ESP32, Arduino AVR, KiCad PCB, Cadence Virtuoso</div>
+      <div class="skill-category"><strong>Frameworks &amp; Tools:</strong> Flask WSGI, Jinja2, GCC/G++, GDB, Linux, WSL2, Git</div>
+      <div class="skill-category"><strong>Methodologies:</strong> 3NF Schema Design, OOP Polymorphism, Dual Hysteresis, Agile</div>
+    </div>
+  </div>
+</body>
+</html>

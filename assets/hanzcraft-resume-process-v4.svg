@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="100%" height="100%" role="img" aria-label="5-Step Engineering Process & Resume Download Banner">
+  <defs>
+    <linearGradient id="bgRP4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="100%" stop-color="#0b1022" />
+    </linearGradient>
+    <linearGradient id="resumeCardGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#083344" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#4a044e" />
+    </linearGradient>
+    <linearGradient id="btnCvEnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ec4899" />
+      <stop offset="50%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#22d3ee" />
+    </linearGradient>
+    <linearGradient id="limeCtaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a3e635" />
+      <stop offset="100%" stop-color="#22c55e" />
+    </linearGradient>
+    <style>
+      .font-sans { font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+      .font-mono { font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="520" rx="26" fill="url(#bgRP4)" stroke="#312e81" stroke-width="2" />
+
+  <!-- ====================================================================
+       TOP HALF: 5-STEP ENGINEERING PROCESS FLOW
+       ==================================================================== -->
+  <text x="600" y="38" text-anchor="middle" fill="#38bdf8" class="font-mono" font-weight="800" font-size="11" letter-spacing="1.8">✦ MY WORKFLOW</text>
+  <text x="600" y="66" text-anchor="middle" fill="#f8fafc" class="font-sans" font-weight="900" font-size="22">Engineering Process I Follow</text>
+
+  <!-- Step 01 -->
+  <g transform="translate(48, 88)">
+    <rect width="204" height="96" rx="14" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.3" />
+    <text x="18" y="28" font-size="16">🔍</text>
+    <text x="184" y="28" text-anchor="end" fill="#8b5cf6" class="font-mono" font-weight="900" font-size="15">01</text>
+    <text x="18" y="52" fill="#f8fafc" class="font-sans" font-weight="800" font-size="12.5">Discover &amp; Specify</text>
+    <text x="18" y="72" fill="#94a3b8" class="font-sans" font-size="10">Centime &amp; real-time latency</text>
+  </g>
+  <text x="262" y="140" text-anchor="middle" fill="#38bdf8" class="font-mono" font-weight="900" font-size="15">→</text>
+
+  <!-- Step 02 -->
+  <g transform="translate(272, 88)">
+    <rect width="204" height="96" rx="14" fill="#0f172a" stroke="#38bdf8" stroke-width="1.3" />
+    <text x="18" y="28" font-size="16">📐</text>
+    <text x="184" y="28" text-anchor="end" fill="#38bdf8" class="font-mono" font-weight="900" font-size="15">02</text>
+    <text x="18" y="52" fill="#f8fafc" class="font-sans" font-weight="800" font-size="12.5">3NF &amp; OOP Model</text>
+    <text x="18" y="72" fill="#94a3b8" class="font-sans" font-size="10">Strict 3NF schemas &amp; OOP</text>
+  </g>
+  <text x="486" y="140" text-anchor="middle" fill="#38bdf8" class="font-mono" font-weight="900" font-size="15">→</text>
+
+  <!-- Step 03 -->
+  <g transform="translate(496, 88)">
+    <rect width="204" height="96" rx="14" fill="#0f172a" stroke="#a3e635" stroke-width="1.3" />
+    <text x="18" y="28" font-size="16">💻</text>
+    <text x="184" y="28" text-anchor="end" fill="#a3e635" class="font-mono" font-weight="900" font-size="15">03</text>
+    <text x="18" y="52" fill="#f8fafc" class="font-sans" font-weight="800" font-size="12.5">Python / C++ / MCU</text>
+    <text x="18" y="72" fill="#94a3b8" class="font-sans" font-size="10">Flask APIs, POS, STM32 &amp; PCB</text>
+  </g>
+  <text x="710" y="140" text-anchor="middle" fill="#38bdf8" class="font-mono" font-weight="900" font-size="15">→</text>
+
+  <!-- Step 04 -->
+  <g transform="translate(720, 88)">
+    <rect width="204" height="96" rx="14" fill="#0f172a" stroke="#f59e0b" stroke-width="1.3" />
+    <text x="18" y="28" font-size="16">🔬</text>
+    <text x="184" y="28" text-anchor="end" fill="#f59e0b" class="font-mono" font-weight="900" font-size="15">04</text>
+    <text x="18" y="52" fill="#f8fafc" class="font-sans" font-weight="800" font-size="12.5">Hardware &amp; Unit QA</text>
+    <text x="18" y="72" fill="#94a3b8" class="font-sans" font-size="10">-Wall -Wextra (0 warnings)</text>
+  </g>
+  <text x="934" y="140" text-anchor="middle" fill="#38bdf8" class="font-mono" font-weight="900" font-size="15">→</text>
+
+  <!-- Step 05 -->
+  <g transform="translate(944, 88)">
+    <rect width="204" height="96" rx="14" fill="#0f172a" stroke="#10b981" stroke-width="1.3" />
+    <text x="18" y="28" font-size="16">🚀</text>
+    <text x="184" y="28" text-anchor="end" fill="#10b981" class="font-mono" font-weight="900" font-size="15">05</text>
+    <text x="18" y="52" fill="#f8fafc" class="font-sans" font-weight="800" font-size="12.5">Deploy &amp; Document</text>
+    <text x="18" y="72" fill="#94a3b8" class="font-sans" font-size="10">Live REST + Static Pages</text>
+  </g>
+
+  <!-- Divider -->
+  <line x1="48" y1="210" x2="1152" y2="210" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- ====================================================================
+       BOTTOM HALF: AGYEMANGDEV-STYLE RESUME DOWNLOAD BANNER & CONTACT
+       ==================================================================== -->
+  <g transform="translate(48, 230)">
+    <rect width="1104" height="136" rx="20" fill="url(#resumeCardGrad)" stroke="#a78bfa" stroke-opacity="0.4" stroke-width="1.5" />
+    <text x="36" y="52" fill="#f8fafc" class="font-sans" font-weight="800" font-size="18">Resume — Download my CV</text>
+    <text x="36" y="80" fill="#cbd5e1" class="font-sans" font-size="13">Grab a copy of my résumé in English or French — same engineering depth, tailored language.</text>
+    <text x="36" y="104" fill="#94a3b8" class="font-mono" font-size="11">Updated 2026 · JUNIA ISEN Lille 🇫🇷 &amp; KNUST 🇬🇭</text>
+
+    <!-- Download Buttons -->
+    <g transform="translate(680, 44)">
+      <rect width="194" height="48" rx="24" fill="url(#btnCvEnGrad)" />
+      <rect x="8" y="10" width="30" height="28" rx="14" fill="#070a13" fill-opacity="0.3" />
+      <text x="23" y="28" text-anchor="middle" fill="#ffffff" class="font-mono" font-weight="900" font-size="10">EN</text>
+      <text x="50" y="30" fill="#070a13" class="font-sans" font-weight="900" font-size="12.5">Download CV (EN) ↓</text>
+    </g>
+
+    <g transform="translate(890, 44)">
+      <rect width="194" height="48" rx="24" fill="#0f172a" stroke="#e2e8f0" stroke-opacity="0.3" stroke-width="1.5" />
+      <rect x="8" y="10" width="30" height="28" rx="14" fill="#ffffff" fill-opacity="0.12" />
+      <text x="23" y="28" text-anchor="middle" fill="#cbd5e1" class="font-mono" font-weight="800" font-size="10">FR</text>
+      <text x="50" y="30" fill="#f8fafc" class="font-sans" font-weight="800" font-size="12.5">Download CV (FR) ↓</text>
+    </g>
+  </g>
+
+  <!-- Footer Quick Contacts Strip -->
+  <g transform="translate(48, 395)">
+    <rect width="1104" height="88" rx="18" fill="#0f172a" stroke="#312e81" stroke-width="1.2" />
+    <text x="32" y="38" fill="#a3e635" class="font-mono" font-weight="800" font-size="10.5" letter-spacing="1">LET'S CREATE SOMETHING DOPE! ⚡</text>
+    <text x="32" y="62" fill="#f8fafc" class="font-sans" font-weight="800" font-size="14.5">hanz.ofosuhene-sintim@student.junia.com · hanzsintim@gmail.com</text>
+    <rect x="880" y="24" width="200" height="40" rx="12" fill="url(#limeCtaGrad)" />
+    <text x="980" y="49" text-anchor="middle" fill="#070a13" class="font-sans" font-weight="900" font-size="12.5">Open Live Sandbox ↗</text>
+  </g>
+</svg>

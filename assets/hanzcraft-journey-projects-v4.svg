@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%" role="img" aria-label="Journey Timeline & Featured Projects Visual Mockup Cards">
+  <defs>
+    <linearGradient id="bgJP4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="100%" stop-color="#0b1022" />
+    </linearGradient>
+    <linearGradient id="cardMockJP" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <style>
+      .font-sans { font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+      .font-mono { font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="680" rx="26" fill="url(#bgJP4)" stroke="#312e81" stroke-width="2" />
+
+  <!-- Starfield background dots -->
+  <g opacity="0.55">
+    <circle cx="120" cy="80" r="1.5" fill="#a78bfa" />
+    <circle cx="240" cy="180" r="1.2" fill="#38bdf8" />
+    <circle cx="600" cy="50" r="1.8" fill="#ffffff" />
+    <circle cx="950" cy="140" r="1.4" fill="#a78bfa" />
+    <circle cx="1110" cy="90" r="1.6" fill="#38bdf8" />
+    <circle cx="100" cy="450" r="1.5" fill="#ffffff" />
+    <circle cx="1120" cy="520" r="1.7" fill="#a78bfa" />
+  </g>
+
+  <!-- ====================================================================
+       TOP HALF: AGYEMANGDEV-STYLE ALTERNATING JOURNEY TIMELINE
+       ==================================================================== -->
+  <text x="600" y="38" text-anchor="middle" fill="#38bdf8" class="font-mono" font-weight="800" font-size="11" letter-spacing="1.8">✦ MY JOURNEY</text>
+  <text x="600" y="66" text-anchor="middle" fill="#f8fafc" class="font-sans" font-weight="900" font-size="24">Education &amp; Executive Leadership Corridor</text>
+
+  <!-- Center Spine Line -->
+  <line x1="600" y1="88" x2="600" y2="340" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="6 4" opacity="0.75" />
+
+  <!-- Node 1: LEFT - JUNIA ISEN Lille -->
+  <g transform="translate(68, 92)">
+    <rect width="490" height="72" rx="14" fill="#0f172a" stroke="#a78bfa" stroke-width="1.3" />
+    <text x="470" y="24" text-anchor="end" fill="#94a3b8" class="font-mono" font-size="9.5" font-weight="700">2025 - PRESENT</text>
+    <text x="470" y="44" text-anchor="end" fill="#f8fafc" class="font-sans" font-weight="800" font-size="13.5">M1 Microelectronics &amp; Embedded Systems</text>
+    <text x="470" y="60" text-anchor="end" fill="#38bdf8" class="font-sans" font-weight="600" font-size="11">JUNIA ISEN Lille (France 🇫🇷) · IC Design &amp; STM32</text>
+  </g>
+  <circle cx="600" cy="128" r="8" fill="#a78bfa" stroke="#070a13" stroke-width="3" />
+
+  <!-- Node 2: RIGHT - GHAFRA Nord Lead -->
+  <g transform="translate(642, 142)">
+    <rect width="490" height="72" rx="14" fill="#0f172a" stroke="#38bdf8" stroke-width="1.3" />
+    <text x="20" y="24" fill="#94a3b8" class="font-mono" font-size="9.5" font-weight="700">2025 - PRESENT</text>
+    <text x="20" y="44" fill="#f8fafc" class="font-sans" font-weight="800" font-size="13.5">Strategic Planning &amp; Organizing Lead</text>
+    <text x="20" y="60" fill="#a3e635" class="font-sans" font-weight="600" font-size="11">GHAFRA Nord (Lille, France 🇫🇷) · Governance</text>
+  </g>
+  <circle cx="600" cy="178" r="8" fill="#38bdf8" stroke="#070a13" stroke-width="3" />
+
+  <!-- Node 3: LEFT - ACES Department President -->
+  <g transform="translate(68, 202)">
+    <rect width="490" height="72" rx="14" fill="#0f172a" stroke="#a3e635" stroke-width="1.3" />
+    <text x="470" y="24" text-anchor="end" fill="#94a3b8" class="font-mono" font-size="9.5" font-weight="700">2024 - 2025</text>
+    <text x="470" y="44" text-anchor="end" fill="#f8fafc" class="font-sans" font-weight="800" font-size="13.5">Department President — ACES KNUST</text>
+    <text x="470" y="60" text-anchor="end" fill="#a3e635" class="font-sans" font-weight="600" font-size="11">Led 800+ Computer Engineering Undergrads (Ghana 🇬🇭)</text>
+  </g>
+  <circle cx="600" cy="238" r="8" fill="#a3e635" stroke="#070a13" stroke-width="3" />
+
+  <!-- Node 4: RIGHT - BSc Computer Engineering KNUST -->
+  <g transform="translate(642, 252)">
+    <rect width="490" height="72" rx="14" fill="#0f172a" stroke="#6366f1" stroke-width="1.3" />
+    <text x="20" y="24" fill="#94a3b8" class="font-mono" font-size="9.5" font-weight="700">2022 - 2025</text>
+    <text x="20" y="44" fill="#f8fafc" class="font-sans" font-weight="800" font-size="13.5">BSc Computer Engineering (KNUST)</text>
+    <text x="20" y="60" fill="#38bdf8" class="font-sans" font-weight="600" font-size="11">Computer Architecture, C++ OOP, Python, 3NF SQL</text>
+  </g>
+  <circle cx="600" cy="288" r="8" fill="#6366f1" stroke="#070a13" stroke-width="3" />
+
+  <!-- Divider -->
+  <line x1="48" y1="345" x2="1152" y2="345" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- ====================================================================
+       BOTTOM HALF: FEATURED PROJECTS (3 VISUAL MOCKUP CARDS)
+       ==================================================================== -->
+  <text x="600" y="375" text-anchor="middle" fill="#38bdf8" class="font-mono" font-weight="800" font-size="11" letter-spacing="1.8">✦ FEATURED SYSTEMS</text>
+  <text x="600" y="402" text-anchor="middle" fill="#f8fafc" class="font-sans" font-weight="900" font-size="22">Production Projects with Live Interactive Sandboxes</text>
+
+  <!-- Card 1: Python & Flask -->
+  <g transform="translate(48, 420)">
+    <rect width="352" height="230" rx="18" fill="#0f172a" stroke="#38bdf8" stroke-opacity="0.5" stroke-width="1.4" />
+    <rect x="12" y="10" width="328" height="96" rx="12" fill="url(#cardMockJP)" stroke="#38bdf8" stroke-opacity="0.3" />
+    <circle cx="28" cy="24" r="3.5" fill="#fb7185" /><circle cx="38" cy="24" r="3.5" fill="#facc15" /><circle cx="48" cy="24" r="3.5" fill="#4ade80" />
+    <text x="324" y="26" text-anchor="end" fill="#38bdf8" class="font-mono" font-size="8.5">app.py · Python 3.12</text>
+    <rect x="24" y="36" width="130" height="60" rx="6" fill="#070a13" />
+    <text x="34" y="52" fill="#a3e635" class="font-mono" font-size="8.5">GET /api/v1/profile</text>
+    <rect x="34" y="60" width="80" height="5" rx="2.5" fill="#38bdf8" />
+    <rect x="34" y="70" width="98" height="5" rx="2.5" fill="#8b5cf6" />
+    <text x="20" y="130" fill="#38bdf8" class="font-mono" font-weight="800" font-size="9.5">PYTHON 3.12 · FLASK WSGI · JINJA2</text>
+    <text x="20" y="152" fill="#f8fafc" class="font-sans" font-weight="800" font-size="15">Python &amp; Flask Portfolio Engine</text>
+    <text x="20" y="172" fill="#94a3b8" class="font-sans" font-size="11">Typed dataclasses, WSGI REST API endpoints,</text>
+    <text x="20" y="188" fill="#94a3b8" class="font-sans" font-size="11">interactive sandbox &amp; GitHub Pages static compiler.</text>
+    <text x="20" y="214" fill="#a78bfa" class="font-sans" font-weight="800" font-size="11.5">Inspect Code &amp; Test Live ↗</text>
+  </g>
+
+  <!-- Card 2: C++17 POS -->
+  <g transform="translate(424, 420)">
+    <rect width="352" height="230" rx="18" fill="#0f172a" stroke="#a78bfa" stroke-opacity="0.5" stroke-width="1.4" />
+    <rect x="12" y="10" width="328" height="96" rx="12" fill="url(#cardMockJP)" stroke="#a78bfa" stroke-opacity="0.3" />
+    <circle cx="28" cy="24" r="3.5" fill="#fb7185" /><circle cx="38" cy="24" r="3.5" fill="#facc15" /><circle cx="48" cy="24" r="3.5" fill="#4ade80" />
+    <text x="324" y="26" text-anchor="end" fill="#a78bfa" class="font-mono" font-size="8.5">L'ECLERC.cpp · C++17</text>
+    <rect x="24" y="36" width="160" height="60" rx="6" fill="#070a13" />
+    <text x="34" y="52" fill="#f8fafc" class="font-mono" font-size="9" font-weight="700">TTC: 47.97€ | TVA: 7.99€</text>
+    <rect x="34" y="60" width="40" height="16" rx="4" fill="#7c3aed" /><text x="54" y="71" text-anchor="middle" fill="#fff" class="font-mono" font-size="8">10€ ×1</text>
+    <rect x="80" y="60" width="36" height="16" rx="4" fill="#059669" /><text x="98" y="71" text-anchor="middle" fill="#fff" class="font-mono" font-size="8">2€ ×1</text>
+    <text x="20" y="130" fill="#a78bfa" class="font-mono" font-weight="800" font-size="9.5">C++17 · OOP POLYMORPHISM · RTTI</text>
+    <text x="20" y="152" fill="#f8fafc" class="font-sans" font-weight="800" font-size="15">E.Leclerc Self-Checkout Terminal</text>
+    <text x="20" y="172" fill="#94a3b8" class="font-sans" font-size="11">Bagging scale dynamic_cast verification, 12-denomination</text>
+    <text x="20" y="188" fill="#94a3b8" class="font-sans" font-size="11">greedy Euro dispenser &amp; French PSD2 NFC &lt;= 50€.</text>
+    <text x="20" y="214" fill="#38bdf8" class="font-sans" font-weight="800" font-size="11.5">Inspect Code &amp; Test Live ↗</text>
+  </g>
+
+  <!-- Card 3: STM32 + ESP32 Robot & 3NF SQL -->
+  <g transform="translate(800, 420)">
+    <rect width="352" height="230" rx="18" fill="#0f172a" stroke="#a3e635" stroke-opacity="0.5" stroke-width="1.4" />
+    <rect x="12" y="10" width="328" height="96" rx="12" fill="url(#cardMockJP)" stroke="#a3e635" stroke-opacity="0.3" />
+    <circle cx="28" cy="24" r="3.5" fill="#fb7185" /><circle cx="38" cy="24" r="3.5" fill="#facc15" /><circle cx="48" cy="24" r="3.5" fill="#4ade80" />
+    <text x="324" y="26" text-anchor="end" fill="#a3e635" class="font-mono" font-size="8.5">STM32 + ESP32 · Dual-MCU</text>
+    <rect x="24" y="36" width="130" height="60" rx="6" fill="#070a13" />
+    <circle cx="89" cy="66" r="20" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="3 2" />
+    <circle cx="89" cy="66" r="10" fill="none" stroke="#a3e635" stroke-width="1.2" />
+    <text x="20" y="130" fill="#a3e635" class="font-mono" font-weight="800" font-size="9.5">STM32 · ESP32 · 3NF SQL · KICAD</text>
+    <text x="20" y="152" fill="#f8fafc" class="font-sans" font-weight="800" font-size="15">Autonomous Robot &amp; 3NF Schemas</text>
+    <text x="20" y="172" fill="#94a3b8" class="font-sans" font-size="11">JUNIA M1 autonomous street-cleaning robot (UART AI),</text>
+    <text x="20" y="188" fill="#94a3b8" class="font-sans" font-size="11">40kHz ultrasonic tank MCU &amp; 3NF delivery schema.</text>
+    <text x="20" y="214" fill="#a3e635" class="font-sans" font-weight="800" font-size="11.5">Inspect Code &amp; Test Live ↗</text>
+  </g>
+</svg>

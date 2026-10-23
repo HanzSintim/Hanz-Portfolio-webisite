@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="100%" height="100%" role="img" aria-label="About Me, 2x2 Impact Stats, and My Skills 3-Column Progress Matrix">
+  <defs>
+    <linearGradient id="bgSkills4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="100%" stop-color="#0b1020" />
+    </linearGradient>
+    <linearGradient id="limeBanner4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a3e635" />
+      <stop offset="100%" stop-color="#22c55e" />
+    </linearGradient>
+    <linearGradient id="barCyanLime4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#a3e635" />
+    </linearGradient>
+    <linearGradient id="barVioletCyan4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <linearGradient id="barAmberCoral4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#fb7185" />
+    </linearGradient>
+    <style>
+      .font-sans { font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+      .font-mono { font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="620" rx="26" fill="url(#bgSkills4)" stroke="#312e81" stroke-width="2" />
+
+  <!-- Starfield background dots -->
+  <g opacity="0.6">
+    <circle cx="80" cy="90" r="1.5" fill="#a78bfa" />
+    <circle cx="280" cy="50" r="1.8" fill="#38bdf8" />
+    <circle cx="560" cy="110" r="1.3" fill="#ffffff" />
+    <circle cx="780" cy="70" r="1.6" fill="#a78bfa" />
+    <circle cx="1080" cy="100" r="1.5" fill="#38bdf8" />
+    <circle cx="1120" cy="280" r="1.8" fill="#ffffff" />
+    <circle cx="70" cy="480" r="1.4" fill="#38bdf8" />
+    <circle cx="1140" cy="540" r="1.6" fill="#a78bfa" />
+  </g>
+
+  <!-- ====================================================================
+       TOP HALF: ABOUT ME SPLIT + 2x2 GLOWING ICON STAT CARDS (Image 1 & 3)
+       ==================================================================== -->
+  <text x="52" y="48" fill="#38bdf8" class="font-mono" font-weight="800" font-size="11" letter-spacing="1.6">✦ ABOUT ME &amp; EXECUTIVE IMPACT</text>
+  <text x="52" y="82" fill="#f8fafc" class="font-sans" font-weight="900" font-size="28">Passionate about building software &amp; silicon systems.</text>
+  <text x="52" y="110" fill="#94a3b8" class="font-sans" font-size="13.5">From leading 800+ Computer Engineering students as ACES President at KNUST (Ghana) to M1 R&amp;D</text>
+  <text x="52" y="130" fill="#94a3b8" class="font-sans" font-size="13.5">in Microelectronics, Nanotech &amp; Embedded Systems at JUNIA ISEN Lille (France).</text>
+
+  <!-- Dikshant Inspired "FOCUS · DISCIPLINE · CONSISTENCY" Neon Lime Card -->
+  <rect x="52" y="148" width="520" height="68" rx="16" fill="url(#limeBanner4)" />
+  <text x="76" y="178" fill="#070a13" class="font-sans" font-weight="900" font-size="16" letter-spacing="0.6">⚡ FOCUS · DISCIPLINE · CONSISTENCY</text>
+  <text x="76" y="200" fill="#0f172a" class="font-mono" font-weight="800" font-size="11">Odadeɛ PRESEC-Legon 🇬🇭  →  ACES President KNUST 🇬🇭  →  JUNIA ISEN Lille 🇫🇷</text>
+
+  <!-- Right 2x2 Glowing Icon Stat Grid (CodeCraft Image 1 Layout) -->
+  <!-- Stat 1 -->
+  <g transform="translate(612, 32)">
+    <rect width="260" height="86" rx="18" fill="#0f172a" stroke="#6366f1" stroke-width="1.4" />
+    <rect x="18" y="19" width="48" height="48" rx="14" fill="#1e1b4b" />
+    <text x="42" y="50" text-anchor="middle" font-size="22">🚀</text>
+    <text x="82" y="46" fill="#f8fafc" class="font-sans" font-weight="900" font-size="26">6+</text>
+    <text x="82" y="66" fill="#94a3b8" class="font-sans" font-weight="600" font-size="12">Production Systems Built</text>
+  </g>
+  <!-- Stat 2 -->
+  <g transform="translate(890, 32)">
+    <rect width="260" height="86" rx="18" fill="#0f172a" stroke="#38bdf8" stroke-width="1.4" />
+    <rect x="18" y="19" width="48" height="48" rx="14" fill="#0c4a6e" />
+    <text x="42" y="50" text-anchor="middle" font-size="22">🏛️</text>
+    <text x="82" y="46" fill="#f8fafc" class="font-sans" font-weight="900" font-size="26">800+</text>
+    <text x="82" y="66" fill="#94a3b8" class="font-sans" font-weight="600" font-size="12">Engineers Led (ACES Pres.)</text>
+  </g>
+  <!-- Stat 3 -->
+  <g transform="translate(612, 132)">
+    <rect width="260" height="86" rx="18" fill="#0f172a" stroke="#a3e635" stroke-width="1.4" />
+    <rect x="18" y="19" width="48" height="48" rx="14" fill="#1a2e05" />
+    <text x="42" y="50" text-anchor="middle" font-size="22">💶</text>
+    <text x="82" y="46" fill="#f8fafc" class="font-sans" font-weight="900" font-size="26">12</text>
+    <text x="82" y="66" fill="#94a3b8" class="font-sans" font-weight="600" font-size="12">Euro POS Denominations</text>
+  </g>
+  <!-- Stat 4 -->
+  <g transform="translate(890, 132)">
+    <rect width="260" height="86" rx="18" fill="#0f172a" stroke="#10b981" stroke-width="1.4" />
+    <rect x="18" y="19" width="48" height="48" rx="14" fill="#064e3b" />
+    <text x="42" y="50" text-anchor="middle" font-size="22">✓</text>
+    <text x="82" y="46" fill="#f8fafc" class="font-sans" font-weight="900" font-size="26">100%</text>
+    <text x="82" y="66" fill="#94a3b8" class="font-sans" font-weight="600" font-size="12">Strict 3NF &amp; 0-Warning C++</text>
+  </g>
+
+  <!-- Divider -->
+  <line x1="52" y1="246" x2="1148" y2="246" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- ====================================================================
+       BOTTOM HALF: "MY SKILLS — TECHNOLOGIES I MASTER" 3x3 PROGRESS MATRIX
+       ==================================================================== -->
+  <text x="600" y="280" text-anchor="middle" fill="#38bdf8" class="font-mono" font-weight="800" font-size="11" letter-spacing="1.8">✦ MY SKILLS</text>
+  <text x="600" y="310" text-anchor="middle" fill="#f8fafc" class="font-sans" font-weight="900" font-size="26">Technologies I Master</text>
+
+  <!-- ROW 1 -->
+  <!-- Card 1: Python 3.12 -->
+  <g transform="translate(52, 334)">
+    <rect width="350" height="76" rx="16" fill="#0f172a" stroke="#38bdf8" stroke-opacity="0.45" stroke-width="1.3" />
+    <rect x="16" y="14" width="34" height="34" rx="9" fill="#38bdf8" />
+    <text x="33" y="36" text-anchor="middle" fill="#070a13" class="font-mono" font-weight="900" font-size="13">Py</text>
+    <text x="62" y="29" fill="#f8fafc" class="font-sans" font-weight="800" font-size="14">Python 3.12 &amp; Automation</text>
+    <text x="62" y="45" fill="#94a3b8" class="font-mono" font-size="10">Dataclasses · CLI · Scripting</text>
+    <text x="332" y="34" text-anchor="end" fill="#a3e635" class="font-mono" font-weight="800" font-size="13">95%</text>
+    <rect x="16" y="56" width="318" height="7" rx="3.5" fill="#1e293b" />
+    <rect x="16" y="56" width="302" height="7" rx="3.5" fill="url(#barCyanLime4)" />
+  </g>
+  <!-- Card 2: C / C++17 -->
+  <g transform="translate(425, 334)">
+    <rect width="350" height="76" rx="16" fill="#0f172a" stroke="#6366f1" stroke-opacity="0.45" stroke-width="1.3" />
+    <rect x="16" y="14" width="34" height="34" rx="9" fill="#6366f1" />
+    <text x="33" y="36" text-anchor="middle" fill="#ffffff" class="font-mono" font-weight="900" font-size="11.5">C++</text>
+    <text x="62" y="29" fill="#f8fafc" class="font-sans" font-weight="800" font-size="14">C / C++17 OOP &amp; POS</text>
+    <text x="62" y="45" fill="#94a3b8" class="font-mono" font-size="10">RTTI dynamic_cast · STL · Greedy</text>
+    <text x="332" y="34" text-anchor="end" fill="#38bdf8" class="font-mono" font-weight="800" font-size="13">94%</text>
+    <rect x="16" y="56" width="318" height="7" rx="3.5" fill="#1e293b" />
+    <rect x="16" y="56" width="299" height="7" rx="3.5" fill="url(#barVioletCyan4)" />
+  </g>
+  <!-- Card 3: Flask & REST APIs -->
+  <g transform="translate(798, 334)">
+    <rect width="350" height="76" rx="16" fill="#0f172a" stroke="#a78bfa" stroke-opacity="0.45" stroke-width="1.3" />
+    <rect x="16" y="14" width="34" height="34" rx="9" fill="#8b5cf6" />
+    <text x="33" y="36" text-anchor="middle" fill="#ffffff" class="font-mono" font-weight="900" font-size="13">Fl</text>
+    <text x="62" y="29" fill="#f8fafc" class="font-sans" font-weight="800" font-size="14">Flask WSGI &amp; REST APIs</text>
+    <text x="62" y="45" fill="#94a3b8" class="font-mono" font-size="10">Jinja2 · JSON · Static Compiler</text>
+    <text x="332" y="34" text-anchor="end" fill="#a78bfa" class="font-mono" font-weight="800" font-size="13">93%</text>
+    <rect x="16" y="56" width="318" height="7" rx="3.5" fill="#1e293b" />
+    <rect x="16" y="56" width="295" height="7" rx="3.5" fill="url(#barVioletCyan4)" />
+  </g>
+
+  <!-- ROW 2 -->
+  <!-- Card 4: STM32 & ESP32 -->
+  <g transform="translate(52, 424)">
+    <rect width="350" height="76" rx="16" fill="#0f172a" stroke="#10b981" stroke-opacity="0.45" stroke-width="1.3" />
+    <rect x="16" y="14" width="34" height="34" rx="9" fill="#10b981" />
+    <text x="33" y="36" text-anchor="middle" fill="#070a13" class="font-mono" font-weight="900" font-size="11.5">µC</text>
+    <text x="62" y="29" fill="#f8fafc" class="font-sans" font-weight="800" font-size="14">STM32 &amp; ESP32 Embedded</text>
+    <text x="62" y="45" fill="#94a3b8" class="font-mono" font-size="10">Dual-MCU · PWM · UART AI · ToF</text>
+    <text x="332" y="34" text-anchor="end" fill="#a3e635" class="font-mono" font-weight="800" font-size="13">91%</text>
+    <rect x="16" y="56" width="318" height="7" rx="3.5" fill="#1e293b" />
+    <rect x="16" y="56" width="289" height="7" rx="3.5" fill="url(#barCyanLime4)" />
+  </g>
+  <!-- Card 5: SQL & 3NF Modeling -->
+  <g transform="translate(425, 424)">
+    <rect width="350" height="76" rx="16" fill="#0f172a" stroke="#f59e0b" stroke-opacity="0.45" stroke-width="1.3" />
+    <rect x="16" y="14" width="34" height="34" rx="9" fill="#f59e0b" />
+    <text x="33" y="36" text-anchor="middle" fill="#070a13" class="font-mono" font-weight="900" font-size="11">SQL</text>
+    <text x="62" y="29" fill="#f8fafc" class="font-sans" font-weight="800" font-size="14">SQL &amp; 3NF Data Schemas</text>
+    <text x="62" y="45" fill="#94a3b8" class="font-mono" font-size="10">ER Modeling · M:N Junctions</text>
+    <text x="332" y="34" text-anchor="end" fill="#fbbf24" class="font-mono" font-weight="800" font-size="13">92%</text>
+    <rect x="16" y="56" width="318" height="7" rx="3.5" fill="#1e293b" />
+    <rect x="16" y="56" width="292" height="7" rx="3.5" fill="url(#barAmberCoral4)" />
+  </g>
+  <!-- Card 6: KiCad PCB & Cadence IC -->
+  <g transform="translate(798, 424)">
+    <rect width="350" height="76" rx="16" fill="#0f172a" stroke="#a3e635" stroke-opacity="0.45" stroke-width="1.3" />
+    <rect x="16" y="14" width="34" height="34" rx="9" fill="#a3e635" />
+    <text x="33" y="36" text-anchor="middle" fill="#070a13" class="font-mono" font-weight="900" font-size="11.5">IC</text>
+    <text x="62" y="29" fill="#f8fafc" class="font-sans" font-weight="800" font-size="14">KiCad PCB &amp; Cadence IC</text>
+    <text x="62" y="45" fill="#94a3b8" class="font-mono" font-size="10">Schematic Capture · FeCl3 · Layout</text>
+    <text x="332" y="34" text-anchor="end" fill="#a3e635" class="font-mono" font-weight="800" font-size="13">89%</text>
+    <rect x="16" y="56" width="318" height="7" rx="3.5" fill="#1e293b" />
+    <rect x="16" y="56" width="283" height="7" rx="3.5" fill="url(#barCyanLime4)" />
+  </g>
+
+  <!-- ROW 3 -->
+  <!-- Card 7: JS ES6 & Interactive UI -->
+  <g transform="translate(52, 514)">
+    <rect width="350" height="76" rx="16" fill="#0f172a" stroke="#eab308" stroke-opacity="0.45" stroke-width="1.3" />
+    <rect x="16" y="14" width="34" height="34" rx="9" fill="#eab308" />
+    <text x="33" y="36" text-anchor="middle" fill="#070a13" class="font-mono" font-weight="900" font-size="12">JS</text>
+    <text x="62" y="29" fill="#f8fafc" class="font-sans" font-weight="800" font-size="14">JavaScript ES6 &amp; HTML5</text>
+    <text x="62" y="45" fill="#94a3b8" class="font-mono" font-size="10">Interactive DOM · SVG Telemetry</text>
+    <text x="332" y="34" text-anchor="end" fill="#facc15" class="font-mono" font-weight="800" font-size="13">90%</text>
+    <rect x="16" y="56" width="318" height="7" rx="3.5" fill="#1e293b" />
+    <rect x="16" y="56" width="286" height="7" rx="3.5" fill="url(#barAmberCoral4)" />
+  </g>
+  <!-- Card 8: Git / Linux / WSL2 -->
+  <g transform="translate(425, 514)">
+    <rect width="350" height="76" rx="16" fill="#0f172a" stroke="#38bdf8" stroke-opacity="0.45" stroke-width="1.3" />
+    <rect x="16" y="14" width="34" height="34" rx="9" fill="#334155" />
+    <text x="33" y="36" text-anchor="middle" fill="#38bdf8" class="font-mono" font-weight="900" font-size="11">Git</text>
+    <text x="62" y="29" fill="#f8fafc" class="font-sans" font-weight="800" font-size="14">Git · Linux · WSL2 · GCC</text>
+    <text x="62" y="45" fill="#94a3b8" class="font-mono" font-size="10">GDB Debugging · CI Workflows</text>
+    <text x="332" y="34" text-anchor="end" fill="#38bdf8" class="font-mono" font-weight="800" font-size="13">93%</text>
+    <rect x="16" y="56" width="318" height="7" rx="3.5" fill="#1e293b" />
+    <rect x="16" y="56" width="295" height="7" rx="3.5" fill="url(#barVioletCyan4)" />
+  </g>
+  <!-- Card 9: Executive & Technical Leadership -->
+  <g transform="translate(798, 514)">
+    <rect width="350" height="76" rx="16" fill="#0f172a" stroke="#a3e635" stroke-opacity="0.45" stroke-width="1.3" />
+    <rect x="16" y="14" width="34" height="34" rx="9" fill="#22c55e" />
+    <text x="33" y="36" text-anchor="middle" fill="#070a13" class="font-mono" font-weight="900" font-size="11">★</text>
+    <text x="62" y="29" fill="#f8fafc" class="font-sans" font-weight="800" font-size="14">Executive Leadership</text>
+    <text x="62" y="45" fill="#94a3b8" class="font-mono" font-size="10">ACES President · GHAFRA Nord Lead</text>
+    <text x="332" y="34" text-anchor="end" fill="#a3e635" class="font-mono" font-weight="800" font-size="13">96%</text>
+    <rect x="16" y="56" width="318" height="7" rx="3.5" fill="#1e293b" />
+    <rect x="16" y="56" width="305" height="7" rx="3.5" fill="url(#barCyanLime4)" />
+  </g>
+</svg>

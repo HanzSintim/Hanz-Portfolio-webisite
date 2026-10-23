@@ -20,14 +20,24 @@
   let waterPumpState = false; // Hysteresis memory state for Simulator 3
 
   // -------------------------------------------------------------------------
-  // 1. CURSOR SPOTLIGHT & 3D PARALLAX HERO STAGE
+  // 1. STARFIELD CANVAS, CURSOR RING & 3D PARALLAX HERO STAGE
   // -------------------------------------------------------------------------
   const cursorGlow = document.getElementById("cursorGlow");
+  const cursorRing = document.getElementById("cursorRing");
   const heroStage = document.getElementById("heroStage");
   const heroHalo = document.getElementById("heroHalo");
   const parallaxWidgets = document.querySelectorAll("[data-parallax]");
 
+  // Smooth Ring Follower
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let ringX = mouseX;
+  let ringY = mouseY;
+
   window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
     if (cursorGlow) {
       cursorGlow.style.left = `${e.clientX}px`;
       cursorGlow.style.top = `${e.clientY}px`;
@@ -48,6 +58,65 @@
       }
     }
   });
+
+  function animateRing() {
+    if (cursorRing) {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      cursorRing.style.left = `${ringX}px`;
+      cursorRing.style.top = `${ringY}px`;
+    }
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // AgyemangDEV-style Starfield Canvas animation
+  const starCanvas = document.getElementById("starfieldCanvas");
+  if (starCanvas) {
+    const ctx = starCanvas.getContext("2d");
+    let stars = [];
+    const numStars = 95;
+
+    function resizeStarCanvas() {
+      starCanvas.width = window.innerWidth;
+      starCanvas.height = window.innerHeight;
+      stars = [];
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * starCanvas.width,
+          y: Math.random() * starCanvas.height,
+          radius: Math.random() * 1.5 + 0.5,
+          alpha: Math.random() * 0.7 + 0.3,
+          speed: Math.random() * 0.25 + 0.05,
+          color: Math.random() > 0.4 ? "#a78bfa" : (Math.random() > 0.5 ? "#38bdf8" : "#ffffff"),
+        });
+      }
+    }
+    window.addEventListener("resize", resizeStarCanvas);
+    resizeStarCanvas();
+
+    function renderStars() {
+      ctx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+      stars.forEach((s) => {
+        s.y -= s.speed;
+        if (s.y < 0) {
+          s.y = starCanvas.height;
+          s.x = Math.random() * starCanvas.width;
+        }
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fillStyle = s.color;
+        ctx.globalAlpha = s.alpha;
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = s.color;
+        ctx.fill();
+      });
+      ctx.shadowBlur = 0;
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(renderStars);
+    }
+    renderStars();
+  }
 
   // -------------------------------------------------------------------------
   // 2. KINETIC TYPEWRITER SUBTITLE
@@ -428,18 +497,36 @@
     });
   }
 
+  function setLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll("[data-lang-btn]").forEach((btn) => {
+      btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === lang);
+    });
+
+    document.querySelectorAll("[data-i18n-en]").forEach((el) => {
+      const text = el.getAttribute(lang === "fr" ? "data-i18n-fr" : "data-i18n-en");
+      if (text) el.textContent = text;
+    });
+
+    if (langLabel) {
+      langLabel.textContent = lang.toUpperCase();
+    }
+  }
+
+  document.querySelectorAll("[data-lang-btn]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetLang = btn.getAttribute("data-lang-btn") || "en";
+      setLanguage(targetLang);
+    });
+  });
+
   const langToggleBtn = document.getElementById("langToggleBtn");
   const langLabel = document.getElementById("langLabel");
 
   if (langToggleBtn) {
     langToggleBtn.addEventListener("click", () => {
-      currentLang = currentLang === "en" ? "fr" : "en";
-      langLabel.textContent = currentLang.toUpperCase();
-
-      document.querySelectorAll("[data-i18n-en]").forEach((el) => {
-        const text = el.getAttribute(currentLang === "fr" ? "data-i18n-fr" : "data-i18n-en");
-        if (text) el.textContent = text;
-      });
+      const nextLang = currentLang === "en" ? "fr" : "en";
+      setLanguage(nextLang);
     });
   }
 })();

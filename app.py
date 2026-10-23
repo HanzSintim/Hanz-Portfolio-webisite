@@ -111,6 +111,18 @@ def api_pos_simulator():
     return jsonify(result)
 
 
+@app.route("/cv/en")
+def view_cv_en():
+    """Renders the English Curriculum Vitae."""
+    return render_template("cv_en.html")
+
+
+@app.route("/cv/fr")
+def view_cv_fr():
+    """Renders the French Curriculum Vitae."""
+    return render_template("cv_fr.html")
+
+
 def build_static_bundle() -> None:
     """
     Compiles the Flask Jinja2 template and JSON API snapshots into root files
@@ -119,10 +131,18 @@ def build_static_bundle() -> None:
     payload = build_full_portfolio_payload()
     with app.app_context():
         rendered_html = render_template("index.html", data=payload, static_mode=True)
+        rendered_cv_en = render_template("cv_en.html")
+        rendered_cv_fr = render_template("cv_fr.html")
 
     output_html_path = os.path.join(BASE_DIR, "index.html")
     with open(output_html_path, "w", encoding="utf-8") as f:
         f.write(rendered_html)
+
+    with open(os.path.join(BASE_DIR, "cv_en.html"), "w", encoding="utf-8") as f:
+        f.write(rendered_cv_en)
+
+    with open(os.path.join(BASE_DIR, "cv_fr.html"), "w", encoding="utf-8") as f:
+        f.write(rendered_cv_fr)
 
     api_dir = os.path.join(BASE_DIR, "api", "v1")
     os.makedirs(api_dir, exist_ok=True)
