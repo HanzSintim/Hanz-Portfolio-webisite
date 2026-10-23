@@ -1,613 +1,514 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="aurora">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ data.engineer.name }} — Python, C++ &amp; Embedded Systems Portfolio</title>
-  <meta name="description" content="{{ data.engineer.tagline_en }}" />
+  <title>{{ data.engineer.name }} — Interactive Engineering &amp; Architecture Portfolio</title>
+  <meta name="description" content="Hanz Ofosuhene-Sintim — Python 3, C++17 &amp; Embedded Systems Architect (JUNIA ISEN Lille &amp; KNUST)" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="static/css/emerald_obsidian.css" />
 </head>
 <body>
 
+  <!-- 60fps Interactive Neural/Silicon Constellation Canvas -->
+  <canvas id="constellationCanvas"></canvas>
+  <div class="ambient-glow-orb ambient-orb-1"></div>
+  <div class="ambient-glow-orb ambient-orb-2"></div>
+
   <!-- =====================================================================
-       TOP NAVIGATION BAR (LEAFE EMERALD-OBSIDIAN)
+       FLOATING GLASSMORPHIC NAVIGATION DOCK + 4-THEME CHAMELEON SWITCHER
        ===================================================================== -->
   <nav class="top-nav">
     <a href="#top" class="nav-brand">
-      <div class="brand-leaf-emblem">HS</div>
+      <div class="brand-monogram">HS</div>
       <div class="brand-title-group">
         <span class="brand-name">{{ data.engineer.name }}</span>
-        <span class="brand-sub" id="corridorLiveClock">Lille (FR) ⇄ Kumasi/Accra (GH)</span>
+        <span class="brand-sub" id="corridorLiveClock">Lille 🇫🇷 ⇄ Ghana 🇬🇭</span>
       </div>
     </a>
 
     <ul class="nav-links">
-      <li><a href="#vision" data-en="Vision &amp; Focus" data-fr="Vision &amp; Expertise">Vision &amp; Focus</a></li>
-      <li><a href="#workstation" data-en="Systems Workstation" data-fr="Station Projets">Systems Workstation</a></li>
-      <li><a href="#infographics" data-en="Leadership &amp; Infographics" data-fr="Leadership &amp; Infographies">Leadership &amp; Infographics</a></li>
-      <li><a href="#corridor" data-en="Ghana ⇄ France Map" data-fr="Carte Ghana ⇄ France">Ghana ⇄ France Map</a></li>
-      <li><a href="api/v1/profile.json" target="_blank">Python JSON API</a></li>
+      <li><a href="#top" data-en="Bento Overview" data-fr="Vue Bento">Bento Overview</a></li>
+      <li><a href="#workstation" data-en="3D Workstation" data-fr="Station 3D">3D Workstation</a></li>
+      <li><a href="#infographics" data-en="Radar &amp; Skills" data-fr="Radar &amp; Compétences">Radar &amp; Skills</a></li>
+      <li><a href="#corridor" data-en="Leadership &amp; Map" data-fr="Leadership &amp; Carte">Leadership &amp; Map</a></li>
+      <li><a href="api/v1/profile.json" target="_blank">Python API</a></li>
     </ul>
 
     <div class="nav-controls">
-      <button type="button" class="lang-switch-btn" id="langToggleBtn">FR 🇫🇷 / EN</button>
-      <a href="{{ data.engineer.github_url }}" target="_blank" rel="noopener" class="nav-cta-btn">@HanzSintim ↗</a>
+      <div class="theme-pills" title="Switch Visual Atmosphere">
+        <button type="button" class="theme-dot-btn theme-dot-aurora active" data-set-theme="aurora" title="Midnight Aurora (Indigo &amp; Cyan)"></button>
+        <button type="button" class="theme-dot-btn theme-dot-editorial" data-set-theme="editorial" title="Editorial Light (Warm Ivory &amp; Cobalt)"></button>
+        <button type="button" class="theme-dot-btn theme-dot-cyber" data-set-theme="cyber" title="Cyber Ocean (Cyan &amp; Rose)"></button>
+        <button type="button" class="theme-dot-btn theme-dot-silicon" data-set-theme="silicon" title="Silicon Gold (Carbon &amp; Amber)"></button>
+      </div>
+      <button type="button" class="pill-action-btn" id="langToggleBtn">FR 🇫🇷</button>
+      <a href="{{ data.engineer.github_url }}" target="_blank" rel="noopener" class="pill-action-btn primary">@HanzSintim ↗</a>
     </div>
   </nav>
 
-  <!-- =====================================================================
-       ZONE 1: MISTY ALPINE-TO-OBSIDIAN HERO (IMAGE 1 INSPIRATION)
-       ===================================================================== -->
-  <header class="alpine-hero" id="top">
-    <div class="alpine-top-notch"></div>
+  <main class="main-container" id="top">
 
-    <div class="alpine-editorial-grid">
-      <!-- Left Editorial Column -->
-      <div class="editorial-left">
-        <div class="editorial-kicker">
-          <span class="kicker-dot"></span>
-          <span data-en="PYTHON 3 · C++17 · STM32/ESP32 · 3NF DATA ARCHITECTURE" data-fr="PYTHON 3 · C++17 · STM32/ESP32 · ARCHITECTURE DE DONNÉES 3NF">PYTHON 3 · C++17 · STM32/ESP32 · 3NF DATA ARCHITECTURE</span>
+    <!-- ===================================================================
+         SECTION 1: INTERACTIVE BENTO COMMAND DASHBOARD (PINTEREST / AWWWARDS)
+         =================================================================== -->
+    <section class="hero-bento-grid">
+
+      <!-- Bento Card 1: Main Identity + Live Typewriter + Magnetic Actions (8 cols) -->
+      <article class="bento-card bento-hero-main" data-tilt>
+        <div>
+          <div class="status-avail-pill">
+            <span class="pulse-dot"></span>
+            <span data-en="M1 MICROELECTRONICS &amp; EMBEDDED @ JUNIA LILLE · BSC COMP. ENG @ KNUST" data-fr="M1 MICROÉLECTRONIQUE &amp; EMBARQUÉ @ JUNIA LILLE · BSC GÉNIE INFO @ KNUST">M1 MICROELECTRONICS &amp; EMBEDDED @ JUNIA LILLE · BSC COMP. ENG @ KNUST</span>
+          </div>
+
+          <h1 class="hero-display-title">
+            Hanz Ofosuhene&#8209;Sintim<br />
+            <span class="gradient-text" data-en="Architecting Intelligent Software &amp; Silicon." data-fr="Architecturer le Logiciel Intelligent &amp; le Silicium.">Architecting Intelligent Software &amp; Silicon.</span>
+          </h1>
+
+          <div class="typewriter-row">
+            <span>&gt;</span>
+            <span id="typewriterText">Python 3 &amp; Flask Systems Architect</span>
+            <span class="cursor-blink"></span>
+          </div>
+
+          <p class="hero-bio-text" data-en="Bridging high-level Python 3 backend architecture, REST APIs, and 3NF relational data models with deterministic C++17 POS terminals and STM32/ESP32 microelectronic hardware across France and Ghana." data-fr="Allier l'architecture backend Python 3, les APIs REST et la modélisation 3NF aux terminaux C++17 déterministes et aux systèmes microélectroniques STM32/ESP32 entre la France et le Ghana.">
+            Bridging high-level Python 3 backend architecture, REST APIs, and 3NF relational data models with deterministic C++17 POS terminals and STM32/ESP32 microelectronic hardware across France and Ghana.
+          </p>
         </div>
 
-        <h1 class="editorial-headline">
-          Hanz Ofosuhene&#8209;Sintim<br />
-          <span class="emerald-accent" data-en="Start your change for the future." data-fr="L'ingénierie tournée vers l'avenir.">Start your change for the future.</span>
-        </h1>
-
-        <p class="editorial-lead" data-en="{{ data.engineer.tagline_en }}" data-fr="{{ data.engineer.tagline_fr }}">
-          {{ data.engineer.tagline_en }}
-        </p>
-
-        <div class="hero-action-row">
-          <a href="#workstation" class="btn-primary-emerald">
-            <span data-en="Explore 6 Engineering Systems" data-fr="Explorer les 6 Systèmes d'Ingénierie">Explore 6 Engineering Systems</span>
+        <div class="hero-cta-cluster">
+          <a href="#workstation" class="btn-magnetic primary">
+            <span data-en="Launch 3D Systems Workstation" data-fr="Ouvrir la Station Projets 3D">Launch 3D Systems Workstation</span>
             <span>→</span>
           </a>
-          <a href="https://github.com/HanzSintim/LECLERC-Self-Checkout" target="_blank" rel="noopener" class="btn-secondary-glass">
-            <span data-en="E.Leclerc C++ POS Repo" data-fr="Dépôt C++ Caisse E.Leclerc">E.Leclerc C++ POS Repo</span>
+          <a href="https://github.com/HanzSintim/LECLERC-Self-Checkout" target="_blank" rel="noopener" class="btn-magnetic secondary">
+            <span>E.Leclerc C++17 POS</span>
             <span>↗</span>
           </a>
-          <a href="mailto:{{ data.engineer.email }}" class="btn-secondary-glass">
-            <span>{{ data.engineer.email }}</span>
-          </a>
+          <button type="button" class="btn-magnetic secondary" id="copyEmailBtn">
+            <span>📋 Copy Email</span>
+          </button>
         </div>
-      </div>
+      </article>
 
-      <!-- Right Executive Dossier Card -->
-      <aside class="editorial-right">
-        <div class="editorial-right-tag" data-en="EXECUTIVE &amp; ACADEMIC SYNOPSIS" data-fr="SYNTHÈSE EXÉCUTIVE &amp; ACADÉMIQUE">EXECUTIVE &amp; ACADEMIC SYNOPSIS</div>
-        <h3 data-en="Dual-Continent Systems &amp; Microelectronics Track" data-fr="Parcours Franco-Ghanéen en Systèmes &amp; Microélectronique">Dual-Continent Systems &amp; Microelectronics Track</h3>
-        <p data-en="Pursuing the M1 in Microelectronics, Nanotechnology &amp; Embedded Systems at JUNIA ISEN Lille (France) after completing a BSc in Computer Engineering at KNUST (Ghana) and serving as ACES Department President." data-fr="Étudiant en M1 Microélectronique, Nanotechnologies &amp; Systèmes Embarqués à JUNIA ISEN Lille (France) après un BSc en Génie Informatique à KNUST (Ghana) et la Présidence du département ACES.">
-          Pursuing the M1 in Microelectronics, Nanotechnology &amp; Embedded Systems at JUNIA ISEN Lille (France) after completing a BSc in Computer Engineering at KNUST (Ghana) and serving as ACES Department President.
-        </p>
+      <!-- Bento Card 2: Interactive Live CLI Terminal (4 cols) -->
+      <aside class="bento-card bento-terminal-card">
+        <div>
+          <div class="term-top-bar">
+            <div class="term-dots"><span></span><span></span><span></span></div>
+            <span class="term-title">hanz@junia-lille:~ (Interactive Shell)</span>
+          </div>
 
-        <div class="corridor-mini-pills">
-          <div class="corridor-pill">
-            <div class="pill-label">FRANCE · GRADUATE TRACK</div>
-            <div class="pill-val">JUNIA ISEN Lille (M1)</div>
+          <div class="term-output-box" id="termOutputBox">
+            <div style="color:#38bdf8;margin-bottom:0.35rem;">Welcome to HanzOS v3.12 (Python / C++17 / STM32 Kernel)</div>
+            <div style="margin-bottom:0.35rem;">Click a command chip below or type <code>help</code> + Enter:</div>
+            <div style="color:#a5b4fc;">▸ Python 3.12 · Flask · C++17 · STM32/ESP32 · SQL 3NF</div>
           </div>
-          <div class="corridor-pill">
-            <div class="pill-label">GHANA · UNDERGRADUATE</div>
-            <div class="pill-val">KNUST Comp. Engineering</div>
+        </div>
+
+        <div>
+          <div class="term-cmd-chips">
+            <button type="button" class="term-chip-btn" data-term-cmd="python">python</button>
+            <button type="button" class="term-chip-btn" data-term-cmd="leclerc">leclerc</button>
+            <button type="button" class="term-chip-btn" data-term-cmd="projects">projects</button>
+            <button type="button" class="term-chip-btn" data-term-cmd="corridor">corridor</button>
+            <button type="button" class="term-chip-btn" data-term-cmd="leadership">leadership</button>
+            <button type="button" class="term-chip-btn" data-term-cmd="theme">theme</button>
+            <button type="button" class="term-chip-btn" data-term-cmd="clear">clear</button>
           </div>
-          <div class="corridor-pill">
-            <div class="pill-label">EXECUTIVE LEADERSHIP</div>
-            <div class="pill-val">ACES President · GHAFRA</div>
-          </div>
-          <div class="corridor-pill">
-            <div class="pill-label">PRIMARY LANGUAGES</div>
-            <div class="pill-val">Python 3 · C++17 · C · SQL</div>
+          <div class="term-input-row">
+            <span class="term-prompt-symbol">$</span>
+            <input type="text" class="term-input" id="termCommandInput" placeholder="Type command (e.g. python, leclerc, help)..." aria-label="Terminal command input" />
           </div>
         </div>
       </aside>
-    </div>
 
-    <!-- Centerpiece Mountain Horizon + Floating Orbs + Sweeping Bezier Curves (Image 1) -->
-    <div class="mountain-stage">
-      <div class="floating-orb orb-1">
-        <span class="orb-code">PY 3.12</span>
-        <span class="orb-sub">Flask · Data</span>
+      <!-- Bento Card 3: 4-Metric Telemetry Grid (4 cols) -->
+      <div class="bento-card bento-metrics-card" data-tilt>
+        <div class="metric-mini-tile">
+          <div class="metric-big-num">95%</div>
+          <div class="metric-tile-label" data-en="Python 3 &amp; C++17 Core" data-fr="Maîtrise Python 3 &amp; C++17">Python 3 &amp; C++17 Core</div>
+        </div>
+        <div class="metric-mini-tile">
+          <div class="metric-big-num">06</div>
+          <div class="metric-tile-label" data-en="Production Systems" data-fr="Systèmes en Production">Production Systems</div>
+        </div>
+        <div class="metric-mini-tile">
+          <div class="metric-big-num">800+</div>
+          <div class="metric-tile-label" data-en="Engineers Led (ACES)" data-fr="Étudiants Dirigés (ACES)">Engineers Led (ACES)</div>
+        </div>
+        <div class="metric-mini-tile">
+          <div class="metric-big-num">GH⇄FR</div>
+          <div class="metric-tile-label" data-en="KNUST &amp; JUNIA Lille" data-fr="KNUST &amp; JUNIA Lille">KNUST &amp; JUNIA Lille</div>
+        </div>
       </div>
-      <div class="floating-orb orb-2">
-        <span class="orb-code">C++17</span>
-        <span class="orb-sub">POS · RTTI</span>
+
+      <!-- Bento Card 4: Interactive Subject Focus & Tech Cloud (5 cols) -->
+      <div class="bento-card bento-stack-card" data-tilt>
+        <div>
+          <div class="bento-card-kicker" data-en="INTERACTIVE TECH &amp; SUBJECT CLOUD" data-fr="NUAGE TECHNOLOGIQUE INTERACTIF">INTERACTIVE TECH &amp; SUBJECT CLOUD</div>
+          <h3 style="font-size: 1.08rem; font-weight: 800;" data-en="Click any domain pill to filter the Workstation below" data-fr="Cliquez sur une technologie pour filtrer la Station Projets">Click any domain pill to filter the Workstation below</h3>
+        </div>
+        <div class="stack-pills-cloud">
+          <a href="#workstation" class="interactive-skill-pill" onclick="document.querySelector('[data-filter-cat=python]').click()">🐍 Python 3.12 &amp; Flask</a>
+          <a href="#workstation" class="interactive-skill-pill" onclick="document.querySelector('[data-filter-cat=cpp]').click()">⚡ C++17 OOP &amp; RTTI</a>
+          <a href="#workstation" class="interactive-skill-pill" onclick="document.querySelector('[data-filter-cat=embedded]').click()">🔌 STM32 &amp; ESP32 MCU</a>
+          <a href="#workstation" class="interactive-skill-pill" onclick="document.querySelector('[data-filter-cat=data]').click()">🗄️ SQL &amp; 3NF Schemas</a>
+          <a href="#infographics" class="interactive-skill-pill">🔬 Cadence IC &amp; KiCad PCB</a>
+          <a href="#corridor" class="interactive-skill-pill">🏛️ ACES President &amp; GHAFRA</a>
+        </div>
       </div>
-      <div class="floating-orb orb-3">
-        <span class="orb-code">STM32</span>
-        <span class="orb-sub">ESP32 · ToF</span>
+
+      <!-- Bento Card 5: Dual-Continent Live Hardware Clocks (3 cols) -->
+      <div class="bento-card bento-corridor-mini" data-tilt>
+        <div>
+          <div class="bento-card-kicker">LIVE CORRIDOR TELEMETRY</div>
+          <h3 style="font-size: 1rem; font-weight: 800;" data-en="Active Engineering Timezones" data-fr="Fuseaux Horaires Actifs">Active Engineering Timezones</h3>
+        </div>
+        <div class="clock-pair-stack">
+          <div class="city-clock-row">
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 700;">🇫🇷 Lille, France</div>
+              <div style="font-family: var(--font-mono); font-size: 0.64rem; color: var(--text-secondary);">JUNIA ISEN M1</div>
+            </div>
+            <span class="city-clock-time" id="clockLille">--:--:--</span>
+          </div>
+          <div class="city-clock-row ghana">
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 700;">🇬🇭 Kumasi / Accra</div>
+              <div style="font-family: var(--font-mono); font-size: 0.64rem; color: var(--text-secondary);">KNUST · PRESEC</div>
+            </div>
+            <span class="city-clock-time" id="clockAccra">--:--:--</span>
+          </div>
+        </div>
       </div>
-      <div class="floating-orb orb-4">
-        <span class="orb-code">3NF</span>
-        <span class="orb-sub">SQL · ER</span>
+
+    </section>
+
+    <!-- ===================================================================
+         SECTION 2: FILTERABLE 3D WORKSTATION & LIVE SIMULATOR
+         =================================================================== -->
+    <section class="section-block" id="workstation">
+      <div class="section-header-flex">
+        <div>
+          <div class="bento-card-kicker" data-en="INTERACTIVE SYSTEMS WORKBENCH · PYTHON, C++17 &amp; SILICON" data-fr="ATELIER SYSTÈMES INTERACTIF · PYTHON, C++17 &amp; SILICIUM">INTERACTIVE SYSTEMS WORKBENCH · PYTHON, C++17 &amp; SILICON</div>
+          <h2 class="section-heading" data-en="6 Production Engineering Systems" data-fr="6 Systèmes d'Ingénierie en Production">6 Production Engineering Systems</h2>
+        </div>
+
+        <div class="filter-pills-bar">
+          <button type="button" class="filter-tab-btn active" data-filter-cat="all" data-en="All Systems (6)" data-fr="Tous (6)">All Systems (6)</button>
+          <button type="button" class="filter-tab-btn" data-filter-cat="python">🐍 Python &amp; Full-Stack</button>
+          <button type="button" class="filter-tab-btn" data-filter-cat="cpp">⚡ C++17 POS</button>
+          <button type="button" class="filter-tab-btn" data-filter-cat="embedded">🔌 STM32 / Embedded</button>
+          <button type="button" class="filter-tab-btn" data-filter-cat="data">🗄️ 3NF SQL Data</button>
+        </div>
       </div>
 
-      <svg class="mountain-svg" viewBox="0 0 1440 360" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="mistMountainBack" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#3b6e5c" stop-opacity="0.55" />
-            <stop offset="100%" stop-color="#0b1f18" stop-opacity="0.95" />
-          </linearGradient>
-          <linearGradient id="mistMountainMid" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#173d2e" stop-opacity="0.88" />
-            <stop offset="100%" stop-color="#07120e" stop-opacity="1" />
-          </linearGradient>
-          <linearGradient id="emeraldWaveStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#6ee7b7" />
-            <stop offset="50%" stop-color="#00e676" />
-            <stop offset="100%" stop-color="#10b981" />
-          </linearGradient>
-        </defs>
+      <div class="workstation-grid">
+        <!-- Left Rail: 6 Interactive Project Buttons -->
+        <div class="project-rail-list">
+          {% for proj in data.projects %}
+          <button type="button" class="project-rail-item {% if loop.first %}active{% endif %}" data-proj-cat="{{ proj.category }}" data-proj-index="{{ loop.index0 }}">
+            <div class="proj-num-badge">{{ proj.index }}</div>
+            <div style="overflow: hidden;">
+              <div style="font-size: 0.9rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" data-en="{{ proj.title_en }}" data-fr="{{ proj.title_fr }}">{{ proj.title_en }}</div>
+              <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-2);">{{ proj.primary_lang }}</div>
+            </div>
+          </button>
+          {% endfor %}
+        </div>
 
-        <!-- Distant Alpine Peaks -->
-        <path d="M0,240 L140,120 L270,195 L430,85 L590,210 L760,95 L940,185 L1140,55 L1310,165 L1440,110 L1440,360 L0,360 Z" fill="url(#mistMountainBack)" />
-        <!-- Midground Emerald Forest Ridges -->
-        <path d="M0,265 C180,190 310,275 490,195 C670,115 850,240 1060,150 C1220,85 1350,180 1440,160 L1440,360 L0,360 Z" fill="url(#mistMountainMid)" />
-        <!-- Foreground Obsidian Horizon Wave -->
-        <path d="M0,295 C260,240 520,340 820,255 C1060,185 1270,260 1440,235 L1440,360 L0,360 Z" fill="#060d0a" />
+        <!-- Right Monitor: Live Architecture + Source Inspector + POS Simulator -->
+        <div class="workstation-monitor">
+          <div class="monitor-top-chrome">
+            <div class="term-dots"><span></span><span></span><span></span></div>
+            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-2);" id="screenProjStatus">{{ data.projects[0].status_en }}</span>
+            <a id="screenProjRepo" href="{{ data.projects[0].repo_url }}" target="_blank" rel="noopener" class="pill-action-btn">Open GitHub Repo ↗</a>
+          </div>
 
-        <!-- Sweeping Bezier Trajectory Curves & Glowing Nodes from Image 1 -->
-        <path d="M 80 250 C 310 90, 560 310, 830 155 C 1050 40, 1240 220, 1390 120" fill="none" stroke="url(#emeraldWaveStroke)" stroke-width="2.6" stroke-dasharray="6 4" />
-        <path d="M 40 290 C 360 170, 640 290, 960 190 C 1160 125, 1310 210, 1420 175" fill="none" stroke="#34d399" stroke-opacity="0.55" stroke-width="1.6" />
+          <div class="monitor-body-canvas">
+            <div class="monitor-split-pane">
+              <!-- Left Column: System Dossier -->
+              <div>
+                <h3 style="font-family: var(--font-display); font-size: 1.45rem; margin-bottom: 0.55rem;" id="screenProjTitle">{{ data.projects[0].title_en }}</h3>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);" id="screenProjSummary">{{ data.projects[0].summary_en }}</p>
 
-        <!-- Trajectory Telemetry Nodes -->
-        <circle cx="245" cy="175" r="6" fill="#00e676" />
-        <circle cx="595" cy="222" r="8" fill="#10b981" stroke="#ffffff" stroke-width="2" />
-        <circle cx="830" cy="155" r="7" fill="#00e676" />
-        <circle cx="1115" cy="118" r="8" fill="#34d399" stroke="#060d0a" stroke-width="2" />
-      </svg>
-    </div>
+                <ul class="arch-list" id="screenProjArch">
+                  {% for item in data.projects[0].architecture_en %}
+                  <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
 
-    <!-- 6-Node Glowing Emerald Capability Grid (Directly matching bottom of Image 1) -->
-    <div class="hero-six-nodes-wrap">
-      <div class="hero-six-nodes">
-        {% for petal in data.skill_petals %}
-        <article class="emerald-node-card">
-          <div class="node-circle-icon">{{ petal.code }}</div>
-          <div class="node-card-body">
-            <h4 data-en="{{ petal.title_en }}" data-fr="{{ petal.title_fr }}">{{ petal.title_en }}</h4>
-            <p data-en="{{ petal.metrics_en }}" data-fr="{{ petal.metrics_fr }}">{{ petal.metrics_en }}</p>
-            <div class="node-chip-list">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem;" id="screenProjMetrics">
+                  {% for k, v in data.projects[0].metrics.items() %}
+                  <div class="metric-mini-tile" style="padding: 0.65rem 0.8rem;">
+                    <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-secondary);">{{ k }}</div>
+                    <div style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 800; color: var(--accent-2); margin-top: 0.15rem;">{{ v }}</div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <!-- Right Column: Live Source Window -->
+              <div class="code-window-card">
+                <div class="code-window-bar">
+                  <span id="screenCodeFilename">{{ data.projects[0].code_Filename }}</span>
+                  <button type="button" class="copy-code-btn" id="copyCodeBtn">Copy Snippet</button>
+                </div>
+                <pre class="code-pre-block" id="screenCodePre">{{ data.projects[0].code_snippet }}</pre>
+              </div>
+            </div>
+
+            <!-- Live Interactive Python & C++ E.Leclerc Euro Change & TVA 20% Simulator -->
+            <div class="live-lab-dock">
+              <div>
+                <div class="bento-card-kicker">LIVE INTERACTIVE ALGORITHM SANDBOX</div>
+                <h4 style="font-size: 1.05rem; font-weight: 800;" data-en="E.Leclerc Euro Change &amp; French TVA (20%) Engine" data-fr="Moteur Euro Glouton &amp; TVA (20%) E.Leclerc">E.Leclerc Euro Change &amp; French TVA (20%) Engine</h4>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.2rem;" data-en="Type any order amount and cash tendered below to test the exact centime math from data_engine.py &amp; L'ECLERC.cpp:" data-fr="Modifiez le montant TTC et les espèces insérées pour tester l'algorithme glouton en direct :">
+                  Type any order amount and cash tendered below to test the exact centime math from <code>data_engine.py</code> &amp; <code>L'ECLERC.cpp</code>:
+                </p>
+                <div class="sim-input-row">
+                  <div class="sim-field">
+                    <label for="posAmountInput">Order Total TTC (€)</label>
+                    <input type="number" id="posAmountInput" step="0.01" min="0.50" value="47.97" />
+                  </div>
+                  <div class="sim-field">
+                    <label for="posTenderedInput">Cash Inserted (€)</label>
+                    <input type="number" id="posTenderedInput" step="0.01" min="0.50" value="60.00" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--accent-2); font-weight: 700;" id="posSummaryOutput">
+                  HT: 39.98 € · TVA (20%): 7.99 € · Change: 12.03 € · NFC Contactless OK (&lt;= 50€)
+                </div>
+                <div style="font-size: 0.74rem; color: var(--text-secondary); margin-top: 0.35rem;" data-en="Greedy Minimum Euro Denominations Dispensed:" data-fr="Coupures Euro Minimales Distribuées (Algorithme Glouton) :">
+                  Greedy Minimum Euro Denominations Dispensed:
+                </div>
+                <div class="denom-chip-cloud" id="posDenomOutput"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SECTION 3: INTERACTIVE RADAR & 6-NODE COMPETENCY INFOGRAPHICS
+         =================================================================== -->
+    <section class="section-block" id="infographics">
+      <div class="section-header-flex">
+        <div>
+          <div class="bento-card-kicker" data-en="QUANTITATIVE COMPETENCY TELEMETRY · 92.8% COMPOSITE" data-fr="TÉLÉMÉTRIE DE COMPÉTENCES · 92,8 % GLOBAL">QUANTITATIVE COMPETENCY TELEMETRY · 92.8% COMPOSITE</div>
+          <h2 class="section-heading" data-en="Interactive Multi-Domain Radar &amp; Skill Matrix" data-fr="Radar Multi-Domaine &amp; Matrice de Compétences">Interactive Multi-Domain Radar &amp; Skill Matrix</h2>
+        </div>
+        <p style="max-width: 440px; font-size: 0.88rem; color: var(--text-secondary);" data-en="Hover over any competency card to highlight its orbital node in the interactive SVG radar diagram." data-fr="Survolez une carte de compétence pour illuminer son nœud orbital sur le diagramme radar.">
+          Hover over any competency card to highlight its orbital node in the interactive SVG radar diagram.
+        </p>
+      </div>
+
+      <div class="radar-infographic-grid">
+        <!-- Left: 6 Interactive Competency Cards with Progress Bars -->
+        <div class="petal-interactive-list">
+          {% for petal in data.skill_petals %}
+          <article class="petal-focus-card {% if loop.first %}active{% endif %}">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-2); font-weight: 800;">DOMAIN {{ petal.code }}</span>
+              <span style="font-family: var(--font-mono); font-size: 0.9rem; font-weight: 800; color: var(--accent-3);">{{ petal.score }}%</span>
+            </div>
+            <h4 style="font-size: 0.96rem; font-weight: 800; margin-top: 0.25rem;" data-en="{{ petal.title_en }}" data-fr="{{ petal.title_fr }}">{{ petal.title_en }}</h4>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: {{ petal.score }}%;"></div>
+            </div>
+            <p style="font-size: 0.76rem; color: var(--text-secondary); margin-bottom: 0.5rem;" data-en="{{ petal.metrics_en }}" data-fr="{{ petal.metrics_fr }}">{{ petal.metrics_en }}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.3rem;">
               {% for tool in petal.tools[:4] %}
-              <span class="node-chip">{{ tool }}</span>
+              <span style="font-family: var(--font-mono); font-size: 0.64rem; padding: 0.15rem 0.48rem; border-radius: 6px; background: rgba(99,102,241,0.12); color: var(--text-primary);">{{ tool }}</span>
               {% endfor %}
             </div>
-          </div>
-        </article>
-        {% endfor %}
-      </div>
-    </div>
-  </header>
-
-  <!-- =====================================================================
-       ZONE 2: LEAFE TEARDROP & ORGANIC PORTAL CARDS (IMAGE 2 SLIDES 1–4)
-       ===================================================================== -->
-  <section class="leafe-section" id="vision">
-    <div class="section-header-row">
-      <div>
-        <div class="section-kicker">
-          <span>◆</span>
-          <span data-en="CORE SUBJECT FOCUS · PYTHON &amp; SILICON" data-fr="DOMAINE D'EXCELLENCE · PYTHON &amp; SILICIUM">CORE SUBJECT FOCUS · PYTHON &amp; SILICON</span>
-        </div>
-        <h2 class="section-title">
-          <span data-en="Make a better architecture" data-fr="Concevoir une architecture">Make a better architecture</span>
-          <strong data-en=" for complex systems." data-fr=" pour les systèmes critiques."> for complex systems.</strong>
-        </h2>
-      </div>
-      <p class="section-subtitle" data-en="Combining expressive Python backend engineering and mathematical data pipelines with bare-metal C/C++17 and microelectronic hardware design." data-fr="Allier l'ingénierie backend Python et la modélisation de données à la rigueur du C/C++17 et des systèmes microélectroniques embarqués.">
-        Combining expressive Python backend engineering and mathematical data pipelines with bare-metal C/C++17 and microelectronic hardware design.
-      </p>
-    </div>
-
-    <div class="teardrop-showcase-grid">
-      <!-- Portal Card 01: Python Excellence -->
-      <article class="leafe-portal-card">
-        <div class="portal-text">
-          <div class="section-kicker">PILLAR 01 // PYTHON &amp; DATA</div>
-          <h3 data-en="Python 3 Architecture, Flask APIs &amp; Algorithmic Modeling" data-fr="Architecture Python 3, APIs Flask &amp; Modélisation Algorithmique">Python 3 Architecture, Flask APIs &amp; Algorithmic Modeling</h3>
-          <p data-en="Python is my primary high-level language for building clean REST APIs, typed domain models, automated static compilers, and quantitative simulation engines—backed by strict 3NF relational schemas." data-fr="Python est mon langage de prédilection pour concevoir des APIs REST propres, des modèles de domaine typés, des compilateurs statiques et des moteurs de simulation algorithmique.">
-            Python is my primary high-level language for building clean REST APIs, typed domain models, automated static compilers, and quantitative simulation engines—backed by strict 3NF relational schemas.
-          </p>
-          <div class="portal-stat-badges">
-            <span class="portal-badge">Python 3.12 · 95%</span>
-            <span class="portal-badge">Flask WSGI · Jinja2</span>
-            <span class="portal-badge">SQL · 3NF Schemas</span>
-          </div>
-        </div>
-        <div class="teardrop-visual-wrap">
-          <div class="teardrop-frame">
-            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--emerald-soft);">RUNTIME STACK</div>
-            <div style="font-family: var(--font-display); font-size: 1.9rem; font-weight: 800; color: var(--emerald-bright); margin: 0.25rem 0;">Python 3</div>
-            <div style="font-size: 0.76rem; color: var(--text-muted);">Typed Dataclasses · REST Telemetry · Algorithmic Verification</div>
-            <div class="teardrop-number-orb">01</div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Portal Card 02: C++17 & Microelectronics -->
-      <article class="leafe-portal-card">
-        <div class="portal-text">
-          <div class="section-kicker">PILLAR 02 // C++17 &amp; EMBEDDED SILICON</div>
-          <h3 data-en="Deterministic C++17 POS Systems &amp; Dual-MCU Hardware" data-fr="Systèmes TPV C++17 Déterministes &amp; Matériel Double-MCU">Deterministic C++17 POS Systems &amp; Dual-MCU Hardware</h3>
-          <p data-en="From polymorphic C++17 self-checkout terminals (E.Leclerc load-cell scale + greedy Euro change dispenser) to STM32/ESP32 autonomous robotics and Cadence IC design at JUNIA ISEN Lille." data-fr="Des terminaux libre-service C++17 polymorphes (balance E.Leclerc + rendu glouton Euro) à la robotique autonome STM32/ESP32 et la conception IC sous Cadence à JUNIA ISEN Lille.">
-            From polymorphic C++17 self-checkout terminals (E.Leclerc load-cell scale + greedy Euro change dispenser) to STM32/ESP32 autonomous robotics and Cadence IC design at JUNIA ISEN Lille.
-          </p>
-          <div class="portal-stat-badges">
-            <span class="portal-badge">C++17 OOP · RTTI</span>
-            <span class="portal-badge">STM32 · ESP32 · AVR</span>
-            <span class="portal-badge">Cadence · KiCad PCB</span>
-          </div>
-        </div>
-        <div class="teardrop-visual-wrap">
-          <div class="teardrop-frame alt-leaf">
-            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--emerald-soft);">SILICON &amp; POS</div>
-            <div style="font-family: var(--font-display); font-size: 1.85rem; font-weight: 800; color: var(--emerald-bright); margin: 0.25rem 0;">C++ &amp; MCU</div>
-            <div style="font-size: 0.76rem; color: var(--text-muted);">Zero-Drift Centimes · Ultrasonic ToF · PWM Control</div>
-            <div class="teardrop-number-orb">02</div>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- =====================================================================
-       ZONE 3: LAPTOP & HARDWARE WORKSTATION SHOWCASE (IMAGE 2 SLIDE 5)
-       ===================================================================== -->
-  <section class="leafe-section" id="workstation">
-    <div class="section-header-row">
-      <div>
-        <div class="section-kicker">
-          <span>◆</span>
-          <span data-en="INTERACTIVE WORKSTATION · 6 PRODUCTION SYSTEMS" data-fr="STATION INTERACTIVE · 6 SYSTÈMES D'INGÉNIERIE">INTERACTIVE WORKSTATION · 6 PRODUCTION SYSTEMS</span>
-        </div>
-        <h2 class="section-title">
-          <span data-en="Start change" data-fr="Découvrez mes">Start change</span>
-          <strong data-en=" in my engineering workbench." data-fr=" réalisations logicielles &amp; matérielles."> in my engineering workbench.</strong>
-        </h2>
-      </div>
-      <p class="section-subtitle" data-en="Select any system on the left rail to inspect its live architecture, telemetry metrics, and source implementation inside the workstation monitor." data-fr="Sélectionnez un système sur le rail gauche pour inspecter son architecture, ses métriques et son code source dans le moniteur.">
-        Select any system on the left rail to inspect its live architecture, telemetry metrics, and source implementation inside the workstation monitor.
-      </p>
-    </div>
-
-    <div class="workstation-layout">
-      <!-- Left 6-Project Selector Rail -->
-      <div class="project-selector-rail">
-        {% for proj in data.projects %}
-        <button type="button" class="project-select-btn {% if loop.first %}active{% endif %}" data-proj-index="{{ loop.index0 }}">
-          <div class="project-select-index">{{ proj.index }}</div>
-          <div class="project-select-meta">
-            <div class="project-select-title" data-en="{{ proj.title_en }}" data-fr="{{ proj.title_fr }}">{{ proj.title_en }}</div>
-            <div class="project-select-lang">{{ proj.primary_lang }}</div>
-          </div>
-        </button>
-        {% endfor %}
-      </div>
-
-      <!-- Right 3D Laptop Workstation Monitor -->
-      <div class="laptop-stage-wrapper">
-        <div class="laptop-bezel">
-          <div class="laptop-camera-bar">
-            <div class="window-dots">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="laptop-screen-url" id="screenUrlBar">https://github.com/HanzSintim/python-telemetry-portfolio-engine</div>
-            <a id="screenProjRepo" href="https://github.com/HanzSintim" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--emerald-bright); text-decoration: none;">GitHub Repo ↗</a>
-          </div>
-
-          <div class="laptop-screen-body">
-            <!-- Left Screen Column: System Dossier -->
-            <div class="screen-left-dossier">
-              <span class="screen-status-pill" id="screenProjStatus">{{ data.projects[0].status_en }}</span>
-              <h3 id="screenProjTitle">{{ data.projects[0].title_en }}</h3>
-              <p id="screenProjSummary">{{ data.projects[0].summary_en }}</p>
-
-              <ul class="arch-bullet-list" id="screenProjArch">
-                {% for item in data.projects[0].architecture_en %}
-                <li>{{ item }}</li>
-                {% endfor %}
-              </ul>
-
-              <div class="screen-metrics-row" id="screenProjMetrics">
-                {% for k, v in data.projects[0].metrics.items() %}
-                <div class="screen-metric-box">
-                  <div class="m-key">{{ k }}</div>
-                  <div class="m-val">{{ v }}</div>
-                </div>
-                {% endfor %}
-              </div>
-            </div>
-
-            <!-- Right Screen Column: Source Implementation -->
-            <div class="screen-code-panel">
-              <div class="code-panel-header">
-                <span id="screenCodeFilename">{{ data.projects[0].code_Filename }}</span>
-                <span>UTF-8 · Verified</span>
-              </div>
-              <pre class="code-panel-pre" id="screenCodePre">{{ data.projects[0].code_snippet }}</pre>
-            </div>
-          </div>
-        </div>
-        <div class="laptop-chin-deck">
-          <div class="laptop-chin-notch"></div>
+          </article>
+          {% endfor %}
         </div>
 
-        <!-- Live Embedded Python & C++ E.Leclerc Euro Change & TVA 20% Simulator -->
-        <div class="pos-live-simulator">
-          <div>
-            <div class="section-kicker">LIVE PYTHON / C++ ALGORITHM DEMO</div>
-            <h4 style="font-size: 1.08rem; margin-bottom: 0.35rem;" data-en="E.Leclerc Self-Checkout — Greedy Change &amp; TVA 20% Engine" data-fr="Caisse Libre-Service E.Leclerc — Algorithme Glouton &amp; TVA 20%">E.Leclerc Self-Checkout — Greedy Change &amp; TVA 20% Engine</h4>
-            <p style="font-size: 0.8rem; color: var(--text-muted);" data-en="Test the exact integer-centime math implemented in both data_engine.py (Python 3) and L'ECLERC.cpp (C++17)." data-fr="Testez le calcul exact en centimes entiers implémenté dans data_engine.py (Python 3) et L'ECLERC.cpp (C++17).">
-              Test the exact integer-centime math implemented in both <code>data_engine.py</code> (Python 3) and <code>L'ECLERC.cpp</code> (C++17).
-            </p>
-            <div class="pos-sim-controls">
-              <div class="pos-input-group">
-                <label for="posAmountInput">Order Total TTC (€)</label>
-                <input type="number" id="posAmountInput" step="0.01" min="0.50" value="47.97" />
-              </div>
-              <div class="pos-input-group">
-                <label for="posTenderedInput">Cash Inserted (€)</label>
-                <input type="number" id="posTenderedInput" step="0.01" min="0.50" value="60.00" />
-              </div>
-            </div>
-          </div>
+        <!-- Right: Interactive SVG Hexagonal Radar & Orbital Constellation -->
+        <div class="bento-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center;" data-tilt>
+          <svg viewBox="0 0 420 340" width="100%" style="max-width: 420px; height: auto;">
+            <defs>
+              <linearGradient id="radarPolyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#6366f1" stop-opacity="0.48" />
+                <stop offset="50%" stop-color="#06b6d4" stop-opacity="0.42" />
+                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.48" />
+              </linearGradient>
+            </defs>
 
-          <div>
-            <div style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--emerald-mint); margin-bottom: 0.45rem;" id="posSummaryOutput">
-              HT: 39.98 € | TVA (20%): 7.99 € | Change: 12.03 € | NFC Sans Contact OK (&lt;= 50€)
-            </div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);" data-en="Optimal Euro Bills &amp; Coins Dispensed (Greedy / &amp; %):" data-fr="Billets &amp; Pièces Euro Distribués (Algorithme Glouton) :">
-              Optimal Euro Bills &amp; Coins Dispensed (Greedy <code>divmod</code> / <code>%</code>):
-            </div>
-            <div class="pos-denom-output" id="posDenomOutput"></div>
-          </div>
+            <!-- Concentric Radar Rings -->
+            <circle cx="210" cy="170" r="125" fill="none" stroke="rgba(148,163,184,0.2)" stroke-dasharray="4 4" />
+            <circle cx="210" cy="170" r="90" fill="none" stroke="rgba(148,163,184,0.2)" />
+            <circle cx="210" cy="170" r="55" fill="none" stroke="rgba(148,163,184,0.2)" stroke-dasharray="3 3" />
+
+            <!-- Axis Spokes -->
+            <line x1="210" y1="45" x2="210" y2="295" stroke="rgba(148,163,184,0.18)" />
+            <line x1="102" y1="108" x2="318" y2="232" stroke="rgba(148,163,184,0.18)" />
+            <line x1="318" y1="108" x2="102" y2="232" stroke="rgba(148,163,184,0.18)" />
+
+            <!-- 6-Point Quantitative Proficiency Radar Polygon (95%, 94%, 91%, 92%, 89%, 96%) -->
+            <polygon points="210,52 310,112 306,225 210,284 116,223 108,110" fill="url(#radarPolyGrad)" stroke="#38bdf8" stroke-width="2.5" />
+
+            <!-- 6 Orbital Nodes -->
+            <g data-svg-petal style="transform-origin: 210px 52px; transition: transform 0.25s ease;">
+              <circle cx="210" cy="52" r="24" fill="#111726" stroke="#6366f1" stroke-width="2.5" />
+              <text x="210" y="50" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">PYTHON</text>
+              <text x="210" y="62" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">95%</text>
+            </g>
+
+            <g data-svg-petal style="transform-origin: 310px 112px; transition: transform 0.25s ease;">
+              <circle cx="310" cy="112" r="24" fill="#111726" stroke="#06b6d4" stroke-width="2.5" />
+              <text x="310" y="110" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">C++17</text>
+              <text x="310" y="122" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">94%</text>
+            </g>
+
+            <g data-svg-petal style="transform-origin: 306px 225px; transition: transform 0.25s ease;">
+              <circle cx="306" cy="225" r="24" fill="#111726" stroke="#f59e0b" stroke-width="2.5" />
+              <text x="306" y="223" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">STM32</text>
+              <text x="306" y="235" text-anchor="middle" fill="#fbbf24" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">91%</text>
+            </g>
+
+            <g data-svg-petal style="transform-origin: 210px 284px; transition: transform 0.25s ease;">
+              <circle cx="210" cy="284" r="24" fill="#111726" stroke="#ec4899" stroke-width="2.5" />
+              <text x="210" y="282" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">3NF SQL</text>
+              <text x="210" y="294" text-anchor="middle" fill="#f472b6" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">92%</text>
+            </g>
+
+            <g data-svg-petal style="transform-origin: 116px 223px; transition: transform 0.25s ease;">
+              <circle cx="116" cy="223" r="24" fill="#111726" stroke="#06b6d4" stroke-width="2.5" />
+              <text x="116" y="221" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">PCB/IC</text>
+              <text x="116" y="233" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">89%</text>
+            </g>
+
+            <g data-svg-petal style="transform-origin: 108px 110px; transition: transform 0.25s ease;">
+              <circle cx="108" cy="110" r="24" fill="#111726" stroke="#f59e0b" stroke-width="2.5" />
+              <text x="108" y="108" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">LEAD</text>
+              <text x="108" y="120" text-anchor="middle" fill="#fbbf24" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">96%</text>
+            </g>
+
+            <!-- Center Hub -->
+            <circle cx="210" cy="170" r="30" fill="#0d111d" stroke="#f8fafc" stroke-width="2" />
+            <text x="210" y="167" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="10.5" font-weight="800">HANZ</text>
+            <text x="210" y="180" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="8.5" font-weight="700">92.8%</text>
+          </svg>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- =====================================================================
-       ZONE 4: EXECUTIVE PROFILE & 6-PETAL FLOWER INFOGRAPHIC (IMAGE 2 SLIDES 6–8)
-       ===================================================================== -->
-  <section class="leafe-section" id="infographics">
-    <div class="section-header-row">
-      <div>
-        <div class="section-kicker">
-          <span>◆</span>
-          <span data-en="EXECUTIVE LEADERSHIP &amp; QUANTITATIVE INFOGRAPHICS" data-fr="LEADERSHIP EXÉCUTIF &amp; INFOGRAPHIES QUANTITATIVES">EXECUTIVE LEADERSHIP &amp; QUANTITATIVE INFOGRAPHICS</span>
+    <!-- ===================================================================
+         SECTION 4: EXECUTIVE LEADERSHIP & INTERACTIVE GHANA ⇄ FRANCE MAP
+         =================================================================== -->
+    <section class="section-block" id="corridor">
+      <div class="section-header-flex">
+        <div>
+          <div class="bento-card-kicker" data-en="EXECUTIVE LEADERSHIP &amp; INTERACTIVE CORRIDOR MAP" data-fr="LEADERSHIP EXÉCUTIF &amp; CARTE INTERACTIVE DU CORRIDOR">EXECUTIVE LEADERSHIP &amp; INTERACTIVE CORRIDOR MAP</div>
+          <h2 class="section-heading" data-en="Accra &amp; Kumasi 🇬🇭 ⇄ Lille, France 🇫🇷" data-fr="Accra &amp; Kumasi 🇬🇭 ⇄ Lille, France 🇫🇷">Accra &amp; Kumasi 🇬🇭 ⇄ Lille, France 🇫🇷</h2>
         </div>
-        <h2 class="section-title">
-          <span data-en="Leadership governance" data-fr="Gouvernance exécutive">Leadership governance</span>
-          <strong data-en=" &amp; technical flower matrix." data-fr=" &amp; matrice de compétences."> &amp; technical flower matrix.</strong>
-        </h2>
+        <p style="max-width: 440px; font-size: 0.88rem; color: var(--text-secondary);" data-en="Click any glowing city pin on the interactive telemetry map to spotlight that academic and executive milestone." data-fr="Cliquez sur une ville de la carte pour mettre en évidence cette étape académique et exécutive.">
+          Click any glowing city pin on the interactive telemetry map to spotlight that academic and executive milestone.
+        </p>
       </div>
-      <p class="section-subtitle" data-en="Inspired by the LEAFE executive portrait and multi-petal radial infographic system—synthesizing executive roles and core technical mastery." data-fr="Inspiré du système d'infographie radiale LEAFE — synthétisant responsabilités exécutives et maîtrise technique.">
-        Inspired by the LEAFE executive portrait and multi-petal radial infographic system—synthesizing executive roles and core technical mastery.
-      </p>
-    </div>
 
-    <div class="infographic-suite-grid">
-      <!-- Left: Executive Profile & Leadership Timeline (Image 2 "Steven Oligerdo" Slide) -->
-      <div class="executive-profile-card">
-        <div class="profile-hero-row">
-          <div class="portrait-portal-ring">
-            <div class="portrait-inner">
-              <span>HOS</span>
-              <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--emerald-soft); letter-spacing: 0.1em;">ENGINEER</span>
-            </div>
-          </div>
-          <div>
-            <div class="section-kicker" style="margin-bottom: 0.2rem;">EXECUTIVE DOSSIER</div>
-            <h3 style="font-size: 1.5rem; font-weight: 800;">{{ data.engineer.name }}</h3>
-            <p style="font-size: 0.84rem; color: var(--emerald-mint); font-family: var(--font-mono);" data-en="{{ data.engineer.headline_en }}" data-fr="{{ data.engineer.headline_fr }}">
-              {{ data.engineer.headline_en }}
-            </p>
-          </div>
-        </div>
+      <div class="corridor-interactive-grid">
+        <!-- Left: Interactive SVG Map + Executive Leadership Roles -->
+        <div class="bento-card">
+          <svg viewBox="0 0 580 270" width="100%" style="background: #060911; border-radius: 16px; border: 1px solid rgba(148,163,184,0.18); margin-bottom: 1.25rem;">
+            <defs>
+              <linearGradient id="flightGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#f59e0b" />
+                <stop offset="50%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#6366f1" />
+              </linearGradient>
+            </defs>
 
-        <div class="leadership-timeline">
+            <!-- Telemetry Grid -->
+            <g stroke="rgba(148,163,184,0.1)" stroke-width="1">
+              <line x1="0" y1="65" x2="580" y2="65" />
+              <line x1="0" y1="135" x2="580" y2="135" />
+              <line x1="0" y1="205" x2="580" y2="205" />
+              <line x1="145" y1="0" x2="145" y2="270" />
+              <line x1="290" y1="0" x2="290" y2="270" />
+              <line x1="435" y1="0" x2="435" y2="270" />
+            </g>
+
+            <!-- Stylized Europe & West Africa Continents -->
+            <path d="M 190,28 L 265,20 L 340,32 L 365,68 L 320,98 L 220,92 Z" fill="#111a2e" stroke="#6366f1" stroke-width="1.5" />
+            <path d="M 165,125 L 295,118 L 355,172 L 325,248 L 235,245 L 175,205 Z" fill="#111a2e" stroke="#06b6d4" stroke-width="1.5" />
+
+            <!-- Flight Arcs -->
+            <path d="M 232,212 Q 165,135 268,62" fill="none" stroke="url(#flightGrad)" stroke-width="3" stroke-dasharray="6 4" />
+            <path d="M 222,190 Q 305,135 268,62" fill="none" stroke="#38bdf8" stroke-opacity="0.55" stroke-width="1.8" />
+
+            <!-- Interactive Pin 1: Lille -->
+            <g class="map-pin-group" data-corridor-pin="FR-LILLE">
+              <circle cx="268" cy="62" r="14" fill="#6366f1" fill-opacity="0.28" />
+              <circle cx="268" cy="62" r="6" fill="#6366f1" stroke="#ffffff" stroke-width="2" />
+              <text x="288" y="58" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="11" font-weight="800">🇫🇷 LILLE, FRANCE (Click)</text>
+              <text x="288" y="72" fill="#93c5fd" font-family="JetBrains Mono, monospace" font-size="9.5">JUNIA ISEN M1 · GHAFRA Nord</text>
+            </g>
+
+            <!-- Interactive Pin 2: Kumasi -->
+            <g class="map-pin-group" data-corridor-pin="GH-KUMASI">
+              <circle cx="222" cy="190" r="13" fill="#06b6d4" fill-opacity="0.28" />
+              <circle cx="222" cy="190" r="5.5" fill="#06b6d4" stroke="#ffffff" stroke-width="1.8" />
+              <text x="242" y="188" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="10.5" font-weight="800">🇬🇭 KUMASI, GHANA (Click)</text>
+              <text x="242" y="201" fill="#67e8f9" font-family="JetBrains Mono, monospace" font-size="9">KNUST BSc CompEng · ACES President</text>
+            </g>
+
+            <!-- Interactive Pin 3: Accra -->
+            <g class="map-pin-group" data-corridor-pin="GH-ACCRA">
+              <circle cx="232" cy="216" r="5" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5" />
+              <text x="244" y="226" fill="#fcd34d" font-family="JetBrains Mono, monospace" font-size="9">🇬🇭 ACCRA · PRESEC-Legon ('22)</text>
+            </g>
+          </svg>
+
+          <div class="bento-card-kicker">EXECUTIVE GOVERNANCE &amp; LEADERSHIP</div>
           {% for role in data.leadership %}
-          <div class="leadership-item">
-            <div class="leadership-item-header">
-              <strong style="font-size: 0.95rem;" data-en="{{ role.role_en }}" data-fr="{{ role.role_fr }}">{{ role.role_en }}</strong>
-              <span class="leadership-badge">{{ role.badge }} · {{ role.period }}</span>
+          <div style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="font-size: 0.92rem;" data-en="{{ role.role_en }}" data-fr="{{ role.role_fr }}">{{ role.role_en }}</strong>
+              <span style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-3); font-weight: 700;">{{ role.badge }} · {{ role.period }}</span>
             </div>
-            <div style="font-family: var(--font-mono); font-size: 0.73rem; color: var(--emerald-soft); margin-bottom: 0.4rem;">
-              {{ role.organization }} — {{ role.location }}
-            </div>
-            <p style="font-size: 0.8rem; color: var(--text-muted);" data-en="{{ role.highlights_en[0] }}" data-fr="{{ role.highlights_fr[0] }}">
-              {{ role.highlights_en[0] }}
-            </p>
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-2);">{{ role.organization }} — {{ role.location }}</div>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.2rem;" data-en="{{ role.highlights_en[0] }}" data-fr="{{ role.highlights_fr[0] }}">{{ role.highlights_en[0] }}</p>
           </div>
           {% endfor %}
         </div>
-      </div>
 
-      <!-- Right: 6-Petal Flower & 4-Orbital Infographic (Image 2 Slides 6–8) -->
-      <div class="flower-infographic-card">
-        <div class="section-kicker">RADIAL COMPETENCY INFOGRAPHIC · {{ data.telemetry_summary.average_proficiency_pct }}% AVG</div>
-        <h3 style="font-size: 1.35rem; margin-bottom: 1rem;" data-en="6-Petal Engineering &amp; Language Mastery Diagram" data-fr="Diagramme Radial à 6 Pétales de Maîtrise Technique">6-Petal Engineering &amp; Language Mastery Diagram</h3>
-
-        <div class="flower-svg-container">
-          <svg viewBox="0 0 420 300" width="100%" style="max-width: 420px; height: auto;">
-            <defs>
-              <radialGradient id="centerHubGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#00e676" />
-                <stop offset="100%" stop-color="#064e3b" />
-              </radialGradient>
-            </defs>
-
-            <!-- Outer Orbital Rings -->
-            <circle cx="210" cy="150" r="122" fill="none" stroke="#10b981" stroke-opacity="0.22" stroke-dasharray="4 4" />
-            <circle cx="210" cy="150" r="88" fill="none" stroke="#34d399" stroke-opacity="0.3" />
-
-            <!-- 6 Flower Petals Arranged Radially -->
-            <!-- Petal 01: Top (Python 95%) -->
-            <g transform="translate(210, 52)">
-              <circle cx="0" cy="0" r="34" fill="#0b241c" stroke="#00e676" stroke-width="2.5" />
-              <text x="0" y="-4" text-anchor="middle" fill="#00e676" font-family="JetBrains Mono, monospace" font-size="11" font-weight="800">01 · PY</text>
-              <text x="0" y="12" text-anchor="middle" fill="#f0fdf4" font-family="JetBrains Mono, monospace" font-size="10">95%</text>
-            </g>
-            <!-- Petal 02: Top-Right (C++17 94%) -->
-            <g transform="translate(298, 98)">
-              <circle cx="0" cy="0" r="34" fill="#0b241c" stroke="#34d399" stroke-width="2.5" />
-              <text x="0" y="-4" text-anchor="middle" fill="#34d399" font-family="JetBrains Mono, monospace" font-size="11" font-weight="800">02 · C++</text>
-              <text x="0" y="12" text-anchor="middle" fill="#f0fdf4" font-family="JetBrains Mono, monospace" font-size="10">94%</text>
-            </g>
-            <!-- Petal 03: Bottom-Right (MCU 91%) -->
-            <g transform="translate(298, 202)">
-              <circle cx="0" cy="0" r="34" fill="#0b241c" stroke="#10b981" stroke-width="2.5" />
-              <text x="0" y="-4" text-anchor="middle" fill="#10b981" font-family="JetBrains Mono, monospace" font-size="11" font-weight="800">03 · MCU</text>
-              <text x="0" y="12" text-anchor="middle" fill="#f0fdf4" font-family="JetBrains Mono, monospace" font-size="10">91%</text>
-            </g>
-            <!-- Petal 04: Bottom (3NF SQL 92%) -->
-            <g transform="translate(210, 248)">
-              <circle cx="0" cy="0" r="34" fill="#0b241c" stroke="#6ee7b7" stroke-width="2.5" />
-              <text x="0" y="-4" text-anchor="middle" fill="#6ee7b7" font-family="JetBrains Mono, monospace" font-size="11" font-weight="800">04 · 3NF</text>
-              <text x="0" y="12" text-anchor="middle" fill="#f0fdf4" font-family="JetBrains Mono, monospace" font-size="10">92%</text>
-            </g>
-            <!-- Petal 05: Bottom-Left (PCB 89%) -->
-            <g transform="translate(122, 202)">
-              <circle cx="0" cy="0" r="34" fill="#0b241c" stroke="#14b8a6" stroke-width="2.5" />
-              <text x="0" y="-4" text-anchor="middle" fill="#14b8a6" font-family="JetBrains Mono, monospace" font-size="11" font-weight="800">05 · PCB</text>
-              <text x="0" y="12" text-anchor="middle" fill="#f0fdf4" font-family="JetBrains Mono, monospace" font-size="10">89%</text>
-            </g>
-            <!-- Petal 06: Top-Left (Leadership 96%) -->
-            <g transform="translate(122, 98)">
-              <circle cx="0" cy="0" r="34" fill="#0b241c" stroke="#a7f3d0" stroke-width="2.5" />
-              <text x="0" y="-4" text-anchor="middle" fill="#a7f3d0" font-family="JetBrains Mono, monospace" font-size="11" font-weight="800">06 · LEAD</text>
-              <text x="0" y="12" text-anchor="middle" fill="#f0fdf4" font-family="JetBrains Mono, monospace" font-size="10">96%</text>
-            </g>
-
-            <!-- Center Core Hub -->
-            <circle cx="210" cy="150" r="42" fill="url(#centerHubGrad)" stroke="#f0fdf4" stroke-width="2" />
-            <text x="210" y="146" text-anchor="middle" fill="#03150c" font-family="JetBrains Mono, monospace" font-size="12" font-weight="800">HANZ</text>
-            <text x="210" y="161" text-anchor="middle" fill="#03150c" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">92.8% AVG</text>
-          </svg>
-
-          <div class="petal-legend-grid">
-            {% for petal in data.skill_petals %}
-            <div class="petal-legend-item">
-              <div>
-                <div style="font-size: 0.8rem; font-weight: 700;" data-en="{{ petal.title_en }}" data-fr="{{ petal.title_fr }}">{{ petal.title_en }}</div>
-                <div style="font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-muted);">{{ petal.tools[:3] | join(' · ') }}</div>
-              </div>
-              <span class="petal-score-pill">{{ petal.score }}%</span>
+        <!-- Right: Academic Corridor Cards -->
+        <div>
+          {% for node in data.corridor %}
+          <article class="corridor-card-item {% if loop.first %}active{% endif %}" data-corridor-card="{{ node.code }}">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-2); font-weight: 800;">{{ node.code }} · {{ node.coordinates }}</span>
+              <span style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-3); font-weight: 700;">{{ node.period }}</span>
             </div>
-            {% endfor %}
-          </div>
+            <h3 style="font-size: 1.06rem; font-weight: 800; margin-bottom: 0.2rem;">{{ node.institution }}</h3>
+            <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-1); font-weight: 700; margin-bottom: 0.45rem;" data-en="{{ node.degree_en }}" data-fr="{{ node.degree_fr }}">
+              {{ node.degree_en }}
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-secondary);" data-en="{{ node.focus_en }}" data-fr="{{ node.focus_fr }}">
+              {{ node.focus_en }}
+            </p>
+          </article>
+          {% endfor %}
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- =====================================================================
-       ZONE 5: WORLD & REGIONAL CORRIDOR MAP (IMAGE 2 SLIDES 12–14)
-       ===================================================================== -->
-  <section class="leafe-section" id="corridor">
-    <div class="section-header-row">
-      <div>
-        <div class="section-kicker">
-          <span>◆</span>
-          <span data-en="GLOBAL ENGINEERING FOOTPRINT · GHANA ⇄ FRANCE" data-fr="EMPREINTE INTERNATIONALE · GHANA ⇄ FRANCE">GLOBAL ENGINEERING FOOTPRINT · GHANA ⇄ FRANCE</span>
-        </div>
-        <h2 class="section-title">
-          <span data-en="Academic &amp; R&amp;D" data-fr="Corridor académique">Academic &amp; R&amp;D</span>
-          <strong data-en=" corridor map." data-fr=" &amp; R&amp;D international."> corridor map.</strong>
-        </h2>
-      </div>
-      <p class="section-subtitle" data-en="Tracing my scientific and engineering progression from PRESEC-Legon (Accra) and KNUST (Kumasi) to JUNIA ISEN (Lille, France)." data-fr="De PRESEC-Legon (Accra) et KNUST (Kumasi) jusqu'à JUNIA ISEN (Lille, France).">
-        Tracing my scientific and engineering progression from PRESEC-Legon (Accra) and KNUST (Kumasi) to JUNIA ISEN (Lille, France).
-      </p>
-    </div>
+  </main>
 
-    <div class="corridor-map-card">
-      <!-- Left: Dark Emerald Vector Corridor Map (Europe <-> West Africa) -->
-      <div>
-        <svg viewBox="0 0 600 360" width="100%" style="background: #050b08; border-radius: 18px; border: 1px solid rgba(52,211,153,0.22);">
-          <defs>
-            <linearGradient id="corridorArcGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#00e676" />
-              <stop offset="100%" stop-color="#34d399" />
-            </linearGradient>
-          </defs>
-
-          <!-- Subtle Lat/Long Telemetry Grid -->
-          <g stroke="#10b981" stroke-opacity="0.1" stroke-width="1">
-            <line x1="0" y1="60" x2="600" y2="60" />
-            <line x1="0" y1="120" x2="600" y2="120" />
-            <line x1="0" y1="180" x2="600" y2="180" />
-            <line x1="0" y1="240" x2="600" y2="240" />
-            <line x1="0" y1="300" x2="600" y2="300" />
-            <line x1="120" y1="0" x2="120" y2="360" />
-            <line x1="240" y1="0" x2="240" y2="360" />
-            <line x1="360" y1="0" x2="360" y2="360" />
-            <line x1="480" y1="0" x2="480" y2="360" />
-          </g>
-
-          <!-- Stylized Europe Silhouette (France / Lille Highlighted) -->
-          <path d="M 230,45 L 285,35 L 355,42 L 395,75 L 360,125 L 295,135 L 240,120 Z" fill="#0d261d" stroke="#10b981" stroke-width="1.5" />
-          <!-- Stylized West & Central Africa Silhouette (Ghana Highlighted) -->
-          <path d="M 195,165 L 335,155 L 405,215 L 375,320 L 295,330 L 255,275 L 185,255 Z" fill="#0d261d" stroke="#10b981" stroke-width="1.5" />
-
-          <!-- Glowing Flight / Telemetry Corridor Arcs: Accra & Kumasi -> Lille -->
-          <path d="M 255,262 Q 190,165 292,82" fill="none" stroke="url(#corridorArcGrad)" stroke-width="3" stroke-dasharray="6 4" />
-          <path d="M 248,245 Q 325,165 292,82" fill="none" stroke="#6ee7b7" stroke-opacity="0.55" stroke-width="1.8" />
-
-          <!-- Node 1: JUNIA ISEN Lille, France -->
-          <circle cx="292" cy="82" r="14" fill="#00e676" fill-opacity="0.22" />
-          <circle cx="292" cy="82" r="6" fill="#00e676" stroke="#ffffff" stroke-width="2" />
-          <text x="312" y="78" fill="#f0fdf4" font-family="JetBrains Mono, monospace" font-size="12" font-weight="800">LILLE, FRANCE 🇫🇷</text>
-          <text x="312" y="94" fill="#6ee7b7" font-family="JetBrains Mono, monospace" font-size="10">JUNIA ISEN (M1) · GHAFRA Nord</text>
-
-          <!-- Node 2: KNUST Kumasi, Ghana -->
-          <circle cx="248" cy="245" r="12" fill="#10b981" fill-opacity="0.22" />
-          <circle cx="248" cy="245" r="5.5" fill="#10b981" stroke="#ffffff" stroke-width="1.5" />
-          <text x="268" y="243" fill="#f0fdf4" font-family="JetBrains Mono, monospace" font-size="11" font-weight="800">KUMASI, GHANA 🇬🇭</text>
-          <text x="268" y="257" fill="#6ee7b7" font-family="JetBrains Mono, monospace" font-size="9.5">KNUST BSc CompEng · ACES President</text>
-
-          <!-- Node 3: PRESEC-Legon Accra, Ghana -->
-          <circle cx="255" cy="268" r="5" fill="#34d399" />
-          <text x="268" y="280" fill="#94b8a8" font-family="JetBrains Mono, monospace" font-size="9.5">ACCRA · PRESEC-Legon (General Science)</text>
-        </svg>
-      </div>
-
-      <!-- Right: 3 Academic & Institutional Cards -->
-      <div class="corridor-nodes-stack">
-        {% for node in data.corridor %}
-        <div class="corridor-node-box">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
-            <span class="corridor-coords">{{ node.code }} · {{ node.coordinates }}</span>
-            <span class="leadership-badge">{{ node.period }}</span>
-          </div>
-          <h4 style="font-size: 1.02rem; color: var(--text-light); margin-bottom: 0.2rem;">{{ node.institution }}</h4>
-          <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--emerald-mint); margin-bottom: 0.45rem;" data-en="{{ node.degree_en }}" data-fr="{{ node.degree_fr }}">
-            {{ node.degree_en }}
-          </div>
-          <p style="font-size: 0.8rem; color: var(--text-muted);" data-en="{{ node.focus_en }}" data-fr="{{ node.focus_fr }}">
-            {{ node.focus_en }}
-          </p>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-
-  <!-- =====================================================================
-       FOOTER
-       ===================================================================== -->
-  <footer class="leafe-footer">
-    <div>
-      <strong>{{ data.engineer.name }}</strong> ({{ data.engineer.handle }}) · Python 3 &amp; Flask Portfolio Engine + C++17 &amp; Embedded Systems Workbench
-    </div>
-    <div style="margin-top: 0.4rem;">
-      <a href="{{ data.engineer.github_url }}" style="color: var(--emerald-bright); text-decoration: none;">GitHub Overview</a> ·
-      <a href="https://github.com/HanzSintim/LECLERC-Self-Checkout" style="color: var(--emerald-bright); text-decoration: none;">E.Leclerc C++ POS</a> ·
-      <a href="mailto:{{ data.engineer.email }}" style="color: var(--emerald-bright); text-decoration: none;">{{ data.engineer.email }}</a>
-    </div>
-  </footer>
+  <div class="toast-banner" id="toastBanner">Copied!</div>
 
   <script>
     window.PORTFOLIO_DATA = {{ data | tojson }};
