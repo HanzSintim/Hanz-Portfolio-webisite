@@ -1,518 +1,1180 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="aurora">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ data.engineer.name }} — Interactive Engineering &amp; Architecture Portfolio</title>
-  <meta name="description" content="Hanz Ofosuhene-Sintim — Python 3, C++17 &amp; Embedded Systems Architect (JUNIA ISEN Lille &amp; KNUST)" />
+  <title>Hanz Ofosuhene-Sintim | Python, C++17 &amp; Embedded Systems Architect</title>
+  <meta name="description" content="Interactive engineering portfolio of Hanz Ofosuhene-Sintim (@HanzSintim) — Python 3 &amp; Flask Backend Architect, C++17 POS Systems Engineer, and M1 Microelectronics &amp; Embedded Systems Scholar at JUNIA ISEN Lille (France) &amp; KNUST (Ghana)." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="static/css/emerald_obsidian.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ 'static/css/emerald_obsidian.css' if static_mode else url_for('static', filename='css/emerald_obsidian.css') }}" />
 </head>
 <body>
+  <!-- Ambient Liquid Gradient Blobs & Interactive Cursor Spotlight -->
+  <div class="ambient-backdrop" aria-hidden="true">
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+    <div class="ambient-blob blob-3"></div>
+  </div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
-  <!-- 60fps Interactive Neural/Silicon Constellation Canvas -->
-  <canvas id="constellationCanvas"></canvas>
-  <div class="ambient-glow-orb ambient-orb-1"></div>
-  <div class="ambient-glow-orb ambient-orb-2"></div>
+  <!-- ========================================================================
+       STICKY GLASS NAVIGATION BAR (CodeCraft + Aarav Singh Style)
+       ======================================================================== -->
+  <header class="navbar">
+    <nav class="navbar-inner" aria-label="Primary Navigation">
+      <a href="#top" class="brand-logo">
+        <span class="brand-icon">&lt;/&gt;</span>
+        <span>Hanz<span class="brand-accent">Craft</span></span>
+      </a>
 
-  <!-- =====================================================================
-       FLOATING GLASSMORPHIC NAVIGATION DOCK + 4-THEME CHAMELEON SWITCHER
-       ===================================================================== -->
-  <nav class="top-nav">
-    <a href="#top" class="nav-brand">
-      <div class="brand-monogram">HS</div>
-      <div class="brand-title-group">
-        <span class="brand-name">{{ data.engineer.name }}</span>
-        <span class="brand-sub" id="corridorLiveClock">Lille 🇫🇷 ⇄ Ghana 🇬🇭</span>
+      <ul class="nav-links">
+        <li><a href="#top" class="active" data-i18n-en="Home" data-i18n-fr="Accueil">Home</a></li>
+        <li><a href="#showreel" data-i18n-en="Live Sandbox" data-i18n-fr="Labo Live">Live Sandbox</a></li>
+        <li><a href="#about" data-i18n-en="About" data-i18n-fr="À Propos">About</a></li>
+        <li><a href="#services" data-i18n-en="Services" data-i18n-fr="Expertise">Services</a></li>
+        <li><a href="#skills" data-i18n-en="Skills" data-i18n-fr="Compétences">Skills</a></li>
+        <li><a href="#projects" data-i18n-en="Projects" data-i18n-fr="Projets">Projects</a></li>
+        <li><a href="#process" data-i18n-en="Process" data-i18n-fr="Méthode">Process</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button type="button" class="pill-toggle" id="langToggleBtn" title="Switch Language (EN / FR)">
+          <span>🌐</span>
+          <span id="langLabel">EN</span>
+        </button>
+        <button type="button" class="pill-toggle" id="themeToggleBtn" title="Switch Dark Neon / Frosted Light Theme">
+          <span id="themeIcon">☀️</span>
+          <span id="themeLabel">Glass Light</span>
+        </button>
+        <a href="#contact" class="btn-hire-nav" data-i18n-en="Hire Me ↗" data-i18n-fr="Me Contacter ↗">Hire Me ↗</a>
       </div>
-    </a>
+    </nav>
+  </header>
 
-    <ul class="nav-links">
-      <li><a href="#top" data-en="Bento Overview" data-fr="Vue Bento">Bento Overview</a></li>
-      <li><a href="#workstation" data-en="3D Workstation" data-fr="Station 3D">3D Workstation</a></li>
-      <li><a href="#infographics" data-en="Radar &amp; Skills" data-fr="Radar &amp; Compétences">Radar &amp; Skills</a></li>
-      <li><a href="#corridor" data-en="Leadership &amp; Map" data-fr="Leadership &amp; Carte">Leadership &amp; Map</a></li>
-      <li><a href="api/v1/profile.json" target="_blank">Python API</a></li>
-    </ul>
+  <main id="top">
+    <!-- ======================================================================
+         SECTION 1: HERO STAGE (CodeCraft Halo + Aarav Widgets + Dikshant Energy)
+         ====================================================================== -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Left Column: Identity, Kinetic Typewriter, CTAs & Colorful Tech Strip -->
+          <div class="hero-copy">
+            <div class="hero-eyebrow-row">
+              <span class="eyebrow-badge">
+                <span class="pulse-dot"></span>
+                <span data-i18n-en="PYTHON · C++17 · EMBEDDED ARCHITECT" data-i18n-fr="ARCHITECTE PYTHON · C++17 · EMBARQUÉ">PYTHON · C++17 · EMBEDDED ARCHITECT</span>
+              </span>
+              <span class="speech-pill" data-i18n-en="👋 Let's create something awesome!" data-i18n-fr="👋 Créons quelque chose d'exceptionnel !">👋 Let's create something awesome!</span>
+            </div>
 
-    <div class="nav-controls">
-      <div class="theme-pills" title="Switch Visual Atmosphere">
-        <button type="button" class="theme-dot-btn theme-dot-aurora active" data-set-theme="aurora" title="Midnight Aurora (Indigo &amp; Cyan)"></button>
-        <button type="button" class="theme-dot-btn theme-dot-editorial" data-set-theme="editorial" title="Editorial Light (Warm Ivory &amp; Cobalt)"></button>
-        <button type="button" class="theme-dot-btn theme-dot-cyber" data-set-theme="cyber" title="Cyber Ocean (Cyan &amp; Rose)"></button>
-        <button type="button" class="theme-dot-btn theme-dot-silicon" data-set-theme="silicon" title="Silicon Gold (Carbon &amp; Amber)"></button>
-      </div>
-      <button type="button" class="pill-action-btn" id="langToggleBtn">FR 🇫🇷</button>
-      <a href="{{ data.engineer.github_url }}" target="_blank" rel="noopener" class="pill-action-btn primary">@HanzSintim ↗</a>
-    </div>
-  </nav>
+            <h1 class="hero-title">
+              <span data-i18n-en="Hi, I'm" data-i18n-fr="Salut, moi c'est">Hi, I'm</span>
+              <span class="hero-name-gradient">Hanz</span>
+            </h1>
 
-  <main class="main-container" id="top">
+            <p class="hero-subtitle">
+              <span data-i18n-en="I engineer" data-i18n-fr="Je conçois">I engineer</span>
+              <span class="typewriter-highlight" id="heroTypewriter">Python 3 &amp; Flask Systems.</span>
+            </p>
 
-    <!-- ===================================================================
-         SECTION 1: INTERACTIVE BENTO COMMAND DASHBOARD (PINTEREST / AWWWARDS)
-         =================================================================== -->
-    <section class="hero-bento-grid">
+            <p class="hero-description" data-i18n-en="M1 Microelectronics, Nanotechnology &amp; Embedded Systems engineer at JUNIA ISEN Lille (France) and BSc Computer Engineering graduate &amp; former ACES President at KNUST (Ghana). I bridge high-level Python backends &amp; 3NF databases with deterministic C++17 POS terminals and STM32/ESP32 robotics." data-i18n-fr="Ingénieur M1 Microélectronique, Nanotechnologies &amp; Systèmes Embarqués à JUNIA ISEN Lille (France) et diplômé BSc Computer Engineering &amp; ancien Président ACES à KNUST (Ghana). J'unis les architectures Python/Flask &amp; bases 3NF aux moteurs C++17 et robots STM32/ESP32.">
+              M1 Microelectronics, Nanotechnology &amp; Embedded Systems engineer at JUNIA ISEN Lille (France) and BSc Computer Engineering graduate &amp; former ACES President at KNUST (Ghana). I bridge high-level Python backends &amp; 3NF databases with deterministic C++17 POS terminals and STM32/ESP32 robotics.
+            </p>
 
-      <!-- Bento Card 1: Main Identity + Live Typewriter + Magnetic Actions (8 cols) -->
-      <article class="bento-card bento-hero-main" data-tilt>
-        <div>
-          <div class="status-avail-pill">
-            <span class="pulse-dot"></span>
-            <span data-en="M1 MICROELECTRONICS &amp; EMBEDDED @ JUNIA LILLE · BSC COMP. ENG @ KNUST" data-fr="M1 MICROÉLECTRONIQUE &amp; EMBARQUÉ @ JUNIA LILLE · BSC GÉNIE INFO @ KNUST">M1 MICROELECTRONICS &amp; EMBEDDED @ JUNIA LILLE · BSC COMP. ENG @ KNUST</span>
+            <div class="hero-cta-row">
+              <a href="#projects" class="btn-primary-glow">
+                <span data-i18n-en="View My Work" data-i18n-fr="Voir Mes Projets">View My Work</span>
+                <span>→</span>
+              </a>
+              <a href="#showreel" class="btn-lime-play">
+                <span>▶</span>
+                <span data-i18n-en="Interactive Lab" data-i18n-fr="Labo Interactif">Interactive Lab</span>
+              </a>
+              <a href="https://github.com/HanzSintim" target="_blank" rel="noopener" class="btn-outline-glass">
+                <span>★</span>
+                <span>GitHub @HanzSintim</span>
+              </a>
+            </div>
+
+            <!-- Pinterest Image 1: Colorful Official Tech Badges Directly Below Hero CTAs -->
+            <div class="hero-tech-strip-label" data-i18n-en="TECHNOLOGIES I WORK WITH DAILY" data-i18n-fr="TECHNOLOGIES QUE J'UTILISE AU QUOTIDIEN">TECHNOLOGIES I WORK WITH DAILY</div>
+            <div class="hero-tech-badges">
+              <div class="tech-mini-tile" data-filter-jump="python">
+                <span class="tech-mini-icon" style="background: linear-gradient(135deg,#38bdf8,#facc15); color:#070a13;">Py</span>
+                <span>Python 3.12</span>
+              </div>
+              <div class="tech-mini-tile" data-filter-jump="cpp">
+                <span class="tech-mini-icon" style="background: linear-gradient(135deg,#6366f1,#3b82f6); color:#fff;">C++</span>
+                <span>C++17 POS</span>
+              </div>
+              <div class="tech-mini-tile" data-filter-jump="embedded">
+                <span class="tech-mini-icon" style="background: linear-gradient(135deg,#10b981,#06b6d4); color:#070a13;">µC</span>
+                <span>STM32 / ESP32</span>
+              </div>
+              <div class="tech-mini-tile" data-filter-jump="python">
+                <span class="tech-mini-icon" style="background: linear-gradient(135deg,#8b5cf6,#ec4899); color:#fff;">Fl</span>
+                <span>Flask REST</span>
+              </div>
+              <div class="tech-mini-tile" data-filter-jump="data">
+                <span class="tech-mini-icon" style="background: linear-gradient(135deg,#f59e0b,#ef4444); color:#fff;">SQL</span>
+                <span>3NF Schemas</span>
+              </div>
+              <div class="tech-mini-tile" data-filter-jump="embedded">
+                <span class="tech-mini-icon" style="background: linear-gradient(135deg,#a3e635,#10b981); color:#070a13;">PCB</span>
+                <span>KiCad &amp; Cadence</span>
+              </div>
+            </div>
           </div>
 
-          <h1 class="hero-display-title">
-            Hanz Ofosuhene&#8209;Sintim<br />
-            <span class="gradient-text" data-en="Architecting Intelligent Software &amp; Silicon." data-fr="Architecturer le Logiciel Intelligent &amp; le Silicium.">Architecting Intelligent Software &amp; Silicon.</span>
-          </h1>
+          <!-- Right Column: Glowing Violet Halo + Illustrated Developer Character + Floating Glass Widgets -->
+          <div class="hero-visual-stage" id="heroStage">
+            <!-- Top-Left Playful Speech Bubble (Dikshant Inspiration) -->
+            <div class="floating-widget widget-speech-bubble" data-parallax="18">
+              ⚡ SILICON TO CLOUD!
+            </div>
 
-          <div class="typewriter-row">
-            <span>&gt;</span>
-            <span id="typewriterText">Python 3 &amp; Flask Systems Architect</span>
-            <span class="cursor-blink"></span>
+            <!-- Top-Right Experience Pill (Aarav Singh 5+ Card Inspiration) -->
+            <div class="floating-widget widget-top-right" data-parallax="-16">
+              <div class="widget-big-num">4+</div>
+              <div class="widget-sub-label">
+                <span data-i18n-en="Years Building" data-i18n-fr="Années d'Ingénierie">Years Building</span><br />
+                <strong>KNUST 🇬🇭 ⇄ JUNIA 🇫🇷</strong>
+              </div>
+            </div>
+
+            <!-- Centerpiece Glowing Purple/Cyan Portal Halo + Custom Developer Character Illustration -->
+            <div class="hero-halo-circle" id="heroHalo">
+              <div class="hero-halo-ring"></div>
+              <svg class="developer-character-svg" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrated portrait of Hanz coding on a glowing laptop">
+                <defs>
+                  <linearGradient id="hoodieGrad" x1="100" y1="210" x2="320" y2="390" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#1e1b4b" />
+                    <stop offset="50%" stop-color="#0f172a" />
+                    <stop offset="100%" stop-color="#090d16" />
+                  </linearGradient>
+                  <linearGradient id="trimGrad" x1="120" y1="220" x2="300" y2="360" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#a78bfa" />
+                    <stop offset="50%" stop-color="#38bdf8" />
+                    <stop offset="100%" stop-color="#a3e635" />
+                  </linearGradient>
+                  <linearGradient id="laptopGrad" x1="115" y1="285" x2="305" y2="395" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#1e293b" />
+                    <stop offset="100%" stop-color="#0f172a" />
+                  </linearGradient>
+                  <radialGradient id="screenGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.55" />
+                    <stop offset="100%" stop-color="#7c3aed" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+
+                <!-- Floating Neon Stars & Code Doodles (Dikshant + CodeCraft Vibe) -->
+                <g opacity="0.9">
+                  <path d="M58 145 L62 155 L72 159 L62 163 L58 173 L54 163 L44 159 L54 155 Z" fill="#a3e635" />
+                  <path d="M356 125 L359 133 L367 136 L359 139 L356 147 L353 139 L345 136 L353 133 Z" fill="#38bdf8" />
+                  <circle cx="76" cy="96" r="5" fill="#f472b6" />
+                  <circle cx="342" cy="210" r="6" fill="#a78bfa" />
+                  <!-- Floating < /> Badge Left -->
+                  <rect x="34" y="198" width="52" height="32" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1.8" />
+                  <text x="60" y="219" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-weight="800" font-size="13">&lt;/&gt;</text>
+                  <!-- Floating {Py} Badge Right -->
+                  <rect x="328" y="158" width="56" height="32" rx="10" fill="#0f172a" stroke="#a3e635" stroke-width="1.8" />
+                  <text x="356" y="179" text-anchor="middle" fill="#a3e635" font-family="JetBrains Mono, monospace" font-weight="800" font-size="13">{Py}</text>
+                </g>
+
+                <!-- Screen Upward Cyan/Violet Light Cone onto Face -->
+                <ellipse cx="210" cy="270" rx="125" ry="70" fill="url(#screenGlow)" />
+
+                <!-- Shoulders & Tech Hoodie -->
+                <path d="M88 370 C92 272 142 238 210 238 C278 238 328 272 332 370 Z" fill="url(#hoodieGrad)" stroke="url(#trimGrad)" stroke-width="2.5" />
+                <!-- Hoodie Cyber Collar & Drawstrings -->
+                <path d="M168 242 L210 288 L252 242" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+                <path d="M188 265 L184 312" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round" />
+                <path d="M232 265 L236 312" stroke="#a3e635" stroke-width="2.5" stroke-linecap="round" />
+
+                <!-- Neck -->
+                <rect x="191" y="205" width="38" height="44" rx="16" fill="#8d5524" />
+                <path d="M191 228 Q210 242 229 228" fill="#704218" opacity="0.5" />
+
+                <!-- Ears -->
+                <circle cx="152" cy="158" r="14" fill="#8d5524" />
+                <circle cx="268" cy="158" r="14" fill="#8d5524" />
+
+                <!-- Head / Face Contour (Warm Rich Brown Skin Tone) -->
+                <rect x="156" y="92" width="108" height="126" rx="50" fill="#9c612d" />
+                <!-- Subtle Cheek & Chin Shading -->
+                <path d="M166 175 Q210 218 254 175" fill="#824e20" opacity="0.35" />
+
+                <!-- Modern Taper Fade / Stylized Afro Curls Hair -->
+                <path d="M152 136 C148 88 176 64 210 64 C244 64 272 88 268 136 C262 114 242 102 210 102 C178 102 158 114 152 136 Z" fill="#090d16" />
+                <circle cx="176" cy="76" r="16" fill="#090d16" />
+                <circle cx="210" cy="70" r="18" fill="#090d16" />
+                <circle cx="244" cy="76" r="16" fill="#090d16" />
+                <circle cx="158" cy="96" r="13" fill="#090d16" />
+                <circle cx="262" cy="96" r="13" fill="#090d16" />
+
+                <!-- Eyebrows -->
+                <path d="M174 134 Q188 128 198 133" stroke="#090d16" stroke-width="4" stroke-linecap="round" />
+                <path d="M222 133 Q232 128 246 134" stroke="#090d16" stroke-width="4" stroke-linecap="round" />
+
+                <!-- Eyes -->
+                <circle cx="186" cy="150" r="5.5" fill="#090d16" />
+                <circle cx="234" cy="150" r="5.5" fill="#090d16" />
+                <circle cx="188" cy="148" r="2" fill="#ffffff" />
+                <circle cx="236" cy="148" r="2" fill="#ffffff" />
+
+                <!-- Sleek Architect Glasses with Cyan/Violet Screen Reflection -->
+                <rect x="166" y="137" width="40" height="27" rx="8" fill="#38bdf8" fill-opacity="0.14" stroke="#e2e8f0" stroke-width="2.6" />
+                <rect x="214" y="137" width="40" height="27" rx="8" fill="#38bdf8" fill-opacity="0.14" stroke="#e2e8f0" stroke-width="2.6" />
+                <line x1="206" y1="149" x2="214" y2="149" stroke="#e2e8f0" stroke-width="2.6" />
+                <line x1="154" y1="148" x2="166" y2="149" stroke="#e2e8f0" stroke-width="2.2" />
+                <line x1="254" y1="149" x2="266" y2="148" stroke="#e2e8f0" stroke-width="2.2" />
+                <!-- Glare lines on glasses -->
+                <line x1="173" y1="142" x2="181" y2="158" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" opacity="0.75" />
+                <line x1="221" y1="142" x2="229" y2="158" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" opacity="0.75" />
+
+                <!-- Nose & Confident Warm Smile -->
+                <path d="M210 153 L206 171 L215 173" stroke="#6e3f17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M193 185 Q210 199 227 185" stroke="#090d16" stroke-width="3" stroke-linecap="round" fill="none" />
+                <path d="M197 187 Q210 195 223 187 Z" fill="#ffffff" />
+
+                <!-- Clean Goatee / Jawline Trim -->
+                <path d="M196 208 Q210 217 224 208" stroke="#090d16" stroke-width="3.5" stroke-linecap="round" opacity="0.75" />
+
+                <!-- Glowing Engineering Laptop in Foreground (CodeCraft Alex Pose) -->
+                <rect x="122" y="278" width="176" height="104" rx="14" fill="url(#laptopGrad)" stroke="#6366f1" stroke-width="2.2" />
+                <!-- Laptop Base Lip -->
+                <rect x="104" y="378" width="212" height="10" rx="5" fill="#334155" />
+                <!-- Glowing Python / Chip Logo on Laptop Lid -->
+                <circle cx="210" cy="330" r="22" fill="#090d16" stroke="#38bdf8" stroke-width="2" />
+                <path d="M202 330 L208 336 L220 324" stroke="#a3e635" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+
+            <!-- Bottom-Left System Impact Sparkline Card (Pinterest Image 2 "+120%" Card) -->
+            <div class="floating-widget widget-sparkline" data-parallax="14">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <span style="font-size:0.7rem; font-weight:700; color:var(--text-muted);" data-i18n-en="Stack Mastery" data-i18n-fr="Maîtrise Stack">Stack Mastery</span>
+                <span style="font-size:0.75rem; font-weight:900; color:var(--accent-lime);">+{{ data.telemetry_summary.average_proficiency_pct }}%</span>
+              </div>
+              <svg viewBox="0 0 140 36" width="100%" height="34">
+                <path d="M4 28 Q 28 24, 44 16 T 88 14 T 136 4" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+                <circle cx="136" cy="4" r="4" fill="#a3e635" />
+              </svg>
+            </div>
+
+            <!-- Bottom-Right Floating Code Snippet Card (Pinterest Image 1 CodeCraft Overlap) -->
+            <div class="floating-widget widget-code-card" data-parallax="-20">
+              <div class="code-card-dots">
+                <div class="dots-group">
+                  <span style="background:#fb7185;"></span>
+                  <span style="background:#facc15;"></span>
+                  <span style="background:#4ade80;"></span>
+                </div>
+                <span style="color:#38bdf8; font-size:0.66rem;">data_engine.py</span>
+              </div>
+              <div style="line-height:1.45;">
+                <span style="color:#c084fc;">def</span> <span style="color:#38bdf8;">engineer_future</span>():<br />
+                &nbsp;&nbsp;stack = [<span style="color:#a3e635;">"Python"</span>, <span style="color:#a3e635;">"C++17"</span>]<br />
+                &nbsp;&nbsp;mcu = <span style="color:#facc15;">"STM32 + ESP32"</span><br />
+                &nbsp;&nbsp;<span style="color:#c084fc;">return</span> <span style="color:#4ade80;">"100% Deterministic"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 2: INTERACTIVE SHOWREEL & LIVE ENGINEERING SANDBOX (Image 3)
+         ====================================================================== -->
+    <section class="section-block" id="showreel">
+      <div class="container">
+        <div class="showreel-card">
+          <!-- Left Column: Showreel Mode Switcher -->
+          <div>
+            <span class="showreel-badge">
+              <span>▶</span>
+              <span data-i18n-en="INTERACTIVE SHOWREEL &amp; SANDBOX" data-i18n-fr="SHOWREEL INTERACTIF &amp; LABO LIVE">INTERACTIVE SHOWREEL &amp; SANDBOX</span>
+            </span>
+            <h2 class="showreel-title" data-i18n-en="Don't just read about my code — test it live." data-i18n-fr="Ne lisez pas seulement mon code — testez-le en direct.">
+              Don't just read about my code — test it live.
+            </h2>
+            <p class="showreel-desc" data-i18n-en="Switch between 3 real-time interactive simulations powered by my Python, C++17, and Embedded C control algorithms:" data-i18n-fr="Basculez entre 3 simulations interactives temps-réel propulsées par mes algorithmes Python, C++17 et C Embarqué :">
+              Switch between 3 real-time interactive simulations powered by my Python, C++17, and Embedded C control algorithms:
+            </p>
+
+            <div class="showreel-mode-tabs" role="tablist">
+              <button type="button" class="showreel-tab-btn active" data-sim-target="sim-pos">
+                <span><strong>01 · E.Leclerc C++17 &amp; Python POS</strong> — Greedy Euro Change &amp; TVA 20%</span>
+                <span class="play-pill">▶</span>
+              </button>
+              <button type="button" class="showreel-tab-btn" data-sim-target="sim-robot">
+                <span><strong>02 · STM32 + ESP32 Urban Robot</strong> — ToF Safety &amp; AI Steering Loop</span>
+                <span class="play-pill">▶</span>
+              </button>
+              <button type="button" class="showreel-tab-btn" data-sim-target="sim-water">
+                <span><strong>03 · 40kHz Ultrasonic Tank MCU</strong> — Schmitt Hysteresis Relay &amp; LCD</span>
+                <span class="play-pill">▶</span>
+              </button>
+            </div>
           </div>
 
-          <p class="hero-bio-text" data-en="Bridging high-level Python 3 backend architecture, REST APIs, and 3NF relational data models with deterministic C++17 POS terminals and STM32/ESP32 microelectronic hardware across France and Ghana." data-fr="Allier l'architecture backend Python 3, les APIs REST et la modélisation 3NF aux terminaux C++17 déterministes et aux systèmes microélectroniques STM32/ESP32 entre la France et le Ghana.">
-            Bridging high-level Python 3 backend architecture, REST APIs, and 3NF relational data models with deterministic C++17 POS terminals and STM32/ESP32 microelectronic hardware across France and Ghana.
+          <!-- Right Column: Live Interactive Stage -->
+          <div class="showreel-stage">
+            <!-- SIMULATOR 1: E.LECLERC POS GREEDY EURO CHANGE & TVA -->
+            <div class="sim-panel active" id="sim-pos">
+              <div class="sim-header-bar">
+                <span class="sim-header-title">E.LECLERC CAISSE LIBRE-SERVICE · PYTHON / C++17 TWIN</span>
+                <span class="sim-status-tag" id="posNfcBadge">NFC &lt;= 50€ ELIGIBLE</span>
+              </div>
+
+              <div class="sim-controls-grid">
+                <div class="sim-control-box">
+                  <label>
+                    <span data-i18n-en="Cart Total (TTC)" data-i18n-fr="Total Panier (TTC)">Cart Total (TTC)</span>
+                    <strong id="posAmountLabel">47.97 €</strong>
+                  </label>
+                  <input type="range" id="posAmountSlider" min="1.50" max="120.00" step="0.01" value="47.97" />
+                </div>
+                <div class="sim-control-box">
+                  <label>
+                    <span data-i18n-en="Cash Inserted" data-i18n-fr="Espèces Insérées">Cash Inserted</span>
+                    <strong id="posTenderedLabel">60.00 €</strong>
+                  </label>
+                  <input type="range" id="posTenderedSlider" min="5.00" max="200.00" step="0.50" value="60.00" />
+                </div>
+              </div>
+
+              <div class="sim-kpi-row">
+                <div class="sim-kpi-pill">
+                  <small>Total HT</small>
+                  <strong id="posHtVal">39.98 €</strong>
+                </div>
+                <div class="sim-kpi-pill">
+                  <small>TVA (20%)</small>
+                  <strong id="posTvaVal">7.99 €</strong>
+                </div>
+                <div class="sim-kpi-pill">
+                  <small>Total TTC</small>
+                  <strong id="posTtcVal">47.97 €</strong>
+                </div>
+                <div class="sim-kpi-pill">
+                  <small>Change Due</small>
+                  <strong id="posChangeVal" style="color:#a3e635;">12.03 €</strong>
+                </div>
+              </div>
+
+              <div style="font-size:0.74rem; color:#94a3b8; margin-bottom:8px; font-weight:700;">
+                GREEDY EURO DISPENSER OUTPUT (12 DENOMINATIONS: 50€ → 0.01€):
+              </div>
+              <div class="denom-chips-wrap" id="posDenomContainer"></div>
+            </div>
+
+            <!-- SIMULATOR 2: STM32 + ESP32 AUTONOMOUS ROBOT -->
+            <div class="sim-panel" id="sim-robot">
+              <div class="sim-header-bar">
+                <span class="sim-header-title">JUNIA M1 DUAL-MCU ROBOT · STM32 PWM + ESP32 TELEMETRY</span>
+                <span class="sim-status-tag" id="robotStateBadge">NOMINAL SWEEP</span>
+              </div>
+
+              <div class="sim-controls-grid">
+                <div class="sim-control-box">
+                  <label>
+                    <span>Ultrasonic ToF Front Obstacle</span>
+                    <strong id="robotDistLabel">85 cm</strong>
+                  </label>
+                  <input type="range" id="robotDistSlider" min="8" max="200" step="1" value="85" />
+                </div>
+                <div class="sim-control-box">
+                  <label>
+                    <span>UART AI Debris Centroid X</span>
+                    <strong id="robotSteerLabel">+18 px</strong>
+                  </label>
+                  <input type="range" id="robotSteerSlider" min="-100" max="100" step="1" value="18" />
+                </div>
+              </div>
+
+              <div class="sim-kpi-row">
+                <div class="sim-kpi-pill">
+                  <small>Left Wheel PWM</small>
+                  <strong id="robotLeftPwm">76%</strong>
+                </div>
+                <div class="sim-kpi-pill">
+                  <small>Right Wheel PWM</small>
+                  <strong id="robotRightPwm">62%</strong>
+                </div>
+                <div class="sim-kpi-pill">
+                  <small>Brush Turbine</small>
+                  <strong id="robotBrushState" style="color:#a3e635;">ACTIVE 90%</strong>
+                </div>
+                <div class="sim-kpi-pill">
+                  <small>Safety Threshold</small>
+                  <strong>30 cm Stop</strong>
+                </div>
+              </div>
+
+              <div style="background:rgba(15,23,42,0.9); border:1px solid rgba(56,189,248,0.25); border-radius:12px; padding:12px; font-family:'JetBrains Mono',monospace; font-size:0.75rem;" id="robotTelemetryLog">
+                [STM32_ISR] ToF=85cm (&gt;30cm OK) | AI_ERR=+18px | DIFF_DRIVE(L=76%, R=62%)
+              </div>
+            </div>
+
+            <!-- SIMULATOR 3: 40kHz ULTRASONIC WATER TANK HYSTERESIS -->
+            <div class="sim-panel" id="sim-water">
+              <div class="sim-header-bar">
+                <span class="sim-header-title">40kHz ULTRASONIC LEVEL CONTROLLER · SCHMITT HYSTERESIS</span>
+                <span class="sim-status-tag" id="waterPumpBadge">PUMP OFF (IDLE)</span>
+              </div>
+
+              <div class="sim-controls-grid">
+                <div class="sim-control-box" style="grid-column: span 2;">
+                  <label>
+                    <span>Simulated Acoustic Tank Fill Level (Low Trigger ≤ 20% | High Cutoff ≥ 90%)</span>
+                    <strong id="waterLevelLabel">64% (72 cm from sensor)</strong>
+                  </label>
+                  <input type="range" id="waterLevelSlider" min="5" max="98" step="1" value="64" />
+                </div>
+              </div>
+
+              <div class="sim-kpi-row">
+                <div class="sim-kpi-pill">
+                  <small>Fill Level</small>
+                  <strong id="waterPctKpi">64%</strong>
+                </div>
+                <div class="sim-kpi-pill">
+                  <small>Echo Pulse ToF</small>
+                  <strong id="waterEchoKpi">4198 µs</strong>
+                </div>
+                <div class="sim-kpi-pill">
+                  <small>Relay State</small>
+                  <strong id="waterRelayKpi" style="color:#38bdf8;">OPEN (OFF)</strong>
+                </div>
+                <div class="sim-kpi-pill">
+                  <small>16x2 LCD Line</small>
+                  <strong id="waterLcdKpi">LVL:064% P:OFF</strong>
+                </div>
+              </div>
+
+              <div style="height:22px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden; border:1px solid rgba(56,189,248,0.3);">
+                <div id="waterVisualBar" style="width:64%; height:100%; background:linear-gradient(90deg,#06b6d4,#3b82f6,#a3e635); transition:width 0.2s ease;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 3: ABOUT ME SPLIT + 2x2 GLOWING ICON STATS (Image 1 & Image 3)
+         ====================================================================== -->
+    <section class="section-block" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <!-- Left Narrative + Dikshant "Focus / Discipline / Consistency" Banner -->
+          <div>
+            <div class="section-eyebrow">✦ <span data-i18n-en="ABOUT ME" data-i18n-fr="À PROPOS DE MOI">ABOUT ME</span></div>
+            <h2 class="section-title" style="margin-bottom:16px;" data-i18n-en="Passionate about building deterministic software &amp; smart hardware." data-i18n-fr="Passionné par les logiciels déterministes et le matériel intelligent.">
+              Passionate about building deterministic software &amp; smart hardware.
+            </h2>
+            <p class="section-subtitle" style="margin-bottom:14px;" data-i18n-en="From leading 800+ Computer Engineering students as ACES President at KNUST in Ghana to researching Microelectronics, Nanotechnology &amp; Embedded Systems in M1 at JUNIA ISEN Lille in France, I thrive at the intersection of clean software architecture and physical silicon." data-i18n-fr="De la présidence de plus de 800 étudiants en Génie Informatique (ACES KNUST) au Ghana jusqu'au Master 1 Microélectronique, Nanotechnologies &amp; Systèmes Embarqués à JUNIA ISEN Lille en France, j'unis l'architecture logicielle à la précision matérielle.">
+              From leading 800+ Computer Engineering students as ACES President at KNUST in Ghana to researching Microelectronics, Nanotechnology &amp; Embedded Systems in M1 at JUNIA ISEN Lille in France, I thrive at the intersection of clean software architecture and physical silicon.
+            </p>
+
+            <!-- Pinterest Image 3 Inspired "Focus · Discipline · Consistency" Neon Banner -->
+            <div class="about-focus-banner">
+              <div style="font-size:2rem;">⚡</div>
+              <div>
+                <div class="about-focus-words">FOCUS · DISCIPLINE · CONSISTENCY</div>
+                <div style="font-size:0.82rem; font-weight:700; opacity:0.9;">
+                  Odadeɛ PRESEC-Legon 🇬🇭 → ACES President KNUST 🇬🇭 → JUNIA ISEN Lille 🇫🇷
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:12px;">
+              <a href="#corridor" class="btn-primary-glow" data-i18n-en="Explore My Corridor →" data-i18n-fr="Explorer Mon Parcours →">Explore My Corridor →</a>
+              <a href="mailto:hanz.ofosuhene-sintim@student.junia.com" class="btn-outline-glass">hanz.ofosuhene-sintim@student.junia.com</a>
+            </div>
+          </div>
+
+          <!-- Right 2x2 Glowing Icon Stat Cards (Pinterest Image 1 CodeCraft Style) -->
+          <div class="about-stats-2x2">
+            <div class="stat-glow-card">
+              <div class="stat-squircle-icon" style="background:rgba(139,92,246,0.2); color:#a78bfa;">🚀</div>
+              <div>
+                <div class="stat-number">{{ data.telemetry_summary.production_systems_count }}+</div>
+                <div class="stat-label" data-i18n-en="End-to-End Systems Built" data-i18n-fr="Systèmes Complets Conçus">End-to-End Systems Built</div>
+              </div>
+            </div>
+
+            <div class="stat-glow-card">
+              <div class="stat-squircle-icon" style="background:rgba(56,189,248,0.2); color:#38bdf8;">🏛️</div>
+              <div>
+                <div class="stat-number">800+</div>
+                <div class="stat-label" data-i18n-en="Engineers Led (ACES President)" data-i18n-fr="Étudiants Représentés (Président ACES)">Engineers Led (ACES President)</div>
+              </div>
+            </div>
+
+            <div class="stat-glow-card">
+              <div class="stat-squircle-icon" style="background:rgba(163,230,53,0.2); color:#a3e635;">💶</div>
+              <div>
+                <div class="stat-number">12</div>
+                <div class="stat-label" data-i18n-en="Euro POS Denominations (0.01€–50€)" data-i18n-fr="Coupures Euro Gérées (0.01€–50€)">Euro POS Denominations (0.01€–50€)</div>
+              </div>
+            </div>
+
+            <div class="stat-glow-card">
+              <div class="stat-squircle-icon" style="background:rgba(16,185,129,0.2); color:#34d399;">✓</div>
+              <div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label" data-i18n-en="Strict 3NF &amp; Zero-Warning Builds" data-i18n-fr="Normalisation 3NF &amp; 0 Warning">Strict 3NF &amp; Zero-Warning Builds</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 4: SERVICES I OFFER — 4-COLUMN GLASS CARDS (Pinterest Image 2)
+         ====================================================================== -->
+    <section class="section-block" id="services">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-eyebrow">✦ <span data-i18n-en="WHAT I DO" data-i18n-fr="DOMAINES D'EXPERTISE">WHAT I DO</span></div>
+            <h2 class="section-title" data-i18n-en="Services &amp; Engineering Pillars" data-i18n-fr="Services &amp; Piliers d'Ingénierie">Services &amp; Engineering Pillars</h2>
+          </div>
+          <p class="section-subtitle" data-i18n-en="Click any pillar to filter matching production repositories below." data-i18n-fr="Cliquez sur un pilier pour filtrer les projets correspondants ci-dessous.">
+            Click any pillar to filter matching production repositories below.
           </p>
         </div>
 
-        <div class="hero-cta-cluster">
-          <a href="#workstation" class="btn-magnetic primary">
-            <span data-en="Launch 3D Systems Workstation" data-fr="Ouvrir la Station Projets 3D">Launch 3D Systems Workstation</span>
-            <span>→</span>
-          </a>
-          <a href="https://github.com/HanzSintim/LECLERC-Self-Checkout" target="_blank" rel="noopener" class="btn-magnetic secondary">
-            <span>E.Leclerc C++17 POS</span>
-            <span>↗</span>
-          </a>
-          <button type="button" class="btn-magnetic secondary" id="copyEmailBtn">
-            <span>📋 Copy Email</span>
-          </button>
-        </div>
-      </article>
-
-      <!-- Bento Card 2: Interactive Live CLI Terminal (4 cols) -->
-      <aside class="bento-card bento-terminal-card">
-        <div>
-          <div class="term-top-bar">
-            <div class="term-dots"><span></span><span></span><span></span></div>
-            <span class="term-title">hanz@junia-lille:~ (Interactive Shell)</span>
-          </div>
-
-          <div class="term-output-box" id="termOutputBox">
-            <div style="color:#38bdf8;margin-bottom:0.35rem;">Welcome to HanzOS v3.12 (Python / C++17 / STM32 Kernel)</div>
-            <div style="margin-bottom:0.35rem;">Click a command chip below or type <code>help</code> + Enter:</div>
-            <div style="color:#a5b4fc;">▸ Python 3.12 · Flask · C++17 · STM32/ESP32 · SQL 3NF</div>
-          </div>
-        </div>
-
-        <div>
-          <div class="term-cmd-chips">
-            <button type="button" class="term-chip-btn" data-term-cmd="python">python</button>
-            <button type="button" class="term-chip-btn" data-term-cmd="leclerc">leclerc</button>
-            <button type="button" class="term-chip-btn" data-term-cmd="projects">projects</button>
-            <button type="button" class="term-chip-btn" data-term-cmd="corridor">corridor</button>
-            <button type="button" class="term-chip-btn" data-term-cmd="leadership">leadership</button>
-            <button type="button" class="term-chip-btn" data-term-cmd="theme">theme</button>
-            <button type="button" class="term-chip-btn" data-term-cmd="clear">clear</button>
-          </div>
-          <div class="term-input-row">
-            <span class="term-prompt-symbol">$</span>
-            <input type="text" class="term-input" id="termCommandInput" placeholder="Type command (e.g. python, leclerc, help)..." aria-label="Terminal command input" />
-          </div>
-        </div>
-      </aside>
-
-      <!-- Bento Card 3: 4-Metric Telemetry Grid (4 cols) -->
-      <div class="bento-card bento-metrics-card" data-tilt>
-        <div class="metric-mini-tile">
-          <div class="metric-big-num">95%</div>
-          <div class="metric-tile-label" data-en="Python 3 &amp; C++17 Core" data-fr="Maîtrise Python 3 &amp; C++17">Python 3 &amp; C++17 Core</div>
-        </div>
-        <div class="metric-mini-tile">
-          <div class="metric-big-num">06</div>
-          <div class="metric-tile-label" data-en="Production Systems" data-fr="Systèmes en Production">Production Systems</div>
-        </div>
-        <div class="metric-mini-tile">
-          <div class="metric-big-num">800+</div>
-          <div class="metric-tile-label" data-en="Engineers Led (ACES)" data-fr="Étudiants Dirigés (ACES)">Engineers Led (ACES)</div>
-        </div>
-        <div class="metric-mini-tile">
-          <div class="metric-big-num">GH⇄FR</div>
-          <div class="metric-tile-label" data-en="KNUST &amp; JUNIA Lille" data-fr="KNUST &amp; JUNIA Lille">KNUST &amp; JUNIA Lille</div>
-        </div>
-      </div>
-
-      <!-- Bento Card 4: Interactive Subject Focus & Tech Cloud (5 cols) -->
-      <div class="bento-card bento-stack-card" data-tilt>
-        <div>
-          <div class="bento-card-kicker" data-en="INTERACTIVE TECH &amp; SUBJECT CLOUD" data-fr="NUAGE TECHNOLOGIQUE INTERACTIF">INTERACTIVE TECH &amp; SUBJECT CLOUD</div>
-          <h3 style="font-size: 1.08rem; font-weight: 800;" data-en="Click any domain pill to filter the Workstation below" data-fr="Cliquez sur une technologie pour filtrer la Station Projets">Click any domain pill to filter the Workstation below</h3>
-        </div>
-        <div class="stack-pills-cloud">
-          <a href="#workstation" class="interactive-skill-pill" onclick="document.querySelector('[data-filter-cat=python]').click()">🐍 Python 3.12 &amp; Flask</a>
-          <a href="#workstation" class="interactive-skill-pill" onclick="document.querySelector('[data-filter-cat=cpp]').click()">⚡ C++17 OOP &amp; RTTI</a>
-          <a href="#workstation" class="interactive-skill-pill" onclick="document.querySelector('[data-filter-cat=embedded]').click()">🔌 STM32 &amp; ESP32 MCU</a>
-          <a href="#workstation" class="interactive-skill-pill" onclick="document.querySelector('[data-filter-cat=data]').click()">🗄️ SQL &amp; 3NF Schemas</a>
-          <a href="#infographics" class="interactive-skill-pill">🔬 Cadence IC &amp; KiCad PCB</a>
-          <a href="#corridor" class="interactive-skill-pill">🏛️ ACES President &amp; GHAFRA</a>
-        </div>
-      </div>
-
-      <!-- Bento Card 5: Dual-Continent Live Hardware Clocks (3 cols) -->
-      <div class="bento-card bento-corridor-mini" data-tilt>
-        <div>
-          <div class="bento-card-kicker">LIVE CORRIDOR TELEMETRY</div>
-          <h3 style="font-size: 1rem; font-weight: 800;" data-en="Active Engineering Timezones" data-fr="Fuseaux Horaires Actifs">Active Engineering Timezones</h3>
-        </div>
-        <div class="clock-pair-stack">
-          <div class="city-clock-row">
+        <div class="services-grid-4">
+          <div class="service-glass-card" data-filter-jump="python">
             <div>
-              <div style="font-size: 0.75rem; font-weight: 700;">🇫🇷 Lille, France</div>
-              <div style="font-family: var(--font-mono); font-size: 0.64rem; color: var(--text-secondary);">JUNIA ISEN M1</div>
+              <div class="service-icon-box" style="background:rgba(245,158,11,0.18); color:#fbbf24;">🐍</div>
+              <h3 class="service-title" data-i18n-en="Python 3 &amp; Flask Backends" data-i18n-fr="Backends Python 3 &amp; Flask">Python 3 &amp; Flask Backends</h3>
+              <p class="service-desc" data-i18n-en="Typed Python dataclasses, WSGI REST APIs, static compilers, and financial/logistics data pipelines." data-i18n-fr="Dataclasses Python typées, APIs REST Flask, compilateurs statiques et pipelines de données.">
+                Typed Python dataclasses, WSGI REST APIs, static compilers, and financial/logistics data pipelines.
+              </p>
             </div>
-            <span class="city-clock-time" id="clockLille">--:--:--</span>
+            <div class="service-footer-row">
+              <span>Python 3.12 · Flask · JSON</span>
+              <span class="service-arrow">↗</span>
+            </div>
           </div>
-          <div class="city-clock-row ghana">
+
+          <div class="service-glass-card" data-filter-jump="cpp">
             <div>
-              <div style="font-size: 0.75rem; font-weight: 700;">🇬🇭 Kumasi / Accra</div>
-              <div style="font-family: var(--font-mono); font-size: 0.64rem; color: var(--text-secondary);">KNUST · PRESEC</div>
+              <div class="service-icon-box" style="background:rgba(139,92,246,0.2); color:#a78bfa;">⚙️</div>
+              <h3 class="service-title" data-i18n-en="C++17 &amp; Retail POS Engines" data-i18n-fr="Moteurs C++17 &amp; Caisses TPV">C++17 &amp; Retail POS Engines</h3>
+              <p class="service-desc" data-i18n-en="Object-oriented polymorphism, RTTI dynamic_cast bagging scales, and greedy Euro change dispensers." data-i18n-fr="Polymorphisme POO, balances RTTI dynamic_cast et algorithmes gloutons de rendu de monnaie Euro.">
+                Object-oriented polymorphism, RTTI dynamic_cast bagging scales, and greedy Euro change dispensers.
+              </p>
             </div>
-            <span class="city-clock-time" id="clockAccra">--:--:--</span>
+            <div class="service-footer-row">
+              <span>C++17 · OOP · STL · GCC</span>
+              <span class="service-arrow">↗</span>
+            </div>
+          </div>
+
+          <div class="service-glass-card" data-filter-jump="embedded">
+            <div>
+              <div class="service-icon-box" style="background:rgba(56,189,248,0.18); color:#38bdf8;">🤖</div>
+              <h3 class="service-title" data-i18n-en="Embedded MCU &amp; IC Design" data-i18n-fr="Systèmes Embarqués &amp; IC">Embedded MCU &amp; IC Design</h3>
+              <p class="service-desc" data-i18n-en="Dual-MCU STM32 + ESP32 robotics, UART AI vision, 40kHz ultrasonic ToF loops, KiCad PCB &amp; Cadence." data-i18n-fr="Robotique double-MCU STM32 + ESP32, vision IA UART, ultrasons 40kHz, PCB KiCad &amp; Cadence.">
+                Dual-MCU STM32 + ESP32 robotics, UART AI vision, 40kHz ultrasonic ToF loops, KiCad PCB &amp; Cadence.
+              </p>
+            </div>
+            <div class="service-footer-row">
+              <span>STM32 · ESP32 · KiCad</span>
+              <span class="service-arrow">↗</span>
+            </div>
+          </div>
+
+          <div class="service-glass-card" data-filter-jump="data">
+            <div>
+              <div class="service-icon-box" style="background:rgba(16,185,129,0.18); color:#34d399;">🗄️</div>
+              <h3 class="service-title" data-i18n-en="3NF Databases &amp; Leadership" data-i18n-fr="Bases 3NF &amp; Leadership">3NF Databases &amp; Leadership</h3>
+              <p class="service-desc" data-i18n-en="Conceptual ER modeling, M:N associative junction tables, strict 3NF schemas, and executive team governance." data-i18n-fr="Modélisation conceptuelle EA, tables de jonction M:N, normalisation 3NF et direction d'équipes.">
+                Conceptual ER modeling, M:N associative junction tables, strict 3NF schemas, and executive team governance.
+              </p>
+            </div>
+            <div class="service-footer-row">
+              <span>SQL 3NF · ER · Governance</span>
+              <span class="service-arrow">↗</span>
+            </div>
           </div>
         </div>
       </div>
-
     </section>
 
-    <!-- ===================================================================
-         SECTION 2: FILTERABLE 3D WORKSTATION & LIVE SIMULATOR
-         =================================================================== -->
-    <section class="section-block" id="workstation">
-      <div class="section-header-flex">
-        <div>
-          <div class="bento-card-kicker" data-en="INTERACTIVE SYSTEMS WORKBENCH · PYTHON, C++17 &amp; SILICON" data-fr="ATELIER SYSTÈMES INTERACTIF · PYTHON, C++17 &amp; SILICIUM">INTERACTIVE SYSTEMS WORKBENCH · PYTHON, C++17 &amp; SILICON</div>
-          <h2 class="section-heading" data-en="6 Production Engineering Systems" data-fr="6 Systèmes d'Ingénierie en Production">6 Production Engineering Systems</h2>
+    <!-- ======================================================================
+         SECTION 5: MY SKILLS — 3-COL PROGRESS MATRIX + 3D ICON DOCK (Image 1 & 2)
+         ====================================================================== -->
+    <section class="section-block" id="skills">
+      <div class="container">
+        <div class="section-header centered">
+          <div class="section-eyebrow">✦ <span data-i18n-en="MY SKILLS" data-i18n-fr="MES COMPÉTENCES">MY SKILLS</span></div>
+          <h2 class="section-title" data-i18n-en="Technologies I Master" data-i18n-fr="Technologies Maîtrisées">Technologies I Master</h2>
+          <p class="section-subtitle" data-i18n-en="Quantitative proficiency across software, relational data, and microelectronic hardware." data-i18n-fr="Maîtrise quantitative à travers le logiciel, les bases relationnelles et la microélectronique.">
+            Quantitative proficiency across software, relational data, and microelectronic hardware.
+          </p>
         </div>
 
-        <div class="filter-pills-bar">
-          <button type="button" class="filter-tab-btn active" data-filter-cat="all" data-en="All Systems (6)" data-fr="Tous (6)">All Systems (6)</button>
-          <button type="button" class="filter-tab-btn" data-filter-cat="python">🐍 Python &amp; Full-Stack</button>
-          <button type="button" class="filter-tab-btn" data-filter-cat="cpp">⚡ C++17 POS</button>
-          <button type="button" class="filter-tab-btn" data-filter-cat="embedded">🔌 STM32 / Embedded</button>
-          <button type="button" class="filter-tab-btn" data-filter-cat="data">🗄️ 3NF SQL Data</button>
-        </div>
-      </div>
-
-      <div class="workstation-grid">
-        <!-- Left Rail: 6 Interactive Project Buttons -->
-        <div class="project-rail-list">
-          {% for proj in data.projects %}
-          <button type="button" class="project-rail-item {% if loop.first %}active{% endif %}" data-proj-cat="{{ proj.category }}" data-proj-index="{{ loop.index0 }}">
-            <div class="proj-num-badge">{{ proj.index }}</div>
-            <div style="overflow: hidden;">
-              <div style="font-size: 0.9rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" data-en="{{ proj.title_en }}" data-fr="{{ proj.title_fr }}">{{ proj.title_en }}</div>
-              <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-2);">{{ proj.primary_lang }}</div>
+        <!-- Pinterest Image 1 Style: 3-Column Brand-Icon + Glowing Progress Bars -->
+        <div class="skills-3col-grid">
+          <div class="skill-bar-card">
+            <div class="skill-card-top">
+              <div class="skill-brand-left">
+                <span class="skill-brand-badge" style="background:linear-gradient(135deg,#38bdf8,#eab308); color:#070a13;">Py</span>
+                <div>
+                  <span class="skill-name-title">Python 3.12</span>
+                  <span class="skill-name-sub">Dataclasses · Automation · CLI</span>
+                </div>
+              </div>
+              <span class="skill-pct-badge">95%</span>
             </div>
-          </button>
-          {% endfor %}
-        </div>
-
-        <!-- Right Monitor: Live Architecture + Source Inspector + POS Simulator -->
-        <div class="workstation-monitor">
-          <div class="monitor-top-chrome">
-            <div class="term-dots"><span></span><span></span><span></span></div>
-            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-2);" id="screenProjStatus">{{ data.projects[0].status_en }}</span>
-            <a id="screenProjRepo" href="{{ data.projects[0].repo_url }}" target="_blank" rel="noopener" class="pill-action-btn">Open GitHub Repo ↗</a>
+            <div class="skill-progress-track">
+              <div class="skill-progress-fill" style="width:95%; background:linear-gradient(90deg,#38bdf8,#a3e635);"></div>
+            </div>
           </div>
 
-          <div class="monitor-body-canvas">
-            <div class="monitor-split-pane">
-              <!-- Left Column: System Dossier -->
-              <div>
-                <h3 style="font-family: var(--font-display); font-size: 1.45rem; margin-bottom: 0.55rem;" id="screenProjTitle">{{ data.projects[0].title_en }}</h3>
-                <p style="font-size: 0.9rem; color: var(--text-secondary);" id="screenProjSummary">{{ data.projects[0].summary_en }}</p>
+          <div class="skill-bar-card">
+            <div class="skill-card-top">
+              <div class="skill-brand-left">
+                <span class="skill-brand-badge" style="background:linear-gradient(135deg,#6366f1,#3b82f6);">C++</span>
+                <div>
+                  <span class="skill-name-title">C / C++17 OOP</span>
+                  <span class="skill-name-sub">RTTI dynamic_cast · STL · POS</span>
+                </div>
+              </div>
+              <span class="skill-pct-badge">94%</span>
+            </div>
+            <div class="skill-progress-track">
+              <div class="skill-progress-fill" style="width:94%; background:linear-gradient(90deg,#6366f1,#38bdf8);"></div>
+            </div>
+          </div>
 
-                <ul class="arch-list" id="screenProjArch">
-                  {% for item in data.projects[0].architecture_en %}
+          <div class="skill-bar-card">
+            <div class="skill-card-top">
+              <div class="skill-brand-left">
+                <span class="skill-brand-badge" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);">Fl</span>
+                <div>
+                  <span class="skill-name-title">Flask &amp; REST APIs</span>
+                  <span class="skill-name-sub">Jinja2 · WSGI · Static Freezer</span>
+                </div>
+              </div>
+              <span class="skill-pct-badge">93%</span>
+            </div>
+            <div class="skill-progress-track">
+              <div class="skill-progress-fill" style="width:93%; background:linear-gradient(90deg,#8b5cf6,#ec4899);"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-card">
+            <div class="skill-card-top">
+              <div class="skill-brand-left">
+                <span class="skill-brand-badge" style="background:linear-gradient(135deg,#06b6d4,#10b981); color:#070a13;">STM</span>
+                <div>
+                  <span class="skill-name-title">STM32 &amp; ESP32 C</span>
+                  <span class="skill-name-sub">PWM H-Bridge · UART · ToF</span>
+                </div>
+              </div>
+              <span class="skill-pct-badge">91%</span>
+            </div>
+            <div class="skill-progress-track">
+              <div class="skill-progress-fill" style="width:91%; background:linear-gradient(90deg,#06b6d4,#10b981);"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-card">
+            <div class="skill-card-top">
+              <div class="skill-brand-left">
+                <span class="skill-brand-badge" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">SQL</span>
+                <div>
+                  <span class="skill-name-title">SQL &amp; 3NF Modeling</span>
+                  <span class="skill-name-sub">ER Schemas · M:N Junctions</span>
+                </div>
+              </div>
+              <span class="skill-pct-badge">92%</span>
+            </div>
+            <div class="skill-progress-track">
+              <div class="skill-progress-fill" style="width:92%; background:linear-gradient(90deg,#f59e0b,#fb7185);"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-card">
+            <div class="skill-card-top">
+              <div class="skill-brand-left">
+                <span class="skill-brand-badge" style="background:linear-gradient(135deg,#a3e635,#10b981); color:#070a13;">IC</span>
+                <div>
+                  <span class="skill-name-title">KiCad PCB &amp; Cadence</span>
+                  <span class="skill-name-sub">Schematic Capture · IC Layout</span>
+                </div>
+              </div>
+              <span class="skill-pct-badge">89%</span>
+            </div>
+            <div class="skill-progress-track">
+              <div class="skill-progress-fill" style="width:89%; background:linear-gradient(90deg,#a3e635,#10b981);"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-card">
+            <div class="skill-card-top">
+              <div class="skill-brand-left">
+                <span class="skill-brand-badge" style="background:linear-gradient(135deg,#eab308,#f97316); color:#070a13;">JS</span>
+                <div>
+                  <span class="skill-name-title">JavaScript ES6 &amp; UI</span>
+                  <span class="skill-name-sub">Interactive DOM · SVG Telemetry</span>
+                </div>
+              </div>
+              <span class="skill-pct-badge">90%</span>
+            </div>
+            <div class="skill-progress-track">
+              <div class="skill-progress-fill" style="width:90%; background:linear-gradient(90deg,#eab308,#f97316);"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-card">
+            <div class="skill-card-top">
+              <div class="skill-brand-left">
+                <span class="skill-brand-badge" style="background:linear-gradient(135deg,#334155,#64748b);">Git</span>
+                <div>
+                  <span class="skill-name-title">Git · Linux · WSL2</span>
+                  <span class="skill-name-sub">GCC/G++ · GDB · CI Workflows</span>
+                </div>
+              </div>
+              <span class="skill-pct-badge">93%</span>
+            </div>
+            <div class="skill-progress-track">
+              <div class="skill-progress-fill" style="width:93%; background:linear-gradient(90deg,#38bdf8,#8b5cf6);"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-card">
+            <div class="skill-card-top">
+              <div class="skill-brand-left">
+                <span class="skill-brand-badge" style="background:linear-gradient(135deg,#10b981,#38bdf8); color:#070a13;">Lead</span>
+                <div>
+                  <span class="skill-name-title">Executive Leadership</span>
+                  <span class="skill-name-sub">ACES President · GHAFRA Nord</span>
+                </div>
+              </div>
+              <span class="skill-pct-badge">96%</span>
+            </div>
+            <div class="skill-progress-track">
+              <div class="skill-progress-fill" style="width:96%; background:linear-gradient(90deg,#10b981,#a3e635);"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pinterest Image 2 Style: Floating 3D-Styled Interactive Icon Dock -->
+        <div class="tech-dock-container">
+          <div>
+            <div style="font-size:0.74rem; font-weight:800; letter-spacing:0.12em; color:var(--accent-cyan); text-transform:uppercase;">
+              INTERACTIVE TOOLBOX DOCK
+            </div>
+            <div style="font-size:0.9rem; font-weight:700; color:var(--text-secondary);">
+              Click any tool icon to filter projects built with that stack:
+            </div>
+          </div>
+          <div class="tech-dock-icons">
+            <div class="dock-tile" data-filter-jump="python">
+              <strong style="color:#38bdf8; font-size:1.1rem;">🐍</strong>
+              <span>Python 3</span>
+            </div>
+            <div class="dock-tile" data-filter-jump="python">
+              <strong style="color:#a78bfa; font-size:1.1rem;">⚡</strong>
+              <span>Flask API</span>
+            </div>
+            <div class="dock-tile" data-filter-jump="cpp">
+              <strong style="color:#6366f1; font-size:1.1rem;">C++</strong>
+              <span>C++17 POS</span>
+            </div>
+            <div class="dock-tile" data-filter-jump="embedded">
+              <strong style="color:#a3e635; font-size:1.1rem;">🤖</strong>
+              <span>STM32/ESP32</span>
+            </div>
+            <div class="dock-tile" data-filter-jump="data">
+              <strong style="color:#f59e0b; font-size:1.1rem;">🗄️</strong>
+              <span>3NF SQL</span>
+            </div>
+            <div class="dock-tile" data-filter-jump="embedded">
+              <strong style="color:#10b981; font-size:1.1rem;">🔌</strong>
+              <span>KiCad PCB</span>
+            </div>
+            <div class="dock-tile" data-filter-jump="all">
+              <strong style="color:#fb7185; font-size:1.1rem;">✦</strong>
+              <span>Show All (6)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 6: FEATURED PROJECTS — 3-COL VISUAL UI MOCKUP GALLERY (Image 1,2,3)
+         ====================================================================== -->
+    <section class="section-block" id="projects">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-eyebrow">✦ <span data-i18n-en="FEATURED PROJECTS" data-i18n-fr="PROJETS PHARES">FEATURED PROJECTS</span></div>
+            <h2 class="section-title" data-i18n-en="Some of My Recent Work" data-i18n-fr="Mes Réalisations Récentes">Some of My Recent Work</h2>
+          </div>
+
+          <div class="project-filter-pills" role="tablist">
+            <button type="button" class="filter-pill-btn active" data-filter="all">All Work (6)</button>
+            <button type="button" class="filter-pill-btn" data-filter="python">Python 3 &amp; Flask</button>
+            <button type="button" class="filter-pill-btn" data-filter="cpp">C++17 POS</button>
+            <button type="button" class="filter-pill-btn" data-filter="embedded">Embedded &amp; Robotics</button>
+            <button type="button" class="filter-pill-btn" data-filter="data">3NF SQL Data</button>
+          </div>
+        </div>
+
+        <div class="projects-visual-grid" id="projectsGrid">
+          {% for proj in data.projects %}
+          {% set theme_class = 'mockup-theme-python' if proj.index == '01' else ('mockup-theme-cpp' if proj.index == '02' else ('mockup-theme-robot' if proj.index == '03' else ('mockup-theme-sql' if proj.index == '04' else ('mockup-theme-water' if proj.index == '05' else 'mockup-theme-agric')))) %}
+          <article class="project-showcase-card" data-category="{{ proj.category }}" data-proj-index="{{ loop.index0 }}">
+            <!-- Top Graphical UI / Hardware Mockup Preview Window (Like Pinterest Images 1, 2 & 3) -->
+            <div class="project-mockup-window {{ theme_class }}">
+              <div class="mockup-browser-bar">
+                <div class="mockup-dots">
+                  <i style="background:#fb7185;"></i>
+                  <i style="background:#facc15;"></i>
+                  <i style="background:#4ade80;"></i>
+                </div>
+                <span>{{ proj.code_Filename }}</span>
+                <span style="color:#a3e635;">● LIVE</span>
+              </div>
+
+              <!-- Custom Vector UI / Device Artwork Mockup per Project -->
+              {% if proj.index == '01' %}
+              <svg class="mockup-artwork-svg" viewBox="0 0 320 120" fill="none">
+                <rect x="8" y="12" width="135" height="96" rx="10" fill="#090d16" fill-opacity="0.85" stroke="#38bdf8" stroke-opacity="0.45" />
+                <text x="20" y="32" fill="#38bdf8" font-family="JetBrains Mono" font-size="9" font-weight="700">GET /api/v1/profile</text>
+                <rect x="20" y="42" width="90" height="6" rx="3" fill="#a3e635" />
+                <rect x="20" y="54" width="108" height="6" rx="3" fill="#6366f1" />
+                <rect x="20" y="66" width="74" height="6" rx="3" fill="#38bdf8" />
+                <text x="20" y="92" fill="#94a3b8" font-family="JetBrains Mono" font-size="8">200 OK · 0.42ms WSGI</text>
+                <rect x="155" y="12" width="157" height="96" rx="10" fill="#090d16" fill-opacity="0.85" stroke="#a78bfa" stroke-opacity="0.45" />
+                <path d="M168 84 L192 62 L218 70 L246 38 L272 48 L298 24" stroke="#a3e635" stroke-width="3" stroke-linecap="round" />
+                <circle cx="298" cy="24" r="4" fill="#38bdf8" />
+                <text x="168" y="100" fill="#e2e8f0" font-family="Plus Jakarta Sans" font-size="9" font-weight="800">Python 3.12 Static Compiler</text>
+              </svg>
+              {% elif proj.index == '02' %}
+              <svg class="mockup-artwork-svg" viewBox="0 0 320 120" fill="none">
+                <rect x="10" y="10" width="185" height="100" rx="10" fill="#090d16" fill-opacity="0.88" stroke="#a78bfa" stroke-opacity="0.5" />
+                <text x="22" y="28" fill="#a78bfa" font-family="JetBrains Mono" font-size="9" font-weight="800">CAISSE E.LECLERC · C++17</text>
+                <text x="22" y="46" fill="#f8fafc" font-family="JetBrains Mono" font-size="11" font-weight="800">TTC: 47.97€ | TVA: 7.99€</text>
+                <rect x="22" y="56" width="46" height="20" rx="5" fill="#7c3aed" />
+                <text x="45" y="69" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="8" font-weight="700">10€ x1</text>
+                <rect x="74" y="56" width="46" height="20" rx="5" fill="#059669" />
+                <text x="97" y="69" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="8" font-weight="700">2€ x1</text>
+                <rect x="126" y="56" width="54" height="20" rx="5" fill="#0284c7" />
+                <text x="153" y="69" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="8" font-weight="700">0.02€+0.01€</text>
+                <text x="22" y="96" fill="#a3e635" font-family="JetBrains Mono" font-size="8">dynamic_cast&lt;Physical*&gt; OK</text>
+                <rect x="205" y="10" width="105" height="100" rx="10" fill="#090d16" fill-opacity="0.88" stroke="#38bdf8" stroke-opacity="0.45" />
+                <circle cx="257" cy="50" r="24" stroke="#a3e635" stroke-width="3" stroke-dasharray="110 30" />
+                <text x="257" y="54" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="10" font-weight="800">2.45kg</text>
+                <text x="257" y="96" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="8">BAGGING SCALE</text>
+              </svg>
+              {% elif proj.index == '03' %}
+              <svg class="mockup-artwork-svg" viewBox="0 0 320 120" fill="none">
+                <rect x="10" y="10" width="145" height="100" rx="10" fill="#090d16" fill-opacity="0.88" stroke="#a3e635" stroke-opacity="0.5" />
+                <circle cx="82" cy="62" r="34" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 4" />
+                <circle cx="82" cy="62" r="18" stroke="#a3e635" stroke-width="1.5" />
+                <line x1="82" y1="62" x2="108" y2="40" stroke="#a3e635" stroke-width="2.5" />
+                <circle cx="102" cy="45" r="4" fill="#fb7185" />
+                <text x="22" y="25" fill="#a3e635" font-family="JetBrains Mono" font-size="8" font-weight="700">ToF RADAR · STM32</text>
+                <rect x="165" y="10" width="145" height="100" rx="10" fill="#090d16" fill-opacity="0.88" stroke="#38bdf8" stroke-opacity="0.45" />
+                <rect x="180" y="28" width="68" height="44" rx="4" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="3 2" />
+                <text x="184" y="40" fill="#fb7185" font-family="JetBrains Mono" font-size="7" font-weight="700">AI DEBRIS 96%</text>
+                <text x="178" y="94" fill="#38bdf8" font-family="JetBrains Mono" font-size="8">ESP32 Wi-Fi Uplink</text>
+              </svg>
+              {% elif proj.index == '04' %}
+              <svg class="mockup-artwork-svg" viewBox="0 0 320 120" fill="none">
+                <rect x="14" y="22" width="82" height="76" rx="8" fill="#090d16" stroke="#f59e0b" stroke-width="1.8" />
+                <text x="55" y="42" text-anchor="middle" fill="#f59e0b" font-family="JetBrains Mono" font-size="8" font-weight="800">SHIPMENT</text>
+                <text x="55" y="58" text-anchor="middle" fill="#cbd5e1" font-family="JetBrains Mono" font-size="7">PK shipment_id</text>
+                <rect x="119" y="22" width="82" height="76" rx="8" fill="#090d16" stroke="#a3e635" stroke-width="1.8" />
+                <text x="160" y="42" text-anchor="middle" fill="#a3e635" font-family="JetBrains Mono" font-size="8" font-weight="800">ROUTE_HOP</text>
+                <text x="160" y="58" text-anchor="middle" fill="#cbd5e1" font-family="JetBrains Mono" font-size="7">PK,FK composite</text>
+                <rect x="224" y="22" width="82" height="76" rx="8" fill="#090d16" stroke="#38bdf8" stroke-width="1.8" />
+                <text x="265" y="42" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono" font-size="8" font-weight="800">LOGISTICS_HUB</text>
+                <text x="265" y="58" text-anchor="middle" fill="#cbd5e1" font-family="JetBrains Mono" font-size="7">PK hub_id (3NF)</text>
+                <line x1="96" y1="60" x2="119" y2="60" stroke="#a3e635" stroke-width="2" />
+                <line x1="201" y1="60" x2="224" y2="60" stroke="#38bdf8" stroke-width="2" />
+              </svg>
+              {% elif proj.index == '05' %}
+              <svg class="mockup-artwork-svg" viewBox="0 0 320 120" fill="none">
+                <rect x="18" y="12" width="96" height="96" rx="10" fill="#090d16" stroke="#38bdf8" stroke-width="2" />
+                <rect x="22" y="42" width="88" height="62" rx="6" fill="#0284c7" fill-opacity="0.55" />
+                <text x="66" y="76" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="12" font-weight="800">78% FULL</text>
+                <rect x="132" y="18" width="170" height="44" rx="8" fill="#064e3b" stroke="#a3e635" stroke-width="2" />
+                <text x="144" y="38" fill="#a3e635" font-family="JetBrains Mono" font-size="9" font-weight="800">LCD 16x2: LVL=78%</text>
+                <text x="144" y="52" fill="#6ee7b7" font-family="JetBrains Mono" font-size="8">HYSTERESIS: PUMP OFF</text>
+                <text x="134" y="88" fill="#cbd5e1" font-family="JetBrains Mono" font-size="8">40kHz ToF: d = (v * t) / 2</text>
+              </svg>
+              {% else %}
+              <svg class="mockup-artwork-svg" viewBox="0 0 320 120" fill="none">
+                <rect x="12" y="14" width="296" height="92" rx="12" fill="#090d16" fill-opacity="0.88" stroke="#10b981" stroke-opacity="0.5" />
+                <circle cx="58" cy="60" r="24" fill="#065f46" stroke="#a3e635" stroke-width="2" />
+                <text x="58" y="64" text-anchor="middle" fill="#a3e635" font-family="JetBrains Mono" font-size="10" font-weight="800">98.4%</text>
+                <text x="102" y="42" fill="#f8fafc" font-family="Plus Jakarta Sans" font-size="11" font-weight="800">AgricConnect Cold-Chain Dispatch</text>
+                <text x="102" y="60" fill="#34d399" font-family="JetBrains Mono" font-size="9">Freshness Priority Score · Python + JS</text>
+                <rect x="102" y="72" width="180" height="8" rx="4" fill="#10b981" />
+              </svg>
+              {% endif %}
+            </div>
+
+            <!-- Card Content Body -->
+            <div class="project-card-body">
+              <div class="project-meta-top">
+                <span class="project-lang-pill">{{ proj.primary_lang }}</span>
+                <span class="project-index-num">#{{ proj.index }}</span>
+              </div>
+
+              <h3 class="project-card-title" data-i18n-en="{{ proj.title_en }}" data-i18n-fr="{{ proj.title_fr }}">
+                {{ proj.title_en }}
+              </h3>
+
+              <p class="project-card-summary" data-i18n-en="{{ proj.summary_en }}" data-i18n-fr="{{ proj.summary_fr }}">
+                {{ proj.summary_en }}
+              </p>
+
+              <div class="project-tag-list">
+                {% for tech in proj.tech_stack[:4] %}
+                <span class="project-tag-chip">{{ tech }}</span>
+                {% endfor %}
+              </div>
+
+              <div class="project-card-actions">
+                <button type="button" class="btn-card-inspect" data-open-modal="{{ loop.index0 }}">
+                  <span data-i18n-en="Inspect Code &amp; Architecture" data-i18n-fr="Inspecter Code &amp; Architecture">Inspect Code &amp; Architecture</span>
+                  <span>↗</span>
+                </button>
+                <a href="{{ proj.repo_url }}" target="_blank" rel="noopener" class="btn-card-repo">
+                  <span>GitHub</span>
+                  <span>→</span>
+                </a>
+              </div>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 7: ENGINEERING PROCESS I FOLLOW — 5-STEP FLOW (Pinterest Image 2)
+         ====================================================================== -->
+    <section class="section-block" id="process">
+      <div class="container">
+        <div class="section-header centered">
+          <div class="section-eyebrow">✦ <span data-i18n-en="MY WORKFLOW" data-i18n-fr="MA MÉTHODOLOGIE">MY WORKFLOW</span></div>
+          <h2 class="section-title" data-i18n-en="Engineering Process I Follow" data-i18n-fr="Processus d'Ingénierie en 5 Étapes">Engineering Process I Follow</h2>
+          <p class="section-subtitle" data-i18n-en="How I take systems from mathematical specification to zero-warning production deployment." data-i18n-fr="Comment je transforme une spécification mathématique en un système de production sans compromis.">
+            How I take systems from mathematical specification to zero-warning production deployment.
+          </p>
+        </div>
+
+        <div class="process-flow-grid">
+          <div class="process-step-card active">
+            <div class="process-step-top">
+              <span class="process-step-icon" style="background:rgba(139,92,246,0.2); color:#a78bfa;">🔍</span>
+              <span class="process-step-num">01</span>
+            </div>
+            <h3 class="process-step-title" data-i18n-en="Discover &amp; Specify" data-i18n-fr="Spécifier &amp; Modéliser">Discover &amp; Specify</h3>
+            <p class="process-step-desc" data-i18n-en="Define physical constraints, Euro centime invariants, and real-time sensor latency budgets." data-i18n-fr="Définir les contraintes physiques, les invariants monétaires et les budgets temps-réel.">
+              Define physical constraints, Euro centime invariants, and real-time sensor latency budgets.
+            </p>
+          </div>
+
+          <div class="process-step-card">
+            <div class="process-step-top">
+              <span class="process-step-icon" style="background:rgba(56,189,248,0.2); color:#38bdf8;">📐</span>
+              <span class="process-step-num">02</span>
+            </div>
+            <h3 class="process-step-title" data-i18n-en="3NF &amp; OOP Architecture" data-i18n-fr="Architecture 3NF &amp; POO">3NF &amp; OOP Architecture</h3>
+            <p class="process-step-desc" data-i18n-en="Design strict 3NF ER schemas, polymorphic C++ class hierarchies, and dual-MCU partitioning." data-i18n-fr="Concevoir des schémas 3NF sans redondance, des classes C++ polymorphes et le partitionnement MCU.">
+              Design strict 3NF ER schemas, polymorphic C++ class hierarchies, and dual-MCU partitioning.
+            </p>
+          </div>
+
+          <div class="process-step-card">
+            <div class="process-step-top">
+              <span class="process-step-icon" style="background:rgba(163,230,53,0.2); color:#a3e635;">💻</span>
+              <span class="process-step-num">03</span>
+            </div>
+            <h3 class="process-step-title" data-i18n-en="Python / C++ / PCB Build" data-i18n-fr="Implémentation Multi-Couche">Python / C++ / PCB Build</h3>
+            <p class="process-step-desc" data-i18n-en="Write clean Python 3 / Flask APIs, C++17 greedy engines, STM32 firmware, and KiCad schematics." data-i18n-fr="Développer les APIs Python 3 / Flask, moteurs C++17, firmware STM32 et schémas PCB KiCad.">
+              Write clean Python 3 / Flask APIs, C++17 greedy engines, STM32 firmware, and KiCad schematics.
+            </p>
+          </div>
+
+          <div class="process-step-card">
+            <div class="process-step-top">
+              <span class="process-step-icon" style="background:rgba(245,158,11,0.2); color:#fbbf24;">🔬</span>
+              <span class="process-step-num">04</span>
+            </div>
+            <h3 class="process-step-title" data-i18n-en="Hardware &amp; Unit Validation" data-i18n-fr="Validation &amp; Tests">Hardware &amp; Unit Validation</h3>
+            <p class="process-step-desc" data-i18n-en="Verify with GCC -Wall -Wextra (0 warnings), Schmitt hysteresis loop tests, and oscilloscope checks." data-i18n-fr="Vérifier sous GCC -Wall -Wextra (0 warning), tests d'hystérésis et validation matérielle.">
+              Verify with GCC -Wall -Wextra (0 warnings), Schmitt hysteresis loop tests, and oscilloscope checks.
+            </p>
+          </div>
+
+          <div class="process-step-card">
+            <div class="process-step-top">
+              <span class="process-step-icon" style="background:rgba(16,185,129,0.2); color:#34d399;">🚀</span>
+              <span class="process-step-num">05</span>
+            </div>
+            <h3 class="process-step-title" data-i18n-en="Ship &amp; Document" data-i18n-fr="Déploiement &amp; Doc">Ship &amp; Document</h3>
+            <p class="process-step-desc" data-i18n-en="Compile static &amp; live REST bundles, publish bilingual EN/FR documentation, and deploy to GitHub." data-i18n-fr="Compiler les bundles statiques et REST, documenter en FR/EN et déployer sur GitHub.">
+              Compile static &amp; live REST bundles, publish bilingual EN/FR documentation, and deploy to GitHub.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 8: ACADEMIC CORRIDOR & EXECUTIVE LEADERSHIP (GHANA ⇄ FRANCE)
+         ====================================================================== -->
+    <section class="section-block" id="corridor">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-eyebrow">✦ <span data-i18n-en="EDUCATION &amp; LEADERSHIP" data-i18n-fr="FORMATION &amp; LEADERSHIP">EDUCATION &amp; LEADERSHIP</span></div>
+            <h2 class="section-title" data-i18n-en="Ghana 🇬🇭 ⇄ France 🇫🇷 Engineering Corridor" data-i18n-fr="Corridor Académique &amp; Exécutif Ghana 🇬🇭 ⇄ France 🇫🇷">Ghana 🇬🇭 ⇄ France 🇫🇷 Engineering Corridor</h2>
+          </div>
+        </div>
+
+        <div class="corridor-split-grid">
+          <!-- Academic Institutions Column -->
+          <div>
+            <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:16px; color:var(--accent-cyan);" data-i18n-en="🎓 Academic Journey" data-i18n-fr="🎓 Parcours Académique">🎓 Academic Journey</h3>
+            <div class="timeline-stack">
+              {% for node in data.corridor %}
+              <div class="timeline-glass-card">
+                <div class="timeline-badge-row">
+                  <span class="timeline-pill">{{ node.code }} · {{ node.city }}, {{ node.country }}</span>
+                  <span class="timeline-period">{{ node.period }}</span>
+                </div>
+                <h4 style="font-size:1.08rem; font-weight:800; margin-bottom:4px;">{{ node.institution }}</h4>
+                <div style="font-size:0.88rem; font-weight:700; color:var(--accent-lime); margin-bottom:6px;" data-i18n-en="{{ node.degree_en }}" data-i18n-fr="{{ node.degree_fr }}">
+                  {{ node.degree_en }}
+                </div>
+                <p style="font-size:0.83rem; color:var(--text-secondary);" data-i18n-en="{{ node.focus_en }}" data-i18n-fr="{{ node.focus_fr }}">
+                  {{ node.focus_en }}
+                </p>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Executive Leadership Column -->
+          <div>
+            <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:16px; color:var(--accent-lime);" data-i18n-en="🏛️ Executive Leadership &amp; Governance" data-i18n-fr="🏛️ Leadership Exécutif &amp; Gouvernance">🏛️ Executive Leadership &amp; Governance</h3>
+            <div class="timeline-stack">
+              {% for role in data.leadership %}
+              <div class="timeline-glass-card">
+                <div class="timeline-badge-row">
+                  <span class="timeline-pill">{{ role.badge }} · {{ role.location }}</span>
+                  <span class="timeline-period">{{ role.period }}</span>
+                </div>
+                <h4 style="font-size:1.08rem; font-weight:800; margin-bottom:4px;" data-i18n-en="{{ role.role_en }}" data-i18n-fr="{{ role.role_fr }}">
+                  {{ role.role_en }}
+                </h4>
+                <div style="font-size:0.85rem; font-weight:700; color:var(--accent-cyan); margin-bottom:8px;">
+                  {{ role.organization }}
+                </div>
+                <ul style="padding-left:18px; font-size:0.82rem; color:var(--text-secondary);">
+                  {% for item in role.highlights_en %}
                   <li>{{ item }}</li>
                   {% endfor %}
                 </ul>
-
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem;" id="screenProjMetrics">
-                  {% for k, v in data.projects[0].metrics.items() %}
-                  <div class="metric-mini-tile" style="padding: 0.65rem 0.8rem;">
-                    <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-secondary);">{{ k }}</div>
-                    <div style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 800; color: var(--accent-2); margin-top: 0.15rem;">{{ v }}</div>
-                  </div>
-                  {% endfor %}
-                </div>
               </div>
-
-              <!-- Right Column: Live Source Window -->
-              <div class="code-window-card">
-                <div class="code-window-bar">
-                  <span id="screenCodeFilename">{{ data.projects[0].code_Filename }}</span>
-                  <button type="button" class="copy-code-btn" id="copyCodeBtn">Copy Snippet</button>
-                </div>
-                <pre class="code-pre-block" id="screenCodePre">{{ data.projects[0].code_snippet }}</pre>
-              </div>
-            </div>
-
-            <!-- Live Interactive Python & C++ E.Leclerc Euro Change & TVA 20% Simulator -->
-            <div class="live-lab-dock">
-              <div>
-                <div class="bento-card-kicker">LIVE INTERACTIVE ALGORITHM SANDBOX</div>
-                <h4 style="font-size: 1.05rem; font-weight: 800;" data-en="E.Leclerc Euro Change &amp; French TVA (20%) Engine" data-fr="Moteur Euro Glouton &amp; TVA (20%) E.Leclerc">E.Leclerc Euro Change &amp; French TVA (20%) Engine</h4>
-                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.2rem;" data-en="Type any order amount and cash tendered below to test the exact centime math from data_engine.py &amp; L'ECLERC.cpp:" data-fr="Modifiez le montant TTC et les espèces insérées pour tester l'algorithme glouton en direct :">
-                  Type any order amount and cash tendered below to test the exact centime math from <code>data_engine.py</code> &amp; <code>L'ECLERC.cpp</code>:
-                </p>
-                <div class="sim-input-row">
-                  <div class="sim-field">
-                    <label for="posAmountInput">Order Total TTC (€)</label>
-                    <input type="number" id="posAmountInput" step="0.01" min="0.50" value="47.97" />
-                  </div>
-                  <div class="sim-field">
-                    <label for="posTenderedInput">Cash Inserted (€)</label>
-                    <input type="number" id="posTenderedInput" step="0.01" min="0.50" value="60.00" />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <div style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--accent-2); font-weight: 700;" id="posSummaryOutput">
-                  HT: 39.98 € · TVA (20%): 7.99 € · Change: 12.03 € · NFC Contactless OK (&lt;= 50€)
-                </div>
-                <div style="font-size: 0.74rem; color: var(--text-secondary); margin-top: 0.35rem;" data-en="Greedy Minimum Euro Denominations Dispensed:" data-fr="Coupures Euro Minimales Distribuées (Algorithme Glouton) :">
-                  Greedy Minimum Euro Denominations Dispensed:
-                </div>
-                <div class="denom-chip-cloud" id="posDenomOutput"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================================================================
-         SECTION 3: INTERACTIVE RADAR & 6-NODE COMPETENCY INFOGRAPHICS
-         =================================================================== -->
-    <section class="section-block" id="infographics">
-      <div class="section-header-flex">
-        <div>
-          <div class="bento-card-kicker" data-en="QUANTITATIVE COMPETENCY TELEMETRY · 92.8% COMPOSITE" data-fr="TÉLÉMÉTRIE DE COMPÉTENCES · 92,8 % GLOBAL">QUANTITATIVE COMPETENCY TELEMETRY · 92.8% COMPOSITE</div>
-          <h2 class="section-heading" data-en="Interactive Multi-Domain Radar &amp; Skill Matrix" data-fr="Radar Multi-Domaine &amp; Matrice de Compétences">Interactive Multi-Domain Radar &amp; Skill Matrix</h2>
-        </div>
-        <p style="max-width: 440px; font-size: 0.88rem; color: var(--text-secondary);" data-en="Hover over any competency card to highlight its orbital node in the interactive SVG radar diagram." data-fr="Survolez une carte de compétence pour illuminer son nœud orbital sur le diagramme radar.">
-          Hover over any competency card to highlight its orbital node in the interactive SVG radar diagram.
-        </p>
-      </div>
-
-      <div class="radar-infographic-grid">
-        <!-- Left: 6 Interactive Competency Cards with Progress Bars -->
-        <div class="petal-interactive-list">
-          {% for petal in data.skill_petals %}
-          <article class="petal-focus-card {% if loop.first %}active{% endif %}">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-2); font-weight: 800;">DOMAIN {{ petal.code }}</span>
-              <span style="font-family: var(--font-mono); font-size: 0.9rem; font-weight: 800; color: var(--accent-3);">{{ petal.score }}%</span>
-            </div>
-            <h4 style="font-size: 0.96rem; font-weight: 800; margin-top: 0.25rem;" data-en="{{ petal.title_en }}" data-fr="{{ petal.title_fr }}">{{ petal.title_en }}</h4>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: {{ petal.score }}%;"></div>
-            </div>
-            <p style="font-size: 0.76rem; color: var(--text-secondary); margin-bottom: 0.5rem;" data-en="{{ petal.metrics_en }}" data-fr="{{ petal.metrics_fr }}">{{ petal.metrics_en }}</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.3rem;">
-              {% for tool in petal.tools[:4] %}
-              <span style="font-family: var(--font-mono); font-size: 0.64rem; padding: 0.15rem 0.48rem; border-radius: 6px; background: rgba(99,102,241,0.12); color: var(--text-primary);">{{ tool }}</span>
               {% endfor %}
             </div>
-          </article>
-          {% endfor %}
-        </div>
-
-        <!-- Right: Interactive SVG Hexagonal Radar & Orbital Constellation -->
-        <div class="bento-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center;" data-tilt>
-          <svg viewBox="0 0 420 340" width="100%" style="max-width: 420px; height: auto;">
-            <defs>
-              <linearGradient id="radarPolyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#6366f1" stop-opacity="0.48" />
-                <stop offset="50%" stop-color="#06b6d4" stop-opacity="0.42" />
-                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.48" />
-              </linearGradient>
-            </defs>
-
-            <!-- Concentric Radar Rings -->
-            <circle cx="210" cy="170" r="125" fill="none" stroke="rgba(148,163,184,0.2)" stroke-dasharray="4 4" />
-            <circle cx="210" cy="170" r="90" fill="none" stroke="rgba(148,163,184,0.2)" />
-            <circle cx="210" cy="170" r="55" fill="none" stroke="rgba(148,163,184,0.2)" stroke-dasharray="3 3" />
-
-            <!-- Axis Spokes -->
-            <line x1="210" y1="45" x2="210" y2="295" stroke="rgba(148,163,184,0.18)" />
-            <line x1="102" y1="108" x2="318" y2="232" stroke="rgba(148,163,184,0.18)" />
-            <line x1="318" y1="108" x2="102" y2="232" stroke="rgba(148,163,184,0.18)" />
-
-            <!-- 6-Point Quantitative Proficiency Radar Polygon (95%, 94%, 91%, 92%, 89%, 96%) -->
-            <polygon points="210,52 310,112 306,225 210,284 116,223 108,110" fill="url(#radarPolyGrad)" stroke="#38bdf8" stroke-width="2.5" />
-
-            <!-- 6 Orbital Nodes -->
-            <g data-svg-petal style="transform-origin: 210px 52px; transition: transform 0.25s ease;">
-              <circle cx="210" cy="52" r="24" fill="#111726" stroke="#6366f1" stroke-width="2.5" />
-              <text x="210" y="50" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">PYTHON</text>
-              <text x="210" y="62" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">95%</text>
-            </g>
-
-            <g data-svg-petal style="transform-origin: 310px 112px; transition: transform 0.25s ease;">
-              <circle cx="310" cy="112" r="24" fill="#111726" stroke="#06b6d4" stroke-width="2.5" />
-              <text x="310" y="110" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">C++17</text>
-              <text x="310" y="122" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">94%</text>
-            </g>
-
-            <g data-svg-petal style="transform-origin: 306px 225px; transition: transform 0.25s ease;">
-              <circle cx="306" cy="225" r="24" fill="#111726" stroke="#f59e0b" stroke-width="2.5" />
-              <text x="306" y="223" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">STM32</text>
-              <text x="306" y="235" text-anchor="middle" fill="#fbbf24" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">91%</text>
-            </g>
-
-            <g data-svg-petal style="transform-origin: 210px 284px; transition: transform 0.25s ease;">
-              <circle cx="210" cy="284" r="24" fill="#111726" stroke="#ec4899" stroke-width="2.5" />
-              <text x="210" y="282" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">3NF SQL</text>
-              <text x="210" y="294" text-anchor="middle" fill="#f472b6" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">92%</text>
-            </g>
-
-            <g data-svg-petal style="transform-origin: 116px 223px; transition: transform 0.25s ease;">
-              <circle cx="116" cy="223" r="24" fill="#111726" stroke="#06b6d4" stroke-width="2.5" />
-              <text x="116" y="221" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">PCB/IC</text>
-              <text x="116" y="233" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">89%</text>
-            </g>
-
-            <g data-svg-petal style="transform-origin: 108px 110px; transition: transform 0.25s ease;">
-              <circle cx="108" cy="110" r="24" fill="#111726" stroke="#f59e0b" stroke-width="2.5" />
-              <text x="108" y="108" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="800">LEAD</text>
-              <text x="108" y="120" text-anchor="middle" fill="#fbbf24" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">96%</text>
-            </g>
-
-            <!-- Center Hub -->
-            <circle cx="210" cy="170" r="30" fill="#0d111d" stroke="#f8fafc" stroke-width="2" />
-            <text x="210" y="167" text-anchor="middle" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="10.5" font-weight="800">HANZ</text>
-            <text x="210" y="180" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="8.5" font-weight="700">92.8%</text>
-          </svg>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================================================================
-         SECTION 4: EXECUTIVE LEADERSHIP & INTERACTIVE GHANA ⇄ FRANCE MAP
-         =================================================================== -->
-    <section class="section-block" id="corridor">
-      <div class="section-header-flex">
-        <div>
-          <div class="bento-card-kicker" data-en="EXECUTIVE LEADERSHIP &amp; INTERACTIVE CORRIDOR MAP" data-fr="LEADERSHIP EXÉCUTIF &amp; CARTE INTERACTIVE DU CORRIDOR">EXECUTIVE LEADERSHIP &amp; INTERACTIVE CORRIDOR MAP</div>
-          <h2 class="section-heading" data-en="Accra &amp; Kumasi 🇬🇭 ⇄ Lille, France 🇫🇷" data-fr="Accra &amp; Kumasi 🇬🇭 ⇄ Lille, France 🇫🇷">Accra &amp; Kumasi 🇬🇭 ⇄ Lille, France 🇫🇷</h2>
-        </div>
-        <p style="max-width: 440px; font-size: 0.88rem; color: var(--text-secondary);" data-en="Click any glowing city pin on the interactive telemetry map to spotlight that academic and executive milestone." data-fr="Cliquez sur une ville de la carte pour mettre en évidence cette étape académique et exécutive.">
-          Click any glowing city pin on the interactive telemetry map to spotlight that academic and executive milestone.
-        </p>
-      </div>
-
-      <div class="corridor-interactive-grid">
-        <!-- Left: Interactive SVG Map + Executive Leadership Roles -->
-        <div class="bento-card">
-          <svg viewBox="0 0 580 270" width="100%" style="background: #060911; border-radius: 16px; border: 1px solid rgba(148,163,184,0.18); margin-bottom: 1.25rem;">
-            <defs>
-              <linearGradient id="flightGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#f59e0b" />
-                <stop offset="50%" stop-color="#06b6d4" />
-                <stop offset="100%" stop-color="#6366f1" />
-              </linearGradient>
-            </defs>
-
-            <!-- Telemetry Grid -->
-            <g stroke="rgba(148,163,184,0.1)" stroke-width="1">
-              <line x1="0" y1="65" x2="580" y2="65" />
-              <line x1="0" y1="135" x2="580" y2="135" />
-              <line x1="0" y1="205" x2="580" y2="205" />
-              <line x1="145" y1="0" x2="145" y2="270" />
-              <line x1="290" y1="0" x2="290" y2="270" />
-              <line x1="435" y1="0" x2="435" y2="270" />
-            </g>
-
-            <!-- Stylized Europe & West Africa Continents -->
-            <path d="M 190,28 L 265,20 L 340,32 L 365,68 L 320,98 L 220,92 Z" fill="#111a2e" stroke="#6366f1" stroke-width="1.5" />
-            <path d="M 165,125 L 295,118 L 355,172 L 325,248 L 235,245 L 175,205 Z" fill="#111a2e" stroke="#06b6d4" stroke-width="1.5" />
-
-            <!-- Flight Arcs -->
-            <path d="M 232,212 Q 165,135 268,62" fill="none" stroke="url(#flightGrad)" stroke-width="3" stroke-dasharray="6 4" />
-            <path d="M 222,190 Q 305,135 268,62" fill="none" stroke="#38bdf8" stroke-opacity="0.55" stroke-width="1.8" />
-
-            <!-- Interactive Pin 1: Lille -->
-            <g class="map-pin-group" data-corridor-pin="FR-LILLE">
-              <circle cx="268" cy="62" r="14" fill="#6366f1" fill-opacity="0.28" />
-              <circle cx="268" cy="62" r="6" fill="#6366f1" stroke="#ffffff" stroke-width="2" />
-              <text x="288" y="58" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="11" font-weight="800">🇫🇷 LILLE, FRANCE (Click)</text>
-              <text x="288" y="72" fill="#93c5fd" font-family="JetBrains Mono, monospace" font-size="9.5">JUNIA ISEN M1 · GHAFRA Nord</text>
-            </g>
-
-            <!-- Interactive Pin 2: Kumasi -->
-            <g class="map-pin-group" data-corridor-pin="GH-KUMASI">
-              <circle cx="222" cy="190" r="13" fill="#06b6d4" fill-opacity="0.28" />
-              <circle cx="222" cy="190" r="5.5" fill="#06b6d4" stroke="#ffffff" stroke-width="1.8" />
-              <text x="242" y="188" fill="#f8fafc" font-family="JetBrains Mono, monospace" font-size="10.5" font-weight="800">🇬🇭 KUMASI, GHANA (Click)</text>
-              <text x="242" y="201" fill="#67e8f9" font-family="JetBrains Mono, monospace" font-size="9">KNUST BSc CompEng · ACES President</text>
-            </g>
-
-            <!-- Interactive Pin 3: Accra -->
-            <g class="map-pin-group" data-corridor-pin="GH-ACCRA">
-              <circle cx="232" cy="216" r="5" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5" />
-              <text x="244" y="226" fill="#fcd34d" font-family="JetBrains Mono, monospace" font-size="9">🇬🇭 ACCRA · PRESEC-Legon ('22)</text>
-            </g>
-          </svg>
-
-          <div class="bento-card-kicker">EXECUTIVE GOVERNANCE &amp; LEADERSHIP</div>
-          {% for role in data.leadership %}
-          <div style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <strong style="font-size: 0.92rem;" data-en="{{ role.role_en }}" data-fr="{{ role.role_fr }}">{{ role.role_en }}</strong>
-              <span style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-3); font-weight: 700;">{{ role.badge }} · {{ role.period }}</span>
-            </div>
-            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-2);">{{ role.organization }} — {{ role.location }}</div>
-            <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.2rem;" data-en="{{ role.highlights_en[0] }}" data-fr="{{ role.highlights_fr[0] }}">{{ role.highlights_en[0] }}</p>
           </div>
-          {% endfor %}
-        </div>
-
-        <!-- Right: Academic Corridor Cards -->
-        <div>
-          {% for node in data.corridor %}
-          <article class="corridor-card-item {% if loop.first %}active{% endif %}" data-corridor-card="{{ node.code }}">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
-              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-2); font-weight: 800;">{{ node.code }} · {{ node.coordinates }}</span>
-              <span style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-3); font-weight: 700;">{{ node.period }}</span>
-            </div>
-            <h3 style="font-size: 1.06rem; font-weight: 800; margin-bottom: 0.2rem;">{{ node.institution }}</h3>
-            <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-1); font-weight: 700; margin-bottom: 0.45rem;" data-en="{{ node.degree_en }}" data-fr="{{ node.degree_fr }}">
-              {{ node.degree_en }}
-            </div>
-            <p style="font-size: 0.82rem; color: var(--text-secondary);" data-en="{{ node.focus_en }}" data-fr="{{ node.focus_fr }}">
-              {{ node.focus_en }}
-            </p>
-          </article>
-          {% endfor %}
         </div>
       </div>
     </section>
 
+    <!-- ======================================================================
+         SECTION 9: LET'S WORK TOGETHER CTA FOOTER (CodeCraft + Dikshant Style)
+         ====================================================================== -->
+    <section class="section-block" id="contact">
+      <div class="container">
+        <div class="cta-footer-card">
+          <div style="max-width:620px;">
+            <span class="speech-pill" style="margin-bottom:14px;">LET'S CREATE SOMETHING DOPE! ⚡</span>
+            <h2 style="font-size:clamp(1.8rem, 3vw, 2.5rem); font-weight:900; line-height:1.15; margin-bottom:10px;" data-i18n-en="Have a software, embedded, or data project in mind?" data-i18n-fr="Vous avez un projet Python, C++ ou Embarqué en tête ?">
+              Have a software, embedded, or data project in mind?
+            </h2>
+            <p style="color:var(--text-secondary); font-size:0.96rem;" data-i18n-en="Available for R&amp;D internships, software/embedded engineering roles, and technical collaborations across France, Europe &amp; internationally." data-i18n-fr="Disponible pour stages R&amp;D, postes d'ingénieur logiciel/embarqué et collaborations techniques en France et à l'international.">
+              Available for R&amp;D internships, software/embedded engineering roles, and technical collaborations across France, Europe &amp; internationally.
+            </p>
+          </div>
+
+          <div style="display:flex; flex-wrap:wrap; gap:14px;">
+            <a href="mailto:hanz.ofosuhene-sintim@student.junia.com" class="btn-lime-play">
+              <span>✉️</span>
+              <span>Email JUNIA Lille</span>
+            </a>
+            <a href="mailto:hanzsintim@gmail.com" class="btn-primary-glow">
+              <span>📬</span>
+              <span>hanzsintim@gmail.com</span>
+            </a>
+            <a href="https://github.com/HanzSintim" target="_blank" rel="noopener" class="btn-outline-glass">
+              <span>GitHub @HanzSintim ↗</span>
+            </a>
+          </div>
+        </div>
+
+        <footer class="footer-bottom">
+          <p>
+            Engineered with <strong>Python 3.12 &amp; Flask</strong> (`app.py` + `data_engine.py`) by <strong>Hanz Ofosuhene-Sintim</strong> · Lille, France 🇫🇷 ⇄ Kumasi &amp; Accra, Ghana 🇬🇭
+          </p>
+        </footer>
+      </div>
+    </section>
   </main>
 
-  <div class="toast-banner" id="toastBanner">Copied!</div>
+  <!-- ========================================================================
+       INTERACTIVE PROJECT CODE & ARCHITECTURE MODAL DRAWER
+       ======================================================================== -->
+  <div class="modal-backdrop" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-window">
+      <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">✕</button>
+      <div class="section-eyebrow" id="modalLangPill">PYTHON 3.12 · FLASK</div>
+      <h3 id="modalTitle" style="font-size:1.65rem; font-weight:900; margin-bottom:10px;">Project Title</h3>
+      <p id="modalSummary" style="color:var(--text-secondary); font-size:0.94rem; margin-bottom:16px;"></p>
 
-  <script>
-    window.PORTFOLIO_DATA = {{ data | tojson }};
+      <h4 style="font-size:0.82rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-lime); margin-bottom:8px;">
+        System Architecture Highlights
+      </h4>
+      <ul id="modalArchList" style="padding-left:20px; color:var(--text-secondary); font-size:0.88rem; margin-bottom:16px;"></ul>
+
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--accent-cyan);" id="modalCodeFilename">code.py</span>
+        <a id="modalRepoLink" href="https://github.com/HanzSintim" target="_blank" rel="noopener" class="btn-primary-glow" style="padding:8px 16px; font-size:0.82rem;">
+          Open GitHub Repository ↗
+        </a>
+      </div>
+      <pre class="modal-code-pre"><code id="modalCodeBlock"></code></pre>
+    </div>
+  </div>
+
+  <!-- Embedded Portfolio JSON Payload from Python data_engine.py -->
+  <script id="portfolioDataJson" type="application/json">
+    {{ data | tojson }}
   </script>
-  <script src="static/js/portfolio_engine.js"></script>
+  <script src="{{ 'static/js/portfolio_engine.js' if static_mode else url_for('static', filename='js/portfolio_engine.js') }}"></script>
 </body>
 </html>
