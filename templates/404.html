@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="surface-card workbench-header" style="align-items: flex-start;">
+  <span class="mono" style="font-size: 0.72rem; color: var(--accent-amber);">HTTP 404 // SIGNAL LOST</span>
+  <h1>{{ t.errors.not_found }}</h1>
+  <a href="{{ url_for('home') }}" class="btn-primary">{{ t.errors.back }} →</a>
+</section>
+{% endblock %}
