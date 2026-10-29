@@ -2024,3 +2024,667 @@ body {
     display: none;
   }
 }
+
+
+/* ============================================================================
+   FULL MOBILE, TABLET & SAMSUNG DEX RESPONSIVE SYSTEM + GENERAL CV SHEET
+   ============================================================================ */
+html, body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.hero-halo-circle,
+.floating-widget {
+  will-change: transform;
+}
+
+.sim-control-box.full-span {
+  grid-column: 1 / -1;
+}
+
+.resume-live-sheet ~ .resume-buttons-col {
+  display: none !important;
+}
+
+/* Mobile Hamburger Menu Button & Glass Drawer */
+.mobile-menu-btn {
+  display: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--bg-glass-strong);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  padding: 8px;
+  flex-shrink: 0;
+}
+
+.hamburger-bar {
+  width: 18px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.mobile-menu-btn.open .hamburger-bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.mobile-menu-btn.open .hamburger-bar:nth-child(2) {
+  opacity: 0;
+}
+.mobile-menu-btn.open .hamburger-bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.mobile-nav-drawer {
+  display: none;
+  margin-top: 10px;
+  padding: 16px 18px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--border-glass);
+  border-radius: 22px;
+  box-shadow: var(--shadow-card);
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mobile-nav-drawer.open {
+  display: flex;
+}
+
+.mobile-nav-link {
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.94rem;
+  padding: 10px 14px;
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  background: rgba(139, 92, 246, 0.18);
+}
+
+.mobile-nav-cta-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Embedded General Engineering CV Live Sheet inside #resume */
+.resume-live-sheet {
+  width: 100%;
+  margin-top: 12px;
+  padding: 28px;
+  border-radius: 20px;
+  background: rgba(7, 10, 19, 0.78);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  box-shadow: inset 0 0 30px rgba(124, 58, 237, 0.12);
+}
+
+[data-theme="light"] .resume-live-sheet {
+  background: rgba(248, 250, 255, 0.94);
+  border-color: rgba(79, 70, 229, 0.25);
+}
+
+.resume-sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.resume-sheet-name {
+  font-size: 1.45rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+}
+
+.resume-sheet-role {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--accent-cyan);
+  margin-top: 2px;
+}
+
+.resume-sheet-avail {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-lime);
+  margin-top: 4px;
+}
+
+.resume-sheet-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.resume-sheet-profile {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.58;
+  margin-bottom: 18px;
+}
+
+.resume-sheet-grid {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: 24px;
+}
+
+.resume-sheet-sec-title {
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-violet);
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.resume-item {
+  margin-bottom: 10px;
+}
+
+.resume-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.resume-item-top span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+
+.resume-item-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.resume-bullet-list {
+  padding-left: 16px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.resume-bullet-list li {
+  margin-bottom: 5px;
+}
+
+/* Tablet, Split-Screen & DeX Window Breakpoint (<= 1060px) */
+@media (max-width: 1060px) {
+  .nav-links {
+    display: none;
+  }
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+  /* Fix alternating Journey Timeline odd/even column collapse */
+  .journey-row {
+    grid-template-columns: 48px 1fr !important;
+  }
+  .journey-node-col {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+  .journey-card,
+  .journey-card.align-right,
+  .journey-card.align-left {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    text-align: left !important;
+  }
+  .resume-sheet-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-visual-stage {
+    min-height: 440px;
+    margin-top: 12px;
+  }
+  .widget-speech-bubble {
+    left: 4px;
+    top: 8px;
+  }
+  .widget-top-right {
+    right: 4px;
+    top: 8px;
+  }
+  .widget-sparkline {
+    left: 4px;
+    bottom: 12px;
+  }
+  .widget-code-card {
+    right: 4px;
+    bottom: -4px;
+  }
+}
+
+/* Mobile & Narrow Split-Screen Breakpoint (<= 680px) */
+@media (max-width: 680px) {
+  .container {
+    padding: 0 16px;
+  }
+  .navbar {
+    top: 10px;
+    padding: 0 12px;
+    margin-top: 10px;
+  }
+  .navbar-inner {
+    padding: 10px 14px;
+    border-radius: 20px;
+  }
+  #themeLabel {
+    display: none;
+  }
+  .btn-hire-nav {
+    display: none;
+  }
+  .hero-section {
+    padding: 36px 0 28px;
+  }
+  .hero-title {
+    font-size: clamp(2.15rem, 8vw, 2.85rem);
+  }
+  .hero-subtitle {
+    font-size: clamp(1.15rem, 4.8vw, 1.45rem);
+    min-height: 2.6em;
+  }
+  .hero-cta-row {
+    gap: 10px;
+  }
+  .hero-cta-row a {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 12px 18px;
+    font-size: 0.88rem;
+  }
+  .hero-visual-stage {
+    min-height: 390px;
+    padding: 36px 0 56px;
+  }
+  .hero-halo-circle {
+    width: 270px;
+    height: 270px;
+  }
+  .developer-character-svg {
+    width: 258px;
+    height: 258px;
+  }
+  .widget-speech-bubble {
+    top: 0;
+    left: 0;
+    font-size: 0.68rem;
+    padding: 7px 11px;
+  }
+  .widget-top-right {
+    top: 0;
+    right: 0;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .widget-big-num {
+    font-size: 1.25rem;
+  }
+  .widget-sub-label {
+    font-size: 0.65rem;
+  }
+  .widget-sparkline {
+    bottom: 6px;
+    left: 0;
+    width: 142px;
+    padding: 8px 10px;
+  }
+  .widget-code-card {
+    bottom: -14px;
+    right: 0;
+    width: 196px;
+    padding: 10px 12px;
+    font-size: 0.62rem;
+  }
+  .section-block {
+    padding: 44px 0;
+  }
+  .showreel-card {
+    padding: 20px 16px;
+    border-radius: 22px;
+    gap: 20px;
+  }
+  .showreel-title {
+    font-size: 1.45rem;
+  }
+  .showreel-stage {
+    padding: 16px 14px;
+    min-height: auto;
+  }
+  .sim-header-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sim-kpi-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .tech-dock-container {
+    padding: 16px;
+  }
+  .tech-dock-icons {
+    width: 100%;
+    justify-content: center;
+  }
+  .dock-tile {
+    flex: 1 1 calc(33.33% - 10px);
+    min-width: 72px;
+  }
+  .project-filter-pills {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 6px;
+  }
+  .filter-pill-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .resume-banner-card {
+    padding: 22px 16px;
+    border-radius: 20px;
+  }
+  .resume-buttons-col {
+    width: 100%;
+  }
+  .btn-cv-en,
+  .btn-cv-fr {
+    width: 100%;
+    justify-content: center;
+  }
+  .resume-live-sheet {
+    padding: 18px 14px;
+  }
+  .cta-footer-card {
+    padding: 28px 20px;
+    border-radius: 22px;
+  }
+  .modal-backdrop {
+    padding: 12px;
+  }
+  .modal-window {
+    padding: 22px 16px;
+    max-height: 92vh;
+  }
+}
+
+/* Keep custom cursor ring active when a mouse/DeX/trackpad pointer is used, even in narrow split-screen */
+@media (hover: hover) and (pointer: fine) {
+  .cursor-ring-outer {
+    display: flex !important;
+  }
+}
+
+
+/* ============================================================================
+   UNIVERSAL NAVBAR ("HIRE ME ↗") & JOURNEY TIMELINE FLUID FLEXIBILITY
+   Ensures zero vertical text squishing & seamless layout across 320px–2560px
+   (including mobile portrait, landscape, 980px "Request Desktop Site", & DeX)
+   ============================================================================ */
+.navbar-inner {
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.brand-logo,
+.nav-links,
+.nav-links li,
+.nav-links a,
+.nav-actions,
+.lang-segmented-switch,
+.lang-seg-btn,
+.pill-toggle,
+.btn-hire-nav {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.btn-hire-nav {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  line-height: 1.15 !important;
+}
+
+.journey-timeline-wrap {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.journey-row {
+  grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr);
+  width: 100%;
+}
+
+.journey-card {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.cta-footer-card a {
+  white-space: nowrap;
+  justify-content: center;
+}
+
+/* Medium Desktop, Tablet & Mobile "Desktop Site" (980px) Viewport (<= 1220px) */
+@media (max-width: 1220px) {
+  #themeLabel {
+    display: none !important;
+  }
+  .navbar-inner {
+    padding: 10px 16px;
+  }
+  .nav-links {
+    gap: 2px;
+  }
+  .nav-links a {
+    padding: 6px 10px;
+    font-size: 0.82rem;
+  }
+  .btn-hire-nav {
+    padding: 8px 14px;
+    font-size: 0.81rem;
+  }
+}
+
+/* Single-Spine Responsive Journey Timeline for <= 1060px (incl. 980px mobile desktop mode) */
+@media (max-width: 1060px) {
+  .journey-timeline-wrap {
+    max-width: 100% !important;
+    padding: 16px 0 !important;
+  }
+  .journey-center-spine {
+    left: 20px !important;
+    transform: translateX(-50%) !important;
+    top: 8px !important;
+    bottom: 8px !important;
+  }
+  .journey-row {
+    display: grid !important;
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    column-gap: 14px !important;
+    row-gap: 0 !important;
+    align-items: flex-start !important;
+    margin-bottom: 22px !important;
+    width: 100% !important;
+  }
+  .journey-empty-col {
+    display: none !important;
+  }
+  .journey-node-col {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 40px !important;
+    padding-top: 22px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .journey-card,
+  .journey-card.align-right,
+  .journey-card.align-left {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    padding: 22px 22px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Mobile & Split-Screen Breakpoint (<= 680px) */
+@media (max-width: 680px) {
+  .navbar {
+    padding: 0 10px !important;
+  }
+  .navbar-inner {
+    padding: 8px 12px !important;
+    gap: 6px !important;
+    border-radius: 18px !important;
+  }
+  .brand-logo {
+    font-size: 0.96rem !important;
+    gap: 7px !important;
+  }
+  .brand-icon {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 0.8rem !important;
+    border-radius: 8px !important;
+  }
+  .nav-actions {
+    gap: 5px !important;
+  }
+  .lang-segmented-switch {
+    padding: 2px !important;
+  }
+  .lang-seg-btn {
+    padding: 4px 7px !important;
+    font-size: 0.68rem !important;
+    gap: 3px !important;
+  }
+  .pill-toggle {
+    padding: 6px 8px !important;
+    font-size: 0.76rem !important;
+  }
+  .btn-hire-nav {
+    display: inline-flex !important;
+    padding: 6px 11px !important;
+    font-size: 0.74rem !important;
+    border-radius: 999px !important;
+  }
+  .mobile-menu-btn {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 10px !important;
+    padding: 6px !important;
+  }
+  .journey-center-spine {
+    left: 14px !important;
+    transform: translateX(-50%) !important;
+  }
+  .journey-row {
+    grid-template-columns: 28px minmax(0, 1fr) !important;
+    column-gap: 10px !important;
+    margin-bottom: 16px !important;
+  }
+  .journey-node-col {
+    width: 28px !important;
+    padding-top: 18px !important;
+  }
+  .journey-spine-dot {
+    width: 13px !important;
+    height: 13px !important;
+    border-width: 2px !important;
+  }
+  .journey-card,
+  .journey-card.align-right,
+  .journey-card.align-left {
+    padding: 18px 16px !important;
+    border-radius: 16px !important;
+  }
+  .journey-period {
+    font-size: 0.68rem !important;
+    letter-spacing: 0.12em !important;
+    margin-bottom: 5px !important;
+  }
+  .journey-role-title {
+    font-size: 1.05rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 4px !important;
+  }
+  .journey-org-sub {
+    font-size: 0.82rem !important;
+    line-height: 1.38 !important;
+    margin-bottom: 8px !important;
+  }
+  .journey-desc {
+    font-size: 0.82rem !important;
+    line-height: 1.54 !important;
+  }
+  .cta-footer-card > div:last-child {
+    width: 100%;
+  }
+  .cta-footer-card a {
+    flex: 1 1 100%;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* Compact Smartphones (<= 420px) */
+@media (max-width: 420px) {
+  .lang-seg-btn span:first-child {
+    display: none !important;
+  }
+  .btn-hire-nav {
+    padding: 6px 9px !important;
+    font-size: 0.71rem !important;
+  }
+}

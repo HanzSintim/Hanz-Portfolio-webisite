@@ -2,10 +2,10 @@
  * Hanz Ofosuhene-Sintim — Interactive Portfolio Client Engine
  * ===========================================================
  * Powers:
- * 1. 3D Mouse-Parallax Hero Halo & Floating Widgets
+ * 1. Unified 60fps Lerp Pointer/DeX/Trackpad/Touch 3D Parallax Hero Halo & Floating Widgets
  * 2. Kinetic Typewriter Headline (EN / FR)
  * 3. 3-in-1 Live Showreel Sandbox (E.Leclerc POS, STM32 Robot, 40kHz Water Tank)
- * 4. Interactive Tech Dock & Service Pillar Project Filtering
+ * 4. Interactive Tech Dock, Service Pillar Project Filtering & Mobile Navigation Drawer
  * 5. Code & Architecture Modal Drawer
  * 6. Dual Theme Switcher (Midnight Neon <-> Aarav Frosted Periwinkle Glass)
  */
@@ -20,7 +20,7 @@
   let waterPumpState = false; // Hysteresis memory state for Simulator 3
 
   // -------------------------------------------------------------------------
-  // 1. STARFIELD CANVAS, CURSOR RING & 3D PARALLAX HERO STAGE
+  // 1. UNIFIED DEX / TRACKPAD / TOUCH CURSOR & 60FPS LERP 3D PARALLAX ENGINE
   // -------------------------------------------------------------------------
   const cursorGlow = document.getElementById("cursorGlow");
   const cursorRing = document.getElementById("cursorRing");
@@ -28,47 +28,125 @@
   const heroHalo = document.getElementById("heroHalo");
   const parallaxWidgets = document.querySelectorAll("[data-parallax]");
 
-  // Smooth Ring Follower
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
   let ringX = mouseX;
   let ringY = mouseY;
+  let glowX = mouseX;
+  let glowY = mouseY;
 
-  window.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+  // Normalized [-1, 1] target and smoothed tilt coordinates for Hero Stage
+  let targetTiltX = 0;
+  let targetTiltY = 0;
+  let currentTiltX = 0;
+  let currentTiltY = 0;
+  let lastPointerTime = 0;
 
-    if (cursorGlow) {
-      cursorGlow.style.left = `${e.clientX}px`;
-      cursorGlow.style.top = `${e.clientY}px`;
-    }
+  function handleUnifiedPointer(clientX, clientY, pointerType) {
+    mouseX = clientX;
+    mouseY = clientY;
+    lastPointerTime = performance.now();
 
-    if (heroStage && heroHalo) {
-      const rect = heroStage.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        const relX = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-        const relY = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-
-        heroHalo.style.transform = `rotateY(${relX * 8}deg) rotateX(${-relY * 8}deg)`;
-
-        parallaxWidgets.forEach((widget) => {
-          const factor = parseFloat(widget.getAttribute("data-parallax") || "12");
-          widget.style.transform = `translate3d(${relX * factor}px, ${relY * factor}px, 0)`;
-        });
+    if (cursorRing) {
+      if (pointerType === "touch") {
+        cursorRing.style.opacity = "0";
+      } else {
+        cursorRing.style.display = "flex";
+        cursorRing.style.opacity = "1";
       }
     }
-  });
 
-  function animateRing() {
+    if (heroStage) {
+      const rect = heroStage.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const halfW = Math.max(160, rect.width / 2);
+      const halfH = Math.max(160, rect.height / 2);
+
+      // Clamp to [-1.25, 1.25] so DeX cursor, trackpad, and touch drags feel responsive across the whole viewport
+      targetTiltX = Math.max(-1.25, Math.min(1.25, (clientX - centerX) / halfW));
+      targetTiltY = Math.max(-1.25, Math.min(1.25, (clientY - centerY) / halfH));
+    }
+  }
+
+  // Pointer Events (Covers Samsung DeX cursor, S-Pen, USB/BT mice, Windows Precision Trackpad, and Touch)
+  window.addEventListener(
+    "pointermove",
+    (e) => {
+      handleUnifiedPointer(e.clientX, e.clientY, e.pointerType || "mouse");
+    },
+    { passive: true }
+  );
+
+  window.addEventListener(
+    "pointerdown",
+    (e) => {
+      handleUnifiedPointer(e.clientX, e.clientY, e.pointerType || "mouse");
+    },
+    { passive: true }
+  );
+
+  // Fallback mousemove for browsers/remote-desktop bridges that emit legacy MouseEvents
+  window.addEventListener(
+    "mousemove",
+    (e) => {
+      handleUnifiedPointer(e.clientX, e.clientY, "mouse");
+    },
+    { passive: true }
+  );
+
+  // Touchmove support for mobile phones & tablets
+  window.addEventListener(
+    "touchmove",
+    (e) => {
+      if (e.touches && e.touches.length > 0) {
+        handleUnifiedPointer(e.touches[0].clientX, e.touches[0].clientY, "touch");
+      }
+    },
+    { passive: true }
+  );
+
+  function animateInteractiveStage(now) {
+    // Smooth cursor ring & ambient spotlight interpolation
+    ringX += (mouseX - ringX) * 0.22;
+    ringY += (mouseY - ringY) * 0.22;
+    glowX += (mouseX - glowX) * 0.14;
+    glowY += (mouseY - glowY) * 0.14;
+
     if (cursorRing) {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
       cursorRing.style.left = `${ringX}px`;
       cursorRing.style.top = `${ringY}px`;
     }
-    requestAnimationFrame(animateRing);
+    if (cursorGlow) {
+      cursorGlow.style.left = `${glowX}px`;
+      cursorGlow.style.top = `${glowY}px`;
+    }
+
+    // Gentle autonomous orbital breathing when pointer is idle (> 1.8s) or on mobile hands-free view
+    if (now - lastPointerTime > 1800) {
+      const t = now * 0.0012;
+      targetTiltX = Math.sin(t) * 0.42;
+      targetTiltY = Math.cos(t * 0.85) * 0.35;
+    }
+
+    // Smooth 60fps lerp for 3D Hero Halo & Floating Glass Widgets (eliminates DeX cursor quantization/stutter)
+    currentTiltX += (targetTiltX - currentTiltX) * 0.12;
+    currentTiltY += (targetTiltY - currentTiltY) * 0.12;
+
+    if (heroHalo) {
+      heroHalo.style.transform = `rotateY(${(currentTiltX * 9).toFixed(2)}deg) rotateX(${(-currentTiltY * 9).toFixed(2)}deg)`;
+    }
+
+    parallaxWidgets.forEach((widget) => {
+      const factor = parseFloat(widget.getAttribute("data-parallax") || "12");
+      const tx = (currentTiltX * factor).toFixed(2);
+      const ty = (currentTiltY * factor).toFixed(2);
+      widget.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+    });
+
+    requestAnimationFrame(animateInteractiveStage);
   }
-  animateRing();
+  requestAnimationFrame(animateInteractiveStage);
 
   // AgyemangDEV-style Starfield Canvas animation
   const starCanvas = document.getElementById("starfieldCanvas");
@@ -116,6 +194,28 @@
       requestAnimationFrame(renderStars);
     }
     renderStars();
+  }
+
+  // -------------------------------------------------------------------------
+  // 1B. MOBILE & SPLIT-SCREEN NAVIGATION DRAWER
+  // -------------------------------------------------------------------------
+  const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+  const mobileNavDrawer = document.getElementById("mobileNavDrawer");
+
+  if (mobileMenuBtn && mobileNavDrawer) {
+    mobileMenuBtn.addEventListener("click", () => {
+      const isOpen = mobileNavDrawer.classList.toggle("open");
+      mobileMenuBtn.classList.toggle("open", isOpen);
+      mobileMenuBtn.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    mobileNavDrawer.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileNavDrawer.classList.remove("open");
+        mobileMenuBtn.classList.remove("open");
+        mobileMenuBtn.setAttribute("aria-expanded", "false");
+      });
+    });
   }
 
   // -------------------------------------------------------------------------
@@ -383,7 +483,7 @@
   // -------------------------------------------------------------------------
   // 4. PROJECT CATEGORY FILTERING & TECH DOCK / SERVICE JUMP LINKS
   // -------------------------------------------------------------------------
-  const filterButtons = document.querySelectorAll(".filter-pill-btn");
+  const filterButtons = document.querySelectorAll(".filter-pill-btn[data-filter]");
   const projectCards = document.querySelectorAll(".project-showcase-card");
 
   function applyProjectFilter(category) {
@@ -497,6 +597,9 @@
     });
   }
 
+  const langToggleBtn = document.getElementById("langToggleBtn");
+  const langLabel = document.getElementById("langLabel");
+
   function setLanguage(lang) {
     currentLang = lang;
     document.querySelectorAll("[data-lang-btn]").forEach((btn) => {
@@ -519,9 +622,6 @@
       setLanguage(targetLang);
     });
   });
-
-  const langToggleBtn = document.getElementById("langToggleBtn");
-  const langLabel = document.getElementById("langLabel");
 
   if (langToggleBtn) {
     langToggleBtn.addEventListener("click", () => {
