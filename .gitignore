@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+*.pyc
+.env
+static/tailored_cvs/
+api/v1/hunter_state.json

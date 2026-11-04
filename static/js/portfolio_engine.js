@@ -197,25 +197,35 @@
   }
 
   // -------------------------------------------------------------------------
-  // 1B. MOBILE & SPLIT-SCREEN NAVIGATION DRAWER
+  // 1B. 3-HORIZONTAL-BARS NAVIGATION & ADMIN LOGIN DRAWER
   // -------------------------------------------------------------------------
   const mobileMenuBtn = document.getElementById("mobileMenuBtn");
   const mobileNavDrawer = document.getElementById("mobileNavDrawer");
 
+  function setDrawerOpenState(isOpen) {
+    if (!mobileMenuBtn || !mobileNavDrawer) return;
+    mobileNavDrawer.classList.toggle("open", isOpen);
+    mobileNavDrawer.style.display = isOpen ? "flex" : "none";
+    mobileMenuBtn.classList.toggle("open", isOpen);
+    mobileMenuBtn.setAttribute("aria-expanded", String(isOpen));
+  }
+
   if (mobileMenuBtn && mobileNavDrawer) {
-    mobileMenuBtn.addEventListener("click", () => {
-      const isOpen = mobileNavDrawer.classList.toggle("open");
-      mobileMenuBtn.classList.toggle("open", isOpen);
-      mobileMenuBtn.setAttribute("aria-expanded", String(isOpen));
+    mobileMenuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const nextState = !mobileNavDrawer.classList.contains("open");
+      setDrawerOpenState(nextState);
     });
 
     mobileNavDrawer.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
-        mobileNavDrawer.classList.remove("open");
-        mobileMenuBtn.classList.remove("open");
-        mobileMenuBtn.setAttribute("aria-expanded", "false");
+        setDrawerOpenState(false);
       });
     });
+
+    if (window.location.search.includes("menu=open")) {
+      setDrawerOpenState(true);
+    }
   }
 
   // -------------------------------------------------------------------------

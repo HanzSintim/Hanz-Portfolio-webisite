@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HanzCraft Admin Studio | Graceful Internship Hunter, Live CV Editor &amp; CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ 'static/css/emerald_obsidian.css?v=20261104_v5' if static_mode else url_for('static', filename='css/emerald_obsidian.css', v='20261104_v5') }}" />
+  <style>
+    .studio-shell {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 24px 80px;
+      position: relative;
+      z-index: 5;
+    }
+    /* Top Studio Mode Switcher Tabs */
+    .studio-tabs-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 12px 16px;
+      background: rgba(12, 18, 34, 0.86);
+      backdrop-filter: blur(22px);
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+      box-shadow: var(--shadow-card);
+    }
+    .studio-tab-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .studio-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 23, 42, 0.65);
+      color: var(--text-secondary);
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .studio-tab-btn:hover {
+      color: var(--text-primary);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .studio-tab-btn.active {
+      background: var(--gradient-primary);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 8px 22px rgba(124, 58, 237, 0.38);
+    }
+    .studio-tab-pane {
+      display: none;
+    }
+    .studio-tab-pane.active {
+      display: block;
+      animation: fadeSlideIn 0.22s ease;
+    }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Filter Toolbar & Structured Pills */
+    .studio-filter-bar {
+      background: rgba(12, 18, 34, 0.84);
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .pill-group-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-right: 4px;
+    }
+    .grace-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.77rem;
+      font-weight: 700;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(15, 23, 42, 0.75);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .grace-pill:hover {
+      border-color: var(--accent-cyan);
+      color: var(--text-primary);
+    }
+    .grace-pill.active {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: var(--accent-cyan);
+      color: #7dd3fc;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+    }
+
+    /* Collapsible Search Radar Config Drawer */
+    .radar-drawer {
+      display: none;
+      background: rgba(9, 14, 28, 0.94);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .radar-drawer.open {
+      display: block;
+    }
+
+    /* Master-Detail Split Grid for Opportunities */
+    .hunter-master-detail {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 1100px) {
+      .hunter-master-detail {
+        grid-template-columns: 1fr;
+      }
+    }
+    .job-list-card {
+      background: rgba(12, 18, 34, 0.86);
+      border: 1px solid var(--border-glass);
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: var(--shadow-card);
+    }
+    .job-row-item {
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(7, 11, 22, 0.78);
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .job-row-item:last-child {
+      margin-bottom: 0;
+    }
+    .job-row-item:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      transform: translateY(-1px);
+    }
+    .job-row-item.selected {
+      border-color: #a3e635;
+      background: rgba(15, 25, 45, 0.92);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(163, 230, 53, 0.3);
+    }
+
+    .badge-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-score {
+      background: rgba(163, 230, 53, 0.16);
+      border: 1px solid rgba(163, 230, 53, 0.5);
+      color: #a3e635;
+    }
+    .badge-ats-strict {
+      background: rgba(239, 68, 68, 0.18);
+      border: 1px solid rgba(248, 113, 113, 0.6);
+      color: #fecaca;
+    }
+    .badge-design-ok {
+      background: rgba(56, 189, 248, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.55);
+      color: #bae6fd;
+    }
+    .badge-contract {
+      background: rgba(139, 92, 246, 0.18);
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      color: #e9d5ff;
+    }
+    .badge-validated {
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid rgba(34, 197, 94, 0.6);
+      color: #86efac;
+    }
+
+    /* Right Inspector Panel */
+    .inspector-card {
+      background: rgba(12, 18, 34, 0.9);
+      border: 1px solid var(--border-glass);
+      border-radius: 22px;
+      padding: 22px;
+      position: sticky;
+      top: 92px;
+      box-shadow: var(--shadow-card);
+    }
+
+    /* Live CV Editor Split Studio */
+    .cv-editor-grid {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 1140px) {
+      .cv-editor-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .cv-controls-panel {
+      background: rgba(12, 18, 34, 0.9);
+      border: 1px solid var(--border-glass);
+      border-radius: 22px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cv-canvas-panel {
+      background: rgba(12, 18, 34, 0.9);
+      border: 1px solid var(--border-glass);
+      border-radius: 22px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cv-iframe-wrap {
+      width: 100%;
+      background: #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+      min-height: 860px;
+    }
+    #cvEditorIframe {
+      width: 210mm;
+      min-height: 297mm;
+      border: 0;
+      background: #ffffff;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.38);
+      border-radius: 4px;
+    }
+
+    /* Form Controls */
+    .cms-label {
+      display: block;
+      font-size: 0.73rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+    }
+    .cms-field,
+    .cms-select,
+    .cms-textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 11px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(6, 9, 19, 0.85);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.84rem;
+      outline: none;
+      margin-bottom: 8px;
+    }
+    .cms-field:focus,
+    .cms-select:focus,
+    .cms-textarea:focus {
+      border-color: var(--accent-cyan);
+    }
+    .cms-textarea {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.48;
+      resize: vertical;
+    }
+    .cms-card {
+      background: rgba(12, 18, 34, 0.86);
+      border: 1px solid var(--border-glass);
+      border-radius: 22px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .cms-bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+    .cms-cell-6 { grid-column: span 6; }
+    .cms-cell-12 { grid-column: span 12; }
+    @media (max-width: 960px) {
+      .cms-cell-6 { grid-column: span 12; }
+    }
+    .toast-banner {
+      padding: 12px 18px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #6ee7b7;
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-backdrop" aria-hidden="true">
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+    <div class="ambient-blob blob-3"></div>
+  </div>
+
+  <!-- ========================================================================
+       SHARED BASE HEADER & 3-HORIZONTAL-BARS MENU DRAWER (Matches index.html)
+       ======================================================================== -->
+  <header class="navbar">
+    <nav class="navbar-inner" aria-label="Primary Navigation">
+      <a href="{{ 'index.html' if static_mode else url_for('index') }}" class="brand-logo">
+        <span class="brand-icon">&lt;/&gt;</span>
+        <span>Hanz<span class="brand-accent">Craft</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="{{ 'index.html' if static_mode else url_for('index') }}#about">About</a></li>
+        <li><a href="{{ 'index.html' if static_mode else url_for('index') }}#skills">Skills</a></li>
+        <li><a href="{{ 'index.html' if static_mode else url_for('index') }}#projects">Projects</a></li>
+        <li><a href="{{ 'index.html' if static_mode else url_for('index') }}#showreel">Live Sandbox</a></li>
+        <li><a href="{{ 'index.html' if static_mode else url_for('index') }}#resume">Resume</a></li>
+        <li><a href="{{ 'admin.html' if static_mode else url_for('admin_dashboard') }}" class="active">🔐 Admin Studio</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="{{ 'index.html' if static_mode else url_for('index') }}" class="btn-outline-glass" style="padding:7px 13px; font-size:0.8rem;">← Public Portfolio</a>
+        {% if static_mode %}
+          <button type="button" onclick="lockStaticAdminSession()" id="btnStaticLock" class="pill-toggle" style="display:none; border-color:rgba(244,63,94,0.45); color:#fda4af;">🔒 Lock</button>
+        {% else %}
+          <a href="{{ url_for('admin_logout') }}" class="pill-toggle" style="text-decoration:none; border-color:rgba(244,63,94,0.45); color:#fda4af;">🔒 Lock</a>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+
+  {% if static_mode %}
+  <!-- Password Gatekeeper Stage for GitHub Pages / Static Admin Page -->
+  <main id="staticGatekeeperStage" style="min-height:calc(100vh - 110px); display:flex; align-items:center; justify-content:center; padding:32px 20px; position:relative; z-index:10;">
+    <div style="width:100%; max-width:470px; background:rgba(12, 18, 34, 0.9); backdrop-filter:blur(28px); border:1px solid rgba(139, 92, 246, 0.38); border-radius:26px; padding:36px 32px; box-shadow:0 30px 90px rgba(0, 0, 0, 0.72), 0 0 40px rgba(124, 58, 237, 0.18);">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+        <span class="eyebrow-badge">
+          <span class="pulse-dot"></span>
+          <span>ADMIN GATEKEEPER</span>
+        </span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--text-muted);">SESSION AUTH</span>
+      </div>
+      <h1 style="font-size:1.65rem; font-weight:900; margin-bottom:6px;">Unlock Admin Studio</h1>
+      <p style="color:var(--text-secondary); font-size:0.88rem; line-height:1.55; margin-bottom:20px;">
+        Enter your administrator password to access the <strong>Internship &amp; Alternance Studio</strong>, <strong>Live CV Editor &amp; PDF Validator</strong>, and <strong>Portfolio CMS</strong>.
+      </p>
+      <div id="staticAuthError" style="display:none; padding:12px 15px; border-radius:12px; font-size:0.83rem; font-weight:600; margin-bottom:16px; background:rgba(244,63,94,0.16); border:1px solid rgba(244,63,94,0.45); color:#fda4af;">
+        Invalid administrator password. Please try again.
+      </div>
+      <form onsubmit="unlockStaticAdminSession(event)">
+        <label for="staticAdminPwd" style="display:block; font-size:0.76rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); margin-bottom:8px;">
+          Administrator Password
+        </label>
+        <input
+          type="password"
+          id="staticAdminPwd"
+          class="cms-field"
+          style="padding:14px 16px; border-radius:14px; font-family:'JetBrains Mono',monospace; font-size:0.95rem;"
+          placeholder="Enter ADMIN_PASSWORD..."
+          required
+          autofocus
+        />
+        <button type="submit" class="btn-primary-glow" style="width:100%; justify-content:center; margin-top:14px; padding:14px 20px; border:0; cursor:pointer; font-size:0.94rem;">
+          <span>🔓 Unlock Admin Studio</span>
+          <span>→</span>
+        </button>
+      </form>
+    </div>
+  </main>
+  {% endif %}
+
+  <div class="studio-shell" id="mainStudioShell" {% if static_mode %}style="display:none;"{% endif %}>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="toast-banner">
+            <span>{{ msg }}</span>
+            <button type="button" onclick="this.parentElement.remove()" style="background:none;border:0;color:inherit;cursor:pointer;">✕</button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div id="liveToastBanner" class="toast-banner" style="display:none;">
+      <span id="liveToastText"></span>
+      <button type="button" onclick="document.getElementById('liveToastBanner').style.display='none'" style="background:none;border:0;color:inherit;cursor:pointer;">✕</button>
+    </div>
+
+    <!-- ======================================================================
+         TOP WORKSPACE SWITCHER: 3 STRUCTURED TABS
+         ====================================================================== -->
+    <div class="studio-tabs-bar">
+      <div class="studio-tab-group">
+        <button type="button" class="studio-tab-btn active" id="btnTabHunter" onclick="switchStudioTab('tabHunter')">
+          <span>🎯</span>
+          <span>1. Internship &amp; Alternance Studio</span>
+          <span class="badge-chip badge-score" id="navJobCountBadge">{{ hunter_state.jobs | length }}</span>
+        </button>
+        <button type="button" class="studio-tab-btn" id="btnTabCvEditor" onclick="switchStudioTab('tabCvEditor')">
+          <span>✏️</span>
+          <span>2. Live CV Editor &amp; Validator</span>
+          <span class="badge-chip badge-design-ok" id="navTailoredCountBadge">{{ hunter_state.tailored_ready_count }} Saved</span>
+        </button>
+        <button type="button" class="studio-tab-btn" id="btnTabCms" onclick="switchStudioTab('tabCms')">
+          <span>🗂️</span>
+          <span>3. Portfolio Projects &amp; Media CMS</span>
+        </button>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <button type="button" class="btn-electric-outline" style="padding:8px 14px; font-size:0.79rem; cursor:pointer;" onclick="toggleRadarDrawer()">
+          <span>⚙️ Configure Search Regions &amp; Sites</span>
+        </button>
+        <button type="button" class="btn-lime-play" id="btnQuickScan" style="border:0; padding:8px 16px; font-size:0.8rem; cursor:pointer;" onclick="triggerLiveSearch()">
+          <span>🔄 Scan Live Sources</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         TAB 1: GRACEFUL, STRUCTURED INTERNSHIP & ALTERNANCE STUDIO
+         ====================================================================== -->
+    <div class="studio-tab-pane active" id="tabHunter">
+
+      <!-- Collapsible Multi-Region & Multi-Site Configuration Drawer -->
+      <div class="radar-drawer" id="radarConfigDrawer">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.78rem; font-weight:800; color:#38bdf8;">
+              MULTI-REGION × MULTI-SITE DISCOVERY CONFIGURATION
+            </div>
+            <p style="font-size:0.8rem; color:var(--text-secondary);">
+              Pick the target regions (Africa is strictly excluded) and job portals to scan concurrently.
+            </p>
+          </div>
+          <button type="button" class="grace-pill" onclick="toggleRadarDrawer()">Close ✕</button>
+        </div>
+
+        <div class="cms-bento-grid" style="gap:16px;">
+          <div class="cms-cell-6" style="background:rgba(15,23,42,0.75); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:14px;">
+            <div class="cms-label" style="color:#a3e635; margin-bottom:8px;">🌍 Target Regions (Select 1 or More)</div>
+            {% for reg_id, reg_meta in region_configs.items() %}
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.82rem; color:#e2e8f0; margin-bottom:6px; cursor:pointer;">
+                <input type="checkbox" class="cfg-region-cb" value="{{ reg_id }}" {% if reg_id in hunter_state.selected_regions %}checked{% endif %} style="accent-color:#a3e635;" />
+                <span>{{ reg_meta.label }}</span>
+              </label>
+            {% endfor %}
+          </div>
+
+          <div class="cms-cell-6" style="background:rgba(15,23,42,0.75); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:14px;">
+            <div class="cms-label" style="color:#38bdf8; margin-bottom:8px;">🛰️ Target Sites &amp; Portals (Select 1 or More)</div>
+            {% for src_id, src_meta in source_configs.items() %}
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.82rem; color:#e2e8f0; margin-bottom:6px; cursor:pointer;">
+                <input type="checkbox" class="cfg-source-cb" value="{{ src_id }}" {% if src_id in hunter_state.selected_sources %}checked{% endif %} style="accent-color:#38bdf8;" />
+                <span>{{ src_meta.label }}</span>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08);">
+          <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
+            <div>
+              <label class="cms-label" style="margin-bottom:2px;">LinkedIn Freshness Hack (f_TPR)</label>
+              <select id="cfgTprSeconds" class="cms-select" style="margin-bottom:0; width:auto; padding:6px 10px;">
+                <option value="1800">⚡ Last 30 Mins (f_TPR=r1800)</option>
+                <option value="3600">🔥 Last 1 Hour (f_TPR=r3600)</option>
+                <option value="14400">⏱️ Last 4 Hours (f_TPR=r14400)</option>
+                <option value="86400" selected>📅 Last 24 Hours (f_TPR=r86400)</option>
+              </select>
+            </div>
+
+            <form action="{{ url_for('admin_hunter_toggle_auto') }}" method="POST" style="display:inline-flex; align-items:center; gap:8px; padding-top:14px;">
+              <input type="hidden" name="interval_minutes" value="30" />
+              {% if hunter_state.autonomous_enabled %}
+                <input type="hidden" name="autonomous_enabled" value="0" />
+                <button type="submit" class="grace-pill" style="border-color:rgba(34,197,94,0.6); color:#86efac;">
+                  ● Autonomous Daemon ON (Click to Pause)
+                </button>
+              {% else %}
+                <input type="hidden" name="autonomous_enabled" value="1" />
+                <button type="submit" class="grace-pill">
+                  ○ Enable Autonomous Background Hunter (Every 30m)
+                </button>
+              {% endif %}
+            </form>
+          </div>
+
+          <button type="button" class="btn-lime-play" style="border:0; padding:10px 20px; font-size:0.84rem; cursor:pointer;" onclick="triggerLiveSearch(); toggleRadarDrawer();">
+            <span>🚀 Apply Config &amp; Run Concurrent Scan</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Structured Instant Filter Bar -->
+      <div class="studio-filter-bar">
+        <div class="filter-row">
+          <!-- Search Input -->
+          <div style="flex:1; min-width:250px; position:relative;">
+            <input
+              type="text"
+              id="filterSearchInput"
+              class="cms-field"
+              style="margin-bottom:0; padding:9px 14px;"
+              placeholder="🔍 Search by company (Exotec, Worldline, STMicroelectronics, imec...), city (Lille, Grenoble, Cambridge...), or skill (STM32, C++17)..."
+              oninput="applyClientFilters()"
+            />
+          </div>
+
+          <!-- Region Pills -->
+          <div class="pill-group" id="regionFilterGroup">
+            <span class="pill-group-label">Region:</span>
+            <button type="button" class="grace-pill active" data-region="all" onclick="setFilterPill('region', 'all', this)">All</button>
+            <button type="button" class="grace-pill" data-region="lille" onclick="setFilterPill('region', 'lille', this)">🇫🇷 Lille &amp; HDF</button>
+            <button type="button" class="grace-pill" data-region="france" onclick="setFilterPill('region', 'france', this)">🇫🇷 France</button>
+            <button type="button" class="grace-pill" data-region="europe" onclick="setFilterPill('region', 'europe', this)">🇪🇺 Europe</button>
+            <button type="button" class="grace-pill" data-region="north_america" onclick="setFilterPill('region', 'north_america', this)">🇺🇸🇨🇦 US &amp; Canada</button>
+            <button type="button" class="grace-pill" data-region="australia" onclick="setFilterPill('region', 'australia', this)">🇦🇺 Australia</button>
+          </div>
+        </div>
+
+        <div class="filter-row" style="padding-top:8px; border-top:1px solid rgba(255,255,255,0.06);">
+          <!-- Contract Track Pills -->
+          <div class="pill-group" id="contractFilterGroup">
+            <span class="pill-group-label">Contract:</span>
+            <button type="button" class="grace-pill active" data-contract="all" onclick="setFilterPill('contract', 'all', this)">All Tracks</button>
+            <button type="button" class="grace-pill" data-contract="alternance_2027" onclick="setFilterPill('contract', 'alternance_2027', this)">🎓 Alternance (Sept 2027)</button>
+            <button type="button" class="grace-pill" data-contract="stage_2027" onclick="setFilterPill('contract', 'stage_2027', this)">⚡ Stage / Intern (Apr 2027)</button>
+          </div>
+
+          <!-- ATS vs Design Format Pills -->
+          <div class="pill-group" id="atsFilterGroup">
+            <span class="pill-group-label">CV Rule:</span>
+            <button type="button" class="grace-pill active" data-ats="all" onclick="setFilterPill('ats', 'all', this)">All Formats</button>
+            <button type="button" class="grace-pill" data-ats="STRICT_ATS" onclick="setFilterPill('ats', 'STRICT_ATS', this)">🚨 Strict ATS (1-Col No Photo)</button>
+            <button type="button" class="grace-pill" data-ats="DESIGN_OK" onclick="setFilterPill('ats', 'DESIGN_OK', this)">🎨 Design CV OK (2-Col Photo)</button>
+            <button type="button" class="grace-pill" data-ats="UK_ATS" onclick="setFilterPill('ats', 'UK_ATS', this)">🇬🇧 UK ATS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Master-Detail Workspace: Left Paginated List (6 per page) + Right Inspector -->
+      <div class="hunter-master-detail">
+        <!-- LEFT: Structured Paginated List -->
+        <div class="job-list-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding:0 4px;">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:0.78rem; font-weight:800; color:var(--text-secondary);" id="listSummaryLabel">
+              Showing opportunities...
+            </span>
+            <div style="display:flex; align-items:center; gap:6px;" id="paginationControls"></div>
+          </div>
+
+          <div id="jobsListContainer"></div>
+        </div>
+
+        <!-- RIGHT: Opportunity Detail Inspector + Custom Job Offer Input -->
+        <div class="inspector-card">
+          <div style="display:flex; gap:8px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08);">
+            <button type="button" class="grace-pill active" id="btnInspecSelected" onclick="switchInspectorMode('selected')">
+              🔍 Selected Role Inspector
+            </button>
+            <button type="button" class="grace-pill" id="btnInspecCustom" onclick="switchInspectorMode('custom')">
+              ➕ Tailor for Custom Offer / URL
+            </button>
+          </div>
+
+          <!-- Mode A: Selected Role Inspector -->
+          <div id="inspectorSelectedPane">
+            <div id="inspectorContent"></div>
+          </div>
+
+          <!-- Mode B: Custom Job Offer Input -->
+          <div id="inspectorCustomPane" style="display:none;">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.76rem; font-weight:800; color:#d8b4fe; margin-bottom:8px;">
+              PASTE ANY EXTERNAL JOB OFFER TO EDIT &amp; VALIDATE CV
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div>
+                <label class="cms-label">Company Name</label>
+                <input type="text" id="custCompany" placeholder="e.g. Valeo, Exotec" class="cms-field" />
+              </div>
+              <div>
+                <label class="cms-label">Role Title</label>
+                <input type="text" id="custTitle" placeholder="e.g. Embedded C Intern" class="cms-field" />
+              </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div>
+                <label class="cms-label">Region</label>
+                <select id="custRegion" class="cms-select">
+                  <option value="lille">🇫🇷 Lille &amp; Hauts-de-France</option>
+                  <option value="france">🇫🇷 France (National)</option>
+                  <option value="europe">🇪🇺 Europe</option>
+                  <option value="north_america">🇺🇸🇨🇦 North America</option>
+                  <option value="australia">🇦🇺 Australia</option>
+                </select>
+              </div>
+              <div>
+                <label class="cms-label">Contract Track</label>
+                <select id="custContract" class="cms-select">
+                  <option value="alternance_2027">🎓 Alternance (Sept 2027)</option>
+                  <option value="stage_2027">⚡ Stage / Intern (Apr 2027)</option>
+                  <option value="both_2027">🔄 Both Stage &amp; Alternance</option>
+                </select>
+              </div>
+            </div>
+            <label class="cms-label">Direct Application URL</label>
+            <input type="text" id="custUrl" placeholder="https://..." class="cms-field" />
+
+            <label class="cms-label">Job Description (100% Honest Matching)</label>
+            <textarea id="custDesc" class="cms-textarea" style="min-height:85px;" placeholder="Paste requirements here..."></textarea>
+
+            <button type="button" class="btn-lime-play" style="width:100%; justify-content:center; border:0; padding:11px 16px; cursor:pointer;" onclick="openCustomJobInCvEditor()">
+              <span>✏️ Generate Draft &amp; Open in Live CV Editor →</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         TAB 2: LIVE CV EDITOR & VALIDATOR (EDIT BEFORE SAVING TO HANZ_CV_HUB)
+         ====================================================================== -->
+    <div class="studio-tab-pane" id="tabCvEditor">
+      <div class="cv-editor-grid">
+        <!-- LEFT COLUMN: Structured Controls, Subtitle/Profile Quick Edit & Cover Letter -->
+        <div class="cv-controls-panel">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+            <span class="speech-pill">INTERACTIVE CV STUDIO &amp; VALIDATOR</span>
+            <span class="badge-chip badge-score" id="edLangBadge">FR</span>
+          </div>
+
+          <div style="font-size:1.08rem; font-weight:800; color:#f8fafc;" id="edJobHeader">
+            Select a role or click "Tailor &amp; Edit CV"
+          </div>
+          <div style="font-size:0.79rem; color:#fca5a5; line-height:1.45; padding:10px 12px; border-radius:12px; background:rgba(239,68,68,0.12); border:1px solid rgba(248,113,113,0.35);" id="edAtsWarningBox">
+            Strict ATS vs. Design status will appear here.
+          </div>
+
+          <!-- Format, Language & Lead Project Selectors -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div>
+              <label class="cms-label">CV Format Template</label>
+              <select id="edAtsPolicy" class="cms-select" onchange="reloadCvDraftWithOverrides()">
+                <option value="STRICT_ATS">🚨 1-Col Strict ATS (No Photo)</option>
+                <option value="DESIGN_OK">🎨 2-Col Navy Design (Photo)</option>
+                <option value="UK_ATS">🇬🇧 UK 1-Col Strict ATS</option>
+              </select>
+            </div>
+            <div>
+              <label class="cms-label">CV Language</label>
+              <select id="edCvLang" class="cms-select" onchange="reloadCvDraftWithOverrides()">
+                <option value="FR">🇫🇷 Français (FR)</option>
+                <option value="EN">🇬🇧 English (EN)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="cms-label">Lead #1 Technical Project on CV</label>
+            <select id="edLeadProject" class="cms-select" onchange="reloadCvDraftWithOverrides()">
+              <option value="robot_stm32">🤖 #1 Autonomous Street-Cleaning Robot (STM32 / ESP32 / Embedded C)</option>
+              <option value="thermometer_msp430">🌡️ #1 Digital Thermometer &amp; ADC Chain (MSP430 C &amp; Assembly)</option>
+              <option value="pos_cpp17">🛒 #1 E.Leclerc Self-Checkout Terminal (C++17 / OOP)</option>
+              <option value="water_arduino">💧 #1 Automated Water Level Control (Arduino / Ultrasonic)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="cms-label">Edit Header Subtitle &amp; Availability (Updates Live on A4 Sheet)</label>
+            <textarea id="edSubtitleInput" class="cms-textarea" style="min-height:58px;" oninput="syncSubtitleToIframe()"></textarea>
+          </div>
+
+          <div>
+            <label class="cms-label">Edit Profile Summary Paragraph (Updates Live on A4 Sheet)</label>
+            <textarea id="edProfileInput" class="cms-textarea" style="min-height:110px;" oninput="syncProfileToIframe()"></textarea>
+          </div>
+
+          <div>
+            <label class="cms-label">Edit Tailored Cover Letter / Lettre de Motivation</label>
+            <textarea id="edCoverLetterInput" class="cms-textarea" style="min-height:165px;"></textarea>
+          </div>
+
+          <button
+            type="button"
+            id="btnValidateAndSaveCv"
+            class="btn-lime-play"
+            style="width:100%; justify-content:center; border:0; padding:13px 18px; font-size:0.9rem; cursor:pointer;"
+            onclick="validateAndCompilePdf()"
+          >
+            <span>✅ Validate Edits, Compile A4 PDF &amp; Save to Hanz_CV_Hub</span>
+          </button>
+
+          <div id="edSavedResultBox" style="display:none; padding:12px; border-radius:14px; background:rgba(34,197,94,0.14); border:1px solid rgba(34,197,94,0.45); font-size:0.8rem;">
+            <div style="font-weight:800; color:#86efac; margin-bottom:6px;">✓ Validated &amp; Compiled to Hanz_CV_Hub!</div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:#cbd5e1; word-break:break-all; margin-bottom:10px;" id="edSavedFolderPath"></div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <a id="edOpenPdfLink" href="#" target="_blank" rel="noopener" class="btn-primary-glow" style="padding:8px 14px; font-size:0.8rem; flex:1; justify-content:center;">
+                📄 Open Validated A4 PDF ↗
+              </a>
+              <a id="edApplyDirectLink" href="#" target="_blank" rel="noopener" class="btn-outline-glass" style="padding:8px 14px; font-size:0.8rem; flex:1; justify-content:center;">
+                ↗ Go to Application Page
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Interactive Live A4 CV Sheet (Direct Click-to-Edit on Any Text!) -->
+        <div class="cv-canvas-panel">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+              <span style="font-family:'JetBrains Mono',monospace; font-size:0.8rem; font-weight:800; color:#a3e635;">
+                LIVE EDITABLE A4 CV SHEET (CLICK ANY SENTENCE OR BULLET ON THE CV BELOW TO EDIT DIRECTLY)
+              </span>
+              <p style="font-size:0.78rem; color:var(--text-secondary);">
+                Every heading, bullet point, skill line, and date on the A4 preview below is directly editable. Review, tweak any word to make it 100% valid, then click <strong>Validate Edits, Compile A4 PDF &amp; Save</strong>.
+              </p>
+            </div>
+            <button type="button" class="grace-pill" onclick="reloadCvDraftWithOverrides()">↺ Reset to Auto-Tailored Draft</button>
+          </div>
+
+          <div class="cv-iframe-wrap">
+            <iframe id="cvEditorIframe" title="Interactive Editable A4 CV Preview"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         TAB 3: PORTFOLIO PROJECTS & MEDIA CMS (Resume PDF, Images & projects.json)
+         ====================================================================== -->
+    <div class="studio-tab-pane" id="tabCms">
+      <div class="cms-bento-grid">
+        <!-- Section 1: Resume PDF Uploader -->
+        <section class="cms-card cms-cell-6">
+          <span class="speech-pill">SECTION 01 · PUBLIC RESUME UPLOADER</span>
+          <h2 style="font-size:1.25rem; font-weight:800; margin:8px 0 6px;">Update Public <code>resume.pdf</code></h2>
+          <p style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:12px;">
+            Overwrites <code>/static/uploads/resume.pdf</code> ({{ resume_meta.size_kb }} KB · Updated: {{ resume_meta.updated_at }}).
+          </p>
+          <form action="{{ url_for('admin_upload_resume') }}" method="POST" enctype="multipart/form-data">
+            <label class="cms-label">Upload New PDF</label>
+            <input type="file" name="resume_pdf" accept=".pdf,application/pdf" class="cms-field" />
+            <label class="cms-label">Or Promote from <code>static/cv/</code></label>
+            <select name="promote_archive_cv" class="cms-select">
+              <option value="">— Select existing archive PDF —</option>
+              {% for cv_file in archive_cvs %}
+                <option value="{{ cv_file }}">{{ cv_file }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn-primary-glow" style="border:0; padding:10px 18px; cursor:pointer; font-size:0.84rem;">
+              ⬆️ Update Public resume.pdf
+            </button>
+          </form>
+        </section>
+
+        <!-- Section 2: Hardware & Project Image Uploader -->
+        <section class="cms-card cms-cell-6">
+          <span class="speech-pill">SECTION 02 · MEDIA UPLOADER</span>
+          <h2 style="font-size:1.25rem; font-weight:800; margin:8px 0 6px;">Upload Hardware / Project Image</h2>
+          <p style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:12px;">
+            Saves sanitized images to <code>/static/images/</code> ({{ uploaded_images | length }} stored).
+          </p>
+          <form action="{{ url_for('admin_upload_image') }}" method="POST" enctype="multipart/form-data">
+            <label class="cms-label">Select Image (.png, .jpg, .webp, .svg)</label>
+            <input type="file" name="project_image" accept=".jpg,.jpeg,.png,.webp,.svg" class="cms-field" required />
+            <button type="submit" class="btn-lime-play" style="border:0; padding:10px 18px; cursor:pointer; font-size:0.84rem;">
+              🖼️ Upload to /static/images/
+            </button>
+          </form>
+        </section>
+
+        <!-- Section 3: Bilingual Projects Editor -->
+        <section class="cms-card cms-cell-12">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+            <div>
+              <span class="speech-pill">SECTION 03 · BILINGUAL PROJECTS EDITOR (api/v1/projects.json)</span>
+              <h2 style="font-size:1.3rem; font-weight:800; margin-top:6px;">Dynamic Bilingual Project &amp; Milestone Editor</h2>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button type="button" id="btnModeStructured" class="grace-pill active" onclick="switchEditorMode('structured')">🗂️ Structured Cards</button>
+              <button type="button" id="btnModeRaw" class="grace-pill" onclick="switchEditorMode('raw')">{ } Raw JSON</button>
+            </div>
+          </div>
+
+          <form id="formStructured" action="{{ url_for('admin_update_projects') }}" method="POST">
+            <input type="hidden" name="editor_mode" value="structured" />
+            {% for proj in projects %}
+              {% set i = loop.index0 %}
+              <div style="background:rgba(7,11,22,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:16px; margin-bottom:14px;">
+                <div style="font-family:'JetBrains Mono',monospace; font-size:0.84rem; font-weight:800; color:#a3e635; margin-bottom:10px;">
+                  [#{{ proj.index }}] {{ proj.slug }} · {{ proj.primary_lang }}
+                </div>
+                <div class="cms-bento-grid" style="gap:14px;">
+                  <div class="cms-cell-6">
+                    <label class="cms-label">Title (EN)</label>
+                    <input type="text" name="title_en_{{ i }}" value="{{ proj.title_en }}" class="cms-field" required />
+                    <label class="cms-label">Status (EN)</label>
+                    <input type="text" name="status_en_{{ i }}" value="{{ proj.status_en }}" class="cms-field" required />
+                    <label class="cms-label">Summary (EN)</label>
+                    <textarea name="summary_en_{{ i }}" class="cms-textarea">{{ proj.summary_en }}</textarea>
+                  </div>
+                  <div class="cms-cell-6">
+                    <label class="cms-label">Titre (FR)</label>
+                    <input type="text" name="title_fr_{{ i }}" value="{{ proj.title_fr }}" class="cms-field" required />
+                    <label class="cms-label">Statut (FR)</label>
+                    <input type="text" name="status_fr_{{ i }}" value="{{ proj.status_fr }}" class="cms-field" required />
+                    <label class="cms-label">Résumé (FR)</label>
+                    <textarea name="summary_fr_{{ i }}" class="cms-textarea">{{ proj.summary_fr }}</textarea>
+                  </div>
+                </div>
+                <div class="cms-bento-grid" style="gap:14px;">
+                  <div class="cms-cell-6">
+                    <label class="cms-label">GitHub Repo URL</label>
+                    <input type="text" name="repo_url_{{ i }}" value="{{ proj.repo_url }}" class="cms-field" />
+                  </div>
+                  <div class="cms-cell-6">
+                    <label class="cms-label">Optional Image URL (<code>/static/images/...</code>)</label>
+                    <input type="text" name="image_url_{{ i }}" value="{{ proj.get('image_url', '') }}" class="cms-field" />
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            <button type="submit" class="btn-lime-play" style="border:0; padding:12px 24px; cursor:pointer;">
+              💾 Save Bilingual Projects &amp; Rebuild Static Site
+            </button>
+          </form>
+
+          <form id="formRawJson" action="{{ url_for('admin_update_projects') }}" method="POST" style="display:none;">
+            <input type="hidden" name="editor_mode" value="raw_json" />
+            <textarea name="raw_projects_json" class="cms-textarea" style="min-height:420px;">{{ raw_projects_json }}</textarea>
+            <button type="submit" class="btn-lime-play" style="border:0; padding:12px 24px; cursor:pointer;">
+              💾 Validate &amp; Save Raw projects.json
+            </button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seed Initial Hunter State JSON & Precomputed CV Drafts for GitHub Pages + Localhost -->
+  <script id="initialHunterStateJson" type="application/json">
+    {{ hunter_state | tojson }}
+  </script>
+  <script id="precomputedDraftsJson" type="application/json">
+    {{ precomputed_drafts | default({}) | tojson }}
+  </script>
+
+  <script>
+    // 1. Static / GitHub Pages Password Gatekeeper Unlock
+    function applyStaticGatekeeperState() {
+      const gate = document.getElementById('staticGatekeeperStage');
+      const shell = document.getElementById('mainStudioShell');
+      const lockBtn = document.getElementById('btnStaticLock');
+      if (!gate) return;
+      const unlocked = sessionStorage.getItem('hanz_admin_unlocked') === '1';
+      gate.style.display = unlocked ? 'none' : 'flex';
+      if (shell) shell.style.display = unlocked ? 'block' : 'none';
+      if (lockBtn) lockBtn.style.display = unlocked ? 'inline-flex' : 'none';
+    }
+
+    function unlockStaticAdminSession(e) {
+      e.preventDefault();
+      const val = (document.getElementById('staticAdminPwd').value || '').trim();
+      if (val === 'HanzAdmin2026!') {
+        sessionStorage.setItem('hanz_admin_unlocked', '1');
+        document.getElementById('staticAuthError').style.display = 'none';
+        applyStaticGatekeeperState();
+      } else {
+        document.getElementById('staticAuthError').style.display = 'block';
+      }
+    }
+
+    function lockStaticAdminSession() {
+      sessionStorage.removeItem('hanz_admin_unlocked');
+      applyStaticGatekeeperState();
+    }
+
+    applyStaticGatekeeperState();
+
+    // 2. Studio Tab Switching
+    function switchStudioTab(tabId) {
+      document.querySelectorAll('.studio-tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.studio-tab-btn').forEach(b => b.classList.remove('active'));
+      const pane = document.getElementById(tabId);
+      if (pane) pane.classList.add('active');
+      if (tabId === 'tabHunter') document.getElementById('btnTabHunter').classList.add('active');
+      if (tabId === 'tabCvEditor') document.getElementById('btnTabCvEditor').classList.add('active');
+      if (tabId === 'tabCms') document.getElementById('btnTabCms').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleRadarDrawer() {
+      document.getElementById('radarConfigDrawer').classList.toggle('open');
+    }
+
+    function switchInspectorMode(mode) {
+      const selPane = document.getElementById('inspectorSelectedPane');
+      const custPane = document.getElementById('inspectorCustomPane');
+      document.getElementById('btnInspecSelected').classList.toggle('active', mode === 'selected');
+      document.getElementById('btnInspecCustom').classList.toggle('active', mode === 'custom');
+      selPane.style.display = mode === 'selected' ? 'block' : 'none';
+      custPane.style.display = mode === 'custom' ? 'block' : 'none';
+    }
+
+    function switchEditorMode(mode) {
+      document.getElementById('formStructured').style.display = mode === 'raw' ? 'none' : 'block';
+      document.getElementById('formRawJson').style.display = mode === 'raw' ? 'block' : 'none';
+      document.getElementById('btnModeStructured').classList.toggle('active', mode !== 'raw');
+      document.getElementById('btnModeRaw').classList.toggle('active', mode === 'raw');
+    }
+
+    function showToast(msg) {
+      const banner = document.getElementById('liveToastBanner');
+      document.getElementById('liveToastText').textContent = msg;
+      banner.style.display = 'flex';
+    }
+
+    // 3. Structured Client-Side Filtering, Pagination & Master-Detail State
+    let HUNTER_STATE = JSON.parse(document.getElementById('initialHunterStateJson').textContent || '{"jobs":[]}');
+    const PRECOMPUTED_DRAFTS = JSON.parse(document.getElementById('precomputedDraftsJson').textContent || '{}');
+    let filteredJobs = [];
+    let currentPage = 1;
+    const PAGE_SIZE = 6;
+    let selectedJobId = (HUNTER_STATE.jobs && HUNTER_STATE.jobs[0]) ? HUNTER_STATE.jobs[0].id : null;
+    let currentDraftJobId = null;
+
+    const activeFilters = {
+      region: 'all',
+      contract: 'all',
+      ats: 'all',
+      query: ''
+    };
+
+    function setFilterPill(type, val, btnEl) {
+      activeFilters[type] = val;
+      btnEl.parentElement.querySelectorAll('.grace-pill').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+      currentPage = 1;
+      applyClientFilters();
+    }
+
+    function applyClientFilters() {
+      const q = (document.getElementById('filterSearchInput').value || '').trim().toLowerCase();
+      activeFilters.query = q;
+
+      filteredJobs = (HUNTER_STATE.jobs || []).filter(job => {
+        if (activeFilters.region !== 'all' && job.region !== activeFilters.region) return false;
+        if (activeFilters.contract === 'alternance_2027' && job.contract_track !== 'alternance_2027' && job.contract_track !== 'both_2027') return false;
+        if (activeFilters.contract === 'stage_2027' && job.contract_track !== 'stage_2027' && job.contract_track !== 'both_2027') return false;
+        if (activeFilters.ats !== 'all' && job.ats_policy !== activeFilters.ats) return false;
+        if (q) {
+          const blob = `${job.company} ${job.title} ${job.location} ${(job.matched_skills || []).join(' ')} ${job.description || ''}`.toLowerCase();
+          if (!blob.includes(q)) return false;
+        }
+        return true;
+      });
+
+      const totalPages = Math.max(1, Math.ceil(filteredJobs.length / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      if (filteredJobs.length > 0 && !filteredJobs.some(j => j.id === selectedJobId)) {
+        selectedJobId = filteredJobs[0].id;
+      }
+
+      renderJobList();
+      renderSelectedInspector();
+    }
+
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str || '';
+      return d.innerHTML;
+    }
+
+    function renderJobList() {
+      const container = document.getElementById('jobsListContainer');
+      const summaryEl = document.getElementById('listSummaryLabel');
+      const pagEl = document.getElementById('paginationControls');
+      const total = filteredJobs.length;
+      const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      const startIdx = (currentPage - 1) * PAGE_SIZE;
+      const pageItems = filteredJobs.slice(startIdx, startIdx + PAGE_SIZE);
+
+      summaryEl.textContent = `Showing ${total ? startIdx + 1 : 0}–${Math.min(total, startIdx + PAGE_SIZE)} of ${total} matching roles`;
+
+      pagEl.innerHTML = `
+        <button type="button" class="grace-pill" ${currentPage <= 1 ? 'disabled style="opacity:0.4;cursor:default;"' : ''} onclick="changePage(${currentPage - 1})">← Prev</button>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--text-secondary); padding:0 6px;">Page ${currentPage} / ${totalPages}</span>
+        <button type="button" class="grace-pill" ${currentPage >= totalPages ? 'disabled style="opacity:0.4;cursor:default;"' : ''} onclick="changePage(${currentPage + 1})">Next →</button>
+      `;
+
+      if (pageItems.length === 0) {
+        container.innerHTML = `<div style="padding:32px; text-align:center; color:var(--text-secondary);">No opportunities match your current filter pills. Click "All" to reset.</div>`;
+        return;
+      }
+
+      container.innerHTML = pageItems.map(job => {
+        const isSel = job.id === selectedJobId;
+        const isAts = job.ats_policy === 'STRICT_ATS' || job.ats_policy === 'UK_ATS';
+        const atsBadgeClass = isAts ? 'badge-ats-strict' : 'badge-design-ok';
+        const savedBadge = job.tailored_bundle
+          ? `<span class="badge-chip badge-validated">✓ Validated PDF Ready</span>`
+          : '';
+        const liUrl = job.linkedin_apply_url || job.url;
+
+        return `
+          <div class="job-row-item ${isSel ? 'selected' : ''}" onclick="selectJobRow('${job.id}')">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+              <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
+                <span class="badge-chip badge-score">${job.score}% Match</span>
+                <span class="badge-chip ${atsBadgeClass}">${escapeHtml(job.primary_format_label)}</span>
+                <span class="badge-chip badge-contract">${escapeHtml(job.contract_badge)}</span>
+                ${savedBadge}
+              </div>
+              <span style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text-muted);">
+                ${escapeHtml(job.region_label)} · ~${job.posted_minutes_ago}m ago
+              </span>
+            </div>
+
+            <div>
+              <div style="font-size:0.98rem; font-weight:800; color:#f8fafc;">
+                ${escapeHtml(job.title)}
+              </div>
+              <div style="font-size:0.83rem; font-weight:700; color:#38bdf8; margin-top:2px;">
+                ${escapeHtml(job.company)} <span style="color:var(--text-secondary); font-weight:500;">— 📍 ${escapeHtml(job.location)}</span>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding-top:6px; border-top:1px solid rgba(255,255,255,0.05);">
+              <div style="font-size:0.75rem; color:var(--text-secondary);">
+                <strong style="color:#a3e635;">Skills:</strong> ${escapeHtml((job.matched_skills || []).slice(0, 4).join(' · '))}
+              </div>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;" onclick="event.stopPropagation();">
+                <button type="button" class="btn-lime-play" style="border:0; padding:6px 12px; font-size:0.75rem; cursor:pointer;" onclick="openJobInCvEditor('${job.id}')">
+                  <span>✏️ Tailor &amp; Edit CV</span>
+                </button>
+                ${job.tailored_bundle ? `
+                  <a href="${job.tailored_bundle.local_preview_url}" target="_blank" rel="noopener" class="grace-pill" style="text-decoration:none; border-color:rgba(34,197,94,0.55); color:#86efac;">
+                    📄 PDF
+                  </a>
+                ` : ''}
+                <a href="${escapeHtml(job.url)}" target="_blank" rel="noopener" class="grace-pill" style="text-decoration:none; border-color:rgba(56,189,248,0.45); color:#7dd3fc;" title="Open Direct Requisition Page">
+                  ↗ Direct Apply
+                </a>
+                <a href="${escapeHtml(liUrl)}" target="_blank" rel="noopener" class="grace-pill" style="text-decoration:none;" title="Open Direct LinkedIn Job Search for this Role">
+                  in LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function changePage(newPage) {
+      currentPage = newPage;
+      renderJobList();
+    }
+
+    function selectJobRow(jobId) {
+      selectedJobId = jobId;
+      switchInspectorMode('selected');
+      renderJobList();
+      renderSelectedInspector();
+    }
+
+    function renderSelectedInspector() {
+      const box = document.getElementById('inspectorContent');
+      const job = (HUNTER_STATE.jobs || []).find(j => j.id === selectedJobId);
+      if (!job) {
+        box.innerHTML = `<div style="color:var(--text-secondary); font-size:0.85rem;">Select any role on the left to inspect its ATS rules, matched skills, and direct application links.</div>`;
+        return;
+      }
+
+      const isAts = job.ats_policy === 'STRICT_ATS' || job.ats_policy === 'UK_ATS';
+      const liUrl = job.linkedin_apply_url || job.url;
+
+      box.innerHTML = `
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;">
+          <span class="badge-chip badge-score">${job.score}% Honest Match</span>
+          <span class="badge-chip ${isAts ? 'badge-ats-strict' : 'badge-design-ok'}">${escapeHtml(job.primary_format_label)}</span>
+          <span class="badge-chip badge-contract">${escapeHtml(job.contract_badge)}</span>
+        </div>
+
+        <h3 style="font-size:1.15rem; font-weight:800; color:#f8fafc; margin-bottom:4px;">${escapeHtml(job.title)}</h3>
+        <div style="font-size:0.9rem; font-weight:700; color:#38bdf8; margin-bottom:12px;">
+          ${escapeHtml(job.company)} · 📍 ${escapeHtml(job.location)}
+        </div>
+
+        <div style="padding:12px; border-radius:14px; background:rgba(15,23,42,0.85); border:1px solid ${isAts ? 'rgba(248,113,113,0.4)' : 'rgba(56,189,248,0.4)'}; font-size:0.8rem; line-height:1.5; margin-bottom:12px;">
+          <strong style="color:${isAts ? '#fca5a5' : '#7dd3fc'};">CV Format Verdict (${job.cv_lang}):</strong><br/>
+          <span style="color:#e2e8f0;">${escapeHtml(job.ats_warning)}</span>
+        </div>
+
+        <div style="font-size:0.82rem; color:var(--text-secondary); line-height:1.55; margin-bottom:14px;">
+          ${escapeHtml(job.description)}
+        </div>
+
+        <div style="margin-bottom:14px; font-size:0.8rem;">
+          <div style="font-weight:800; color:#a3e635; margin-bottom:4px;">✓ Honest Verified Skills to Highlight:</div>
+          <div style="color:#e2e8f0;">${escapeHtml((job.matched_skills || []).join(' · '))}</div>
+          ${(job.unclaimed_keywords && job.unclaimed_keywords.length) ? `
+            <div style="font-weight:800; color:#fbbf24; margin-top:8px;">⚠️ Unclaimed Keywords (Never Fabricated):</div>
+            <div style="color:var(--text-muted);">${escapeHtml(job.unclaimed_keywords.join(', '))}</div>
+          ` : ''}
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button type="button" class="btn-lime-play" style="width:100%; justify-content:center; border:0; padding:12px 16px; font-size:0.86rem; cursor:pointer;" onclick="openJobInCvEditor('${job.id}')">
+            <span>✏️ Tailor, Edit &amp; Validate CV for ${escapeHtml(job.company.split(' ')[0])} →</span>
+          </button>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <a href="${escapeHtml(job.url)}" target="_blank" rel="noopener" class="btn-primary-glow" style="justify-content:center; text-align:center; padding:10px 12px; font-size:0.8rem;">
+              ↗ Direct Apply Page
+            </a>
+            <a href="${escapeHtml(liUrl)}" target="_blank" rel="noopener" class="btn-outline-glass" style="justify-content:center; text-align:center; padding:10px 12px; font-size:0.8rem;">
+              in LinkedIn Requisitions ↗
+            </a>
+          </div>
+
+          ${job.tailored_bundle ? `
+            <a href="${job.tailored_bundle.local_preview_url}" target="_blank" rel="noopener" class="btn-electric-outline" style="width:100%; justify-content:center; padding:9px 12px; font-size:0.8rem; border-color:rgba(34,197,94,0.6); color:#86efac;">
+              📄 Open Saved PDF (${escapeHtml(job.tailored_bundle.pdf_filename)})
+            </a>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // 4. Async Live Search (Zero Full-Page Reload)
+    async function triggerLiveSearch() {
+      const btn = document.getElementById('btnQuickScan');
+      const origHtml = btn.innerHTML;
+      btn.innerHTML = '<span>⏳ Scanning Regions &amp; Portals...</span>';
+      btn.disabled = true;
+
+      const regions = Array.from(document.querySelectorAll('.cfg-region-cb:checked')).map(cb => cb.value);
+      const sources = Array.from(document.querySelectorAll('.cfg-source-cb:checked')).map(cb => cb.value);
+      const tpr = parseInt(document.getElementById('cfgTprSeconds').value || '86400', 10);
+
+      try {
+        const resp = await fetch('/admin/hunter/api/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            regions: regions,
+            sources: sources,
+            contract_filter: 'all',
+            tpr_seconds: tpr,
+            auto_tailor_top: false
+          })
+        });
+        const data = await resp.json();
+        if (data.ok && data.state) {
+          HUNTER_STATE = data.state;
+          document.getElementById('navJobCountBadge').textContent = HUNTER_STATE.jobs.length;
+          document.getElementById('navTailoredCountBadge').textContent = `${HUNTER_STATE.tailored_ready_count} Saved`;
+          applyClientFilters();
+          showToast(`Scanned ${regions.length} regions × ${sources.length} portals in ${HUNTER_STATE.execution_ms}ms — ${HUNTER_STATE.jobs.length} roles ready.`);
+        }
+      } catch (err) {
+        showToast('Network scan error: ' + err);
+      } finally {
+        btn.innerHTML = origHtml;
+        btn.disabled = false;
+      }
+    }
+
+    // 5. Interactive Live CV Editor & Validator (Works on both Localhost Flask & GitHub Pages!)
+    async function openJobInCvEditor(jobId) {
+      currentDraftJobId = jobId;
+      switchStudioTab('tabCvEditor');
+      document.getElementById('edSavedResultBox').style.display = 'none';
+      document.getElementById('edJobHeader').textContent = '⏳ Preparing tailored CV draft...';
+
+      if (PRECOMPUTED_DRAFTS[jobId]) {
+        populateCvEditorWithDraft(PRECOMPUTED_DRAFTS[jobId]);
+      }
+
+      try {
+        const resp = await fetch('/admin/hunter/api/prepare-cv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ job_id: jobId })
+        });
+        const data = await resp.json();
+        if (data.ok && data.draft) {
+          populateCvEditorWithDraft(data.draft);
+        }
+      } catch (err) {
+        if (!PRECOMPUTED_DRAFTS[jobId]) {
+          showToast('Loaded offline CV draft.');
+        }
+      }
+    }
+
+    async function openCustomJobInCvEditor() {
+      const company = document.getElementById('custCompany').value.trim() || 'Target Employer';
+      const title = document.getElementById('custTitle').value.trim() || 'Embedded Systems Intern';
+      const region = document.getElementById('custRegion').value;
+      const contract = document.getElementById('custContract').value;
+      const url = document.getElementById('custUrl').value.trim();
+      const desc = document.getElementById('custDesc').value.trim();
+
+      switchStudioTab('tabCvEditor');
+      document.getElementById('edSavedResultBox').style.display = 'none';
+      document.getElementById('edJobHeader').textContent = `⏳ Preparing tailored CV draft for ${company}...`;
+
+      try {
+        const resp = await fetch('/admin/hunter/api/prepare-cv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            custom_company: company,
+            custom_title: title,
+            custom_location: region === 'lille' ? 'Lille, France' : 'International',
+            custom_region: region,
+            custom_contract: contract,
+            custom_url: url,
+            custom_description: desc
+          })
+        });
+        const data = await resp.json();
+        if (data.ok && data.draft) {
+          if (data.job) {
+            HUNTER_STATE.jobs.unshift(data.job);
+            selectedJobId = data.job.id;
+            currentDraftJobId = data.job.id;
+            applyClientFilters();
+          }
+          populateCvEditorWithDraft(data.draft);
+          return;
+        }
+      } catch (err) {}
+
+      // Fallback for GitHub Pages static mode
+      const baseId = Object.keys(PRECOMPUTED_DRAFTS)[0];
+      if (baseId && PRECOMPUTED_DRAFTS[baseId]) {
+        const clone = JSON.parse(JSON.stringify(PRECOMPUTED_DRAFTS[baseId]));
+        clone.job_id = 'custom_' + Date.now();
+        clone.company = company;
+        clone.title = title;
+        clone.url = url || 'https://www.linkedin.com/jobs/';
+        clone.subtitle_text = `${title} · Python 3, C++17 & STM32/ESP32`;
+        PRECOMPUTED_DRAFTS[clone.job_id] = clone;
+        populateCvEditorWithDraft(clone);
+        syncSubtitleToIframe();
+      }
+    }
+
+    async function reloadCvDraftWithOverrides() {
+      if (!currentDraftJobId) return;
+      const policy = document.getElementById('edAtsPolicy').value;
+      const lang = document.getElementById('edCvLang').value;
+      const proj = document.getElementById('edLeadProject').value;
+
+      try {
+        const resp = await fetch('/admin/hunter/api/prepare-cv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            job_id: currentDraftJobId,
+            override_ats_policy: policy,
+            override_lang: lang,
+            override_lead_project: proj
+          })
+        });
+        const data = await resp.json();
+        if (data.ok && data.draft) {
+          populateCvEditorWithDraft(data.draft);
+        }
+      } catch (err) {
+        document.getElementById('edLangBadge').textContent = `${lang} · ${policy}`;
+      }
+    }
+
+    function populateCvEditorWithDraft(draft) {
+      currentDraftJobId = draft.job_id;
+      document.getElementById('edJobHeader').textContent = `${draft.company} — ${draft.title}`;
+      document.getElementById('edLangBadge').textContent = `${draft.cv_lang} · ${draft.ats_policy}`;
+      document.getElementById('edAtsWarningBox').textContent = draft.ats_warning || ' Format ready for editing.';
+      document.getElementById('edAtsPolicy').value = draft.ats_policy;
+      document.getElementById('edCvLang').value = draft.cv_lang;
+      document.getElementById('edLeadProject').value = draft.lead_project_id || 'robot_stm32';
+      document.getElementById('edSubtitleInput').value = draft.subtitle_text || '';
+      document.getElementById('edProfileInput').value = draft.profile_text || '';
+      document.getElementById('edCoverLetterInput').value = draft.cover_letter_text || '';
+      document.getElementById('edApplyDirectLink').href = draft.url || '#';
+
+      // Render inside iframe and make every text block directly contenteditable!
+      const iframe = document.getElementById('cvEditorIframe');
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      doc.open();
+      doc.write(draft.html_content);
+      doc.close();
+
+      // Enable direct in-place editing on the A4 preview sheet
+      setTimeout(() => {
+        const idoc = iframe.contentDocument || iframe.contentWindow.document;
+        if (!idoc || !idoc.body) return;
+        idoc.body.setAttribute('contenteditable', 'true');
+        idoc.body.setAttribute('spellcheck', 'true');
+        idoc.body.style.outline = 'none';
+        idoc.body.style.cursor = 'text';
+      }, 80);
+    }
+
+    function syncSubtitleToIframe() {
+      const val = document.getElementById('edSubtitleInput').value;
+      const iframe = document.getElementById('cvEditorIframe');
+      const idoc = iframe.contentDocument || iframe.contentWindow.document;
+      if (!idoc) return;
+      const subEl = idoc.getElementById('cvEditableSubtitle') || idoc.querySelector('.subtitle, .role-sub');
+      if (subEl) subEl.textContent = val;
+    }
+
+    function syncProfileToIframe() {
+      const val = document.getElementById('edProfileInput').value;
+      const iframe = document.getElementById('cvEditorIframe');
+      const idoc = iframe.contentDocument || iframe.contentWindow.document;
+      if (!idoc) return;
+      const profEl = idoc.querySelector('.profile-text') || idoc.querySelector('h2 + p');
+      if (profEl) profEl.textContent = val;
+    }
+
+    async function validateAndCompilePdf() {
+      if (!currentDraftJobId) {
+        showToast('Please select a role first.');
+        return;
+      }
+      const btn = document.getElementById('btnValidateAndSaveCv');
+      const origHtml = btn.innerHTML;
+      btn.innerHTML = '<span>⏳ Compiling Validated A4 PDF...</span>';
+      btn.disabled = true;
+
+      const iframe = document.getElementById('cvEditorIframe');
+      const idoc = iframe.contentDocument || iframe.contentWindow.document;
+      const editedHtml = '<!DOCTYPE html>\n' + idoc.documentElement.outerHTML;
+      const coverLetter = document.getElementById('edCoverLetterInput').value;
+      const policy = document.getElementById('edAtsPolicy').value;
+      const lang = document.getElementById('edCvLang').value;
+
+      try {
+        const resp = await fetch('/admin/hunter/api/save-validated-cv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            job_id: currentDraftJobId,
+            html_content: editedHtml,
+            cover_letter_text: coverLetter,
+            ats_policy: policy,
+            cv_lang: lang
+          })
+        });
+        const data = await resp.json();
+        if (data.ok && data.bundle) {
+          const job = (HUNTER_STATE.jobs || []).find(j => j.id === currentDraftJobId);
+          if (job) {
+            job.tailored_bundle = data.bundle;
+            job.ats_policy = policy;
+            job.cv_lang = lang;
+          }
+          document.getElementById('navTailoredCountBadge').textContent = `${data.tailored_ready_count} Saved`;
+          document.getElementById('edSavedFolderPath').textContent = data.bundle.folder_path;
+          document.getElementById('edOpenPdfLink').href = data.bundle.local_preview_url;
+          document.getElementById('edSavedResultBox').style.display = 'block';
+          renderJobList();
+          renderSelectedInspector();
+          showToast(`Validated CV & Cover Letter saved to ${data.bundle.folder_path}`);
+          btn.innerHTML = origHtml;
+          btn.disabled = false;
+          return;
+        }
+      } catch (err) {}
+
+      // Browser A4 PDF print fallback when running on GitHub Pages
+      btn.innerHTML = origHtml;
+      btn.disabled = false;
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+      showToast('Opened A4 PDF Print/Save dialog for your validated CV.');
+    }
+
+    // Initialize Studio on load
+    applyClientFilters();
+    if (selectedJobId) {
+      if (PRECOMPUTED_DRAFTS[selectedJobId]) {
+        populateCvEditorWithDraft(PRECOMPUTED_DRAFTS[selectedJobId]);
+      } else {
+        fetch('/admin/hunter/api/prepare-cv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ job_id: selectedJobId })
+        })
+          .then(r => r.json())
+          .then(d => { if (d.ok && d.draft) populateCvEditorWithDraft(d.draft); })
+          .catch(() => {});
+      }
+    }
+  </script>
+</body>
+</html>

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ 'static/css/emerald_obsidian.css' if static_mode else url_for('static', filename='css/emerald_obsidian.css') }}" />
+  <link rel="stylesheet" href="{{ 'static/css/emerald_obsidian.css?v=20261104_v5' if static_mode else url_for('static', filename='css/emerald_obsidian.css', v='20261104_v5') }}" />
 </head>
 <body>
   <!-- Ambient Liquid Gradient Blobs, Interactive Starfield Canvas & Ring Cursor -->
@@ -57,16 +57,17 @@
           <span id="themeLabel">Glass Light</span>
         </button>
         <a href="#contact" class="btn-hire-nav" data-i18n-en="Hire Me ↗" data-i18n-fr="Me Contacter ↗">Hire Me ↗</a>
-        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu" aria-expanded="false">
-          <span class="hamburger-bar"></span>
-          <span class="hamburger-bar"></span>
-          <span class="hamburger-bar"></span>
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu" aria-expanded="false" title="Open Menu &amp; Admin Login" style="display:inline-flex !important; width:40px; height:40px; border-radius:11px; background:var(--bg-glass-strong); border:1px solid rgba(56,189,248,0.45); align-items:center; justify-content:center; flex-direction:column; gap:4px; cursor:pointer; padding:8px; flex-shrink:0;">
+          <span class="hamburger-bar" style="display:block; width:18px; height:2px; background:var(--text-primary); border-radius:2px;"></span>
+          <span class="hamburger-bar" style="display:block; width:18px; height:2px; background:var(--text-primary); border-radius:2px;"></span>
+          <span class="hamburger-bar" style="display:block; width:18px; height:2px; background:var(--text-primary); border-radius:2px;"></span>
         </button>
       </div>
     </nav>
     </nav>
     <!-- Mobile & Split-Screen Glass Navigation Drawer -->
-    <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Mobile Navigation">
+    <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Mobile Navigation" style="max-width:390px; margin-left:auto;">
+      <a href="{{ 'admin.html' if static_mode else url_for('admin_login') }}" class="mobile-nav-link" style="background:linear-gradient(135deg, #7c3aed 0%, #0284c7 100%); border:1px solid #38bdf8; color:#ffffff; font-weight:800; display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-radius:12px; margin-bottom:6px; box-shadow:0 8px 20px rgba(56,189,248,0.28);" data-i18n-en="🔐 Login to Admin Page →" data-i18n-fr="🔐 Connexion Page Admin →">🔐 Login to Admin Page →</a>
       <a href="#about" class="mobile-nav-link" data-i18n-en="About" data-i18n-fr="À Propos">About</a>
       <a href="#skills" class="mobile-nav-link" data-i18n-en="Skills" data-i18n-fr="Compétences">Skills</a>
       <a href="#journey" class="mobile-nav-link" data-i18n-en="Journey" data-i18n-fr="Parcours">Journey</a>
@@ -75,6 +76,7 @@
       <a href="#resume" class="mobile-nav-link" data-i18n-en="Resume / CV" data-i18n-fr="Curriculum Vitae">Resume / CV</a>
       <a href="#contact" class="mobile-nav-link" data-i18n-en="Contact" data-i18n-fr="Contact">Contact</a>
       <div class="mobile-nav-cta-row" style="flex-wrap:wrap;">
+        <a href="{{ 'admin.html' if static_mode else url_for('admin_login') }}" class="btn-primary-glow" style="flex:1 1 100%; justify-content:center; text-align:center; padding:11px 14px; font-size:0.86rem; background:linear-gradient(135deg, #7c3aed 0%, #0284c7 100%);" data-i18n-en="🔐 Login to Admin Page →" data-i18n-fr="🔐 Connexion Page Admin →">🔐 Login to Admin Page →</a>
         <a href="#contact" class="btn-lime-play mobile-nav-link" style="flex:1 1 100%; justify-content:center; text-align:center; padding:10px 14px; font-size:0.86rem; color:#070a13;" data-i18n-en="Hire Me / Start a Project ↗" data-i18n-fr="Me Contacter / Démarrer un Projet ↗">Hire Me / Start a Project ↗</a>
         <a href="static/cv/CV_Engineering_EN_Hanz_Ofosuhene_Sintim.pdf" download class="btn-primary-glow" style="flex:1; justify-content:center; padding:10px 14px; font-size:0.82rem;">CV PDF (EN) ↓</a>
         <a href="static/cv/CV_Ingenieur_FR_Hanz_Ofosuhene_Sintim.pdf" download class="btn-outline-glass" style="flex:1; justify-content:center; padding:10px 14px; font-size:0.82rem;">CV PDF (FR) ↓</a>
@@ -121,6 +123,10 @@
               <a href="#showreel" class="btn-lime-play">
                 <span>▶</span>
                 <span data-i18n-en="Interactive Lab" data-i18n-fr="Labo Interactif">Interactive Lab</span>
+              </a>
+              <a href="{{ 'static/uploads/resume.pdf' if static_mode else '/static/uploads/resume.pdf' }}" download class="btn-outline-glass">
+                <span>📄</span>
+                <span data-i18n-en="Download Latest CV" data-i18n-fr="Télécharger Dernier CV">Download Latest CV</span>
               </a>
               <a href="https://github.com/HanzSintim" target="_blank" rel="noopener" class="btn-outline-glass">
                 <span>★</span>
@@ -882,7 +888,9 @@
               </div>
 
               <!-- Custom Vector UI / Device Artwork Mockup per Project -->
-              {% if proj.index == '01' %}
+              {% if proj.image_url %}
+              <img src="{{ proj.image_url.lstrip('/') if static_mode else proj.image_url }}" alt="{{ proj.title_en }}" style="width:100%; height:120px; object-fit:cover; display:block; border-radius:8px;" />
+              {% elif proj.index == '01' %}
               <svg class="mockup-artwork-svg" viewBox="0 0 320 120" fill="none">
                 <rect x="8" y="12" width="135" height="96" rx="10" fill="#090d16" fill-opacity="0.85" stroke="#38bdf8" stroke-opacity="0.45" />
                 <text x="20" y="32" fill="#38bdf8" font-family="JetBrains Mono" font-size="9" font-weight="700">GET /api/v1/profile</text>
@@ -1194,7 +1202,10 @@
             <div class="resume-updated-tag" data-i18n-en="Updated 2026 · JUNIA ISEN Lille &amp; KNUST" data-i18n-fr="Mis à jour 2026 · JUNIA ISEN Lille &amp; KNUST">
               Updated 2026 · JUNIA ISEN Lille &amp; KNUST
               <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
-                <a href="static/cv/CV_Engineering_EN_Hanz_Ofosuhene_Sintim.pdf" download class="filter-pill-btn active" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                <a href="{{ 'static/uploads/resume.pdf' if static_mode else '/static/uploads/resume.pdf' }}" download class="filter-pill-btn active" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                  <span>⚡</span><span data-i18n-en="Latest Uploaded CV (resume.pdf)" data-i18n-fr="Dernier CV Téléversé (resume.pdf)">Latest Uploaded CV (resume.pdf)</span>
+                </a>
+                <a href="static/cv/CV_Engineering_EN_Hanz_Ofosuhene_Sintim.pdf" download class="filter-pill-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
                   <span>📄</span><span data-i18n-en="Engineering CV PDF (EN)" data-i18n-fr="CV Ingénieur PDF (EN)">Engineering CV PDF (EN)</span>
                 </a>
                 <a href="static/cv/CV_Ingenieur_FR_Hanz_Ofosuhene_Sintim.pdf" download class="filter-pill-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
@@ -1346,6 +1357,6 @@
   <script id="portfolioDataJson" type="application/json">
     {{ data | tojson }}
   </script>
-  <script src="{{ 'static/js/portfolio_engine.js' if static_mode else url_for('static', filename='js/portfolio_engine.js') }}"></script>
+  <script src="{{ 'static/js/portfolio_engine.js?v=20261104_v5' if static_mode else url_for('static', filename='js/portfolio_engine.js', v='20261104_v5') }}"></script>
 </body>
 </html>

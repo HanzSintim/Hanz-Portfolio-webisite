@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Gatekeeper Login | HanzCraft Portfolio &amp; Internship Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/emerald_obsidian.css', v='20261104_v4') }}" />
+  <style>
+    .gatekeeper-stage {
+      min-height: calc(100vh - 110px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      position: relative;
+      z-index: 5;
+    }
+    .gatekeeper-card {
+      width: 100%;
+      max-width: 470px;
+      background: rgba(12, 18, 34, 0.88);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(139, 92, 246, 0.38);
+      border-radius: 26px;
+      padding: 36px 32px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.72), 0 0 40px rgba(124, 58, 237, 0.18);
+    }
+    .gatekeeper-input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(7, 10, 19, 0.88);
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .gatekeeper-input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+    }
+    .flash-banner {
+      padding: 12px 15px;
+      border-radius: 12px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .flash-error {
+      background: rgba(244, 63, 94, 0.16);
+      border: 1px solid rgba(244, 63, 94, 0.45);
+      color: #fda4af;
+    }
+    .flash-info, .flash-success {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #7dd3fc;
+    }
+  </style>
+</head>
+<body>
+  <!-- Shared Ambient Liquid Gradient Blobs & Starfield Backdrop -->
+  <div class="ambient-backdrop" aria-hidden="true">
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+    <div class="ambient-blob blob-3"></div>
+  </div>
+
+  <!-- Shared Base Header & 3-Horizontal-Bars Drawer -->
+  <header class="navbar">
+    <nav class="navbar-inner" aria-label="Primary Navigation">
+      <a href="{{ url_for('index') }}" class="brand-logo">
+        <span class="brand-icon">&lt;/&gt;</span>
+        <span>Hanz<span class="brand-accent">Craft</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="{{ url_for('index') }}#about">About</a></li>
+        <li><a href="{{ url_for('index') }}#skills">Skills</a></li>
+        <li><a href="{{ url_for('index') }}#journey">Journey</a></li>
+        <li><a href="{{ url_for('index') }}#projects">Projects</a></li>
+        <li><a href="{{ url_for('index') }}#showreel">Live Sandbox</a></li>
+        <li><a href="{{ url_for('index') }}#resume">Resume</a></li>
+        <li><a href="{{ url_for('admin_login') }}" class="active">🔐 Admin</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="{{ url_for('index') }}" class="btn-outline-glass" style="padding:8px 14px; font-size:0.82rem;">← Public Portfolio</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="gatekeeper-stage">
+    <div class="gatekeeper-card">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+        <span class="eyebrow-badge">
+          <span class="pulse-dot"></span>
+          <span>ADMIN GATEKEEPER</span>
+        </span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--text-muted);">SESSION AUTH</span>
+      </div>
+
+      <h1 style="font-size:1.65rem; font-weight:900; margin-bottom:6px;">
+        Unlock Admin Studio
+      </h1>
+      <p style="color:var(--text-secondary); font-size:0.88rem; line-height:1.55; margin-bottom:20px;">
+        Enter your administrator password to access the <strong>Internship &amp; Alternance Studio</strong>, <strong>Live CV Editor &amp; PDF Validator</strong>, and <strong>Portfolio CMS</strong>.
+      </p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, msg in messages %}
+            <div class="flash-banner flash-{{ category }}">{{ msg }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% if error %}
+        <div class="flash-banner flash-error">{{ error }}</div>
+      {% endif %}
+
+      <form method="POST" action="{{ url_for('admin_login', next=request.args.get('next')) }}">
+        <label for="password" style="display:block; font-size:0.76rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); margin-bottom:8px;">
+          Administrator Password
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="gatekeeper-input"
+          placeholder="Enter ADMIN_PASSWORD..."
+          required
+          autofocus
+        />
+
+        <button type="submit" class="btn-primary-glow" style="width:100%; justify-content:center; margin-top:18px; padding:14px 20px; border:0; cursor:pointer; font-size:0.94rem;">
+          <span>🔓 Unlock Admin Studio</span>
+          <span>→</span>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const drawer = document.getElementById('mobileNavDrawer');
+    if (menuBtn && drawer) {
+      menuBtn.addEventListener('click', () => {
+        const open = drawer.classList.toggle('open');
+        menuBtn.classList.toggle('open', open);
+      });
+    }
+  </script>
+</body>
+</html>

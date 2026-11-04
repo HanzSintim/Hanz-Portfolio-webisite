@@ -11,7 +11,14 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 import math
+import json
+import math
+import os
 from typing import Dict, List, Optional
+
+PROJECTS_JSON_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "api", "v1", "projects.json"
+)
 
 
 @dataclass(frozen=True)
@@ -576,10 +583,38 @@ def get_academic_corridor() -> List[AcademicNode]:
     ]
 
 
+def load_or_seed_projects() -> List[Dict[str, object]]:
+    """
+    Loads projects dynamically from api/v1/projects.json if present so Admin CMS
+    edits appear live immediately. Seeds from get_engineering_projects() on first boot.
+    """
+    default_projects = [asdict(p) for p in get_engineering_projects()]
+    if os.path.exists(PROJECTS_JSON_PATH):
+        try:
+            with open(PROJECTS_JSON_PATH, "r", encoding="utf-8") as f:
+                saved = json.load(f)
+            if isinstance(saved, dict) and isinstance(saved.get("projects"), list) and len(saved["projects"]) > 0:
+                return saved["projects"]
+            if isinstance(saved, list) and len(saved) > 0:
+                return saved
+        except (OSError, json.JSONDecodeError):
+            pass
+
+    os.makedirs(os.path.dirname(PROJECTS_JSON_PATH), exist_ok=True)
+    with open(PROJECTS_JSON_PATH, "w", encoding="utf-8") as f:
+        json.dump(
+            {"count": len(default_projects), "projects": default_projects},
+            f,
+            indent=2,
+            ensure_ascii=False,
+        )
+    return default_projects
+
+
 def build_full_portfolio_payload() -> Dict[str, object]:
     """Assembles the complete JSON-serializable state for both Flask and the Static Generator."""
     petals = [asdict(p) for p in get_skill_petals()]
-    projects = [asdict(p) for p in get_engineering_projects()]
+    projects = load_or_seed_projects()
     leadership = [asdict(r) for r in get_leadership_roles()]
     corridor = [asdict(c) for c in get_academic_corridor()]
 

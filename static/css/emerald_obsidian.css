@@ -2047,9 +2047,9 @@ html, body {
   display: none !important;
 }
 
-/* Mobile Hamburger Menu Button & Glass Drawer */
+/* Universal 3-Horizontal-Bars Menu Button & Glass Drawer (Desktop + Mobile) */
 .mobile-menu-btn {
-  display: none;
+  display: inline-flex;
   width: 38px;
   height: 38px;
   border-radius: 11px;
@@ -2063,6 +2063,12 @@ html, body {
   cursor: pointer;
   padding: 8px;
   flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-btn:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
 }
 
 .hamburger-bar {
@@ -2099,6 +2105,13 @@ html, body {
 
 .mobile-nav-drawer.open {
   display: flex;
+}
+
+@media (min-width: 1061px) {
+  .mobile-nav-drawer {
+    max-width: 370px;
+    margin-left: auto;
+  }
 }
 
 .mobile-nav-link {
