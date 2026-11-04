@@ -579,8 +579,8 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "contract_type": "both_2027",
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 18,
-        "url": "https://www.welcometothejungle.com/fr/companies/exotec/jobs?query=Embedded",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=Exotec%20%28Embedded%20OR%20Embarqu%C3%A9%20OR%20C%2B%2B%20OR%20Stage%20OR%20Alternance%29&location=France&sortBy=DD",
+        "url": "https://boards.greenhouse.io/exotec",
+        "linkedin_apply_url": "https://www.linkedin.com/company/exotec-robotics/jobs/",
         "description": (
             "Exotec (Croix, Métropole de Lille) recrute en Alternance (Septembre 2027) et Stage M1 (Avril 2027) "
             "pour ses robots logistiques Skypod : développement firmware C Embarqué / C++17 sur microcontrôleurs STM32, "
@@ -597,7 +597,7 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 24,
         "url": "https://jobs.worldline.com/search/?createNewAlert=false&q=Embedded+OR+Stage+OR+Alternance&locationsearch=Seclin",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=Worldline%20%28Embedded%20OR%20Embarqu%C3%A9%20OR%20C%2B%2B%20OR%20Stage%20OR%20Alternance%29&location=Hauts-de-France%2C%20France&sortBy=DD",
+        "linkedin_apply_url": "https://www.linkedin.com/company/worldline/jobs/",
         "description": (
             "Au sein du centre R&D Worldline de Seclin (près de Lille), développement et validation de logiciels "
             "embarqués C et C++17 pour terminaux transactionnels et caisses libre-service : architecture sécurisée, "
@@ -614,8 +614,8 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "contract_type": "alternance_2027",
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 35,
-        "url": "https://jobs.siemens.com/careers?query=Stage%20OR%20Alternance%20Embedded&location=Lille&pid=563156116044250&domain=siemens.com&sort_by=relevance",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=Siemens%20Mobility%20%28Stage%20OR%20Alternance%20OR%20Embarqu%C3%A9%29&location=Lille%2C%20Hauts-de-France%2C%20France&sortBy=DD",
+        "url": "https://jobs.siemens.com/careers?query=Lille&location=France&pid=563156116044250&domain=siemens.com&sort_by=relevance",
+        "linkedin_apply_url": "https://www.linkedin.com/company/siemens/jobs/",
         "description": (
             "Siemens Mobility Lille (automatismes de métros automatiques VAL) recherche un élève-ingénieur en "
             "Électronique & Systèmes Embarqués (C embarqué, tests matériel-logiciel, validation chaîne d'acquisition, "
@@ -631,8 +631,8 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "contract_type": "both_2027",
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 42,
-        "url": "https://www.welcometothejungle.com/fr/companies/ovh/jobs?query=Stage%20OR%20Alternance",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=OVHcloud%20%28Stage%20OR%20Alternance%20OR%20Embedded%20OR%20Python%29&location=Hauts-de-France%2C%20France&sortBy=DD",
+        "url": "https://careers.ovhcloud.com/fr/",
+        "linkedin_apply_url": "https://www.linkedin.com/company/ovhcloud/jobs/",
         "description": (
             "Équipe Hardware R&D d'OVHcloud à Roubaix (Métropole Lilloise) : programmation bas niveau C, Python 3, "
             "microcontrôleurs de supervision thermique & capteurs (ADC, PWM, UART), tests automatisés sous Linux/Git. "
@@ -648,8 +648,8 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "contract_type": "both_2027",
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 50,
-        "url": "https://www.welcometothejungle.com/fr/companies/decathlon-digital/jobs?query=Stage%20OR%20Alternance",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=Decathlon%20%28Stage%20OR%20Alternance%20OR%20Embedded%20OR%20%C3%89lectronique%29&location=Lille%2C%20Hauts-de-France%2C%20France&sortBy=DD",
+        "url": "https://recrutement.decathlon.fr/offres-d-emploi/",
+        "linkedin_apply_url": "https://www.linkedin.com/company/decathlon-france/jobs/",
         "description": (
             "Campus Decathlon Villeneuve-d'Ascq : conception et programmation de systèmes embarqués sportifs "
             "(STM32, ESP32, BLE/Wi-Fi, capteurs électroniques, C embarqué, KiCad PCB, calibration de chaîne de mesure). "
@@ -665,8 +665,8 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "contract_type": "alternance_2027",
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 55,
-        "url": "https://jobsearch.alstom.com/search/?createNewAlert=false&q=Embarqu%C3%A9+OR+Embedded+OR+Alternance+OR+Stage&locationsearch=Valenciennes",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=Alstom%20%28Alternance%20OR%20Stage%20OR%20Embarqu%C3%A9%29&location=Hauts-de-France%2C%20France&sortBy=DD",
+        "url": "https://jobsearch.alstom.com/search/?createNewAlert=false&q=Alternance+OR+Stage&locationsearch=Valenciennes",
+        "linkedin_apply_url": "https://www.linkedin.com/company/alstom/jobs/",
         "description": (
             "Site Alstom de Valenciennes (Hauts-de-France) : développement C embarqué et C++, tests d'intégration "
             "matériel-logiciel, validation de systèmes électroniques embarqués et communication série. Recrutement "
@@ -682,8 +682,8 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "contract_type": "both_2027",
         "ats_policy_hint": "DESIGN_OK",
         "posted_minutes_ago": 28,
-        "url": "https://www.welcometothejungle.com/fr/jobs?query=Syst%C3%A8mes%20Embarqu%C3%A9s&aroundQuery=Lille%2C%20France",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=%22Syst%C3%A8mes%20Embarqu%C3%A9s%22%20%28Stage%20OR%20Alternance%29&location=Lille%2C%20Hauts-de-France%2C%20France&sortBy=DD",
+        "url": "https://www.welcometothejungle.com/fr/companies/euratechnologies/jobs",
+        "linkedin_apply_url": "https://www.linkedin.com/company/euratechnologies/jobs/",
         "description": (
             "PME innovantes en électronique & IoT à EuraTechnologies Lille (recrutement humain direct sans filtre ATS) : "
             "développement firmware C embarqué sur STM32 et ESP32, prototypage PCB sous KiCad, intégration de capteurs "
@@ -700,8 +700,8 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "contract_type": "both_2027",
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 22,
-        "url": "https://stcareers.talent-soft.com/accueil.aspx?LCID=1036",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=STMicroelectronics%20%28Stage%20OR%20Alternance%20OR%20STM32%20OR%20Embedded%29&location=France&sortBy=DD",
+        "url": "https://stmicroelectronics.eightfold.ai/careers",
+        "linkedin_apply_url": "https://www.linkedin.com/company/stmicroelectronics/jobs/",
         "description": (
             "STMicroelectronics (Division Microcontrollers STM32) : développement de pilotes bas niveau en C embarqué "
             "et Assembleur, validation de périphériques UART/PWM/ADC, physique des semi-conducteurs, débogage GDB et "
@@ -717,8 +717,8 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "contract_type": "both_2027",
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 31,
-        "url": "https://thales.wd3.myworkdayjobs.com/Careers?q=Embarqu%C3%A9%20OR%20Embedded%20Stage%20Alternance",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=Thales%20%28Stage%20OR%20Alternance%29%20%28Embarqu%C3%A9%20OR%20Embedded%20OR%20C%2B%2B%29&location=France&sortBy=DD",
+        "url": "https://thales.wd3.myworkdayjobs.com/Careers?q=Stage%20Alternance%20Embarqu%C3%A9",
+        "linkedin_apply_url": "https://www.linkedin.com/company/thales/jobs/",
         "description": (
             "Thales recrute sur Workday ses futurs alternants (rentrée septembre 2027) et stagiaires (avril 2027) : "
             "programmation C embarqué, C++17, tests unitaires et d'intégration matériel-logiciel, Linux, Git."
@@ -734,7 +734,7 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 47,
         "url": "https://www.safran-group.com/fr/offres?search=embarqu%C3%A9&contracts%5B0%5D=35-stage&contracts%5B1%5D=34-alternance",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=Safran%20%28Stage%20OR%20Alternance%29%20%28Embarqu%C3%A9%20OR%20%C3%89lectronique%29&location=France&sortBy=DD",
+        "linkedin_apply_url": "https://www.linkedin.com/company/safran/jobs/",
         "description": (
             "Safran Electronics & Defense : développement de logiciels embarqués critiques en C et Assembleur, "
             "validation de chaînes d'acquisition capteurs (ADC, thermométrie, asservissement PWM), tests sur cible."
@@ -749,8 +749,8 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "contract_type": "both_2027",
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 64,
-        "url": "https://careers.se.com/global/jobs?keywords=Embedded%20Intern%20OR%20Alternance&location=France&stretch=10&stretchUnit=MILES&sortBy=relevance",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=%22Schneider%20Electric%22%20%28Stage%20OR%20Alternance%20OR%20Embedded%29&location=France&sortBy=DD",
+        "url": "https://careers.se.com/global/jobs?keywords=Stage%20Alternance%20Embedded&location=France",
+        "linkedin_apply_url": "https://www.linkedin.com/company/schneider-electric/jobs/",
         "description": (
             "Schneider Electric (environnement anglophone & francophone) : développement firmware C/C++ sur STM32, "
             "télémétrie industrielle, validation matériel-logiciel et scripts de test Python."
@@ -817,7 +817,7 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 41,
         "url": "https://careers.ti.com/en/sites/CX/requisitions?keyword=Embedded+Intern",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=%22Texas%20Instruments%22%20Embedded%20Intern&location=United%20States&sortBy=DD",
+        "linkedin_apply_url": "https://www.linkedin.com/company/texas-instruments/jobs/",
         "description": (
             "Texas Instruments: Develop and validate low-level Embedded C and Assembly firmware on TI MSP430 and "
             "ARM Cortex-M microcontrollers, precision ADC temperature/sensor signal chains, and PCB validation."
@@ -833,7 +833,7 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 68,
         "url": "https://careers.garmin.com/careers-home/jobs?keywords=Embedded%20Intern&sortBy=relevance&page=1",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=Garmin%20Embedded%20Intern&location=North%20America&sortBy=DD",
+        "linkedin_apply_url": "https://www.linkedin.com/company/garmin/jobs/",
         "description": (
             "Garmin Embedded Engineering: Write production Embedded C and C++17 firmware for sensor-driven devices, "
             "perform hardware-software debugging, UART/PWM peripheral verification, and unit testing."
@@ -850,7 +850,7 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 49,
         "url": "https://cochlear.wd3.myworkdayjobs.com/Cochlear_Careers?q=Embedded%20OR%20Intern",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=Cochlear%20%28Embedded%20OR%20Firmware%20OR%20Intern%29&location=Australia&sortBy=DD",
+        "linkedin_apply_url": "https://www.linkedin.com/company/cochlear/jobs/",
         "description": (
             "Cochlear Sydney R&D: Ultra-low-power Embedded C and Assembly microcontroller firmware, analog-to-digital "
             "signal chain validation, automated Python/C++ hardware testing, and strict engineering rigor."
@@ -866,7 +866,7 @@ CURATED_OPPORTUNITIES: List[Dict[str, Any]] = [
         "ats_policy_hint": "STRICT_ATS",
         "posted_minutes_ago": 75,
         "url": "https://jobs.csiro.au/go/Students-and-Graduates/8823300/",
-        "linkedin_apply_url": "https://www.linkedin.com/jobs/search/?keywords=CSIRO%20%28Robotics%20OR%20Embedded%20OR%20Intern%29&location=Australia&sortBy=DD",
+        "linkedin_apply_url": "https://www.linkedin.com/company/csiro/jobs/",
         "description": (
             "CSIRO Robotics Lab Brisbane: Real-time Embedded C firmware for autonomous mobile robots (STM32 motor "
             "actuation, ESP32 telemetry, UART camera/sensor integration, and closed-loop field testing)."
@@ -1284,11 +1284,25 @@ def generate_tailored_cv_draft(
     else:
         html_content = _reorder_projects_in_ats_html(html_content, lead_project_id)
 
+    # Tag the profile paragraph with id="cvEditableProfile" so live edits sync deterministically
+    html_content = re.sub(
+        r'(<h2>(?:PROFILE|PROFIL)</h2>\s*)<p(?:\s+id="[^"]*")?>',
+        r'\1<p id="cvEditableProfile">',
+        html_content,
+        flags=re.DOTALL,
+    )
+    html_content = re.sub(
+        r'<p\s+class="profile-text"(?:\s+id="[^"]*")?>',
+        r'<p class="profile-text" id="cvEditableProfile">',
+        html_content,
+        flags=re.DOTALL,
+    )
+
     # Extract current subtitle and profile text for quick form editing
     sub_plain = html.unescape(re.sub(r"<[^>]+>", " ", sub_design if ats_policy == "DESIGN_OK" else sub_ats)).strip()
-    prof_m = re.search(r'<h2>(?:PROFILE|PROFIL)</h2>\s*<p>(.*?)</p>', html_content, re.DOTALL)
+    prof_m = re.search(r'<h2>(?:PROFILE|PROFIL)</h2>\s*<p[^>]*>(.*?)</p>', html_content, re.DOTALL)
     if not prof_m:
-        prof_m = re.search(r'<p class="profile-text">(.*?)</p>', html_content, re.DOTALL)
+        prof_m = re.search(r'<p class="profile-text"[^>]*>(.*?)</p>', html_content, re.DOTALL)
     prof_plain = html.unescape(re.sub(r"<[^>]+>", " ", prof_m.group(1) if prof_m else "")).strip()
     prof_plain = re.sub(r"\s+", " ", prof_plain)
 

@@ -449,7 +449,7 @@ def admin_hunter_tailor():
             default_contract_type=contract_type,
         )
         if rel.get("excluded"):
-            flash("Geographical Guardrail: African locations are excluded per your configuration.", "error")
+            flash("Location is outside configured target search regions.", "error")
             return redirect(url_for("admin_dashboard") + "#section-hunter")
 
         ats_info = determine_ats_policy(
@@ -601,7 +601,7 @@ def admin_hunter_api_prepare_cv():
             default_contract_type=contract_type,
         )
         if rel.get("excluded"):
-            return jsonify({"ok": False, "error": "African locations are excluded per your guardrail."}), 400
+            return jsonify({"ok": False, "error": "Location is outside configured target search regions."}), 400
 
         ats_info = determine_ats_policy(
             company=company,
@@ -819,10 +819,19 @@ def build_static_bundle() -> None:
         auto_tailor_top=False,
         enable_live_network=False,
     )
-    precomputed_drafts = {
-        j["id"]: generate_tailored_cv_draft(j)
-        for j in hunter_state.get("jobs", [])
-    }
+    precomputed_drafts = {}
+    for j in hunter_state.get("jobs", []):
+        jid = j["id"]
+        def_draft = generate_tailored_cv_draft(j)
+        precomputed_drafts[jid] = def_draft
+
+        # Generate variations for instantaneous client-side switching on GitHub Pages & Localhost
+        for lang in ("FR", "EN"):
+            precomputed_drafts[f"{jid}_{lang}"] = generate_tailored_cv_draft(j, override_lang=lang)
+            for pol in ("STRICT_ATS", "DESIGN_OK", "UK_ATS"):
+                precomputed_drafts[f"{jid}_{lang}_{pol}"] = generate_tailored_cv_draft(
+                    j, override_lang=lang, override_ats_policy=pol
+                )
     projects_list = load_or_seed_projects()
     raw_json_str = json.dumps(projects_list, indent=2, ensure_ascii=False)
 

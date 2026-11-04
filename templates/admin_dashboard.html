@@ -485,7 +485,7 @@
               MULTI-REGION × MULTI-SITE DISCOVERY CONFIGURATION
             </div>
             <p style="font-size:0.8rem; color:var(--text-secondary);">
-              Pick the target regions (Africa is strictly excluded) and job portals to scan concurrently.
+              Pick the target regions and job portals to scan concurrently.
             </p>
           </div>
           <button type="button" class="grace-pill" onclick="toggleRadarDrawer()">Close ✕</button>
@@ -562,15 +562,15 @@
             />
           </div>
 
-          <!-- Region Pills -->
+          <!-- Region Pills (Multi-Select Supported) -->
           <div class="pill-group" id="regionFilterGroup">
             <span class="pill-group-label">Region:</span>
-            <button type="button" class="grace-pill active" data-region="all" onclick="setFilterPill('region', 'all', this)">All</button>
-            <button type="button" class="grace-pill" data-region="lille" onclick="setFilterPill('region', 'lille', this)">🇫🇷 Lille &amp; HDF</button>
-            <button type="button" class="grace-pill" data-region="france" onclick="setFilterPill('region', 'france', this)">🇫🇷 France</button>
-            <button type="button" class="grace-pill" data-region="europe" onclick="setFilterPill('region', 'europe', this)">🇪🇺 Europe</button>
-            <button type="button" class="grace-pill" data-region="north_america" onclick="setFilterPill('region', 'north_america', this)">🇺🇸🇨🇦 US &amp; Canada</button>
-            <button type="button" class="grace-pill" data-region="australia" onclick="setFilterPill('region', 'australia', this)">🇦🇺 Australia</button>
+            <button type="button" class="grace-pill active" data-region="all" onclick="toggleRegionFilterPill('all', this)">All</button>
+            <button type="button" class="grace-pill" data-region="lille" onclick="toggleRegionFilterPill('lille', this)">🇫🇷 Lille &amp; HDF</button>
+            <button type="button" class="grace-pill" data-region="france" onclick="toggleRegionFilterPill('france', this)">🇫🇷 France</button>
+            <button type="button" class="grace-pill" data-region="europe" onclick="toggleRegionFilterPill('europe', this)">🇪🇺 Europe</button>
+            <button type="button" class="grace-pill" data-region="north_america" onclick="toggleRegionFilterPill('north_america', this)">🇺🇸🇨🇦 US &amp; Canada</button>
+            <button type="button" class="grace-pill" data-region="australia" onclick="toggleRegionFilterPill('australia', this)">🇦🇺 Australia</button>
           </div>
         </div>
 
@@ -981,11 +981,43 @@
     let currentDraftJobId = null;
 
     const activeFilters = {
-      region: 'all',
+      regions: ['all'],
       contract: 'all',
       ats: 'all',
       query: ''
     };
+
+    function toggleRegionFilterPill(regVal, btnEl) {
+      const group = document.getElementById('regionFilterGroup');
+      const allBtn = group.querySelector('[data-region="all"]');
+
+      if (regVal === 'all') {
+        activeFilters.regions = ['all'];
+        group.querySelectorAll('.grace-pill').forEach(b => b.classList.remove('active'));
+        btnEl.classList.add('active');
+      } else {
+        // Deselect 'all'
+        activeFilters.regions = activeFilters.regions.filter(r => r !== 'all');
+        if (allBtn) allBtn.classList.remove('active');
+
+        const idx = activeFilters.regions.indexOf(regVal);
+        if (idx >= 0) {
+          activeFilters.regions.splice(idx, 1);
+          btnEl.classList.remove('active');
+        } else {
+          activeFilters.regions.push(regVal);
+          btnEl.classList.add('active');
+        }
+
+        // If no specific region remains selected, fallback to 'all'
+        if (activeFilters.regions.length === 0) {
+          activeFilters.regions = ['all'];
+          if (allBtn) allBtn.classList.add('active');
+        }
+      }
+      currentPage = 1;
+      applyClientFilters();
+    }
 
     function setFilterPill(type, val, btnEl) {
       activeFilters[type] = val;
@@ -1000,7 +1032,17 @@
       activeFilters.query = q;
 
       filteredJobs = (HUNTER_STATE.jobs || []).filter(job => {
-        if (activeFilters.region !== 'all' && job.region !== activeFilters.region) return false;
+        // Multi-region filter check
+        if (!activeFilters.regions.includes('all')) {
+          const matchesRegion = activeFilters.regions.some(r => {
+            if (r === job.region) return true;
+            // Lille is in France: selecting France matches both France and Lille!
+            if (r === 'france' && (job.region === 'lille' || (job.location && job.location.toLowerCase().includes('france')))) return true;
+            return false;
+          });
+          if (!matchesRegion) return false;
+        }
+
         if (activeFilters.contract === 'alternance_2027' && job.contract_track !== 'alternance_2027' && job.contract_track !== 'both_2027') return false;
         if (activeFilters.contract === 'stage_2027' && job.contract_track !== 'stage_2027' && job.contract_track !== 'both_2027') return false;
         if (activeFilters.ats !== 'all' && job.ats_policy !== activeFilters.ats) return false;
@@ -1095,10 +1137,10 @@
                     📄 PDF
                   </a>
                 ` : ''}
-                <a href="${escapeHtml(job.url)}" target="_blank" rel="noopener" class="grace-pill" style="text-decoration:none; border-color:rgba(56,189,248,0.45); color:#7dd3fc;" title="Open Direct Requisition Page">
-                  ↗ Direct Apply
+                <a href="${escapeHtml(job.url)}" target="_blank" rel="noopener" class="grace-pill" style="text-decoration:none; border-color:rgba(56,189,248,0.55); color:#7dd3fc; font-weight:700;" title="Open Official Direct ATS Requisition Page (Greenhouse, Workday, Career Portal)">
+                  ⚡ Direct Apply
                 </a>
-                <a href="${escapeHtml(liUrl)}" target="_blank" rel="noopener" class="grace-pill" style="text-decoration:none;" title="Open Direct LinkedIn Job Search for this Role">
+                <a href="${escapeHtml(liUrl)}" target="_blank" rel="noopener" class="grace-pill" style="text-decoration:none;" title="Open Official LinkedIn Jobs Requisition">
                   in LinkedIn
                 </a>
               </div>
@@ -1161,17 +1203,21 @@
           ` : ''}
         </div>
 
+        <div style="padding:10px 12px; border-radius:12px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.25); font-size:0.78rem; line-height:1.45; margin-bottom:12px; color:#bbf7d0;">
+          ⚡ <strong>1-Click Direct Application Guide:</strong> Click <strong>"✏️ Tailor, Edit &amp; Validate CV"</strong> to customize your honest CV in French or English, click <strong>"Validate &amp; Compile PDF"</strong> to save to your local CV folder, then click <strong>"⚡ Direct Portal Page"</strong> to apply directly on the employer's official ATS without middleman redirects!
+        </div>
+
         <div style="display:flex; flex-direction:column; gap:8px;">
           <button type="button" class="btn-lime-play" style="width:100%; justify-content:center; border:0; padding:12px 16px; font-size:0.86rem; cursor:pointer;" onclick="openJobInCvEditor('${job.id}')">
             <span>✏️ Tailor, Edit &amp; Validate CV for ${escapeHtml(job.company.split(' ')[0])} →</span>
           </button>
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-            <a href="${escapeHtml(job.url)}" target="_blank" rel="noopener" class="btn-primary-glow" style="justify-content:center; text-align:center; padding:10px 12px; font-size:0.8rem;">
-              ↗ Direct Apply Page
+            <a href="${escapeHtml(job.url)}" target="_blank" rel="noopener" class="btn-primary-glow" style="justify-content:center; text-align:center; padding:10px 12px; font-size:0.8rem; font-weight:700;" title="Open Official Direct ATS Requisition Page (Greenhouse, Workday, Career Portal)">
+              ⚡ Direct Portal Page ↗
             </a>
-            <a href="${escapeHtml(liUrl)}" target="_blank" rel="noopener" class="btn-outline-glass" style="justify-content:center; text-align:center; padding:10px 12px; font-size:0.8rem;">
-              in LinkedIn Requisitions ↗
+            <a href="${escapeHtml(liUrl)}" target="_blank" rel="noopener" class="btn-outline-glass" style="justify-content:center; text-align:center; padding:10px 12px; font-size:0.8rem;" title="Open Official LinkedIn Jobs Requisition">
+              in LinkedIn Jobs ↗
             </a>
           </div>
 
@@ -1230,24 +1276,35 @@
       document.getElementById('edSavedResultBox').style.display = 'none';
       document.getElementById('edJobHeader').textContent = '⏳ Preparing tailored CV draft...';
 
-      if (PRECOMPUTED_DRAFTS[jobId]) {
-        populateCvEditorWithDraft(PRECOMPUTED_DRAFTS[jobId]);
+      // 1. Check precomputed drafts first (0ms load on GitHub Pages & Localhost)
+      const job = (HUNTER_STATE.jobs || []).find(j => j.id === jobId);
+      const defaultLang = job ? (job.cv_lang || 'FR') : 'FR';
+      const tryKeys = [
+        jobId,
+        `${jobId}_${defaultLang}`,
+        `${jobId}_FR`,
+        `${jobId}_EN`
+      ];
+      for (const k of tryKeys) {
+        if (PRECOMPUTED_DRAFTS[k]) {
+          populateCvEditorWithDraft(PRECOMPUTED_DRAFTS[k]);
+          break;
+        }
       }
 
-      try {
-        const resp = await fetch('/admin/hunter/api/prepare-cv', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ job_id: jobId })
-        });
-        const data = await resp.json();
-        if (data.ok && data.draft) {
-          populateCvEditorWithDraft(data.draft);
-        }
-      } catch (err) {
-        if (!PRECOMPUTED_DRAFTS[jobId]) {
-          showToast('Loaded offline CV draft.');
-        }
+      // 2. If running on live Flask server, fetch fresh dynamically
+      if (window.location.protocol !== 'file:' && !window.location.hostname.includes('github.io')) {
+        try {
+          const resp = await fetch('/admin/hunter/api/prepare-cv', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ job_id: jobId })
+          });
+          const data = await resp.json();
+          if (data.ok && data.draft) {
+            populateCvEditorWithDraft(data.draft);
+          }
+        } catch (err) {}
       }
     }
 
@@ -1311,23 +1368,44 @@
       const lang = document.getElementById('edCvLang').value;
       const proj = document.getElementById('edLeadProject').value;
 
-      try {
-        const resp = await fetch('/admin/hunter/api/prepare-cv', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            job_id: currentDraftJobId,
-            override_ats_policy: policy,
-            override_lang: lang,
-            override_lead_project: proj
-          })
-        });
-        const data = await resp.json();
-        if (data.ok && data.draft) {
-          populateCvEditorWithDraft(data.draft);
+      // 1. Check precomputed drafts for immediate 0ms update (works on both GitHub Pages and localhost!)
+      const tryKeys = [
+        `${currentDraftJobId}_${lang}_${policy}_${proj}`,
+        `${currentDraftJobId}_${lang}_${policy}`,
+        `${currentDraftJobId}_${lang}`,
+        `${currentDraftJobId}`
+      ];
+      let preDraft = null;
+      for (const k of tryKeys) {
+        if (PRECOMPUTED_DRAFTS[k]) {
+          preDraft = PRECOMPUTED_DRAFTS[k];
+          break;
         }
-      } catch (err) {
-        document.getElementById('edLangBadge').textContent = `${lang} · ${policy}`;
+      }
+      if (preDraft) {
+        populateCvEditorWithDraft(preDraft);
+      }
+
+      // 2. If running on live Flask server, call API for dynamic re-generation
+      if (window.location.protocol !== 'file:' && !window.location.hostname.includes('github.io')) {
+        try {
+          const resp = await fetch('/admin/hunter/api/prepare-cv', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              job_id: currentDraftJobId,
+              override_ats_policy: policy,
+              override_lang: lang,
+              override_lead_project: proj
+            })
+          });
+          const data = await resp.json();
+          if (data.ok && data.draft) {
+            populateCvEditorWithDraft(data.draft);
+          }
+        } catch (err) {
+          document.getElementById('edLangBadge').textContent = `${lang} · ${policy}`;
+        }
       }
     }
 
@@ -1351,7 +1429,7 @@
       doc.write(draft.html_content);
       doc.close();
 
-      // Enable direct in-place editing on the A4 preview sheet
+      // Enable direct in-place editing on the A4 preview sheet + 2-way live sync back to textareas
       setTimeout(() => {
         const idoc = iframe.contentDocument || iframe.contentWindow.document;
         if (!idoc || !idoc.body) return;
@@ -1359,6 +1437,18 @@
         idoc.body.setAttribute('spellcheck', 'true');
         idoc.body.style.outline = 'none';
         idoc.body.style.cursor = 'text';
+
+        // Two-way synchronization: when user edits directly inside iframe preview
+        idoc.body.addEventListener('input', () => {
+          const subEl = idoc.getElementById('cvEditableSubtitle') || idoc.querySelector('.subtitle, .role-sub');
+          if (subEl) {
+            document.getElementById('edSubtitleInput').value = subEl.innerText.trim();
+          }
+          const profEl = idoc.getElementById('cvEditableProfile') || idoc.querySelector('.profile-text');
+          if (profEl) {
+            document.getElementById('edProfileInput').value = profEl.innerText.trim();
+          }
+        });
       }, 80);
     }
 
@@ -1368,7 +1458,9 @@
       const idoc = iframe.contentDocument || iframe.contentWindow.document;
       if (!idoc) return;
       const subEl = idoc.getElementById('cvEditableSubtitle') || idoc.querySelector('.subtitle, .role-sub');
-      if (subEl) subEl.textContent = val;
+      if (subEl) {
+        subEl.innerHTML = val.replace(/\n/g, '<br/>');
+      }
     }
 
     function syncProfileToIframe() {
@@ -1376,8 +1468,10 @@
       const iframe = document.getElementById('cvEditorIframe');
       const idoc = iframe.contentDocument || iframe.contentWindow.document;
       if (!idoc) return;
-      const profEl = idoc.querySelector('.profile-text') || idoc.querySelector('h2 + p');
-      if (profEl) profEl.textContent = val;
+      const profEl = idoc.getElementById('cvEditableProfile') || idoc.querySelector('.profile-text') || idoc.querySelector('h2 + p');
+      if (profEl) {
+        profEl.innerHTML = val.replace(/\n/g, '<br/>');
+      }
     }
 
     async function validateAndCompilePdf() {
