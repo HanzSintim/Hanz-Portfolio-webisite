@@ -113,6 +113,12 @@ class TestAdminOverhaulSuite(unittest.TestCase):
         for j in res_fr_union["jobs"]:
             self.assertIn(j["region"], ("lille", "france"))
 
+        for tok in ("portal:junia_jobteaser", "portal:wttj", "portal:linkedin_live", "portal:direct_ats"):
+            self.assertIn(tok, idx, f"Missing portal token {tok} in inverted index")
+        res_jt = query_inverted_index(jobs, filters={"portals": ["junia_jobteaser"]}, inverted_index=idx)
+        self.assertLess(res_jt["elapsed_ms"], 5.0)
+        self.assertGreater(res_jt["total"], 0)
+
     def test_05_flask_endpoints_refine_and_export(self):
         client = app.test_client()
         login_res = client.post("/admin/login", data={"password": ADMIN_PASSWORD}, follow_redirects=False)
@@ -171,13 +177,18 @@ class TestAdminOverhaulSuite(unittest.TestCase):
         self.assertGreaterEqual(len(lille_jobs), 15, f"Expected >= 15 Lille jobs, got {len(lille_jobs)}")
         for j in lille_jobs:
             self.assertTrue(str(j.get("direct_apply_url", "")).startswith("http"))
-            self.assertTrue(str(j.get("company_ats_url", "")).startswith("http"))
+            self.assertTrue(str(j.get("junia_jobteaser_url", "")).startswith("https://junia.jobteaser.com"))
+            self.assertTrue(str(j.get("wttj_url", "")).startswith("https://www.welcometothejungle.com"))
             self.assertIn("f_TPR=", str(j.get("linkedin_fresh_url", "")))
+            self.assertNotEqual(j.get("direct_apply_url"), j.get("linkedin_fresh_url"))
+            self.assertNotEqual(j.get("junia_jobteaser_url"), j.get("wttj_url"))
 
         dash_html = (pathlib.Path(BASE_DIR) / "templates" / "admin_dashboard.html").read_text(encoding="utf-8")
         self.assertIn("let HAS_SEARCHED = false", dash_html)
         self.assertIn("toggleAutonomousMode()", dash_html)
         self.assertIn("executeLiveSearch(", dash_html)
+        self.assertIn('id="portalChecklist"', dash_html)
+        self.assertIn('id="customRoleModal"', dash_html)
 
 
 if __name__ == "__main__":

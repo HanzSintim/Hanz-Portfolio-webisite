@@ -1841,6 +1841,8 @@ def update_job_pipeline_status(job_id: str, new_status: str) -> Dict[str, Any]:
 
 def get_boot_sync_payload(force_github: bool = False) -> Dict[str, Any]:
     """Return full boot payload for the 3-Pane Admin Workstation and static export."""
+    from cv_architect import SEARCH_PORTAL_SOURCES
+
     state = load_hunter_state()
     profile = load_ground_truth_profile()
     gh = sync_github_repos(force_refresh=force_github)
@@ -1852,6 +1854,7 @@ def get_boot_sync_payload(force_github: bool = False) -> Dict[str, Any]:
         "region_configs": REGION_CONFIGS,
         "source_configs": SOURCE_CONFIGS,
         "domain_filters": DOMAIN_FILTERS,
+        "portal_sources": SEARCH_PORTAL_SOURCES,
         "ground_truth_profile": profile,
         "github_repos": gh,
         "cv_hub_templates": hub_templates,

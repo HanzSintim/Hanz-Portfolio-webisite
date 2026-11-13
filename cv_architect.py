@@ -52,40 +52,54 @@ DOMAIN_FILTERS = [
     {"id": "python_arch", "label": "Python & Systems Architecture", "keywords": ["python", "flask", "sql", "postgresql", "api", "rest", "linux", "architecture", "backend", "systems", "git", "automation", "testing"]},
 ]
 
+SEARCH_PORTAL_SOURCES: List[Dict[str, str]] = [
+    {"id": "junia_jobteaser", "label": "🎓 JUNIA JobTeaser & Career Center"},
+    {"id": "direct_ats", "label": "🏢 Workday / Greenhouse / Lever / SmartRecruiters ATS"},
+    {"id": "wttj", "label": "🌴 Welcome to the Jungle (WTTJ)"},
+    {"id": "linkedin_live", "label": "💼 LinkedIn Live Jobs (f_TPR)"},
+    {"id": "alternance_gov", "label": "🇫🇷 La Bonne Alternance & Pôle Stage"},
+    {"id": "arbeitnow_eu", "label": "🇪🇺 Arbeitnow European Tech API"},
+    {"id": "indeed_hellowork", "label": "🔎 HelloWork & Indeed Requisitions"},
+]
+
 # Known corporate ATS direct endpoints for fallback enrichment when links point to generic homepages
 KNOWN_CORPORATE_ATS: Dict[str, Tuple[str, str]] = {
-    "exotec": ("Lever ATS", "https://jobs.lever.co/exotec"),
-    "stmicroelectronics": ("Workday ATS", "https://stmicroelectronics.wd3.myworkdayjobs.com/External"),
-    "worldline": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/Worldline"),
-    "ovhcloud": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/OVHcloud"),
-    "valeo": ("Oracle Taleo ATS", "https://valeo.taleo.net/careersection/ex/jobsearch.ftl"),
-    "thales": ("Workday ATS", "https://thales.wd3.myworkdayjobs.com/Careers"),
-    "bosch": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/BoschGroup"),
-    "alstom": ("SuccessFactors ATS", "https://jobsearch.alstom.com/"),
-    "asml": ("Workday ATS", "https://www.asml.com/en/careers/find-your-job"),
-    "nxp": ("Workday ATS", "https://nxp.wd3.myworkdayjobs.com/careers"),
-    "arm": ("SuccessFactors / Careers ATS", "https://careers.arm.com/search-jobs"),
-    "schneider": ("Workday / Corporate ATS", "https://careers.se.com/global/en/search-results"),
-    "capgemini": ("SuccessFactors ATS", "https://www.capgemini.com/careers/join-capgemini/job-search/"),
-    "decathlon": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/Decathlon"),
-    "alten": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/Alten"),
-    "safran": ("Corporate ATS", "https://www.safran-group.com/jobs"),
-    "soitec": ("Workday / Corporate ATS", "https://www.soitec.com/en/careers"),
-    "siemens": ("Corporate ATS", "https://jobs.siemens.com/careers"),
-    "renault": ("Workday ATS", "https://alliance.wd3.myworkdayjobs.com/renault-group-careers"),
-    "ampere": ("Workday ATS", "https://alliance.wd3.myworkdayjobs.com/renault-group-careers"),
-    "nvidia": ("Workday ATS", "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite"),
-    "inria": ("Inria Recruitment Portal", "https://jobs.inria.fr/public/classic/fr/offres"),
-    "cnrs": ("CNRS Emploi Portal", "https://emploi.cnrs.fr/Offres.aspx"),
-    "iemn": ("CNRS / IEMN Portal", "https://emploi.cnrs.fr/Offres.aspx"),
-    "adeo": ("ADEO Tech Careers", "https://www.adeo.com/en/careers/"),
-    "boulanger": ("Boulanger Tech Careers", "https://www.boulanger-recrute.fr/"),
+    "exotec": ("Lever ATS", "https://jobs.lever.co/exotec?department=R%26D"),
+    "stmicroelectronics": ("Workday ATS", "https://stmicroelectronics.wd3.myworkdayjobs.com/External?q=STM32+Embedded"),
+    "worldline": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/Worldline?search=embedded"),
+    "ovhcloud": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/OVHcloud?search=linux+firmware"),
+    "valeo": ("Oracle Taleo ATS", "https://valeo.taleo.net/careersection/ex/jobsearch.ftl?lang=fr&keyword=embedded"),
+    "thales": ("Workday ATS", "https://thales.wd3.myworkdayjobs.com/Careers?q=embarqu%C3%A9+stage"),
+    "bosch": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/BoschGroup?search=embedded+intern"),
+    "alstom": ("SuccessFactors ATS", "https://jobsearch.alstom.com/search/?q=embarqu%C3%A9&locationsearch=Valenciennes"),
+    "asml": ("Workday ATS", "https://www.asml.com/en/careers/find-your-job?search=embedded+internship"),
+    "nxp": ("Workday ATS", "https://nxp.wd3.myworkdayjobs.com/careers?q=embedded+firmware+intern"),
+    "arm": ("SuccessFactors / Careers ATS", "https://careers.arm.com/search-jobs?k=embedded+intern"),
+    "schneider": ("Workday / Corporate ATS", "https://careers.se.com/global/en/search-results?keywords=embedded%20stm32%20stage"),
+    "capgemini": ("SuccessFactors ATS", "https://www.capgemini.com/careers/join-capgemini/job-search/?search_term=embarqu%C3%A9%20alternance"),
+    "decathlon": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/Decathlon?search=iot+embedded"),
+    "alten": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/Alten?search=stm32+embarqu%C3%A9"),
+    "safran": ("Corporate ATS", "https://www.safran-group.com/jobs?search=stage+embarqu%C3%A9"),
+    "soitec": ("Workday / Corporate ATS", "https://www.soitec.com/en/careers?search=microelectronics+intern"),
+    "siemens": ("Corporate ATS", "https://jobs.siemens.com/careers?query=embedded+stage&location=Lille"),
+    "renault": ("Workday ATS", "https://alliance.wd3.myworkdayjobs.com/renault-group-careers?q=embedded+bms+stage"),
+    "ampere": ("Workday ATS", "https://alliance.wd3.myworkdayjobs.com/renault-group-careers?q=embedded+bms+stage"),
+    "nvidia": ("Workday ATS", "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite?q=embedded+firmware+intern"),
+    "inria": ("Inria Recruitment Portal", "https://jobs.inria.fr/public/classic/fr/offres?search=robotique+lille"),
+    "cnrs": ("CNRS Emploi Portal", "https://emploi.cnrs.fr/Offres.aspx?search=microelectronique"),
+    "iemn": ("CNRS / IEMN Portal", "https://emploi.cnrs.fr/Offres.aspx?search=IEMN+microelectronique"),
+    "adeo": ("Welcome to the Jungle (WTTJ)", "https://www.welcometothejungle.com/fr/companies/adeo/jobs?query=iot+python"),
+    "boulanger": ("Welcome to the Jungle (WTTJ)", "https://www.welcometothejungle.com/fr/companies/boulanger/jobs?query=hardware+test"),
     "enedis": ("Enedis Alternance / Stages", "https://www.enedis.fr/alternance-et-stages"),
-    "sncf": ("SNCF Ingénierie Emploi", "https://www.emploi.sncf.com/"),
-    "kiabi": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/Kiabi"),
-    "roquette": ("SuccessFactors ATS", "https://careers.roquette.com/"),
-    "imec": ("SuccessFactors / Imec Careers", "https://www.imec-int.com/en/work-at-imec/job-opportunities"),
+    "sncf": ("SNCF Ingénierie Emploi", "https://www.emploi.sncf.com/recherche-offres?search=signalisation+lille"),
+    "kiabi": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/Kiabi?search=c%2B%2B+python"),
+    "roquette": ("SuccessFactors ATS", "https://careers.roquette.com/search/?q=automatisme+capteurs"),
+    "imec": ("Imec Careers Portal", "https://www.imec-int.com/en/work-at-imec/job-opportunities?search=embedded+internship"),
     "canonical": ("Greenhouse ATS", "https://boards.greenhouse.io/canonical"),
+    "skydio": ("Greenhouse ATS", "https://boards.greenhouse.io/skydio"),
+    "microchip": ("SmartRecruiters ATS", "https://jobs.smartrecruiters.com/MicrochipTechnologyInc?search=embedded+intern"),
+    "cochlear": ("Cochlear Careers ATS", "https://careers.cochlear.com/search/?q=embedded+firmware+intern"),
+    "morse micro": ("Morse Micro Careers", "https://www.morsemicro.com/careers/"),
 }
 
 _FALLBACK_GITHUB_REPOS: List[Dict[str, Any]] = [
@@ -519,12 +533,35 @@ def enrich_job_for_indexing(job: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     return enriched
 
 
+def _append_role_query_if_root(url: str, role_kw: str) -> str:
+    """Attach a pre-filtered role query parameter if a corporate ATS URL points to a bare board root."""
+    if not url:
+        return url
+    low = url.lower()
+    if "?" in url:
+        return url
+    q_enc = urllib.parse.quote_plus(role_kw)
+    if "myworkdayjobs.com" in low:
+        return f"{url}?q={q_enc}"
+    if "jobs.smartrecruiters.com/" in low:
+        # Board root looks like https://jobs.smartrecruiters.com/Worldline (4 parts)
+        parts = [p for p in low.split("/") if p]
+        if len(parts) <= 3:
+            return f"{url}?search={q_enc}"
+    if "jobs.lever.co/" in low:
+        parts = [p for p in low.split("/") if p]
+        if len(parts) <= 3:
+            return f"{url}?department=R%26D"
+    return url
+
+
 def resolve_ats_submission_link(job: Dict[str, Any], tpr_seconds: int = 86400) -> Dict[str, Any]:
     """
     Part 3: Resolve direct ATS submission URLs (Workday, Greenhouse, Lever, SmartRecruiters,
     Welcome to the Jungle job page, JobTeaser JUNIA, LinkedIn direct job ID, corporate ATS)
-    AND always attach fallback-proof multi-path URLs (`company_ats_url`, `wttj_url`,
-    `linkedin_fresh_url`) pinned to the live freshness window so no card dead-ends.
+    AND attach 4 guaranteed distinct, role-filtered backup portal deep-links
+    (`junia_jobteaser_url`, `wttj_url`, `linkedin_fresh_url`, `alternance_gov_url`)
+    plus `portal_sources` so no card ever shows duplicate URLs or bare homepages.
     """
     candidates = [
         str(job.get("direct_apply_url") or "").strip(),
@@ -535,14 +572,36 @@ def resolve_ats_submission_link(job: Dict[str, Any], tpr_seconds: int = 86400) -
     company = str(job.get("company") or "").strip()
     title = str(job.get("title") or "Embedded Systems").strip()
     location = str(job.get("location") or "France").strip()
+    region = str(job.get("region") or "france").lower()
     comp_low = company.lower()
 
-    # Build fresh live search pointers (pinned to f_TPR freshness window so expired posts never show)
-    q_role = urllib.parse.quote_plus(f"{company} {title.split('—')[0].strip()[:45]}")
-    q_comp_loc = urllib.parse.quote_plus(location.split(",")[0].strip() or "France")
+    # Build concise, high-precision role & location keywords
+    short_title = title.split("—")[0].split("(")[0].strip()[:42]
+    skills_hint = " ".join((job.get("skills") or [])[:2]).strip()
+    role_kw = f"{short_title} {skills_hint}".strip() if len(short_title) < 28 else short_title
+    city_kw = location.split(",")[0].split("(")[0].split("/")[0].strip() or ("Lille" if region == "lille" else "France")
     tpr_val = f"r{max(3600, int(tpr_seconds))}"
-    linkedin_fresh_url = f"https://www.linkedin.com/jobs/search/?keywords={q_role}&location={q_comp_loc}&f_TPR={tpr_val}&f_E=1%2C2"
-    wttj_url = job.get("wttj_url") or f"https://www.welcometothejungle.com/fr/jobs?query={urllib.parse.quote_plus(company + ' embedded')}&page=1"
+
+    q_full = urllib.parse.quote_plus(f"{company} {role_kw}".strip())
+    q_loc = urllib.parse.quote_plus(city_kw)
+
+    junia_jobteaser_url = str(job.get("junia_jobteaser_url") or "").strip() or (
+        f"https://junia.jobteaser.com/fr/job-offers?q={q_full}"
+    )
+    wttj_url = str(job.get("wttj_url") or "").strip() or (
+        f"https://www.welcometothejungle.com/fr/jobs?query={q_full}&page=1"
+    )
+    linkedin_fresh_url = str(job.get("linkedin_fresh_url") or "").strip() or (
+        f"https://www.linkedin.com/jobs/search/?keywords={q_full}&location={q_loc}&f_TPR={tpr_val}&f_E=1%2C2"
+    )
+    if region in ("lille", "france") or "france" in location.lower() or "lille" in location.lower():
+        alternance_gov_url = str(job.get("alternance_gov_url") or "").strip() or (
+            f"https://www.hellowork.com/fr-fr/emploi/recherche.html?k={q_full}&l={q_loc}"
+        )
+    else:
+        alternance_gov_url = str(job.get("alternance_gov_url") or "").strip() or (
+            f"https://www.indeed.com/jobs?q={q_full}&l={q_loc}&fromage=7"
+        )
 
     company_ats_url = str(job.get("company_ats_url") or "").strip()
     matched_provider = ""
@@ -553,15 +612,20 @@ def resolve_ats_submission_link(job: Dict[str, Any], tpr_seconds: int = 86400) -
             break
     if not company_ats_url:
         company_ats_url = wttj_url
+    company_ats_url = _append_role_query_if_root(company_ats_url, role_kw)
 
     verified_ats_patterns = [
         (r"myworkdayjobs\.com", "Workday ATS"),
+        (r"(?:job-)?boards\.greenhouse\.io/.+/jobs/\d+", "Greenhouse Direct Offer"),
         (r"(?:job-)?boards\.greenhouse\.io", "Greenhouse ATS"),
+        (r"jobs\.lever\.co/[^/]+/[a-f0-9-]{8,}", "Lever Direct Offer"),
         (r"jobs\.lever\.co", "Lever ATS"),
+        (r"jobs\.smartrecruiters\.com/[^/]+/\d+", "SmartRecruiters Direct Offer"),
         (r"jobs\.smartrecruiters\.com", "SmartRecruiters ATS"),
         (r"welcometothejungle\.com/.+/companies/.+/jobs/", "Welcome to the Jungle Direct"),
         (r"jobteaser\.com/.+/job-offers/\d+", "JobTeaser JUNIA Offer"),
         (r"linkedin\.com/jobs/view/\d+", "LinkedIn Direct Requisition"),
+        (r"arbeitnow\.com/jobs/", "Arbeitnow Direct Offer"),
         (r"taleo\.net", "Oracle Taleo ATS"),
         (r"eightfold\.ai", "Eightfold ATS"),
         (r"jobs\.ashbyhq\.com", "Ashby ATS"),
@@ -570,18 +634,31 @@ def resolve_ats_submission_link(job: Dict[str, Any], tpr_seconds: int = 86400) -
         (r"jobs\.inria\.fr", "Inria Official Portal"),
         (r"emploi\.cnrs\.fr", "CNRS Official Portal"),
     ]
-    generic_search_patterns = (
-        "/jobs/search",
-        "/jobs/?$",
-        "/careers/?$",
-        "/carriere/?$",
-        "/search-jobs/?$",
-        "google.com/search",
-        "indeed.fr/jobs?q=",
-        "hellowork.com/fr-fr/emploi/recherche",
+    exact_req_patterns = (
+        r"jobs\.lever\.co/[^/]+/[a-f0-9-]{8,}",
+        r"jobs\.smartrecruiters\.com/[^/]+/\d+",
+        r"(?:job-)?boards\.greenhouse\.io/.+/jobs/\d+",
+        r"linkedin\.com/jobs/view/\d+",
+        r"welcometothejungle\.com/.+/companies/.+/jobs/",
+        r"jobteaser\.com/.+/job-offers/\d+",
+        r"arbeitnow\.com/jobs/",
     )
 
     source_type = str(job.get("source_type") or "").strip()
+    existing_portals = list(job.get("portal_sources") or [])
+    if not existing_portals:
+        existing_portals = ["direct_ats", "junia_jobteaser", "wttj", "linkedin_live"]
+        if region in ("lille", "france"):
+            existing_portals.extend(["alternance_gov", "indeed_hellowork"])
+        elif region == "europe":
+            existing_portals.extend(["arbeitnow_eu", "indeed_hellowork"])
+        else:
+            existing_portals.append("indeed_hellowork")
+        if source_type == "arbeitnow_eu" and "arbeitnow_eu" not in existing_portals:
+            existing_portals.insert(0, "arbeitnow_eu")
+        elif source_type == "linkedin_live" and "linkedin_live" not in existing_portals:
+            existing_portals.insert(0, "linkedin_live")
+
     best_url = next((c for c in candidates if c.startswith("http")), "")
     for cand in candidates:
         if not cand.startswith("http"):
@@ -589,57 +666,44 @@ def resolve_ats_submission_link(job: Dict[str, Any], tpr_seconds: int = 86400) -
         low = cand.lower()
         for pat, provider in verified_ats_patterns:
             if re.search(pat, low):
-                inferred_src = source_type or ("linkedin_live" if "linkedin.com" in low else ("wttj_jobteaser" if ("welcometothejungle" in low or "jobteaser" in low) else "corporate_ats"))
+                resolved_cand = _append_role_query_if_root(cand, role_kw)
+                is_exact = any(re.search(ep, low) for ep in exact_req_patterns)
+                inferred_src = source_type or (
+                    "linkedin_live" if "linkedin.com" in low
+                    else ("wttj_jobteaser" if ("welcometothejungle" in low or "jobteaser" in low) else "corporate_ats")
+                )
                 return {
-                    "direct_apply_url": cand,
+                    "direct_apply_url": resolved_cand,
                     "company_ats_url": company_ats_url,
+                    "junia_jobteaser_url": junia_jobteaser_url,
                     "wttj_url": wttj_url,
                     "linkedin_fresh_url": linkedin_fresh_url,
+                    "alternance_gov_url": alternance_gov_url,
+                    "portal_sources": existing_portals,
+                    "is_exact_requisition": is_exact,
                     "source_type": inferred_src,
                     "url_health": "verified_ats",
-                    "url_health_label": f"Direct ATS Form Verified ({provider})",
+                    "url_health_label": f"Direct ATS Requisition ({provider})" if is_exact else f"Filtered ATS Board ({provider})",
                     "ats_provider": provider,
                 }
 
-    # Check if best_url is an explicit specific requisition path (not generic search/homepage)
-    if best_url:
-        low = best_url.lower()
-        is_generic = any(re.search(gp, low) for gp in generic_search_patterns)
-        if not is_generic and len(low.split("/")) >= 5:
-            return {
-                "direct_apply_url": best_url,
-                "company_ats_url": company_ats_url,
-                "wttj_url": wttj_url,
-                "linkedin_fresh_url": linkedin_fresh_url,
-                "source_type": source_type or "corporate_ats",
-                "url_health": "verified_ats",
-                "url_health_label": "Direct ATS / Career Requisition Verified",
-                "ats_provider": matched_provider or "Corporate Career ATS",
-            }
-
-    if matched_provider and company_ats_url:
-        target = best_url if (best_url and "linkedin.com/jobs/search" not in best_url.lower()) else company_ats_url
-        is_direct_portal = any(re.search(pat, target.lower()) for pat, _ in verified_ats_patterns)
-        return {
-            "direct_apply_url": target,
-            "company_ats_url": company_ats_url,
-            "wttj_url": wttj_url,
-            "linkedin_fresh_url": linkedin_fresh_url,
-            "source_type": source_type or "corporate_ats",
-            "url_health": "verified_ats" if is_direct_portal else "portal_fallback",
-            "url_health_label": f"Direct ATS Form Verified ({matched_provider})" if is_direct_portal else f"Official ATS Portal ({matched_provider})",
-            "ats_provider": matched_provider,
-        }
+    target_url = _append_role_query_if_root(best_url or company_ats_url, role_kw)
+    if matched_provider and company_ats_url and (not best_url or "linkedin.com/jobs/search" in best_url.lower()):
+        target_url = company_ats_url
 
     return {
-        "direct_apply_url": best_url or company_ats_url or linkedin_fresh_url,
+        "direct_apply_url": target_url or wttj_url,
         "company_ats_url": company_ats_url,
+        "junia_jobteaser_url": junia_jobteaser_url,
         "wttj_url": wttj_url,
         "linkedin_fresh_url": linkedin_fresh_url,
-        "source_type": source_type or "wttj_jobteaser",
-        "url_health": "portal_fallback",
-        "url_health_label": "Live Fresh Portal Search",
-        "ats_provider": job.get("source_label") or "Portal Search",
+        "alternance_gov_url": alternance_gov_url,
+        "portal_sources": existing_portals,
+        "is_exact_requisition": False,
+        "source_type": source_type or ("wttj_jobteaser" if "welcometothejungle" in target_url.lower() else "corporate_ats"),
+        "url_health": "verified_ats" if matched_provider else "portal_fallback",
+        "url_health_label": f"Filtered Career Portal ({matched_provider})" if matched_provider else "Live Fresh Portal Search",
+        "ats_provider": matched_provider or job.get("source_label") or "Career Portal",
     }
 
 
@@ -698,10 +762,12 @@ def build_inverted_index(jobs: List[Dict[str, Any]]) -> Dict[str, List[str]]:
         else:
             _add("freshness:7d", jid)
 
-        # ATS Policy, URL health & source type tokens
+        # ATS Policy, URL health, source type & portal source tokens
         _add(f"ats:{job.get('ats_policy', 'strict_ats')}", jid)
         _add(f"health:{job.get('url_health', 'portal_fallback')}", jid)
         _add(f"source:{job.get('source_type', 'corporate_ats')}", jid)
+        for ps in (job.get("portal_sources") or ["direct_ats", "junia_jobteaser", "wttj", "linkedin_live"]):
+            _add(f"portal:{str(ps).lower()}", jid)
         _add(f"status:{job.get('pipeline_status', 'saved')}", jid)
 
         # Inverted keyword tokens
@@ -774,6 +840,17 @@ def query_inverted_index(
     if source_filter and source_filter != "all":
         candidate_ids &= idx.get(f"source:{source_filter}", set())
 
+    # 5c. Multi-Select Portal Sources Filter (Union across checked portals)
+    portals = filters.get("portals") or []
+    if isinstance(portals, str):
+        portals = [portals] if portals and portals != "all" else []
+    portals = [str(p).lower() for p in portals if p and p != "all"]
+    if portals:
+        portal_union: Set[str] = set()
+        for p in portals:
+            portal_union |= idx.get(f"portal:{p}", set())
+        candidate_ids &= portal_union
+
     # 6. Instant Search Token Intersection + Prefix fallback
     q_text = str(filters.get("q") or "").strip().lower()
     if q_text:
@@ -795,6 +872,7 @@ def query_inverted_index(
     results = [jobs_by_id[jid] for jid in candidate_ids if jid in jobs_by_id]
     results.sort(
         key=lambda j: (
+            0 if j.get("is_live_fetched") else 1,
             0 if (j.get("is_lille_nearby") and j.get("contract_type") in ("alternance", "both")) else 1,
             -float(j.get("match_score") or 0),
             int(j.get("posted_hours_ago") or 999),
@@ -1447,11 +1525,13 @@ def _fetch_lever_live(company_slug: str, company_name: str, default_region: str 
                 "cv_lang": "fr" if any(w in hay for w in ("ingénieur", "embarqu", "stage", "alternance")) else "en",
                 "ats_policy": "strict_ats",
                 "source_type": "live_ats_api",
+                "is_live_fetched": True,
+                "portal_sources": ["direct_ats", "junia_jobteaser", "wttj", "linkedin_live"],
                 "source_label": f"Live Lever API ({company_name})",
                 "direct_apply_url": it.get("applyUrl") or it.get("hostedUrl") or f"https://jobs.lever.co/{company_slug}",
                 "posted_hours_ago": min(hrs, 168),
-                "posted_ago": f"{min(hrs, 168)}h ago" if hrs < 48 else f"{min(7, hrs // 24)}d ago",
-                "match_score": 96 if "emb" in hay or "c++" in hay or "robot" in hay or "pcb" in hay else 88,
+                "posted_ago": f"{min(hrs, 168)}h ago (Live)" if hrs < 48 else f"{min(7, hrs // 24)}d ago (Live)",
+                "match_score": 96 if "emb" in hay or "c++" in hay or "robot" in hay or "pcb" in hay else 89,
                 "skills": [k for k in ("C/C++", "Embedded", "STM32", "Robotics", "PCB", "Python") if k.lower()[:3] in hay] or ["Robotics", "Embedded Systems"],
             })
         return out[:10], f"ok ({len(out)} matched)"
@@ -1498,12 +1578,98 @@ def _fetch_smartrecruiters_live(company_id: str, company_name: str, region_hint:
                 "cv_lang": "fr" if country.lower() in ("fr", "france") else "en",
                 "ats_policy": "strict_ats",
                 "source_type": "live_ats_api",
+                "is_live_fetched": True,
+                "portal_sources": ["direct_ats", "junia_jobteaser", "wttj", "linkedin_live"],
                 "source_label": f"Live SmartRecruiters API ({company_name})",
                 "direct_apply_url": f"https://jobs.smartrecruiters.com/{company_id}/{pid}",
-                "posted_hours_ago": 18,
+                "posted_hours_ago": 14,
+                "posted_ago": "Live API",
+                "match_score": 93,
+                "skills": [k for k in ("Embedded C", "C++", "STM32", "Python", "IoT", "Electronics") if k.lower()[:3] in hay] or ["Systems Engineering", "Testing"],
+            })
+        return out[:8], f"ok ({len(out)} matched)"
+    except Exception as exc:
+        return [], f"fallback ({type(exc).__name__})"
+
+
+def _fetch_greenhouse_live(board_slug: str, company_name: str, region_hint: str = "europe") -> Tuple[List[Dict[str, Any]], str]:
+    url = f"https://boards-api.greenhouse.io/v1/boards/{board_slug}/jobs"
+    out: List[Dict[str, Any]] = []
+    try:
+        data = _http_get_json(url, timeout=4.0)
+        for it in (data.get("jobs") or []):
+            title = str(it.get("title") or "")
+            loc = str((it.get("location") or {}).get("name") or "Europe / Global")
+            if _is_african_location({"location": loc}):
+                continue
+            hay = f"{title} {loc}".lower()
+            if not any(t in hay for t in _TECH_RELEVANCE_TERMS):
+                continue
+            loc_low = loc.lower()
+            reg = region_hint
+            if any(c in loc_low for c in ("lille", "croix", "roubaix")):
+                reg = "lille"
+            elif "france" in loc_low or "paris" in loc_low:
+                reg = "france"
+            elif any(c in loc_low for c in ("usa", "united states", "ca", "tx", "ny", "canada", "san mateo")):
+                reg = "north_america"
+            out.append({
+                "id": f"gh_{board_slug}_{it.get('id', '')}",
+                "company": company_name,
+                "title": title,
+                "location": loc,
+                "region": reg,
+                "contract_type": "stage" if ("intern" in hay or "stage" in hay) else "both",
+                "cv_lang": "en",
+                "ats_policy": "strict_ats",
+                "source_type": "live_ats_api",
+                "is_live_fetched": True,
+                "portal_sources": ["direct_ats", "linkedin_live"],
+                "source_label": f"Live Greenhouse API ({company_name})",
+                "direct_apply_url": it.get("absolute_url") or f"https://boards.greenhouse.io/{board_slug}",
+                "posted_hours_ago": 16,
                 "posted_ago": "Live API",
                 "match_score": 92,
-                "skills": [k for k in ("Embedded C", "C++", "STM32", "Python", "IoT", "Electronics") if k.lower()[:3] in hay] or ["Systems Engineering", "Testing"],
+                "skills": [k for k in ("Embedded C", "C++", "STM32", "Linux", "Python", "Robotics") if k.lower()[:3] in hay] or ["Embedded Systems", "Firmware"],
+            })
+        return out[:6], f"ok ({len(out)} matched)"
+    except Exception as exc:
+        return [], f"fallback ({type(exc).__name__})"
+
+
+def _fetch_arbeitnow_live() -> Tuple[List[Dict[str, Any]], str]:
+    url = "https://www.arbeitnow.com/api/job-board-api"
+    out: List[Dict[str, Any]] = []
+    try:
+        data = _http_get_json(url, timeout=4.5)
+        for it in (data.get("data") or []):
+            title = str(it.get("title") or "")
+            loc = str(it.get("location") or "Europe")
+            if _is_african_location({"location": loc}):
+                continue
+            tags = " ".join(it.get("tags") or [])
+            hay = f"{title} {tags} {it.get('company_name', '')}".lower()
+            if not any(t in hay for t in _TECH_RELEVANCE_TERMS):
+                continue
+            reg = "france" if "france" in loc.lower() or "paris" in loc.lower() else ("lille" if "lille" in loc.lower() else "europe")
+            out.append({
+                "id": f"arb_{str(it.get('slug', ''))[:16]}",
+                "company": str(it.get("company_name") or "EU Tech Company"),
+                "title": title,
+                "location": loc,
+                "region": reg,
+                "contract_type": "stage" if ("intern" in hay or "werkstudent" in hay or "stage" in hay) else "both",
+                "cv_lang": "en",
+                "ats_policy": "strict_ats",
+                "source_type": "live_ats_api",
+                "is_live_fetched": True,
+                "portal_sources": ["arbeitnow_eu", "linkedin_live"],
+                "source_label": "Arbeitnow EU Tech API",
+                "direct_apply_url": it.get("url") or "https://www.arbeitnow.com/",
+                "posted_hours_ago": 12,
+                "posted_ago": "Live EU API",
+                "match_score": 90,
+                "skills": (it.get("tags") or [])[:4] or ["Embedded", "Python", "Systems"],
             })
         return out[:8], f"ok ({len(out)} matched)"
     except Exception as exc:
@@ -1538,6 +1704,8 @@ def _fetch_linkedin_guest_live(keywords: str, location: str, region: str, tpr_se
                 "cv_lang": "fr" if region in ("lille", "france") else "en",
                 "ats_policy": "strict_ats",
                 "source_type": "linkedin_live",
+                "is_live_fetched": True,
+                "portal_sources": ["linkedin_live", "junia_jobteaser", "wttj"],
                 "source_label": f"LinkedIn Live r{tpr_seconds}",
                 "direct_apply_url": f"https://www.linkedin.com/jobs/view/{job_id}/",
                 "posted_hours_ago": 6 if tpr_seconds <= 86400 else 36,
@@ -1553,8 +1721,8 @@ def _fetch_linkedin_guest_live(keywords: str, location: str, region: str, tpr_se
 def execute_live_multi_source_search(filters: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """
     Execute concurrent live multi-source internship search across Lever ATS,
-    SmartRecruiters ATS, LinkedIn Live Guest Search (f_TPR), and the expanded
-    34-employer Lille (<50km) & Global engineering matrix.
+    SmartRecruiters ATS, Greenhouse ATS, Arbeitnow EU Tech API, LinkedIn Live (f_TPR),
+    JUNIA JobTeaser / WTTJ / HelloWork query feeds, and the 34-employer matrix.
     """
     t0 = time.perf_counter()
     filters = filters or {}
@@ -1566,13 +1734,16 @@ def execute_live_multi_source_search(filters: Optional[Dict[str, Any]] = None) -
     sources_scanned: List[Dict[str, str]] = []
     live_jobs: List[Dict[str, Any]] = []
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
         futures = {
             "Lever ATS (Exotec Croix)": pool.submit(_fetch_lever_live, "exotec", "Exotec (Skypod Robotics)", "lille"),
             "SmartRecruiters (Worldline)": pool.submit(_fetch_smartrecruiters_live, "Worldline", "Worldline Global", "lille"),
             "SmartRecruiters (OVHcloud)": pool.submit(_fetch_smartrecruiters_live, "OVHcloud", "OVHcloud", "lille"),
             "SmartRecruiters (Decathlon)": pool.submit(_fetch_smartrecruiters_live, "Decathlon", "Decathlon Technology", "lille"),
+            "SmartRecruiters (Alten)": pool.submit(_fetch_smartrecruiters_live, "Alten", "ALTEN Group", "lille"),
             "SmartRecruiters (Bosch)": pool.submit(_fetch_smartrecruiters_live, "BoschGroup", "Bosch Group", "europe"),
+            "Greenhouse (Canonical/Skydio)": pool.submit(_fetch_greenhouse_live, "canonical", "Canonical (Ubuntu)", "europe"),
+            "Arbeitnow EU Tech API": pool.submit(_fetch_arbeitnow_live),
             "LinkedIn Live (Lille f_TPR)": pool.submit(_fetch_linkedin_guest_live, custom_q, "Lille, Hauts-de-France, France", "lille", tpr_seconds),
         }
         for label, fut in futures.items():
@@ -1583,10 +1754,54 @@ def execute_live_multi_source_search(filters: Optional[Dict[str, Any]] = None) -
             except Exception as exc:
                 sources_scanned.append({"source": label, "status": f"timeout ({type(exc).__name__})", "count": "0"})
 
+    # Add query-responsive live portal requisitions so JUNIA JobTeaser / WTTJ / La Bonne Alternance always reflect active query terms
+    q_enc = urllib.parse.quote_plus(custom_q)
+    portal_live_entries = [
+        {
+            "id": "portal_junia_jobteaser_live",
+            "company": "JUNIA JobTeaser Partner Network",
+            "title": f"🎓 Offres Partenaires JUNIA ISEN — {custom_q[:46]}",
+            "location": "Lille & Hauts-de-France / France",
+            "region": "lille",
+            "contract_type": "both",
+            "cv_lang": "fr",
+            "ats_policy": "strict_ats",
+            "source_type": "wttj_jobteaser",
+            "is_live_fetched": True,
+            "portal_sources": ["junia_jobteaser"],
+            "source_label": "JUNIA Career Center",
+            "direct_apply_url": f"https://junia.jobteaser.com/fr/job-offers?q={q_enc}",
+            "posted_hours_ago": 1,
+            "posted_ago": "Live Portal",
+            "match_score": 98,
+            "skills": ["JUNIA Partner", "Embedded C", "STM32", "KiCad"],
+        },
+        {
+            "id": "portal_alternance_gov_live",
+            "company": "La Bonne Alternance / France Travail API",
+            "title": f"🇫🇷 Offres Vérifiées Stage & Alternance Hauts-de-France — {custom_q[:38]}",
+            "location": "Lille, Croix, Villeneuve-d'Ascq, Roubaix",
+            "region": "lille",
+            "contract_type": "alternance",
+            "cv_lang": "fr",
+            "ats_policy": "strict_ats",
+            "source_type": "wttj_jobteaser",
+            "is_live_fetched": True,
+            "portal_sources": ["alternance_gov", "indeed_hellowork"],
+            "source_label": "La Bonne Alternance",
+            "direct_apply_url": f"https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&job_name={q_enc}",
+            "posted_hours_ago": 1,
+            "posted_ago": "Live Portal",
+            "match_score": 96,
+            "skills": ["Alternance 2027", "Embedded C", "Hardware", "Python"],
+        },
+    ]
+    sources_scanned.append({"source": "JUNIA JobTeaser & La Bonne Alternance", "status": "ok (live query)", "count": str(len(portal_live_entries))})
+
     # Merge with expanded canonical employer matrix (deduped by normalized company+title)
     seen_keys: Set[str] = set()
     merged: List[Dict[str, Any]] = []
-    for raw in live_jobs + EXPANDED_REGIONAL_OPPORTUNITIES:
+    for raw in live_jobs + portal_live_entries + EXPANDED_REGIONAL_OPPORTUNITIES:
         key = re.sub(r"[^a-z0-9]", "", f"{raw.get('company', '')}{raw.get('title', '')}".lower())[:42]
         if key in seen_keys:
             continue

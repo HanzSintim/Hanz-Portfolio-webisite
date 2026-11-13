@@ -984,22 +984,6 @@ def build_static_bundle() -> None:
         enable_live_network=False,
     )
     precomputed_drafts = {}
-    for j in hunter_state.get("jobs", []):
-        jid = j["id"]
-        def_draft = generate_tailored_cv_draft(j)
-        precomputed_drafts[jid] = def_draft
-
-        # Generate variations for instantaneous client-side switching on GitHub Pages & Localhost
-        for lang in ("FR", "EN"):
-            precomputed_drafts[f"{jid}_{lang}"] = generate_tailored_cv_draft(j, override_lang=lang)
-            for pol in ("STRICT_ATS", "DESIGN_OK", "UK_ATS"):
-                precomputed_drafts[f"{jid}_{lang}_{pol}"] = generate_tailored_cv_draft(
-                    j, override_lang=lang, override_ats_policy=pol
-                )
-                for prj in ("robot_stm32", "thermometer_msp430", "pos_cpp17", "water_arduino"):
-                    precomputed_drafts[f"{jid}_{lang}_{pol}_{prj}"] = generate_tailored_cv_draft(
-                        j, override_lang=lang, override_ats_policy=pol, override_lead_project=prj
-                    )
     projects_list = load_or_seed_projects()
     raw_json_str = json.dumps(projects_list, indent=2, ensure_ascii=False)
     boot_payload = get_boot_sync_payload(force_github=False)
