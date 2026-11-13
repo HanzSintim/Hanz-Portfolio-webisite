@@ -287,16 +287,54 @@
       box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.15);
       border-radius: 3px;
       overflow: hidden;
-      padding: var(--cv-page-margin, 9mm);
+      padding: var(--cv-page-margin, 8mm);
       font-family: "Inter", "Segoe UI", Arial, sans-serif;
-      font-size: calc(9.5pt * var(--cv-font-scale, 1));
-      line-height: var(--cv-line-height, 1.32);
+      font-size: calc(9.2pt * var(--cv-font-scale, 0.94));
+      line-height: var(--cv-line-height, 1.24);
       display: flex;
       flex-direction: column;
-      gap: var(--cv-section-gap, 9px);
+      gap: var(--cv-section-gap, 5px);
       position: relative;
       transform-origin: top center;
     }
+    #a4Sheet.cv-sheet-teal {
+      padding: 0;
+      display: grid;
+      grid-template-columns: 33% 67%;
+      gap: 0;
+    }
+    .cv-teal-sidebar {
+      background: #2e8b8b;
+      color: #ffffff;
+      padding: var(--cv-page-margin, 8mm) 6mm;
+      display: flex;
+      flex-direction: column;
+      gap: var(--cv-section-gap, 5px);
+      font-size: calc(8.4pt * var(--cv-font-scale, 0.94));
+    }
+    .cv-teal-sidebar .cv-sec-title {
+      color: #ffffff;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.45);
+      font-size: calc(8.8pt * var(--cv-font-scale, 0.94));
+    }
+    .cv-teal-main {
+      padding: var(--cv-page-margin, 8mm);
+      display: flex;
+      flex-direction: column;
+      gap: var(--cv-section-gap, 5px);
+    }
+    .cv-teal-main .cv-sec-title {
+      color: #2e8b8b;
+      border-bottom: 1.5px solid #2e8b8b;
+    }
+    .cv-teal-namebanner {
+      border-bottom: 2px solid #2e8b8b;
+      padding-bottom: 4px;
+      margin-bottom: 2px;
+    }
+    .cv-teal-namebanner .cv-h1 { color: #0f172a; }
+    .cv-teal-namebanner .cv-headline { color: #2e8b8b; font-weight: 700; }
+    .cv-teal-namebanner .cv-avail { color: #0f766e; font-weight: 700; }
     #a4Sheet [contenteditable="true"] {
       outline: none;
       border-radius: 3px;
@@ -307,32 +345,48 @@
       background: rgba(16, 185, 129, 0.1);
       box-shadow: 0 0 0 1.5px #10b981;
     }
-    .cv-header-ats { border-bottom: 2px solid #0f172a; padding-bottom: 6px; }
-    .cv-header-design {
-      background: linear-gradient(135deg, #0f172a, #134e4a);
-      color: #ffffff;
-      padding: 9px 12px;
-      border-radius: 6px;
-    }
-    .cv-header-design .cv-avail { color: #5eead4; }
-    .cv-h1 { font-size: calc(15.5pt * var(--cv-font-scale, 1)); font-weight: 800; letter-spacing: 0.3px; }
-    .cv-headline { font-size: calc(9.3pt * var(--cv-font-scale, 1)); font-weight: 600; opacity: 0.92; margin-top: 2px; }
-    .cv-contact { font-size: calc(8.2pt * var(--cv-font-scale, 1)); opacity: 0.86; margin-top: 2px; }
-    .cv-avail { font-size: calc(8.2pt * var(--cv-font-scale, 1)); font-weight: 700; color: #0f766e; margin-top: 2px; }
+    .cv-header-ats { border-bottom: 2px solid #0f172a; padding-bottom: 5px; }
+    .cv-h1 { font-size: calc(15pt * var(--cv-font-scale, 0.94)); font-weight: 800; letter-spacing: 0.3px; }
+    .cv-headline { font-size: calc(9.1pt * var(--cv-font-scale, 0.94)); font-weight: 600; opacity: 0.92; margin-top: 1px; }
+    .cv-contact { font-size: calc(7.9pt * var(--cv-font-scale, 0.94)); opacity: 0.88; margin-top: 2px; }
+    .cv-avail { font-size: calc(8pt * var(--cv-font-scale, 0.94)); font-weight: 700; color: #0f766e; margin-top: 1px; }
     .cv-sec-title {
-      font-size: calc(9.3pt * var(--cv-font-scale, 1)); font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.7px; color: #0f172a; border-bottom: 1.5px solid #cbd5e1;
-      padding-bottom: 2px; margin-bottom: 4px;
+      font-size: calc(9pt * var(--cv-font-scale, 0.94)); font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.6px; color: #0f172a; border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 1px; margin-bottom: 3px;
     }
-    .cv-header-design ~ section .cv-sec-title { color: #0f766e; border-bottom-color: #99f6e4; }
     .cv-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-    .cv-row strong { font-size: calc(9.1pt * var(--cv-font-scale, 1)); }
-    .cv-date { font-size: calc(8pt * var(--cv-font-scale, 1)); color: #475569; font-weight: 600; white-space: nowrap; }
-    .cv-sub { font-size: calc(8.1pt * var(--cv-font-scale, 1)); color: #334155; font-style: italic; margin-bottom: 1px; }
+    .cv-row strong { font-size: calc(8.8pt * var(--cv-font-scale, 0.94)); }
+    .cv-date { font-size: calc(7.8pt * var(--cv-font-scale, 0.94)); color: #475569; font-weight: 600; white-space: nowrap; }
+    .cv-sub { font-size: calc(7.9pt * var(--cv-font-scale, 0.94)); color: #334155; font-style: italic; margin-bottom: 1px; }
     .cv-tier-inline { font-style: normal; font-weight: 700; color: #0f766e; }
-    #a4Sheet ul { padding-left: 15px; font-size: calc(8.6pt * var(--cv-font-scale, 1)); }
+    #a4Sheet ul { padding-left: 14px; font-size: calc(8.3pt * var(--cv-font-scale, 0.94)); }
     #a4Sheet li { margin-bottom: 1px; }
-    .cv-entry { margin-bottom: 4px; }
+    .cv-entry { margin-bottom: 3px; }
+    .inline-custom-cv-bar {
+      padding: 7px 14px;
+      background: linear-gradient(180deg, #0d1527, #0a101d);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .inline-custom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr 1.5fr auto;
+      gap: 6px;
+      align-items: center;
+    }
+    .inline-custom-grid input {
+      padding: 6px 9px;
+      border-radius: 7px;
+      background: #070b14;
+      border: 1px solid var(--border-subtle);
+      color: #f8fafc;
+      font-size: 0.74rem;
+      outline: none;
+    }
+    .inline-custom-grid input:focus { border-color: var(--accent-cyan); }
 
     /* Docked AI Refinement Prompt Bar */
     .prompt-dock {
@@ -504,8 +558,8 @@
           <label class="check-item"><input type="checkbox" value="direct_ats" onchange="onFilterChanged()" checked /> 🏢 Workday / Greenhouse / Lever / SmartRecruiters ATS</label>
           <label class="check-item"><input type="checkbox" value="wttj" onchange="onFilterChanged()" checked /> 🌴 Welcome to the Jungle (WTTJ)</label>
           <label class="check-item"><input type="checkbox" value="linkedin_live" onchange="onFilterChanged()" checked /> 💼 LinkedIn Live Jobs (f_TPR)</label>
-          <label class="check-item"><input type="checkbox" value="alternance_gov" onchange="onFilterChanged()" checked /> 🇫🇷 La Bonne Alternance &amp; Pôle Stage</label>
-          <label class="check-item"><input type="checkbox" value="arbeitnow_eu" onchange="onFilterChanged()" checked /> 🇪🇺 Arbeitnow European Tech API</label>
+          <label class="check-item"><input type="checkbox" value="alternance_gov" onchange="onFilterChanged()" checked /> [FR] La Bonne Alternance &amp; Pôle Stage</label>
+          <label class="check-item"><input type="checkbox" value="arbeitnow_eu" onchange="onFilterChanged()" checked /> [EU] Arbeitnow European Tech API</label>
           <label class="check-item"><input type="checkbox" value="indeed_hellowork" onchange="onFilterChanged()" checked /> 🔎 HelloWork &amp; Indeed Requisitions</label>
         </div>
       </div>
@@ -620,8 +674,8 @@
 
         <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
           <div class="pill-row">
-            <button type="button" class="filter-pill active" id="cvLangFrBtn" onclick="switchCvLanguage('fr')">🇫🇷 FR</button>
-            <button type="button" class="filter-pill" id="cvLangEnBtn" onclick="switchCvLanguage('en')">🇬🇧 EN</button>
+            <button type="button" class="filter-pill active" id="cvLangFrBtn" onclick="switchCvLanguage('fr')">FR · Français</button>
+            <button type="button" class="filter-pill" id="cvLangEnBtn" onclick="switchCvLanguage('en')">EN · English</button>
           </div>
           <select id="studioAtsMode" class="hub-select" style="width:auto;" onchange="switchAtsMode(this.value)">
             <option value="strict_ats">1-Col Strict ATS</option>
@@ -638,25 +692,35 @@
       <!-- 4 CSS Custom Property Sliders -->
       <div class="studio-controls-bar">
         <label class="slider-ctrl">Margin
-          <input type="range" id="slMargin" min="5" max="15" step="0.5" value="9" oninput="updateLayoutSlider('page_margin_mm', this.value)" />
-          <span class="slider-val" id="valMargin">9mm</span>
+          <input type="range" id="slMargin" min="5" max="15" step="0.5" value="8" oninput="updateLayoutSlider('page_margin_mm', this.value)" />
+          <span class="slider-val" id="valMargin">8mm</span>
         </label>
         <label class="slider-ctrl">Section Gap
-          <input type="range" id="slGap" min="3" max="16" step="1" value="9" oninput="updateLayoutSlider('section_gap_px', this.value)" />
-          <span class="slider-val" id="valGap">9px</span>
+          <input type="range" id="slGap" min="2" max="16" step="1" value="5" oninput="updateLayoutSlider('section_gap_px', this.value)" />
+          <span class="slider-val" id="valGap">5px</span>
         </label>
         <label class="slider-ctrl">Font Scale
-          <input type="range" id="slFont" min="0.80" max="1.10" step="0.02" value="1.00" oninput="updateLayoutSlider('font_scale', this.value)" />
-          <span class="slider-val" id="valFont">1.00×</span>
+          <input type="range" id="slFont" min="0.78" max="1.10" step="0.02" value="0.94" oninput="updateLayoutSlider('font_scale', this.value)" />
+          <span class="slider-val" id="valFont">0.94×</span>
         </label>
         <label class="slider-ctrl">Line Height
-          <input type="range" id="slLine" min="1.10" max="1.50" step="0.02" value="1.32" oninput="updateLayoutSlider('line_height', this.value)" />
-          <span class="slider-val" id="valLine">1.32</span>
+          <input type="range" id="slLine" min="1.10" max="1.50" step="0.02" value="1.24" oninput="updateLayoutSlider('line_height', this.value)" />
+          <span class="slider-val" id="valLine">1.24</span>
         </label>
         <label class="slider-ctrl" style="margin-left:auto;">Zoom
           <input type="range" id="slZoom" min="0.55" max="1.00" step="0.05" value="0.72" oninput="updatePreviewZoom(this.value)" />
           <span class="slider-val" id="valZoom">72%</span>
         </label>
+      </div>
+
+      <!-- Inline Custom CV Builder & Prompt Panel (Always Visible) -->
+      <div class="inline-custom-cv-bar">
+        <div class="inline-custom-grid">
+          <input type="text" id="inlineCustomCompany" placeholder="Target Company (e.g. Exotec, Thales, STMicro)" />
+          <input type="text" id="inlineCustomRole" placeholder="Target Role (e.g. Stage STM32 / Firmware)" />
+          <input type="text" id="inlineCustomDesc" placeholder="Paste Offer URL, Job Keywords or Custom Focus..." />
+          <button type="button" class="btn btn-sm btn-primary" onclick="buildInlineCustomCv()">⚡ Build / Tailor CV</button>
+        </div>
       </div>
 
       <!-- Outline Controls + Live A4 Sheet -->
@@ -677,6 +741,8 @@
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Condense to fit strictly on 1 page')">Condense to 1 page</button>
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Translate to English')">Translate to EN</button>
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Traduire en Français')">Traduire en FR</button>
+          <button type="button" class="chip-btn" onclick="applyQuickPrompt('Switch to Teal 2-Col Design template')">Teal 2-Col Design</button>
+          <button type="button" class="chip-btn" onclick="applyQuickPrompt('Switch to Strict 1-Col ATS template')">1-Col Strict ATS</button>
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Emphasize STM32 & ESP32 firmware')">Emphasize STM32</button>
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Put KiCad Charger PCB first')">KiCad PCB #1</button>
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Make project bullets shorter and sharper')">Shorter bullets</button>
@@ -824,6 +890,8 @@
     let JOBS_BY_ID = new Map();
     let FILTER_STATE = { contract: 'all', lang: '', freshness: '7d', source: '', pipeline: '', q: '' };
     let HAS_SEARCHED = false;
+    let LAST_SCAN_MS = 0;
+    let SCAN_CYCLE_NONCE = 0;
     let LAST_RADAR_SOURCES = [];
     let AUTO_MODE = { enabled: false, intervalSec: 300, remainingSec: 300, cycleCount: 0, lastScanAt: null, isScanning: false, timerId: null };
     let SELECTED_JOB_ID = null;
@@ -967,11 +1035,39 @@
             <div><strong>Contract Track:</strong> ${esc(FILTER_STATE.contract.toUpperCase())} &nbsp;·&nbsp; <strong>Freshness:</strong> ${esc(tprLabels[FILTER_STATE.freshness] || 'Last 7d')}</div>
             <div><strong>Engineering Domains:</strong> ${esc(domains.length ? domains.join(', ') : 'All Engineering Tracks')}</div>
           </div>
-          <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:4px;">
-            <button type="button" class="btn btn-primary" style="flex:1; padding:10px 14px; font-size:0.85rem;" onclick="executeLiveSearch(false)">🔍 Search Live Internships Now</button>
-            <button type="button" class="btn btn-cyan" style="padding:10px 14px; font-size:0.85rem;" onclick="toggleAutonomousMode()">🤖 Start Autonomous Auto-Refresh</button>
+          <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:2px;">Quick-Launch Filter Presets (triggers topbar <strong>Search Live Internships</strong>):</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <button type="button" class="btn btn-sm btn-cyan" onclick="runPresetSearch('lille_stage')">Lille &lt;50km · Stage &amp; Alternance</button>
+            <button type="button" class="btn btn-sm btn-cyan" onclick="runPresetSearch('junia_wttj')">JUNIA JobTeaser + WTTJ</button>
+            <button type="button" class="btn btn-sm" onclick="runPresetSearch('stm32_c')">STM32 / Embedded C/C++</button>
+            <button type="button" class="btn btn-sm" onclick="runPresetSearch('kicad_pcb')">KiCad PCB &amp; Microelectronics</button>
           </div>
         </div>`;
+    }
+
+    function runPresetSearch(preset) {
+      document.querySelectorAll('#portalChecklist input').forEach(el => el.checked = true);
+      document.querySelectorAll('#regionChecklist input, #domainChecklist input').forEach(el => el.checked = false);
+      const qInput = document.getElementById('globalSearchInput');
+      if (preset === 'lille_stage') {
+        document.querySelector('#regionChecklist input[value="lille"]').checked = true;
+        if (qInput) qInput.value = '';
+      } else if (preset === 'junia_wttj') {
+        document.querySelectorAll('#portalChecklist input').forEach(el => {
+          el.checked = (el.value === 'junia_jobteaser' || el.value === 'wttj' || el.value === 'direct_ats');
+        });
+        document.querySelector('#regionChecklist input[value="lille"]').checked = true;
+        document.querySelector('#regionChecklist input[value="france"]').checked = true;
+        if (qInput) qInput.value = '';
+      } else if (preset === 'stm32_c') {
+        document.querySelector('#domainChecklist input[value="embedded_c"]').checked = true;
+        document.querySelector('#domainChecklist input[value="stm32_esp32"]').checked = true;
+        if (qInput) qInput.value = 'STM32';
+      } else if (preset === 'kicad_pcb') {
+        document.querySelector('#domainChecklist input[value="pcb_kicad"]').checked = true;
+        if (qInput) qInput.value = 'KiCad';
+      }
+      executeLiveSearch(false);
     }
 
     function runO1Filter() {
@@ -1060,10 +1156,12 @@
       });
 
       const dt = Math.max(0.05, performance.now() - t0).toFixed(2);
-      document.getElementById('indexLatencyPill').textContent = `⚡ ${dt}ms`;
+      document.getElementById('indexLatencyPill').textContent = LAST_SCAN_MS > 0
+        ? `Scan: ${LAST_SCAN_MS}ms · Filter: ${dt}ms`
+        : `O(1) Filter: ${dt}ms`;
       document.getElementById('feedCountLabel').textContent = `Showing ${results.length} matching roles (from ${JOBS.length} scanned & indexed)`;
       document.getElementById('activeFilterSummary').textContent =
-        `Portals: ${checkedPortals.length} · Regions: ${checkedRegions.length ? checkedRegions.join(', ') : 'All'} · Freshness: ${FILTER_STATE.freshness.toUpperCase()} · Last scan: ${AUTO_MODE.lastScanAt || 'Ready'} · ${dt}ms`;
+        `Portals: ${checkedPortals.length} · Regions: ${checkedRegions.length ? checkedRegions.join(', ') : 'All'} · Freshness: ${FILTER_STATE.freshness.toUpperCase()} · Last scan: ${AUTO_MODE.lastScanAt || 'Ready'} (${LAST_SCAN_MS}ms scan / ${dt}ms index)`;
 
       renderJobFeed(results);
     }
@@ -1272,11 +1370,47 @@
 
     function buildClientCvState(job, lang, atsMode) {
       const isEn = lang === 'en';
-      const owner = (BOOT.ground_truth_profile || {}).owner || {};
+      const profile = BOOT.ground_truth_profile || {};
+      const owner = profile.owner || {};
       const ranked = rankProjectsClient(job, lang);
+      ranked.forEach((p, idx) => { p.visible = idx < 3; });
       const company = job?.company || '';
       const role = job?.title || (isEn ? 'Embedded Systems & Microelectronics Engineer' : 'Ingénieur Systèmes Embarqués & Microélectronique');
       const skillsStr = (job?.skills || ['Embedded C', 'STM32/ESP32', 'KiCad PCB', 'C++17']).slice(0, 4).join(', ');
+      const leadershipRaw = Array.isArray(profile.leadership) ? profile.leadership : [];
+      const experience = leadershipRaw.length
+        ? leadershipRaw.map(ex => ({
+            id: ex.id,
+            title: isEn ? ex.role_en : ex.role_fr,
+            org: isEn ? (ex.org_en || ex.location || '') : (ex.org_fr || ex.location || ''),
+            period: isEn ? ex.period_en : ex.period_fr,
+            bullets: [...((isEn ? ex.bullets_en : ex.bullets_fr) || [])].slice(0, 2),
+          }))
+        : [
+            {
+              id: 'aces_president',
+              title: isEn ? 'President of the Computer Engineering Student Association (ACES — 800+ Students)' : 'Président du Département Génie Informatique (ACES — +800 Étudiants)',
+              org: 'KNUST · Kumasi, Ghana',
+              period: isEn ? 'Aug 2025 – May 2026 (Completed)' : 'Août 2025 – Mai 2026 (Mandat achevé)',
+              bullets: [isEn ? 'Led executive board, academic/technical workshops, and CODEFEST 2026 industrial hackathon.' : 'Direction du bureau exécutif, ateliers techniques, budget et hackathon CODEFEST 2026.'],
+            },
+            {
+              id: 'spagard_intern',
+              title: isEn ? 'Software Engineering & QA Testing Intern — Spagard Technologies' : 'Stagiaire Développement Logiciel & Tests — Spagard Technologies',
+              org: 'IT Services & QA Unit',
+              period: isEn ? 'Oct – Dec 2023 (3 months)' : 'Oct – Déc 2023 (3 mois)',
+              bullets: [isEn ? 'Built backend modules, structured relational SQL schemas, and executed systematic debugging.' : 'Développement serveur, structuration SQL relationnelle et tests systématiques de validation.'],
+            },
+            {
+              id: 'aces_care',
+              title: isEn ? 'Founder & Coordinator — ACES Care Community Tech Initiative' : 'Fondateur & Coordinateur — Initiative Sociale ACES Care',
+              org: 'Community Outreach · Ghana',
+              period: '2025',
+              bullets: [isEn ? 'Organized solidarity technical campaigns and student STEM mentoring programs.' : 'Organisation de campagnes de solidarité étudiante et mentorat technique STEM.'],
+            },
+          ];
+
+      const skMatrix = (profile.skills_matrix && (isEn ? profile.skills_matrix.en : profile.skills_matrix.fr)) || {};
       const state = {
         meta: {
           lang,
@@ -1289,19 +1423,19 @@
           target_url: job?.direct_apply_url || job?.url || '',
         },
         header: {
-          full_name: owner.full_name || 'Hanz Ofosuhene-Sintim',
+          full_name: owner.full_name || 'HANZ OFOSUHENE-SINTIM',
           headline: isEn
-            ? 'M1 Microelectronics & Embedded Systems (JUNIA Lille) · BSc Computer Engineering Graduate (KNUST 2026)'
-            : 'Master 1 Microélectronique & Systèmes Embarqués (JUNIA Lille) · Diplômé BSc KNUST (2026)',
-          contact_line: `Lille, France · ${owner.phone || '+33 7 45 27 89 10'} · ${owner.email || 'hanz.ofosuhene-sintim@student.junia.com'} · github.com/HanzSintim`,
+            ? 'Embedded Systems & Microelectronics Engineer — M1 JUNIA ISEN Lille · BSc KNUST (2026)'
+            : 'Ingénieur Systèmes Embarqués & Microélectronique — M1 JUNIA ISEN Lille · Diplômé BSc KNUST (2026)',
+          contact_line: `Lille, France | ${owner.phone || '+33 6 05 73 14 16'} | ${owner.email || 'hanzsintim@gmail.com'} | linkedin.com/in/hanzofosuhene-sintim | github.com/HanzSintim | hanzsintim.github.io`,
           availability: isEn
-            ? 'Available April 2027 (3–4 Month Internship) & Alternance Sept 2027 (M2)'
-            : 'Disponible Stage 3–4 mois dès Avril 2027 & Alternance Sept 2027 (M2)',
+            ? 'Seeking 3–4 Month Engineering Internship (from April 2027) & Alternance (Sept 2027)'
+            : 'Recherche Stage Ingénieur 3–4 mois (dès Avril 2027) & Alternance M2 (Sept 2027)',
         },
         summary: isEn
-          ? `Master of Science (M1) Engineering student in Microelectronics, Nanotechnology & Embedded Systems at JUNIA ISEN Lille (2026 – Present) and BSc Computer Engineering graduate from KNUST, Ghana (Completed 2026). Hands-on validated experience in ${skillsStr}, seeking a 3 to 4-month internship or Alternance${company ? ' with ' + company : ''} starting April 2027.`
-          : `Étudiant en Master 1 (M1) Microélectronique, Nanotechnologies & Systèmes Embarqués à JUNIA ISEN Lille (2026 – Présent), diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). Maîtrise pratique de ${skillsStr}, disponible dès avril 2027 pour un stage de 3 à 4 mois ou une alternance${company ? ' chez ' + company : ''}.`,
-        education: (BOOT.ground_truth_profile?.academic_timeline || []).map(ed => ({
+          ? `Master of Science (M1) Engineering student in Microelectronics, Nanotechnology & Embedded Systems at JUNIA ISEN Lille (2026 – Present) and BSc Computer Engineering graduate from KNUST, Ghana (Completed 2026). Hands-on validated experience in ${skillsStr}, seeking a 3–4 month internship or Alternance${company ? ' with ' + company : ''} from April 2027.`
+          : `Étudiant en Master 1 (M1) Microélectronique, Nanotechnologies & Systèmes Embarqués à JUNIA ISEN Lille (2026 – Présent), diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). Expérience concrète en ${skillsStr}, disponible dès avril 2027 pour un stage de 3–4 mois ou une alternance${company ? ' chez ' + company : ''}.`,
+        education: (profile.academic_timeline || []).map(ed => ({
           id: ed.id,
           degree: isEn ? ed.degree_en : ed.degree_fr,
           institution: `${ed.institution} — ${ed.location}`,
@@ -1309,29 +1443,16 @@
           notes: isEn ? ed.notes_en : ed.notes_fr,
         })),
         projects: ranked,
-        experience: [
-          {
-            id: 'aces_president',
-            title: isEn ? 'Department President — ACES, KNUST (800+ Students)' : 'Président du Département — ACES, KNUST (800+ Étudiants)',
-            org: 'Kumasi, Ghana · Executive Council',
-            period: isEn ? 'Aug 2025 – May 2026 (Completed)' : 'Août 2025 – Mai 2026 (Mandat achevé)',
-            bullets: [isEn ? 'Directed executive budget, industry partnerships, and CODEFEST 2026 hackathon.' : 'Direction du bureau exécutif, budget, partenariats industriels et hackathon CODEFEST 2026.'],
-          },
-          {
-            id: 'spagard_intern',
-            title: isEn ? 'Software Development & Testing Intern — Spagard Technologies' : 'Stagiaire Développement Logiciel & Tests — Spagard Technologies',
-            org: 'IT Services & QA Unit',
-            period: isEn ? 'Oct – Dec 2023 (3 months)' : 'Oct – Déc 2023 (3 mois)',
-            bullets: [isEn ? 'Built backend modules, normalized SQL tables, and executed interface debugging.' : 'Développement serveur, structuration SQL et tests systématiques de validation.'],
-          },
-        ],
+        experience,
         skills: {
-          embedded: 'Embedded C, C/C++17 (OOP), Assembly (TI MSP430), STM32, ESP32, Arduino',
-          hardware: 'KiCad (Schematic Capture, PCB Layout, Etching), UART/SPI/I2C/PWM, ADC, Oscilloscope',
-          software: 'Python 3, Flask REST API, PostgreSQL (3NF), Linux, Git, GDB / Unit Testing',
-          languages: 'English: C2 (Native) · French: A2 (JUNIA Lille Academic Immersion)',
+          embedded: skMatrix.embedded || 'Embedded C, C/C++17 (OOP), Assembly (TI MSP430), STM32, ESP32, Arduino',
+          hardware: skMatrix.hardware || 'KiCad (Schematic, PCB Layout, Chemical Etching), UART/SPI/I2C/PWM, ADC, Oscilloscope',
+          software: skMatrix.software || 'Python 3, Flask REST API, PostgreSQL (3NF), Linux, Git, GDB / Unit Testing',
+          soft_skills: skMatrix.soft_skills || (isEn ? 'Engineering leadership (800+ students), bilingual collaboration, technical rigor' : 'Leadership associatif (+800 étudiants), travail en équipe multiculturelle, rigueur technique'),
+          languages: isEn ? 'English: C2 (Native / Bilingual) · French: A2 (JUNIA Lille Immersion — Intensive Progression)' : 'Anglais : C2 (Natif / Bilingue) · Français : A2 (Immersion JUNIA Lille — Progression Intensive)',
+          interests: isEn ? 'Robotics prototyping, open-source hardware, football, student technical mentoring' : 'Prototypage robotique, électronique open-source, football, mentorat technique étudiant',
         },
-        layout: CV_STATE?.layout ? { ...CV_STATE.layout } : { page_margin_mm: 9, section_gap_px: 9, font_scale: 1.0, line_height: 1.32 },
+        layout: CV_STATE?.layout ? { ...CV_STATE.layout } : { page_margin_mm: 8, section_gap_px: 5, font_scale: 0.94, line_height: 1.24 },
         cover_pitch: '',
       };
       const lead = ranked[0]?.title || 'Automated Water Tank Control & KiCad Power Charger PCB';
@@ -1339,6 +1460,46 @@
         ? `Dear ${company || 'Hiring Team'},\n\nCurrently in Master 1 (M1) Microelectronics, Nanotechnology & Embedded Systems at JUNIA ISEN Lille (2026 – Present) after graduating with my BSc in Computer Engineering from KNUST (Completed 2026), I am excited to apply for ${role}.\n\nLed by verified hands-on engineering work (${lead}, TI MSP430 C/Assembly acquisition, KiCad PCB fabrication, and C++17 OOP architecture), plus leadership as former ACES Department President (Aug 2025 – May 2026), I look forward to contributing immediately.\n\nBest regards,\nHanz Ofosuhene-Sintim`
         : `Madame, Monsieur (${company || 'Équipe Recrutement'}),\n\nActuellement en Master 1 (M1) Microélectronique, Nanotechnologies & Systèmes Embarqués à JUNIA ISEN Lille (2026 – Présent), après l'obtention de mon BSc en Génie Informatique à KNUST (diplômé en 2026), je candidate avec enthousiasme au poste « ${role} ».\n\nAppuyé sur mes réalisations matérielles et logicielles validées (${lead}, acquisition bas niveau MSP430 C/Assembleur, PCB KiCad, moteur logiciel C++17 POO) et mon mandat d'ancien Président ACES (Août 2025 – Mai 2026), je serais ravi d'échanger en entretien.\n\nCordialement,\nHanz Ofosuhene-Sintim`;
       return validateCvTruthClient(state).cleaned;
+    }
+
+    function buildInlineCustomCv() {
+      const company = (document.getElementById('inlineCustomCompany')?.value || '').trim() || 'Target Engineering Team';
+      const title = (document.getElementById('inlineCustomRole')?.value || '').trim() || 'Stage / Alternance Ingénieur Systèmes Embarqués';
+      const desc = (document.getElementById('inlineCustomDesc')?.value || '').trim();
+      const lang = CV_STATE?.meta?.lang || 'fr';
+      const atsPolicy = CV_STATE?.meta?.ats_mode || 'strict_ats';
+      const knownKws = ['Embedded C', 'C++17', 'STM32', 'ESP32', 'KiCad', 'PCB', 'Robotics', 'Arduino', 'PostgreSQL', 'Python', 'UART', 'SPI', 'I2C', 'CAN', 'Linux', 'RTOS', 'Sensors'];
+      const hay = `${title} ${desc}`.toLowerCase();
+      const matched = knownKws.filter(k => hay.includes(k.toLowerCase()));
+      const skills = matched.length ? matched.slice(0, 5) : ['Embedded C', 'STM32', 'KiCad PCB', 'C++17'];
+      const customJob = {
+        id: 'custom_inline_' + Date.now(),
+        company,
+        title,
+        location: 'Lille / France (Custom Target)',
+        region: 'lille',
+        is_lille_nearby: true,
+        contract_type: /alternance/i.test(title + ' ' + desc) ? 'alternance' : 'stage',
+        cv_lang: lang,
+        ats_policy: atsPolicy,
+        source_type: 'corporate_ats',
+        portal_sources: ['direct_ats', 'junia_jobteaser', 'wttj', 'linkedin_live'],
+        direct_apply_url: /^https?:\/\//i.test(desc) ? desc : `https://junia.jobteaser.com/fr/job-offers?q=${encodeURIComponent(company + ' ' + title)}`,
+        description: desc,
+        skills,
+        match_score: 98,
+        posted_hours_ago: 1,
+        posted_ago: 'Custom CV Target',
+        pipeline_status: 'cv_tailored',
+      };
+      JOBS_BY_ID.set(customJob.id, customJob);
+      SELECTED_JOB_ID = customJob.id;
+      pushUndoSnapshot();
+      CV_STATE = buildClientCvState(customJob, lang, atsPolicy);
+      renderStudioFromState();
+      const leadTitle = (CV_STATE.projects && CV_STATE.projects[0]) ? CV_STATE.projects[0].title : 'Top Tier-1 Project';
+      document.getElementById('promptFeedback').textContent =
+        `Built & Tailored 1-Page CV for ${company} (${lang.toUpperCase()} / ${atsPolicy}) — Lead Project #1: ${leadTitle} · Skills matched: ${skills.join(', ')}`;
     }
 
     function pushUndoSnapshot() {
@@ -1542,39 +1703,45 @@
       return false;
     }
 
-    function autoFitOnePage() {
+    function autoFitOnePage(quiet) {
       if (!CV_STATE) return;
-      pushUndoSnapshot();
+      if (!quiet) pushUndoSnapshot();
       let step = 0;
-      while (measureOverflow() && step < 12) {
+      while (measureOverflow() && step < 16) {
         step++;
-        if (CV_STATE.layout.font_scale > 0.82) CV_STATE.layout.font_scale = Number((CV_STATE.layout.font_scale - 0.03).toFixed(2));
-        if (CV_STATE.layout.section_gap_px > 4) CV_STATE.layout.section_gap_px -= 1;
-        if (CV_STATE.layout.page_margin_mm > 6) CV_STATE.layout.page_margin_mm = Number((CV_STATE.layout.page_margin_mm - 0.5).toFixed(1));
-        if (CV_STATE.layout.line_height > 1.14) CV_STATE.layout.line_height = Number((CV_STATE.layout.line_height - 0.03).toFixed(2));
+        if (CV_STATE.layout.font_scale > 0.78) CV_STATE.layout.font_scale = Number((CV_STATE.layout.font_scale - 0.02).toFixed(2));
+        if (CV_STATE.layout.section_gap_px > 2) CV_STATE.layout.section_gap_px -= 1;
+        if (CV_STATE.layout.page_margin_mm > 5) CV_STATE.layout.page_margin_mm = Number((CV_STATE.layout.page_margin_mm - 0.5).toFixed(1));
+        if (CV_STATE.layout.line_height > 1.12) CV_STATE.layout.line_height = Number((CV_STATE.layout.line_height - 0.02).toFixed(2));
         applyCssLayoutVars();
       }
       if (measureOverflow()) {
-        const vis = CV_STATE.projects.filter(p => p.visible);
-        if (vis.length > 3) vis[vis.length - 1].visible = false;
-        renderStudioFromState();
+        const vis = (CV_STATE.projects || []).filter(p => p.visible);
+        if (vis.length > 3) {
+          vis[vis.length - 1].visible = false;
+          renderStudioFromState(true);
+          return;
+        }
       }
-      document.getElementById('promptFeedback').textContent = `Auto-Fit applied (${step} step adjustments) — strict 1-page A4 compliance enforced.`;
+      if (!quiet) {
+        document.getElementById('promptFeedback').textContent = `Auto-Fit applied (${step} step adjustments) — strict 1-page A4 compliance enforced.`;
+      }
     }
 
-    function renderStudioFromState() {
+    function renderStudioFromState(skipAutoFit) {
       if (!CV_STATE) return;
       const cleanRes = validateCvTruthClient(CV_STATE);
       CV_STATE = cleanRes.cleaned;
 
       const isEn = (CV_STATE.meta?.lang || 'fr') === 'en';
+      const isTealTwoCol = CV_STATE.meta?.ats_mode === 'design_two_col';
       document.getElementById('cvLangFrBtn').classList.toggle('active', !isEn);
       document.getElementById('cvLangEnBtn').classList.toggle('active', isEn);
       document.getElementById('studioAtsMode').value = CV_STATE.meta?.ats_mode || 'strict_ats';
 
       const targetText = CV_STATE.meta?.company ? `${CV_STATE.meta.company} — ${CV_STATE.meta.role}` : 'General Canonical CV (JUNIA M1 / KNUST 2026)';
       document.getElementById('studioActiveTarget').textContent = targetText;
-      document.getElementById('studioSubMeta').textContent = `${isEn ? 'English (EN)' : 'Français (FR)'} · ${(CV_STATE.meta?.ats_mode === 'design_two_col' ? 'Teal 2-Col Design' : '1-Col Strict ATS')} · Ground-Truth Verified`;
+      document.getElementById('studioSubMeta').textContent = `${isEn ? 'English (EN)' : 'Français (FR)'} · ${(isTealTwoCol ? 'Teal 2-Col Design' : '1-Col Strict ATS')} · Ground-Truth Verified`;
 
       // Render Project Outline
       const outline = document.getElementById('projectOutlineList');
@@ -1589,17 +1756,17 @@
           <div class="proj-btns">
             <button type="button" class="btn btn-sm" onclick="moveProject(${idx}, -1)" ${idx === 0 ? 'disabled' : ''}>↑</button>
             <button type="button" class="btn btn-sm" onclick="moveProject(${idx}, 1)" ${idx === CV_STATE.projects.length - 1 ? 'disabled' : ''}>↓</button>
-            <button type="button" class="btn btn-sm ${p.visible ? 'btn-cyan' : ''}" onclick="toggleProjectVis(${idx})">${p.visible ? '👁 Visible' : '🚫 Hidden'}</button>
+            <button type="button" class="btn btn-sm ${p.visible ? 'btn-cyan' : ''}" onclick="toggleProjectVis(${idx})">${p.visible ? 'Visible' : 'Hidden'}</button>
           </div>
         </div>`).join('');
 
       // Render Two-Way Editable A4 Sheet
       const sheet = document.getElementById('a4Sheet');
+      sheet.className = isTealTwoCol ? 'cv-sheet-teal' : '';
       const h = CV_STATE.header || {};
-      const headerCls = CV_STATE.meta?.ats_mode === 'design_two_col' ? 'cv-header-design' : 'cv-header-ats';
       const labels = isEn
-        ? { prof: 'PROFILE', edu: 'EDUCATION', proj: 'TECHNICAL PROJECTS (TIER-VERIFIED)', exp: 'EXPERIENCE & LEADERSHIP', sk: 'TECHNICAL SKILLS & LANGUAGES' }
-        : { prof: 'PROFIL', edu: 'FORMATION', proj: 'PROJETS TECHNIQUES (VÉRIFIÉS PAR TIER)', exp: 'EXPÉRIENCES & LEADERSHIP', sk: 'COMPÉTENCES TECHNIQUES & LANGUES' };
+        ? { prof: 'PROFILE', edu: 'EDUCATION', proj: 'TECHNICAL PROJECTS (TIER-VERIFIED)', exp: 'PROFESSIONAL EXPERIENCE & LEADERSHIP', sk: 'SKILLS', langint: 'LANGUAGES & INTERESTS' }
+        : { prof: 'PROFIL', edu: 'FORMATION', proj: 'PROJETS TECHNIQUES (VÉRIFIÉS PAR TIER)', exp: 'EXPÉRIENCES PROFESSIONNELLES & LEADERSHIP', sk: 'COMPÉTENCES', langint: "LANGUES & CENTRES D'INTÉRÊT" };
 
       const eduHtml = (CV_STATE.education || []).map((ed, i) => `
         <div class="cv-entry">
@@ -1612,7 +1779,7 @@
 
       const projHtml = (CV_STATE.projects || []).map((p, i) => {
         if (!p.visible) return '';
-        const bullets = (p.bullets || []).map((b, bi) => `<li contenteditable="true" data-bind="projects.${i}.bullets.${bi}">${esc(b)}</li>`).join('');
+        const bullets = (p.bullets || []).slice(0, 2).map((b, bi) => `<li contenteditable="true" data-bind="projects.${i}.bullets.${bi}">${esc(b)}</li>`).join('');
         return `
           <div class="cv-entry">
             <div class="cv-row">
@@ -1625,7 +1792,7 @@
       }).join('');
 
       const expHtml = (CV_STATE.experience || []).map((ex, i) => {
-        const bullets = (ex.bullets || []).map((b, bi) => `<li contenteditable="true" data-bind="experience.${i}.bullets.${bi}">${esc(b)}</li>`).join('');
+        const bullets = (ex.bullets || []).slice(0, 2).map((b, bi) => `<li contenteditable="true" data-bind="experience.${i}.bullets.${bi}">${esc(b)}</li>`).join('');
         return `
           <div class="cv-entry">
             <div class="cv-row">
@@ -1638,42 +1805,101 @@
       }).join('');
 
       const sk = CV_STATE.skills || {};
-      sheet.innerHTML = `
-        <header class="${headerCls}">
-          <div class="cv-h1" contenteditable="true" data-bind="header.full_name">${esc(h.full_name)}</div>
-          <div class="cv-headline" contenteditable="true" data-bind="header.headline">${esc(h.headline)}</div>
-          <div class="cv-contact" contenteditable="true" data-bind="header.contact_line">${esc(h.contact_line)}</div>
-          <div class="cv-avail" contenteditable="true" data-bind="header.availability">${esc(h.availability)}</div>
-        </header>
-        <section>
-          <div class="cv-sec-title">${labels.prof}</div>
-          <p contenteditable="true" data-bind="summary">${esc(CV_STATE.summary)}</p>
-        </section>
-        <section>
-          <div class="cv-sec-title">${labels.edu}</div>
-          ${eduHtml}
-        </section>
-        <section>
-          <div class="cv-sec-title">${labels.proj}</div>
-          ${projHtml}
-        </section>
-        <section>
-          <div class="cv-sec-title">${labels.exp}</div>
-          ${expHtml}
-        </section>
-        <section>
-          <div class="cv-sec-title">${labels.sk}</div>
-          <ul>
-            <li><strong>${isEn ? 'Embedded & Software' : 'Embarqué & Logiciel'}:</strong> <span contenteditable="true" data-bind="skills.embedded">${esc(sk.embedded)}</span></li>
-            <li><strong>${isEn ? 'Hardware & PCB' : 'Matériel & PCB'}:</strong> <span contenteditable="true" data-bind="skills.hardware">${esc(sk.hardware)}</span></li>
-            <li><strong>${isEn ? 'Systems & Tools' : 'Systèmes & Outils'}:</strong> <span contenteditable="true" data-bind="skills.software">${esc(sk.software)}</span></li>
-            <li><strong>${isEn ? 'Languages' : 'Langues'}:</strong> <span contenteditable="true" data-bind="skills.languages">${esc(sk.languages)}</span></li>
-          </ul>
-        </section>`;
+      const skillsListHtml = `
+        <ul>
+          <li><strong>${isEn ? 'Embedded & Software' : 'Embarqué & Logiciel'}:</strong> <span contenteditable="true" data-bind="skills.embedded">${esc(sk.embedded)}</span></li>
+          <li><strong>${isEn ? 'Hardware & PCB' : 'Matériel & PCB'}:</strong> <span contenteditable="true" data-bind="skills.hardware">${esc(sk.hardware)}</span></li>
+          <li><strong>${isEn ? 'Systems & Tools' : 'Systèmes & Outils'}:</strong> <span contenteditable="true" data-bind="skills.software">${esc(sk.software)}</span></li>
+          <li><strong>${isEn ? 'Interpersonal' : 'Savoir-être'}:</strong> <span contenteditable="true" data-bind="skills.soft_skills">${esc(sk.soft_skills || '')}</span></li>
+        </ul>`;
+      const langIntHtml = `
+        <ul>
+          <li><strong>${isEn ? 'Languages' : 'Langues'}:</strong> <span contenteditable="true" data-bind="skills.languages">${esc(sk.languages)}</span></li>
+          <li><strong>${isEn ? 'Interests' : "Centres d'intérêt"}:</strong> <span contenteditable="true" data-bind="skills.interests">${esc(sk.interests || '')}</span></li>
+        </ul>`;
+
+      if (isTealTwoCol) {
+        sheet.innerHTML = `
+          <aside class="cv-teal-sidebar">
+            <section>
+              <div class="cv-sec-title">CONTACT</div>
+              <div style="font-size:0.9em; line-height:1.45; word-break:break-word;" contenteditable="true" data-bind="header.contact_line">${esc(h.contact_line)}</div>
+            </section>
+            <section>
+              <div class="cv-sec-title">${labels.sk}</div>
+              ${skillsListHtml}
+            </section>
+            <section>
+              <div class="cv-sec-title">${labels.langint}</div>
+              ${langIntHtml}
+            </section>
+          </aside>
+          <div class="cv-teal-main">
+            <header class="cv-teal-namebanner">
+              <div class="cv-h1" contenteditable="true" data-bind="header.full_name">${esc(h.full_name)}</div>
+              <div class="cv-headline" contenteditable="true" data-bind="header.headline">${esc(h.headline)}</div>
+              <div class="cv-avail" contenteditable="true" data-bind="header.availability">${esc(h.availability)}</div>
+            </header>
+            <section>
+              <div class="cv-sec-title">${labels.prof}</div>
+              <p contenteditable="true" data-bind="summary">${esc(CV_STATE.summary)}</p>
+            </section>
+            <section>
+              <div class="cv-sec-title">${labels.edu}</div>
+              ${eduHtml}
+            </section>
+            <section>
+              <div class="cv-sec-title">${labels.proj}</div>
+              ${projHtml}
+            </section>
+            <section>
+              <div class="cv-sec-title">${labels.exp}</div>
+              ${expHtml}
+            </section>
+          </div>`;
+      } else {
+        sheet.innerHTML = `
+          <header class="cv-header-ats">
+            <div class="cv-h1" contenteditable="true" data-bind="header.full_name">${esc(h.full_name)}</div>
+            <div class="cv-headline" contenteditable="true" data-bind="header.headline">${esc(h.headline)}</div>
+            <div class="cv-contact" contenteditable="true" data-bind="header.contact_line">${esc(h.contact_line)}</div>
+            <div class="cv-avail" contenteditable="true" data-bind="header.availability">${esc(h.availability)}</div>
+          </header>
+          <section>
+            <div class="cv-sec-title">${labels.prof}</div>
+            <p contenteditable="true" data-bind="summary">${esc(CV_STATE.summary)}</p>
+          </section>
+          <section>
+            <div class="cv-sec-title">${labels.edu}</div>
+            ${eduHtml}
+          </section>
+          <section>
+            <div class="cv-sec-title">${labels.proj}</div>
+            ${projHtml}
+          </section>
+          <section>
+            <div class="cv-sec-title">${labels.exp}</div>
+            ${expHtml}
+          </section>
+          <section>
+            <div class="cv-sec-title">${labels.sk}</div>
+            ${skillsListHtml}
+          </section>
+          <section>
+            <div class="cv-sec-title">${labels.langint}</div>
+            ${langIntHtml}
+          </section>`;
+      }
 
       applyCssLayoutVars();
       bindInlineEditableFields();
-      requestAnimationFrame(measureOverflow);
+      requestAnimationFrame(() => {
+        if (!skipAutoFit && measureOverflow()) {
+          autoFitOnePage(true);
+        } else {
+          measureOverflow();
+        }
+      });
     }
 
     function bindInlineEditableFields() {
@@ -1749,8 +1975,22 @@
         CV_STATE.summary = `${CV_STATE.summary} Core focus: STM32 / ESP32 / Embedded C firmware.`;
         actions.push('Emphasized STM32 & ESP32 firmware');
       }
+      if (low.includes('teal') || low.includes('2-col') || low.includes('two col') || low.includes('design')) {
+        CV_STATE.meta.ats_mode = 'design_two_col';
+        actions.push('Switched to canonical Teal 2-Column Design template');
+      } else if (low.includes('strict') || low.includes('1-col') || low.includes('single') || low.includes('ats')) {
+        CV_STATE.meta.ats_mode = 'strict_ats';
+        actions.push('Switched to 1-Col Strict ATS template');
+      }
+      const forMatch = prompt.match(/\b(?:for|chez|pour)\s+([A-Z][A-Za-z0-9&.\- ]{1,30})/i);
+      if (forMatch && forMatch[1]) {
+        const comp = forMatch[1].trim();
+        CV_STATE.meta.company = comp;
+        CV_STATE = buildClientCvState({ company: comp, title: CV_STATE.meta.role, skills: [prompt] }, CV_STATE.meta.lang, CV_STATE.meta.ats_mode);
+        actions.push(`Tailored CV specifically for ${comp}`);
+      }
       if (low.includes('short') || low.includes('bullet') || low.includes('concis')) {
-        CV_STATE.projects.forEach(p => { p.bullets = (p.bullets || []).slice(0, 2); });
+        CV_STATE.projects.forEach(p => { p.bullets = (p.bullets || []).slice(0, 1); });
         actions.push('Trimmed bullets for concise scan');
       }
       if (!actions.length) {
@@ -1936,7 +2176,7 @@
         for (const t of leverTargets) {
           tasks.push(safeFetchJson(`https://api.lever.co/v0/postings/${t.slug}?mode=json`, `Lever (${t.slug})`, (items) => {
             if (!Array.isArray(items)) return [];
-            return items.filter(it => techRx.test(`${it.text || ''} ${it.categories?.department || ''}`)).slice(0, 8).map(it => {
+            return items.filter(it => techRx.test(`${it.text || ''} ${it.categories?.department || ''}`)).slice(0, 18).map(it => {
               const loc = it.categories?.location || 'France';
               const isLille = /croix|lille|roubaix|villeneuve/i.test(loc) || t.defReg === 'lille';
               const hrs = Math.max(1, Math.round((Date.now() - (it.createdAt || Date.now())) / 3600000));
@@ -1973,10 +2213,13 @@
           { id: 'Kiabi', name: 'Kiabi Tech', defLoc: 'Lezennes / Lille, FR', defReg: 'lille', km: 9 },
           { id: 'BoschGroup', name: 'Bosch Mobility', defLoc: 'Stuttgart, DE', defReg: 'europe', km: null },
           { id: 'MicrochipTechnologyInc', name: 'Microchip Technology', defLoc: 'Chandler, AZ, USA', defReg: 'north_america', km: null },
+          { id: 'Equans', name: 'Equans Automation', defLoc: 'Lille / France', defReg: 'lille', km: 8 },
+          { id: 'Safran', name: 'Safran Electronics & Defense', defLoc: 'Paris / Saclay, FR', defReg: 'france', km: null },
+          { id: 'SchneiderElectric', name: 'Schneider Electric', defLoc: 'Grenoble, FR', defReg: 'france', km: null },
         ];
         for (const s of srTargets) {
-          tasks.push(safeFetchJson(`https://api.smartrecruiters.com/v1/companies/${s.id}/postings?limit=20`, `SmartRecruiters (${s.id})`, (d) => {
-            return (d.content || []).filter(it => !africaRx.test(it.location?.country || '') && techRx.test(it.name || '')).slice(0, 5).map(it => {
+          tasks.push(safeFetchJson(`https://api.smartrecruiters.com/v1/companies/${s.id}/postings?limit=40`, `SmartRecruiters (${s.id})`, (d) => {
+            return (d.content || []).filter(it => !africaRx.test(it.location?.country || '') && techRx.test(it.name || '')).slice(0, 14).map(it => {
               const city = it.location?.city || '';
               const ctry = it.location?.country || '';
               const loc = city ? `${city}, ${ctry}` : s.defLoc;
@@ -2015,7 +2258,7 @@
         ];
         for (const g of ghTargets) {
           tasks.push(safeFetchJson(`https://boards-api.greenhouse.io/v1/boards/${g.slug}/jobs`, `Greenhouse (${g.slug})`, (d) => {
-            return (d.jobs || []).filter(it => techRx.test(it.title || '') && !africaRx.test(it.location?.name || '')).slice(0, 5).map(it => {
+            return (d.jobs || []).filter(it => techRx.test(it.title || '') && !africaRx.test(it.location?.name || '')).slice(0, 14).map(it => {
               const loc = it.location?.name || 'Remote / Global';
               const reg = /usa|united states|san mateo|boston|ca|tx|ny|canada/i.test(loc) ? 'north_america' : g.defReg;
               return {
@@ -2044,7 +2287,7 @@
 
       if (portalSet.has('arbeitnow_eu')) {
         tasks.push(safeFetchJson('https://www.arbeitnow.com/api/job-board-api', 'Arbeitnow EU Tech API', (d) => {
-          return (d.data || []).filter(it => !africaRx.test(it.location || '') && techRx.test(`${it.title || ''} ${(it.tags || []).join(' ')}`)).slice(0, 8).map(it => {
+          return (d.data || []).filter(it => !africaRx.test(it.location || '') && techRx.test(`${it.title || ''} ${(it.tags || []).join(' ')}`)).slice(0, 16).map(it => {
             const loc = it.location || 'Europe';
             const reg = /lille/i.test(loc) ? 'lille' : (/france|paris|lyon/i.test(loc) ? 'france' : 'europe');
             return {
@@ -2065,6 +2308,34 @@
               match_score: 91,
               domains: ['embedded_c', 'python_arch'],
               skills: (it.tags || []).slice(0, 4).length ? (it.tags || []).slice(0, 4) : ['Embedded', 'Python', 'Systems'],
+            };
+          });
+        }));
+      }
+
+      if (portalSet.has('arbeitnow_eu') || portalSet.has('direct_ats')) {
+        tasks.push(safeFetchJson('https://remotive.com/api/remote-jobs?category=software-dev&limit=25', 'Remotive Tech API', (d) => {
+          return (d.jobs || []).filter(it => !africaRx.test(it.candidate_required_location || '') && techRx.test(`${it.title || ''} ${it.category || ''}`)).slice(0, 12).map(it => {
+            const loc = it.candidate_required_location || 'Europe / North America';
+            const reg = /usa|canada|america|north america/i.test(loc) ? 'north_america' : 'europe';
+            return {
+              id: `live_rem_${String(it.id || '').slice(0, 14)}`,
+              company: it.company_name || 'Remote Engineering Org',
+              title: it.title || 'Embedded / Systems Software Engineer',
+              location: loc,
+              region: reg,
+              contract_type: /intern|stage|apprentice/i.test(it.title || '') ? 'stage' : 'both',
+              cv_lang: 'en',
+              source_type: 'live_ats_api',
+              portal_sources: ['direct_ats', 'linkedin_live'],
+              ats_provider: 'Remotive Tech Direct',
+              is_exact_requisition: true,
+              direct_apply_url: it.url || 'https://remotive.com/',
+              posted_hours_ago: 6,
+              posted_ago: `Live · ${nowTime}`,
+              match_score: 90,
+              domains: ['embedded_c', 'python_arch'],
+              skills: ['Embedded', 'Python', 'Systems', 'Linux'],
             };
           });
         }));
@@ -2126,7 +2397,7 @@
           portal: 'alternance_gov',
           id: 'live_portal_bonne_alt',
           company: 'La Bonne Alternance (État FR API)',
-          title: `🇫🇷 Contrats Alternance & Stage Ingénieur — "${qKw.slice(0, 34)}"`,
+          title: `[FR] Contrats Alternance & Stage Ingénieur — "${qKw.slice(0, 34)}" [Cycle #${SCAN_CYCLE_NONCE}]`,
           location: 'Lille, Croix, Villeneuve-d\'Ascq (<20km)',
           region: 'lille',
           is_lille_nearby: true,
@@ -2179,6 +2450,8 @@
       if (AUTO_MODE.isScanning) return;
       AUTO_MODE.isScanning = true;
       HAS_SEARCHED = true;
+      SCAN_CYCLE_NONCE += 1;
+      const scanT0 = performance.now();
       const btn = document.getElementById('btnSearchLive');
       if (btn) { btn.disabled = true; btn.textContent = '⏳ Scanning Portals...'; }
 
@@ -2196,6 +2469,7 @@
         domains: checkedDomains,
         cv_lang: FILTER_STATE.lang,
         freshness: FILTER_STATE.freshness,
+        refresh_cycle: SCAN_CYCLE_NONCE,
         q: (document.getElementById('globalSearchInput').value || '').trim(),
       };
 
@@ -2228,6 +2502,7 @@
       }
 
       const nowStr = new Date().toLocaleTimeString([], { hour12: false });
+      LAST_SCAN_MS = Math.max(12, Math.round(performance.now() - scanT0));
       AUTO_MODE.lastScanAt = nowStr;
       if (fromAuto) AUTO_MODE.cycleCount += 1;
 

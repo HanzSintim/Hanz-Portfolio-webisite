@@ -2,15 +2,15 @@
   "schema_version": "2.0.0",
   "owner": {
     "full_name": "Hanz Ofosuhene-Sintim",
-    "email": "hanz.ofosuhene-sintim@student.junia.com",
-    "alt_email": "hanzsintim@gmail.com",
-    "phone": "+33 7 45 27 89 10",
-    "location_fr": "Lille, Hauts-de-France, France",
-    "location_en": "Lille, Hauts-de-France, France",
+    "email": "hanzsintim@gmail.com",
+    "alt_email": "hanz.ofosuhene-sintim@student.junia.com",
+    "phone": "+33 6 05 73 14 16",
+    "location_fr": "Lille, France (Mobilité nationale & internationale)",
+    "location_en": "Lille, France (National & International Mobility)",
     "github_username": "HanzSintim",
-    "github_url": "https://github.com/HanzSintim",
-    "linkedin_url": "https://www.linkedin.com/in/hanz-ofosuhene-sintim",
-    "portfolio_url": "https://hanzsintim.github.io/Hanz-Portfolio-webisite/"
+    "github_url": "github.com/HanzSintim",
+    "linkedin_url": "linkedin.com/in/hanzofosuhene-sintim",
+    "portfolio_url": "hanzsintim.github.io"
   },
   "academic_timeline": [
     {
@@ -57,15 +57,78 @@
   "leadership": [
     {
       "id": "aces_president",
-      "role_en": "Department President — Association of Computer Engineering Students (ACES)",
-      "role_fr": "Président du Département — Association des Étudiants en Génie Informatique (ACES)",
-      "organization": "KNUST, Kumasi, Ghana",
-      "period_en": "Aug 2025 – May 2026 (Completed Term)",
-      "period_fr": "Août 2025 – Mai 2026 (Mandat achevé)",
-      "summary_en": "Led executive council representing 800+ engineering students; coordinated technical workshops, industry partnerships, and academic mentorship.",
-      "summary_fr": "Direction du bureau exécutif représentant plus de 800 étudiants ingénieurs ; organisation d'ateliers techniques, partenariats industriels et mentorat."
+      "role_en": "Department President — ACES, KNUST (Association of Computer Engineering Students)",
+      "role_fr": "Président du Département — ACES, KNUST (Association des Étudiants en Génie Informatique)",
+      "organization": "Higher Education Sector | Executive Board | Kumasi, Ghana",
+      "organization_fr": "Secteur Enseignement Supérieur | Bureau Exécutif | Kumasi, Ghana",
+      "period_en": "Aug 2025 – May 2026 (10 months)",
+      "period_fr": "Août 2025 – Mai 2026 (10 mois)",
+      "summary_en": "Directed executive governance, budget management, and multidisciplinary teams representing 800+ Computer Engineering students.",
+      "summary_fr": "Direction de l'association représentant plus de 800 étudiants ingénieurs : gestion budgétaire et coordination d'équipes pluridisciplinaires.",
+      "bullets_en": [
+        "Directed executive governance, budget management, and multidisciplinary teams representing 800+ Computer Engineering students.",
+        "Spearheaded technical and logistical execution of CODEFEST 2026, coordinating industry sponsors and technical judging panels."
+      ],
+      "bullets_fr": [
+        "Direction de l'association représentant plus de 800 étudiants ingénieurs : gestion budgétaire et coordination d'équipes pluridisciplinaires.",
+        "Pilotage technique et logistique de CODEFEST 2026, de la conception des épreuves à la coordination des partenaires industriels."
+      ]
+    },
+    {
+      "id": "spagard_intern",
+      "role_en": "Software Development & Testing Intern — SPAGARD TECHNOLOGIES",
+      "role_fr": "Stagiaire Développement Logiciel & Tests — SPAGARD TECHNOLOGIES",
+      "organization": "IT & Software Services Sector | Backend & Quality Assurance Unit | Ghana",
+      "organization_fr": "Secteur Services Numériques & Logiciels | Pôle Backend & Assurance Qualité | Ghana",
+      "period_en": "Oct – Dec 2023 (3 months)",
+      "period_fr": "Oct – Déc 2023 (3 mois)",
+      "summary_en": "Developed server-side software components and executed systematic debugging and validation testing.",
+      "summary_fr": "Développement de modules côté serveur, débogage systématique et tests de validation d'interfaces.",
+      "bullets_en": [
+        "Developed server-side software components for internal enterprise management systems within a structured engineering workflow.",
+        "Structured relational databases and executed systematic code debugging, root-cause analysis, and interface testing prior to release."
+      ],
+      "bullets_fr": [
+        "Développement de modules côté serveur pour des systèmes de gestion interne d'entreprise.",
+        "Structuration de bases de données, débogage systématique, analyse de code et tests de validation d'interfaces."
+      ]
+    },
+    {
+      "id": "aces_care_founder",
+      "role_en": "Founder & Operations Lead — ACES Care Medical Outreach",
+      "role_fr": "Fondateur & Responsable Opérationnel — ACES Care Medical Outreach",
+      "organization": "Community Health & Technical Coordination | Kumasi, Ghana",
+      "organization_fr": "Coordination Logistique & Santé Communautaire | Kumasi, Ghana",
+      "period_en": "Jan 2026",
+      "period_fr": "Janv. 2026",
+      "summary_en": "Organized multidisciplinary medical outreach logistics, inventory tracking, and volunteer coordination.",
+      "summary_fr": "Organisation opérationnelle de la campagne médicale, suivi d'inventaire et coordination des équipes bénévoles.",
+      "bullets_en": [
+        "Founded and coordinated community health outreach logistics, volunteer scheduling, and field instrumentation support."
+      ],
+      "bullets_fr": [
+        "Création et pilotage logistique de l'action communautaire, gestion des plannings et soutien technique sur le terrain."
+      ]
     }
   ],
+  "skills_matrix": {
+    "fr": {
+      "embedded": "C Embarqué, C, C++17, Assembleur (MSP430), Python 3, SQL, HTML/CSS, JavaScript",
+      "hardware": "STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Capteurs, KiCad (PCB), Physique des semi-conducteurs",
+      "software": "Tests matériel-logiciel, Débogage (GDB), Validation chaîne de mesure, Tests unitaires, Linux, Git",
+      "interpersonal": "Leadership d'équipe, Esprit d'analyse, Rigueur, Autonomie, Communication interculturelle",
+      "languages": "Anglais : C2 (Langue maternelle — BSc au Ghana) | Français : A2 (Immersion académique à Lille, Duolingo : 21)",
+      "interests": "Lectures historiques, étude du fonctionnement des systèmes scientifiques et techniques, Responsable organisation GHAFRA Nord (Lille)"
+    },
+    "en": {
+      "embedded": "Embedded C, C, C++17, Assembly (MSP430), Python 3, SQL, HTML/CSS, JavaScript",
+      "hardware": "STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Sensors, KiCad (PCB), Semiconductor Physics",
+      "software": "Hardware-Software Debugging (GDB), Signal Chain Validation, Unit & Interface Testing, Linux, Git",
+      "interpersonal": "Team Leadership, Analytical Problem-Solving, Rigor, Autonomy, Cross-Cultural Communication",
+      "languages": "English: C2 (Native Speaker — BSc in Ghana) | French: A2 (Academic immersion in Lille, Duolingo Score: 21)",
+      "interests": "Reading world history, exploring how physical/engineering systems work, Organizing Lead at GHAFRA Nord (Lille)"
+    }
+  },
   "forbidden_hallucinations": [
     {
       "pattern": "2023\\s*[–\\-]\\s*June\\s*2027",

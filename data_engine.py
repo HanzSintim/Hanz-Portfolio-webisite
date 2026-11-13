@@ -628,7 +628,7 @@ def build_full_portfolio_payload() -> Dict[str, object]:
             "github_url": "https://github.com/HanzSintim",
             "email": "hanz.ofosuhene-sintim@student.junia.com",
             "secondary_email": "hanzsintim@gmail.com",
-            "location": "Lille, France 🇫🇷  ⇄  Kumasi / Accra, Ghana 🇬🇭",
+            "location": "Lille, France  <->  Kumasi / Accra, Ghana",
             "headline_en": "Python & C++ Systems Architect · Microelectronics & Embedded Engineer",
             "headline_fr": "Architecte Systèmes Python & C++ · Ingénieur Microélectronique & Embarqué",
             "tagline_en": (

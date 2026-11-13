@@ -172,7 +172,7 @@ AFRICA_EXCLUSION_PATTERNS = re.compile(
 REGION_CONFIGS: Dict[str, Dict[str, Any]] = {
     "lille": {
         "id": "lille",
-        "label": "🇫🇷 Lille & Hauts-de-France",
+        "label": "Lille & Hauts-de-France",
         "short_label": "Lille / Hauts-de-France",
         "default_lang": "FR",
         "geo_weight": 20,
@@ -186,7 +186,7 @@ REGION_CONFIGS: Dict[str, Dict[str, Any]] = {
     },
     "france": {
         "id": "france",
-        "label": "🇫🇷 France (Paris, Grenoble, Toulouse, Lyon)",
+        "label": "France (Paris, Grenoble, Toulouse, Lyon)",
         "short_label": "France (National)",
         "default_lang": "FR",
         "geo_weight": 18,
@@ -200,7 +200,7 @@ REGION_CONFIGS: Dict[str, Dict[str, Any]] = {
     },
     "europe": {
         "id": "europe",
-        "label": "🇪🇺 Europe (Belgium, NL, Germany, UK, CH)",
+        "label": "Europe (Belgium, NL, Germany, UK, CH)",
         "short_label": "Europe (BE/NL/DE/UK/CH)",
         "default_lang": "EN",
         "geo_weight": 16,
@@ -214,7 +214,7 @@ REGION_CONFIGS: Dict[str, Dict[str, Any]] = {
     },
     "north_america": {
         "id": "north_america",
-        "label": "🇺🇸🇨🇦 North America (USA & Canada)",
+        "label": "North America (USA & Canada)",
         "short_label": "North America (US/CA)",
         "default_lang": "EN",
         "geo_weight": 15,
@@ -227,7 +227,7 @@ REGION_CONFIGS: Dict[str, Dict[str, Any]] = {
     },
     "australia": {
         "id": "australia",
-        "label": "🇦🇺 Australia (Sydney, Melbourne, Brisbane)",
+        "label": "Australia (Sydney, Melbourne, Brisbane)",
         "short_label": "Australia",
         "default_lang": "EN",
         "geo_weight": 15,
@@ -403,7 +403,7 @@ def determine_ats_policy(
     if is_uk:
         return {
             "ats_policy": "UK_ATS",
-            "primary_format_label": "🇬🇧 UK STRICT ATS (1-Col, No Photo)",
+            "primary_format_label": "UK STRICT ATS (1-Col, No Photo)",
             "warning_text": (
                 "UK employers & ATS parsers strictly reject CVs with photos or multi-column sidebars. "
                 "Must send Single-Column UK ATS PDF."

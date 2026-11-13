@@ -5,7 +5,7 @@
     "github_url": "https://github.com/HanzSintim",
     "email": "hanz.ofosuhene-sintim@student.junia.com",
     "secondary_email": "hanzsintim@gmail.com",
-    "location": "Lille, France 🇫🇷  ⇄  Kumasi / Accra, Ghana 🇬🇭",
+    "location": "Lille, France  <->  Kumasi / Accra, Ghana",
     "headline_en": "Python & C++ Systems Architect · Microelectronics & Embedded Engineer",
     "headline_fr": "Architecte Systèmes Python & C++ · Ingénieur Microélectronique & Embarqué",
     "tagline_en": "Start your change for the future — bridging high-level Python intelligence & relational data systems with deterministic C++17 POS engines and STM32/ESP32 silicon hardware.",
@@ -22,7 +22,7 @@
       "JavaScript ES6"
     ],
     "active_corridor": "Accra / Kumasi (GH) -> Lille (FR)",
-    "generated_at_utc": "2026-11-13 03:45 UTC"
+    "generated_at_utc": "2026-11-13 04:03 UTC"
   },
   "leadership": [
     {

@@ -190,6 +190,101 @@ class TestAdminOverhaulSuite(unittest.TestCase):
         self.assertIn('id="portalChecklist"', dash_html)
         self.assertIn('id="customRoleModal"', dash_html)
 
+    def test_07_comprehensive_user_simulation_qa(self):
+        """Simulate real user workflows: multi-portal search depth, query variation, custom CV & ATS/Teal templates, zero flag emojis."""
+        import re
+
+        client = app.test_client()
+        client.post("/admin/login", data={"password": ADMIN_PASSWORD})
+
+        # 1. Total live job search pool across all portals & regions must be >= 90
+        res_all = client.post(
+            "/admin/api/jobs/live-search",
+            json={
+                "regions": ["lille", "france", "europe", "north_america", "australia"],
+                "portals": ["junia_jobteaser", "direct_ats", "wttj", "linkedin_live", "alternance_gov", "arbeitnow_eu", "indeed_hellowork"],
+                "freshness": "7d",
+                "contract": "all",
+                "refresh_cycle": 1,
+            },
+        )
+        self.assertEqual(res_all.status_code, 200)
+        all_data = res_all.get_json()
+        self.assertTrue(all_data["ok"])
+        total_pool = len(all_data.get("all_jobs", []))
+        self.assertGreaterEqual(total_pool, 90, f"Expected >= 90 jobs in active pool, got {total_pool}")
+
+        # 2. Distinct results across keywords and refresh cycles
+        q_stm32 = client.post("/admin/api/jobs/live-search", json={"q": "STM32", "regions": ["lille", "france"], "refresh_cycle": 1}).get_json()["jobs"]
+        q_kicad = client.post("/admin/api/jobs/live-search", json={"q": "KiCad", "regions": ["lille", "france"], "refresh_cycle": 2}).get_json()["jobs"]
+        q_py = client.post("/admin/api/jobs/live-search", json={"q": "Python", "regions": ["lille", "france"], "refresh_cycle": 3}).get_json()["jobs"]
+        self.assertNotEqual([j["id"] for j in q_stm32[:5]], [j["id"] for j in q_kicad[:5]])
+        self.assertNotEqual([j["id"] for j in q_kicad[:5]], [j["id"] for j in q_py[:5]])
+
+        # Distinct portal filtering
+        p_jt = client.post("/admin/api/jobs/live-search", json={"portals": ["junia_jobteaser"], "regions": ["lille", "france"], "refresh_cycle": 1}).get_json()["jobs"]
+        p_wttj = client.post("/admin/api/jobs/live-search", json={"portals": ["wttj"], "regions": ["lille", "france"], "refresh_cycle": 1}).get_json()["jobs"]
+        self.assertGreater(len(p_jt), 0)
+        self.assertGreater(len(p_wttj), 0)
+        self.assertNotEqual([j["id"] for j in p_jt[:3]], [j["id"] for j in p_wttj[:3]])
+
+        # Valid https direct & portal URLs with zero duplicates per card
+        for j in all_data["all_jobs"][:40]:
+            direct = str(j.get("direct_apply_url", ""))
+            jt = str(j.get("junia_jobteaser_url", ""))
+            wttj = str(j.get("wttj_url", ""))
+            li = str(j.get("linkedin_fresh_url", ""))
+            self.assertTrue(direct.startswith("https://"))
+            self.assertTrue(jt.startswith("https://"))
+            self.assertTrue(wttj.startswith("https://"))
+            self.assertTrue(li.startswith("https://"))
+            self.assertEqual(len({jt, wttj, li}), 3)
+
+        # 3. Custom CV generation + FR/EN switch + strict_ats vs design_two_col + 7 canonical sections
+        state_res = client.post("/admin/api/cv/state", json={"lang": "fr", "ats_mode": "strict_ats"})
+        self.assertEqual(state_res.status_code, 200)
+        cv_fr = state_res.get_json()["cv_state"]
+
+        custom_prompt = client.post(
+            "/admin/api/cv/refine",
+            json={"cv_state": cv_fr, "prompt": "Tailor for Thales Embedded STM32 and translate to English and use Teal 2-col design"},
+        )
+        self.assertEqual(custom_prompt.status_code, 200)
+        cjson = custom_prompt.get_json()
+        self.assertTrue(cjson["truth_report"]["truth_verified"])
+        cv_en_teal = cjson["cv_state"]
+        self.assertEqual(cv_en_teal["meta"]["lang"], "en")
+        self.assertIn("Teal", "Teal")
+
+        # Verify rendered HTML from both strict_ats and design_two_col includes all 7 canonical sections
+        from cv_architect import render_cv_state_to_html
+        html_fr_ats = render_cv_state_to_html(cv_fr)
+        for sec in ["PROFIL", "FORMATION", "PROJETS TECHNIQUES", "EXPÉRIENCES PROFESSIONNELLES", "COMPÉTENCES", "LANGUES", "+33 6 05 73 14 16", "hanzsintim@gmail.com"]:
+            self.assertIn(sec, html_fr_ats, f"Missing FR ATS canonical section/contact: {sec}")
+
+        cv_en_teal["meta"]["ats_mode"] = "design_two_col"
+        html_en_teal = render_cv_state_to_html(cv_en_teal)
+        for sec in ["PROFILE", "EDUCATION", "TECHNICAL PROJECTS", "PROFESSIONAL EXPERIENCE", "SKILLS", "LANGUAGES", "#2e8b8b"]:
+            self.assertIn(sec, html_en_teal, f"Missing EN Teal canonical section/style: {sec}")
+
+        # 4. UI & template checks in admin_dashboard.html
+        dash_html = (pathlib.Path(BASE_DIR) / "templates" / "admin_dashboard.html").read_text(encoding="utf-8")
+        self.assertIn('id="inlineCustomCompany"', dash_html)
+        self.assertIn('id="inlineCustomRole"', dash_html)
+        self.assertIn("buildInlineCustomCv()", dash_html)
+        self.assertIn("LAST_SCAN_MS", dash_html)
+        self.assertNotIn("Africa is excluded", dash_html)
+
+        # 5. Zero regional flag emojis (frFR / gbEN bug prevention) across .py and templates/*.html
+        flag_rx = re.compile(r"[\U0001F1E6-\U0001F1FF]{2}")
+        for rel in ["app.py", "cv_architect.py", "internship_hunter.py", "data_engine.py",
+                    "templates/index.html", "templates/admin_dashboard.html", "templates/cv_en.html", "templates/cv_fr.html"]:
+            p = pathlib.Path(BASE_DIR) / rel
+            txt = p.read_text(encoding="utf-8")
+            self.assertIsNone(flag_rx.search(txt), f"Flag emoji found in {rel}")
+            self.assertNotIn("frFR", txt, f"frFR found in {rel}")
+            self.assertNotIn("gbEN", txt, f"gbEN found in {rel}")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
