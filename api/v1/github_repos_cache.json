@@ -1,0 +1,57 @@
+{
+  "username": "HanzSintim",
+  "source": "live_github_api",
+  "fetched_ts": 1794527695.7673445,
+  "fetched_at": "2026-11-12 23:54:55 UTC",
+  "repo_count": 4,
+  "repos": [
+    {
+      "name": "Hanz-Portfolio-webisite",
+      "full_name": "HanzSintim/Hanz-Portfolio-webisite",
+      "html_url": "https://github.com/HanzSintim/Hanz-Portfolio-webisite",
+      "description": "This webistes contains all info about my professional life and my journey to becoming a embedded architecheral engineer ",
+      "language": "HTML",
+      "stargazers_count": 0,
+      "fork": false,
+      "updated_at": "2026-11-04T23:13:10Z",
+      "topics": [],
+      "verified": true
+    },
+    {
+      "name": "HanzSintim",
+      "full_name": "HanzSintim/HanzSintim",
+      "html_url": "https://github.com/HanzSintim/HanzSintim",
+      "description": "Hanz Ofosuhene-Sintim - Python 3, C++17 & Embedded Systems Architecture Overview",
+      "language": "Mixed",
+      "stargazers_count": 0,
+      "fork": false,
+      "updated_at": "2026-10-23T08:54:21Z",
+      "topics": [],
+      "verified": true
+    },
+    {
+      "name": "LECLERC-Self-Checkout",
+      "full_name": "HanzSintim/LECLERC-Self-Checkout",
+      "html_url": "https://github.com/HanzSintim/LECLERC-Self-Checkout",
+      "description": "E.Leclerc Self-Checkout Terminal (Caisse Libre-Service - ACES MART / E.Leclerc Edition) in C++",
+      "language": "C++",
+      "stargazers_count": 0,
+      "fork": false,
+      "updated_at": "2026-10-22T21:24:04Z",
+      "topics": [],
+      "verified": true
+    },
+    {
+      "name": "Data-Table",
+      "full_name": "HanzSintim/Data-Table",
+      "html_url": "https://github.com/HanzSintim/Data-Table",
+      "description": "This table will serve as a database table to receive values from the form",
+      "language": "HTML",
+      "stargazers_count": 0,
+      "fork": false,
+      "updated_at": "2023-11-30T10:22:56Z",
+      "topics": [],
+      "verified": true
+    }
+  ]
+}

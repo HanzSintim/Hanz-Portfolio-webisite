@@ -9,6 +9,28 @@ Hanz Ofosuhene-Sintim — Autonomous Multi-Region Internship & Alternance Hunter
 """
 
 from __future__ import annotations
+from cv_architect import (
+    CV_HUB_OUTPUT_DIR,
+    CV_HUB_ROOT,
+    DOMAIN_FILTERS,
+    EXPANDED_REGIONAL_OPPORTUNITIES,
+    execute_live_multi_source_search,
+    build_initial_cv_state,
+    build_inverted_index,
+    enrich_job_for_indexing,
+    export_cv_to_hub_output,
+    load_ground_truth_profile,
+    query_inverted_index,
+    rank_projects_for_job,
+    refine_cv_state_with_prompt,
+    render_cv_state_to_html,
+    resolve_ats_submission_link,
+    run_preflight_audit,
+    scan_cv_hub_templates,
+    sync_github_repos,
+    validate_cv_truth,
+)
+
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import datetime
@@ -1318,7 +1340,7 @@ def generate_tailored_cv_draft(
             f"Objet : Candidature — {title} ({company})\n\n"
             f"Madame, Monsieur,\n\n"
             f"Actuellement étudiant ingénieur en Master 1 Électronique et Systèmes Embarqués à JUNIA ISEN Lille "
-            f"(et menant en parallèle ma 4e année de BSc en Génie Informatique à KNUST), je vous adresse ma candidature "
+            f"(et diplômé d'un BSc en Génie Informatique de KNUST (2026)), je vous adresse ma candidature "
             f"chez {company} pour {contract_line}.\n\n"
             f"Au cours de mes projets R&D à JUNIA ISEN Lille et KNUST, j'ai développé et testé des systèmes concrets "
             f"mobilisant {skills_str} :\n"
@@ -1343,7 +1365,7 @@ def generate_tailored_cv_draft(
             f"Subject: Application — {title} at {company}\n\n"
             f"Dear Hiring Team at {company},\n\n"
             f"I am an M1 Engineering student specializing in Electronics and Embedded Systems at JUNIA ISEN Lille (France), "
-            f"concurrently completing my 4th-year BSc in Computer Engineering at KNUST. I am writing to apply for {contract_line}.\n\n"
+            f"having graduated with a BSc in Computer Engineering at KNUST (Completed 2026). I am writing to apply for {contract_line}.\n\n"
             f"My hands-on engineering projects align directly with your focus on {skills_str}:\n"
             f"- Autonomous Street-Cleaning Robot (JUNIA ISEN Lille): Real-time Embedded C firmware on STM32 for PWM H-bridge motor control, "
             f"paired with ESP32 telemetry and UART serial frame validation.\n"
@@ -1717,3 +1739,123 @@ def start_autonomous_hunter_daemon() -> None:
 
     t = threading.Thread(target=_loop, name="AutonomousInternshipHunter", daemon=True)
     t.start()
+
+
+# ==============================================================================
+# PART 1-6 ARCHITECTURAL INTEGRATION & BOOT-SYNC LAYER
+# ==============================================================================
+_orig_load_hunter_state = load_hunter_state
+_orig_generate_tailored_cv_draft = generate_tailored_cv_draft
+_IN_MEMORY_INDEX_CACHE: Dict[str, Any] = {"jobs_sig": None, "inverted_index": None}
+
+
+def load_hunter_state() -> Dict[str, Any]:
+    """Load hunter_state, merge expanded 34-employer matrix, exclude Africa, and attach O(1) Inverted Index."""
+    state = _orig_load_hunter_state()
+    raw_jobs = state.get("jobs") or []
+    enriched_jobs: List[Dict[str, Any]] = []
+    seen_sigs: set[str] = set()
+    for job in list(raw_jobs) + list(EXPANDED_REGIONAL_OPPORTUNITIES):
+        norm = enrich_job_for_indexing(job)
+        if norm is not None:
+            sig_key = re.sub(r"[^a-z0-9]", "", f"{norm.get('company', '')}{norm.get('title', '')}".lower())[:42]
+            if sig_key in seen_sigs:
+                continue
+            seen_sigs.add(sig_key)
+            enriched_jobs.append(norm)
+    state["jobs"] = enriched_jobs
+
+    sig = (len(enriched_jobs), tuple((j.get("id"), j.get("pipeline_status", "saved")) for j in enriched_jobs))
+    if _IN_MEMORY_INDEX_CACHE["jobs_sig"] == sig and _IN_MEMORY_INDEX_CACHE["inverted_index"] is not None:
+        state["inverted_index"] = _IN_MEMORY_INDEX_CACHE["inverted_index"]
+    else:
+        inv = build_inverted_index(enriched_jobs)
+        _IN_MEMORY_INDEX_CACHE["jobs_sig"] = sig
+        _IN_MEMORY_INDEX_CACHE["inverted_index"] = inv
+        state["inverted_index"] = inv
+
+    state["domain_filters"] = DOMAIN_FILTERS
+    return state
+
+
+def generate_tailored_cv_draft(
+    job: Dict[str, Any],
+    override_ats_policy: Optional[str] = None,
+    override_lang: Optional[str] = None,
+    override_lead_project: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Generate a tailored CV draft and pass it through the Canonical Truth Linter + Tier ranking."""
+    enriched_job = enrich_job_for_indexing(job) or job
+    draft = _orig_generate_tailored_cv_draft(
+        enriched_job,
+        override_ats_policy=override_ats_policy,
+        override_lang=override_lang,
+        override_lead_project=override_lead_project,
+    )
+    # Enforce canonical truth on both HTML and cover letter
+    for key in ("html_content", "cover_letter"):
+        if draft.get(key):
+            res = validate_cv_truth(draft[key])
+            draft[key] = res["rewritten_payload"]
+
+    cv_lang = draft.get("cv_lang") or enriched_job.get("cv_lang") or "fr"
+    ats_policy = draft.get("ats_policy") or "strict_ats"
+    tmpl_id = (
+        ("ws_en_design" if ats_policy == "design_two_col" else "ws_en_ats")
+        if str(cv_lang).startswith("en")
+        else ("ws_fr_design" if ats_policy == "design_two_col" else "ws_fr_ats")
+    )
+    cv_state = build_initial_cv_state(enriched_job, lang=cv_lang, template_id=tmpl_id)
+    if override_lead_project:
+        for idx, pr in enumerate(cv_state.get("projects", [])):
+            if override_lead_project in pr.get("id", ""):
+                cv_state["projects"].insert(0, cv_state["projects"].pop(idx))
+                cv_state["projects"][0]["visible"] = True
+                break
+    draft["cv_state"] = cv_state
+    draft["ranked_projects"] = cv_state["projects"]
+    draft["preflight_audit"] = run_preflight_audit(cv_state, enriched_job)
+    return draft
+
+
+def update_job_pipeline_status(job_id: str, new_status: str) -> Dict[str, Any]:
+    """Persist pipeline status transition (saved -> cv_tailored -> verified -> applied)."""
+    allowed = {"saved", "cv_tailored", "verified", "applied"}
+    target_status = str(new_status or "saved").lower()
+    if target_status not in allowed:
+        target_status = "saved"
+
+    state = _orig_load_hunter_state()
+    updated_job = None
+    for j in state.get("jobs", []):
+        if str(j.get("id")) == str(job_id):
+            j["pipeline_status"] = target_status
+            if target_status == "applied":
+                j["applied_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+            updated_job = enrich_job_for_indexing(j) or j
+            break
+    save_hunter_state(state)
+    _IN_MEMORY_INDEX_CACHE["jobs_sig"] = None
+    return {"ok": updated_job is not None, "job": updated_job, "pipeline_status": target_status}
+
+
+def get_boot_sync_payload(force_github: bool = False) -> Dict[str, Any]:
+    """Return full boot payload for the 3-Pane Admin Workstation and static export."""
+    state = load_hunter_state()
+    profile = load_ground_truth_profile()
+    gh = sync_github_repos(force_refresh=force_github)
+    hub_templates = scan_cv_hub_templates()
+    return {
+        "ok": True,
+        "jobs": state.get("jobs", []),
+        "inverted_index": state.get("inverted_index", {}),
+        "region_configs": REGION_CONFIGS,
+        "source_configs": SOURCE_CONFIGS,
+        "domain_filters": DOMAIN_FILTERS,
+        "ground_truth_profile": profile,
+        "github_repos": gh,
+        "cv_hub_templates": hub_templates,
+        "autonomous_enabled": state.get("autonomous_enabled", False),
+        "last_run_at": state.get("last_run_at", ""),
+        "stats": state.get("stats", {}),
+    }

@@ -1,0 +1,303 @@
+{
+  "schema_version": "2.0.0",
+  "owner": {
+    "full_name": "Hanz Ofosuhene-Sintim",
+    "email": "hanz.ofosuhene-sintim@student.junia.com",
+    "alt_email": "hanzsintim@gmail.com",
+    "phone": "+33 7 45 27 89 10",
+    "location_fr": "Lille, Hauts-de-France, France",
+    "location_en": "Lille, Hauts-de-France, France",
+    "github_username": "HanzSintim",
+    "github_url": "https://github.com/HanzSintim",
+    "linkedin_url": "https://www.linkedin.com/in/hanz-ofosuhene-sintim",
+    "portfolio_url": "https://hanzsintim.github.io/Hanz-Portfolio-webisite/"
+  },
+  "academic_timeline": [
+    {
+      "id": "junia_m1",
+      "degree_en": "Master of Science (M1) in Microelectronics, Nanotechnology & Embedded Systems",
+      "degree_fr": "Cycle Ingénieur (Master M1) — Microélectronique, Nanotechnologies & Systèmes Embarqués",
+      "institution": "JUNIA ISEN — Grande École d'Ingénieurs",
+      "location": "Lille, France",
+      "period_en": "2026 – Present (Expected 2029)",
+      "period_fr": "2026 – Présent (Diplôme 2029)",
+      "start_year": 2026,
+      "status": "in_progress",
+      "notes_en": "Current M1 Engineering student focusing on Embedded C/C++, STM32/ESP32 firmware, VHDL/FPGA, KiCad PCB design, and micro-systems.",
+      "notes_fr": "Étudiant ingénieur en M1 axé sur le C/C++ embarqué, microcontrôleurs STM32/ESP32, VHDL/FPGA, conception PCB KiCad et microsystèmes."
+    },
+    {
+      "id": "knust_bsc",
+      "degree_en": "BSc in Computer Engineering",
+      "degree_fr": "BSc (Licence) en Génie Informatique (Computer Engineering)",
+      "institution": "Kwame Nkrumah University of Science and Technology (KNUST)",
+      "location": "Kumasi, Ghana",
+      "period_en": "2022 – 2026 (Completed / Graduated 2026)",
+      "period_fr": "2022 – 2026 (Diplôme obtenu en 2026)",
+      "start_year": 2022,
+      "end_year": 2026,
+      "status": "completed",
+      "notes_en": "Graduated BSc in Computer Engineering. Former Department President of ACES (Association of Computer Engineering Students, Aug 2025 – May 2026) representing 800+ engineering students.",
+      "notes_fr": "Diplômé en Génie Informatique (2026). Ancien Président du Département ACES (Août 2025 – Mai 2026) représentant plus de 800 étudiants ingénieurs."
+    },
+    {
+      "id": "presec_shs",
+      "degree_en": "General Science (WASSCE)",
+      "degree_fr": "Baccalauréat Scientifique (General Science)",
+      "institution": "Presbyterian Boys' Secondary School (PRESEC-Legon)",
+      "location": "Accra, Ghana",
+      "period_en": "Completed 2022",
+      "period_fr": "Obtenu en 2022",
+      "end_year": 2022,
+      "status": "completed",
+      "notes_en": "Completed secondary education in General Science (Physics, Elective Mathematics, Chemistry).",
+      "notes_fr": "Études secondaires scientifiques (Mathématiques, Physique, Chimie)."
+    }
+  ],
+  "leadership": [
+    {
+      "id": "aces_president",
+      "role_en": "Department President — Association of Computer Engineering Students (ACES)",
+      "role_fr": "Président du Département — Association des Étudiants en Génie Informatique (ACES)",
+      "organization": "KNUST, Kumasi, Ghana",
+      "period_en": "Aug 2025 – May 2026 (Completed Term)",
+      "period_fr": "Août 2025 – Mai 2026 (Mandat achevé)",
+      "summary_en": "Led executive council representing 800+ engineering students; coordinated technical workshops, industry partnerships, and academic mentorship.",
+      "summary_fr": "Direction du bureau exécutif représentant plus de 800 étudiants ingénieurs ; organisation d'ateliers techniques, partenariats industriels et mentorat."
+    }
+  ],
+  "forbidden_hallucinations": [
+    {
+      "pattern": "2023\\s*[–\\-]\\s*June\\s*2027",
+      "reason": "KNUST BSc was completed in 2026 (2022–2026), not June 2027."
+    },
+    {
+      "pattern": "2023\\s*[–\\-]\\s*Juin\\s*2027",
+      "reason": "KNUST BSc was completed in 2026 (2022–2026), not Juin 2027."
+    },
+    {
+      "pattern": "June\\s*2027\\s*\\(In\\s*progress\\)",
+      "reason": "KNUST BSc is COMPLETED (2026), never in progress."
+    },
+    {
+      "pattern": "Juin\\s*2027\\s*\\(En\\s*cours\\)",
+      "reason": "KNUST BSc is COMPLETED (2026), never en cours."
+    },
+    {
+      "pattern": "concurrently\\s+completing\\s+my\\s+4th-year\\s+BSc",
+      "reason": "Hanz already graduated with his BSc from KNUST in 2026 and is now in M1 at JUNIA Lille."
+    },
+    {
+      "pattern": "poursuivant\\s+simultanément\\s+ma\\s+4e\\s+année\\s+de\\s+Licence",
+      "reason": "Hanz already graduated with his BSc from KNUST in 2026 and is now in M1 at JUNIA Lille."
+    },
+    {
+      "pattern": "4e\\s+année\\s+menée\\s+en\\s+parallèle",
+      "reason": "KNUST BSc was completed in 2026."
+    },
+    {
+      "pattern": "4th\\s+Year\\s+completed\\s+concurrently",
+      "reason": "KNUST BSc was completed in 2026."
+    },
+    {
+      "pattern": "4e\\s+année\\s+de\\s+BSc",
+      "reason": "KNUST BSc was completed in 2026."
+    },
+    {
+      "pattern": "4th-year\\s+BSc",
+      "reason": "KNUST BSc was completed in 2026."
+    },
+    {
+      "pattern": "graduating\\s+next\\s+year",
+      "reason": "BSc already completed in 2026; M1 at JUNIA is 2026–Present."
+    },
+    {
+      "pattern": "physical\\s+E\\.Leclerc\\s+PCB\\s+fabricated",
+      "reason": "E.Leclerc / ACES MART is strictly a C++17 OOP Software Engine, not a fabricated physical PCB."
+    },
+    {
+      "pattern": "Août\\s*2025\\s*[–\\-]\\s*En\\s*cours",
+      "reason": "ACES President term ended May 2026."
+    }
+  ],
+  "canonical_replacements": [
+    {
+      "from_en": "concurrently completing my 4th-year BSc in Computer Engineering at KNUST (Ghana)",
+      "to_en": "BSc Computer Engineering graduate from KNUST (2026)"
+    },
+    {
+      "from_fr": "poursuivant simultanément ma 4e année de Licence (BSc) en Génie Informatique à KNUST (Ghana)",
+      "to_fr": "diplômé d'un BSc en Génie Informatique de KNUST (2026)"
+    }
+  ],
+  "projects": [
+    {
+      "id": "water_arduino",
+      "verification_tier": 1,
+      "tier_label_en": "Tier 1 — Hardware & System Validated",
+      "tier_label_fr": "Tier 1 — Matériel & Système Validé",
+      "completion_status": "completed_validated",
+      "title_en": "Automatic Water Tank Level Monitoring & Closed-Loop Control",
+      "title_fr": "Système Automatisé de Régulation de Niveau d'Eau en Boucle Fermée",
+      "badge_en": "Tier 1 · Completed & Hardware Validated",
+      "badge_fr": "Tier 1 · Matériel Validé",
+      "stack": ["Arduino", "Embedded C", "Ultrasonic ToF Sensor", "Relay Hysteresis", "16x2 LCD", "Oscilloscope"],
+      "keywords": ["arduino", "c", "embedded", "sensor", "ultrasonic", "relay", "hysteresis", "lcd", "control", "closed-loop", "automation", "iot", "capteur", "embarqué", "temps réel", "régulation"],
+      "github_repo_hints": ["water", "tank", "arduino", "ultrasonic", "level"],
+      "bullets_en": [
+        "Engineered closed-loop embedded pump controller on Arduino MCU reading HC-SR04 Ultrasonic Time-of-Flight telemetry.",
+        "Implemented deterministic software hysteresis thresholds to prevent relay chatter and protect switching hardware.",
+        "Integrated real-time I2C/parallel 16x2 LCD state diagnostics and verified timing margins on bench test."
+      ],
+      "bullets_fr": [
+        "Conception d'un régulateur en boucle fermée sur microcontrôleur Arduino exploitant un capteur ultrasonore Time-of-Flight.",
+        "Implémentation d'un contrôle par hystérésis logicielle évitant les rebonds du relais de puissance et sécurisant l'actionneur.",
+        "Intégration d'un affichage LCD 16x2 temps réel pour le diagnostic d'état et validation expérimentale sur banc d'essai."
+      ]
+    },
+    {
+      "id": "charger_pcb",
+      "verification_tier": 1,
+      "tier_label_en": "Tier 1 — Hardware & System Validated",
+      "tier_label_fr": "Tier 1 — Matériel & Système Validé",
+      "completion_status": "completed_validated",
+      "title_en": "Custom Power Charger PCB (KiCad & Fabrication)",
+      "title_fr": "Conception & Fabrication de PCB Chargeur sur Mesure (KiCad)",
+      "badge_en": "Tier 1 · Completed & Hardware Validated",
+      "badge_fr": "Tier 1 · Matériel Validé",
+      "stack": ["KiCad", "PCB Layout", "Schematic Capture", "Copper Etching", "Soldering", "Multimeter Validation"],
+      "keywords": ["pcb", "kicad", "altium", "cadence", "schematic", "schématique", "routage", "microelectronics", "microélectronique", "power", "alimentation", "hardware", "matériel", "soldering", "soudure", "analog", "analogique", "electronique", "electronics"],
+      "github_repo_hints": ["pcb", "charger", "kicad", "power"],
+      "bullets_en": [
+        "Captured schematic and routed single/double-layer power regulation PCB in KiCad respecting clearance and trace-width rules.",
+        "Executed chemical copper etching, through-hole/SMD component soldering, and thermal/voltage load validation.",
+        "Verified ripple suppression, short-circuit protection, and charging regulation stages using bench multimeter and oscilloscope."
+      ],
+      "bullets_fr": [
+        "Saisie de schéma et routage de carte électronique sous KiCad avec respect des règles d'isolement et de largeur de pistes.",
+        "Réalisation complète : gravure chimique du cuivre, soudure des composants traversants/CMS et contrôle de continuité.",
+        "Validation des étages de régulation, ondulation résiduelle et tenue en charge au multimètre et à l'oscilloscope."
+      ]
+    },
+    {
+      "id": "logistics_sql",
+      "verification_tier": 1,
+      "tier_label_en": "Tier 1 — Hardware & System Validated",
+      "tier_label_fr": "Tier 1 — Matériel & Système Validé",
+      "completion_status": "completed_validated",
+      "title_en": "Smart Logistics & Delivery Management System (PostgreSQL 3NF)",
+      "title_fr": "Système de Gestion Logistique & Livraison Intelligente (PostgreSQL 3NF)",
+      "badge_en": "Tier 1 · Completed & System Validated",
+      "badge_fr": "Tier 1 · Système Validé",
+      "stack": ["PostgreSQL", "SQL", "ERD Modeling", "3NF Normalization", "Associative Tables", "ACID Transactions"],
+      "keywords": ["sql", "postgresql", "database", "base de données", "3nf", "erd", "backend", "data", "logistics", "architecture", "systèmes", "python", "api", "systems"],
+      "github_repo_hints": ["logistics", "delivery", "sql", "postgres", "database"],
+      "bullets_en": [
+        "Architected relational schema normalized to Third Normal Form (3NF) with strict foreign-key and associative junction tables.",
+        "Eliminated update/deletion anomalies across multi-carrier dispatch, parcel tracking, and route assignment workflows.",
+        "Wrote indexed analytical SQL queries and ACID-compliant transactional updates for reliable dispatch state."
+      ],
+      "bullets_fr": [
+        "Architecture d'une base de données relationnelle normalisée en 3e Forme Normale (3NF) avec tables associatives et clés étrangères.",
+        "Élimination des anomalies de redondance sur le suivi des colis, transporteurs et affectations de tournées.",
+        "Rédaction de requêtes SQL indexées et transactions ACID garantissant l'intégrité des flux logistiques."
+      ]
+    },
+    {
+      "id": "thermometer_msp430",
+      "verification_tier": 1,
+      "tier_label_en": "Tier 1 — Hardware & System Validated",
+      "tier_label_fr": "Tier 1 — Matériel & Système Validé",
+      "completion_status": "completed_validated",
+      "title_en": "Digital Thermometer & Signal Acquisition Chain (TI MSP430)",
+      "title_fr": "Thermomètre Numérique & Chaîne d'Acquisition Bas Niveau (TI MSP430)",
+      "badge_en": "Tier 1 · Completed & Hardware Validated",
+      "badge_fr": "Tier 1 · Matériel Validé",
+      "stack": ["Embedded C", "MSP430 Assembly", "TI MSP430", "10-bit ADC", "Register-Level I/O", "Multiplexed 7-Segment"],
+      "keywords": ["msp430", "assembly", "assembleur", "adc", "c", "embedded", "embarqué", "firmware", "signal", "acquisition", "register", "microcontroller", "microcontrôleur", "test", "debug", "vhdl", "fpga"],
+      "github_repo_hints": ["msp430", "thermometer", "assembly", "adc"],
+      "bullets_en": [
+        "Programmed bare-metal register drivers in C and Assembly on TI MSP430 configuring 10-bit ADC and multiplexed 7-segment display.",
+        "Reduced thermal measurement noise via fixed-point rolling averaging and deterministic timer interrupt sampling.",
+        "Debugged register states step-by-step via JTAG/Spy-Bi-Wire and bench oscilloscope signal verification."
+      ],
+      "bullets_fr": [
+        "Programmation bas niveau par manipulation directe des registres (C & Assembleur TI MSP430) : ADC 10 bits et afficheurs 7 segments.",
+        "Réduction du bruit de mesure par filtrage glissant en virgule fixe et échantillonnage déterministe par interruption timer.",
+        "Débogage matériel pas à pas via JTAG/Spy-Bi-Wire et caractérisation des signaux à l'oscilloscope."
+      ]
+    },
+    {
+      "id": "pos_cpp17",
+      "verification_tier": 2,
+      "tier_label_en": "Tier 2 — Completed Core Software",
+      "tier_label_fr": "Tier 2 — Logiciel Principal Validé",
+      "completion_status": "completed_core_software",
+      "title_en": "E.Leclerc / ACES MART Hybrid Self-Checkout Engine (C++17 OOP Software Engine)",
+      "title_fr": "Moteur Logiciel de Caisse Hybride E.Leclerc / ACES MART (C++17 POO)",
+      "badge_en": "Tier 2 · Completed C++17 Software Engine",
+      "badge_fr": "Tier 2 · Moteur Logiciel C++17 Validé",
+      "stack": ["C++17", "OOP Polymorphism", "virtual / dynamic_cast", "Integer Centime Math", "Greedy Change Dispenser", "CLI Engine"],
+      "keywords": ["c++", "cpp", "c++17", "oop", "poo", "polymorphism", "software", "logiciel", "pos", "checkout", "algorithm", "algorithme", "testing", "unit", "embedded", "embarqué"],
+      "github_repo_hints": ["leclerc", "aces", "pos", "checkout", "cpp", "c++"],
+      "bullets_en": [
+        "Architected a deterministic C++17 OOP software engine with abstract base classes, runtime polymorphism (virtual & dynamic_cast), and RAII state.",
+        "Replaced IEEE-754 floating-point currency math with exact integer centime arithmetic to guarantee zero rounding drift.",
+        "Implemented greedy coin/bill change dispenser algorithm with bounded inventory rollback and exhaustive edge-case unit tests."
+      ],
+      "bullets_fr": [
+        "Conception d'un moteur logiciel déterministe en C++17 (POO, polymorphisme dynamique via virtual & dynamic_cast, gestion RAII).",
+        "Élimination des erreurs d'arrondi flottant par arithmétique entière exacte en centimes sur l'ensemble du pipeline de transaction.",
+        "Implémentation d'un algorithme glouton de rendu de monnaie avec gestion stricte des stocks de coupures et tests unitaires."
+      ]
+    },
+    {
+      "id": "portfolio_python",
+      "verification_tier": 2,
+      "tier_label_en": "Tier 2 — Completed Core Software",
+      "tier_label_fr": "Tier 2 — Logiciel Principal Validé",
+      "completion_status": "completed_core_software",
+      "title_en": "Bilingual Systems Engineering Portfolio & Admin Telemetry Engine (Python 3 / Flask)",
+      "title_fr": "Portfolio Ingénieur Bilingue & Moteur de Télémétrie Admin (Python 3 / Flask)",
+      "badge_en": "Tier 2 · Completed Software Engine",
+      "badge_fr": "Tier 2 · Moteur Logiciel Validé",
+      "stack": ["Python 3", "Flask", "REST API", "i18n Middleware", "O(1) Inverted Index", "Static Site Generator"],
+      "keywords": ["python", "flask", "rest", "api", "backend", "systems", "architecture", "linux", "automation", "automatisation", "i18n", "testing", "software"],
+      "github_repo_hints": ["portfolio", "hanz", "flask", "admin"],
+      "bullets_en": [
+        "Built bilingual Python 3 / Flask application serving REST endpoints, O(1) inverted-index query engine, and static site compilation.",
+        "Designed ground-truth schema validators, dynamic project ranking logic, and automated headless PDF build pipelines.",
+        "Enforced automated regression suites validating link integrity, i18n parity, and zero-hallucination data contracts."
+      ],
+      "bullets_fr": [
+        "Développement d'une architecture Python 3 / Flask exposant des API REST, un moteur d'index inversé O(1) et un générateur statique.",
+        "Intégration d'un validateur de données canoniques, classement dynamique de projets et compilation PDF automatisée.",
+        "Mise en place de tests de régression automatisés vérifiant les endpoints API, le bilinguisme FR/EN et l'intégrité des données."
+      ]
+    },
+    {
+      "id": "robot_stm32",
+      "verification_tier": 3,
+      "tier_label_en": "Tier 3 — Active R&D (M1 Team Project)",
+      "tier_label_fr": "Tier 3 — R&D Active (Projet d'Équipe M1)",
+      "completion_status": "active_rd_in_progress",
+      "title_en": "Autonomous Street-Cleaning Robot (Active R&D — M1 Team Project)",
+      "title_fr": "Robot Autonome de Nettoyage Urbain (R&D Active — Projet d'Équipe M1)",
+      "badge_en": "Tier 3 · Active R&D — M1 Team Project",
+      "badge_fr": "Tier 3 · R&D Active — Projet d'Équipe M1",
+      "stack": ["STM32", "ESP32", "Embedded C/C++", "UART/PWM", "Computer Vision", "Sensor Fusion"],
+      "keywords": ["stm32", "esp32", "robot", "robotics", "robotique", "vision", "computer vision", "uart", "spi", "i2c", "pwm", "rtos", "freertos", "embedded", "embarqué", "autonomous", "autonome", "lidar", "imu"],
+      "github_repo_hints": ["robot", "street", "cleaning", "stm32", "esp32"],
+      "bullets_en": [
+        "Ongoing JUNIA Lille M1 7-member R&D team project developing a dual-MCU (STM32 real-time actuation + ESP32 telemetry) mobile platform.",
+        "Designing low-level C/C++ motor PWM control, UART inter-MCU framing, and ultrasonic/vision obstacle avoidance loops.",
+        "Integrating bench telemetry logging and hardware-in-the-loop sensor validation tests for modular chassis subsystems."
+      ],
+      "bullets_fr": [
+        "Projet d'équipe R&D en cours à JUNIA Lille (7 étudiants M1) : architecture bi-microcontrôleurs STM32 (temps réel) + ESP32 (télémétrie).",
+        "Développement bas niveau en C/C++ de l'asservissement moteur PWM, communication UART inter-MCU et évitement d'obstacles.",
+        "Mise en place de protocoles de tests sur banc et validation matérielle en boucle des capteurs et sous-ensembles."
+      ]
+    }
+  ]
+}

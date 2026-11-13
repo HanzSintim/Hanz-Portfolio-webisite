@@ -40,18 +40,33 @@ from data_engine import (
     load_or_seed_projects,
 )
 from internship_hunter import (
+    DOMAIN_FILTERS,
     REGION_CONFIGS,
     SOURCE_CONFIGS,
     TAILORED_APPLICATIONS_DIR,
     analyze_job_relevance_and_contract,
+    build_initial_cv_state,
+    enrich_job_for_indexing,
     determine_ats_policy,
+    execute_live_multi_source_search,
+    export_cv_to_hub_output,
     generate_tailored_cv_draft,
+    get_boot_sync_payload,
+    load_ground_truth_profile,
     load_hunter_state,
+    query_inverted_index,
+    refine_cv_state_with_prompt,
+    render_cv_state_to_html,
     run_multi_region_hunt,
+    run_preflight_audit,
     save_hunter_state,
     save_validated_cv_bundle,
+    scan_cv_hub_templates,
     start_autonomous_hunter_daemon,
+    sync_github_repos,
     tailor_cv_for_job,
+    update_job_pipeline_status,
+    validate_cv_truth,
 )
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -231,6 +246,8 @@ def admin_dashboard():
     }
 
     start_autonomous_hunter_daemon()
+    boot_payload = get_boot_sync_payload(force_github=False)
+    boot_payload_json = json.dumps(boot_payload, ensure_ascii=False)
     hunter_state = load_hunter_state()
 
     return render_template(
@@ -243,7 +260,154 @@ def admin_dashboard():
         hunter_state=hunter_state,
         region_configs=REGION_CONFIGS,
         source_configs=SOURCE_CONFIGS,
+        domain_filters=DOMAIN_FILTERS,
+        boot_payload=boot_payload,
+        boot_payload_json=boot_payload_json,
+        static_mode=False,
     )
+
+
+# ==============================================================================
+# 2B. 3-PANE ADMIN WORKSTATION REST API (O(1) INDEX, TRUTH LINTER, CV STUDIO)
+# ==============================================================================
+@app.route("/admin/api/boot-sync", methods=["GET"])
+@admin_required
+def admin_api_boot_sync():
+    """Sync GitHub repos, Hanz_CV_Hub templates, ground truth & O(1) inverted index."""
+    force_gh = request.args.get("refresh_github") == "1"
+    return jsonify(get_boot_sync_payload(force_github=force_gh))
+
+
+@app.route("/admin/api/jobs/query", methods=["POST"])
+@admin_required
+def admin_api_jobs_query():
+    """O(1) Inverted Hash-Map multi-dimensional job query (<1ms)."""
+    payload = request.get_json(silent=True) or {}
+    state = load_hunter_state()
+    result = query_inverted_index(
+        state.get("jobs", []),
+        filters=payload,
+        inverted_index=state.get("inverted_index"),
+    )
+    return jsonify({"ok": True, **result})
+
+
+@app.route("/admin/api/jobs/live-search", methods=["POST"])
+@admin_required
+def admin_api_jobs_live_search():
+    """Execute concurrent live multi-source ATS & LinkedIn f_TPR search and persist fresh state."""
+    payload = request.get_json(silent=True) or {}
+    res = execute_live_multi_source_search(filters=payload)
+    # Persist latest discovered jobs cleanly to hunter_state.json for fast subsequent queries
+    try:
+        st = load_hunter_state()
+        existing_status = {str(j.get("id")): j.get("pipeline_status", "saved") for j in st.get("jobs", [])}
+        updated_all = res.get("all_jobs") or []
+        for j in updated_all:
+            jid = str(j.get("id") or "")
+            if jid in existing_status:
+                j["pipeline_status"] = existing_status[jid]
+        st["jobs"] = updated_all
+        st["last_run_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+        save_hunter_state(st)
+    except Exception:
+        pass
+    return jsonify(res)
+
+
+@app.route("/admin/api/jobs/status", methods=["POST"])
+@admin_required
+def admin_api_job_status():
+    """Persist pipeline status (saved -> cv_tailored -> verified -> applied)."""
+    payload = request.get_json(silent=True) or {}
+    job_id = str(payload.get("job_id") or "").strip()
+    status = str(payload.get("pipeline_status") or "saved").strip()
+    if not job_id:
+        return jsonify({"ok": False, "error": "Missing job_id"}), 400
+    res = update_job_pipeline_status(job_id, status)
+    return jsonify(res)
+
+
+@app.route("/admin/api/cv/state", methods=["POST"])
+@admin_required
+def admin_api_cv_state():
+    """Build or re-render two-way cvState grounded in ground_truth_profile.json."""
+    payload = request.get_json(silent=True) or {}
+    job_id = str(payload.get("job_id") or "").strip()
+    job = payload.get("job")
+    if not job and job_id:
+        st = load_hunter_state()
+        job = next((j for j in st.get("jobs", []) if str(j.get("id")) == job_id), None)
+    lang = str(payload.get("lang") or (job or {}).get("cv_lang") or "fr")
+    template_id = str(payload.get("template_id") or "")
+    cv_state = payload.get("cv_state") or build_initial_cv_state(job=job, lang=lang, template_id=template_id)
+    html_out = render_cv_state_to_html(cv_state, standalone=True)
+    audit = run_preflight_audit(cv_state, job=job)
+    return jsonify({"ok": True, "cv_state": cv_state, "html": html_out, "preflight_audit": audit})
+
+
+@app.route("/admin/api/cv/refine", methods=["POST"])
+@admin_required
+def admin_api_cv_refine():
+    """Post-generation AI Refinement Console endpoint with canonical truth linter."""
+    payload = request.get_json(silent=True) or {}
+    cv_state = payload.get("cv_state")
+    prompt = str(payload.get("prompt") or "").strip()
+    job_id = str(payload.get("job_id") or "").strip()
+    if not cv_state:
+        cv_state = build_initial_cv_state(lang=str(payload.get("lang") or "fr"))
+    refined = refine_cv_state_with_prompt(cv_state, prompt)
+    job = None
+    if job_id:
+        st = load_hunter_state()
+        job = next((j for j in st.get("jobs", []) if str(j.get("id")) == job_id), None)
+    html_out = render_cv_state_to_html(refined["cv_state"], standalone=True)
+    audit = run_preflight_audit(refined["cv_state"], job=job)
+    return jsonify({
+        "ok": True,
+        "cv_state": refined["cv_state"],
+        "applied_actions": refined["applied_actions"],
+        "truth_report": refined["truth_report"],
+        "html": html_out,
+        "preflight_audit": audit,
+    })
+
+
+@app.route("/admin/api/cv/validate", methods=["POST"])
+@admin_required
+def admin_api_cv_validate():
+    """Run Canonical Truth Linter + Pre-Flight Verification Checklist."""
+    payload = request.get_json(silent=True) or {}
+    cv_state = payload.get("cv_state")
+    raw_html = payload.get("html")
+    job = payload.get("job")
+    if raw_html is not None and not cv_state:
+        report = validate_cv_truth(raw_html)
+        return jsonify({"ok": True, "truth_report": report})
+    if not cv_state:
+        cv_state = build_initial_cv_state()
+    linted = validate_cv_truth(cv_state)
+    audit = run_preflight_audit(linted["rewritten_payload"], job=job)
+    return jsonify({"ok": True, "truth_report": linted, "preflight_audit": audit})
+
+
+@app.route("/admin/api/cv/export", methods=["POST"])
+@admin_required
+def admin_api_cv_export():
+    """Export final validated 1-page A4 CV PDF + HTML to Hanz_CV_Hub/output/."""
+    payload = request.get_json(silent=True) or {}
+    cv_state = payload.get("cv_state") or build_initial_cv_state()
+    html_override = payload.get("html")
+    job = payload.get("job")
+    job_id = str(payload.get("job_id") or (cv_state.get("meta") or {}).get("job_id") or "").strip()
+    if not job and job_id:
+        st = load_hunter_state()
+        job = next((j for j in st.get("jobs", []) if str(j.get("id")) == job_id), None)
+
+    export_res = export_cv_to_hub_output(cv_state, job=job, html_override=html_override)
+    if job_id:
+        update_job_pipeline_status(job_id, "verified")
+    return jsonify(export_res)
 
 
 @app.route("/admin/upload-resume", methods=["POST"])
@@ -838,6 +1002,8 @@ def build_static_bundle() -> None:
                     )
     projects_list = load_or_seed_projects()
     raw_json_str = json.dumps(projects_list, indent=2, ensure_ascii=False)
+    boot_payload = get_boot_sync_payload(force_github=False)
+    boot_payload_json = json.dumps(boot_payload, ensure_ascii=False)
 
     with app.test_request_context():
         rendered_html = render_template("index.html", data=payload, static_mode=True)
@@ -854,6 +1020,9 @@ def build_static_bundle() -> None:
             hunter_state=hunter_state,
             region_configs=REGION_CONFIGS,
             source_configs=SOURCE_CONFIGS,
+            domain_filters=DOMAIN_FILTERS,
+            boot_payload=boot_payload,
+            boot_payload_json=boot_payload_json,
             tailored_dir=TAILORED_APPLICATIONS_DIR,
             precomputed_drafts=precomputed_drafts,
             static_mode=True,
