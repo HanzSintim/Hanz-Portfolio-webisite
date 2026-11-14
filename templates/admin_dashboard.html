@@ -113,36 +113,43 @@
     }
     .btn-sm { padding: 4px 8px; font-size: 0.72rem; border-radius: 6px; }
 
-    /* 3-Pane Split Workstation */
+    /* 3-Pane Split Workstation — Distinct Card Panes with Clean Spacing */
     .workstation {
       display: grid;
-      grid-template-columns: 280px minmax(360px, 1fr) 54%;
+      grid-template-columns: 244px minmax(305px, 0.86fr) minmax(490px, 1.44fr);
+      gap: 12px;
+      padding: 10px 12px 12px 12px;
       height: calc(100vh - 54px);
       width: 100%;
       overflow: hidden;
+      background: #04070e;
       transition: grid-template-columns 0.18s ease;
     }
     .workstation.studio-expanded {
-      grid-template-columns: 0px minmax(260px, 0.55fr) 1fr;
+      grid-template-columns: minmax(295px, 0.56fr) minmax(540px, 1.44fr);
     }
-    .workstation.studio-expanded .pane-left { overflow: hidden; padding: 0; border-right: none; }
+    .workstation.studio-expanded .pane-left {
+      display: none;
+    }
 
     .pane {
       height: 100%;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       overflow: hidden;
       background: var(--bg-pane);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 12px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
     }
     .pane-left {
-      border-right: 1px solid var(--border-subtle);
       overflow-y: auto;
       padding: 12px;
-      gap: 14px;
+      gap: 12px;
     }
     .pane-center {
-      background: var(--bg-canvas);
-      border-right: 1px solid var(--border-subtle);
+      background: #080d19;
     }
     .pane-right {
       background: #0b111f;
@@ -189,16 +196,17 @@
 
     /* Pane 2 Job Feed */
     .feed-header {
-      padding: 10px 14px; border-bottom: 1px solid var(--border-subtle);
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
-      background: rgba(13, 19, 34, 0.72);
+      padding: 10px 16px; border-bottom: 1px solid var(--border-subtle);
+      display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+      background: rgba(13, 19, 34, 0.85);
     }
     .feed-scroll {
-      flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px;
+      flex: 1; min-width: 0; overflow-y: auto; overflow-x: hidden;
+      padding: 14px 16px; display: flex; flex-direction: column; gap: 12px;
     }
     .job-card {
       background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 11px;
-      padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;
+      padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0;
       transition: border-color 0.14s, background 0.14s, transform 0.12s;
     }
     .job-card:hover { background: var(--bg-card-hover); border-color: rgba(148, 163, 184, 0.28); }
@@ -227,53 +235,83 @@
     }
     .auto-cluster.running { border-color: rgba(16, 185, 129, 0.55); background: rgba(16, 185, 129, 0.12); }
     .radar-strip {
-      padding: 8px 14px; background: rgba(16, 185, 129, 0.08); border-bottom: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 8px 16px; background: rgba(16, 185, 129, 0.08); border-bottom: 1px solid rgba(16, 185, 129, 0.25);
       display: none; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 0.71rem;
     }
     .launchpad-card {
-      margin: 18px auto; max-width: 580px; background: linear-gradient(145deg, #10182b, #0c1322);
-      border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 16px; padding: 26px;
-      display: flex; flex-direction: column; gap: 14px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      margin: 4px 0;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      background: linear-gradient(145deg, #10182b, #0c1322);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: 14px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.42);
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+    }
+    .launchpad-presets {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 8px;
+      width: 100%;
+    }
+    .launchpad-presets .btn {
+      white-space: normal;
+      text-align: center;
+      line-height: 1.25;
+      height: auto;
+      padding: 7px 10px;
     }
 
-    /* Pane 3 CV Studio */
+    /* Pane 3 CV Studio — Compact Chrome for Maximum A4 Sheet Viewport */
     .studio-header {
-      padding: 8px 14px; background: var(--bg-pane); border-bottom: 1px solid var(--border-subtle);
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 6px 12px; background: var(--bg-pane); border-bottom: 1px solid var(--border-subtle);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px;
     }
     .studio-controls-bar {
-      padding: 8px 14px; background: #0a101d; border-bottom: 1px solid var(--border-subtle);
-      display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+      padding: 4px 12px; background: #0a101d; border-bottom: 1px solid var(--border-subtle);
+      display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
     }
-    .slider-ctrl { display: flex; align-items: center; gap: 6px; font-size: 0.71rem; color: var(--text-secondary); }
-    .slider-ctrl input[type="range"] { width: 72px; accent-color: var(--accent-cyan); cursor: pointer; }
-    .slider-val { font-family: "JetBrains Mono", monospace; color: #e2e8f0; min-width: 34px; font-size: 0.69rem; }
+    .slider-ctrl { display: flex; align-items: center; gap: 4px; font-size: 0.68rem; color: var(--text-secondary); }
+    .slider-ctrl input[type="range"] { width: 58px; accent-color: var(--accent-cyan); cursor: pointer; }
+    .slider-val { font-family: "JetBrains Mono", monospace; color: #e2e8f0; min-width: 30px; font-size: 0.66rem; }
 
     .overflow-pill {
-      display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px;
-      font-size: 0.71rem; font-weight: 700; font-family: "JetBrains Mono", monospace;
+      display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px;
+      font-size: 0.68rem; font-weight: 700; font-family: "JetBrains Mono", monospace;
     }
     .overflow-ok { background: rgba(16, 185, 129, 0.16); border: 1px solid rgba(16, 185, 129, 0.4); color: #6ee7b7; }
     .overflow-bad { background: rgba(244, 63, 94, 0.2); border: 1px solid rgba(244, 63, 94, 0.5); color: #fda4af; }
 
     .studio-workspace {
-      flex: 1; display: grid; grid-template-columns: 230px 1fr; overflow: hidden;
+      flex: 1; display: grid; grid-template-columns: 1fr; overflow: hidden; min-height: 0;
+    }
+    .studio-workspace.outline-open {
+      grid-template-columns: 195px 1fr;
     }
     .studio-outline {
       border-right: 1px solid var(--border-subtle); background: #0c1324;
-      overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px;
+      overflow-y: auto; padding: 8px; display: none; flex-direction: column; gap: 6px;
+    }
+    .studio-workspace.outline-open .studio-outline {
+      display: flex;
     }
     .proj-item {
       background: #121a2d; border: 1px solid var(--border-subtle); border-radius: 8px;
-      padding: 7px 8px; font-size: 0.72rem; display: flex; flex-direction: column; gap: 5px;
+      padding: 6px 7px; font-size: 0.7rem; display: flex; flex-direction: column; gap: 4px;
     }
     .proj-item.hidden-proj { opacity: 0.48; }
     .proj-item-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 4px; }
-    .proj-tier { font-size: 0.64rem; font-weight: 700; color: var(--accent-cyan); }
+    .proj-tier { font-size: 0.62rem; font-weight: 700; color: var(--accent-cyan); }
     .proj-btns { display: flex; gap: 4px; }
 
     .a4-viewport {
-      flex: 1; overflow-y: auto; overflow-x: auto; padding: 18px;
+      flex: 1; min-width: 0; min-height: 0; overflow-y: auto; overflow-x: auto; padding: 14px 16px;
       background: radial-gradient(circle at top, #172033 0%, #090e1a 100%);
       display: flex; justify-content: center; align-items: flex-start;
     }
@@ -548,30 +586,30 @@
     }
 
     .website-sync-bar {
-      padding: 6px 14px;
+      padding: 4px 12px;
       background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), rgba(6, 182, 212, 0.10));
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      font-size: 0.72rem;
+      gap: 6px;
+      font-size: 0.69rem;
     }
     .deliverable-tabs-bar {
-      padding: 6px 14px;
+      padding: 4px 12px;
       background: #080d18;
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 6px;
     }
     .deliverable-tab-btn {
-      padding: 5px 11px;
-      border-radius: 7px;
-      font-size: 0.74rem;
+      padding: 4px 9px;
+      border-radius: 6px;
+      font-size: 0.71rem;
       font-weight: 700;
       border: 1px solid var(--border-subtle);
       background: #101829;
@@ -586,63 +624,67 @@
     }
     .deliverable-panel {
       flex: 1;
+      min-height: 0;
       overflow-y: auto;
-      padding: 16px;
+      padding: 14px;
       background: #0a101d;
       display: none;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
     .deliverable-panel.active { display: flex; }
 
     .inline-custom-cv-bar {
-      padding: 7px 14px;
+      padding: 5px 12px;
       background: linear-gradient(180deg, #0d1527, #0a101d);
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
     .inline-custom-grid {
       display: grid;
-      grid-template-columns: 0.95fr 1.05fr 1.45fr auto auto;
-      gap: 6px;
+      grid-template-columns: minmax(80px, 0.9fr) minmax(90px, 1fr) minmax(120px, 1.45fr) auto auto;
+      gap: 5px;
       align-items: center;
+      min-width: 0;
     }
     .inline-custom-grid input {
-      padding: 6px 9px;
-      border-radius: 7px;
+      width: 100%;
+      min-width: 0;
+      padding: 5px 8px;
+      border-radius: 6px;
       background: #070b14;
       border: 1px solid var(--border-subtle);
       color: #f8fafc;
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       outline: none;
     }
     .inline-custom-grid input:focus { border-color: var(--accent-cyan); }
 
     /* Docked AI Refinement Prompt Bar */
     .prompt-dock {
-      padding: 9px 14px;
+      padding: 6px 12px;
       background: #0d1425;
       border-top: 1px solid var(--border-strong);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
-    .prompt-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+    .prompt-chips { display: flex; flex-wrap: wrap; gap: 4px; }
     .chip-btn {
-      padding: 3px 8px; border-radius: 999px; font-size: 0.69rem; font-weight: 600;
+      padding: 2px 7px; border-radius: 999px; font-size: 0.67rem; font-weight: 600;
       background: rgba(139, 92, 246, 0.14); border: 1px solid rgba(139, 92, 246, 0.35);
       color: #ddd6fe; cursor: pointer;
     }
     .chip-btn:hover { background: rgba(139, 92, 246, 0.28); }
-    .prompt-input-row { display: flex; gap: 8px; align-items: center; }
+    .prompt-input-row { display: flex; gap: 6px; align-items: center; min-width: 0; }
     .prompt-input-row input {
-      flex: 1; padding: 8px 11px; border-radius: 8px; background: #070b14;
-      border: 1px solid var(--border-subtle); color: #fff; font-size: 0.8rem; outline: none;
+      flex: 1; min-width: 0; padding: 6px 10px; border-radius: 7px; background: #070b14;
+      border: 1px solid var(--border-subtle); color: #fff; font-size: 0.77rem; outline: none;
     }
     .prompt-input-row input:focus { border-color: var(--accent-violet); }
-    .prompt-feedback { font-size: 0.71rem; color: #6ee7b7; min-height: 15px; }
+    .prompt-feedback { font-size: 0.69rem; color: #6ee7b7; min-height: 14px; }
 
     /* Modals & Slide-Over Drawers */
     .modal-backdrop {
@@ -894,22 +936,23 @@
     <!-- PANE 3: RIGHT EXPANDABLE 1-PAGE A4 CV STUDIO -->
     <main class="pane pane-right">
       <div class="studio-header">
-        <div style="display:flex; align-items:center; gap:8px; min-width:0;">
-          <span class="btn btn-sm" onclick="toggleStudioExpand()" id="btnExpandStudio" title="Toggle Full-Width CV Studio">⤢ Expand</span>
+        <div style="display:flex; align-items:center; gap:6px; min-width:0;">
+          <button type="button" class="btn btn-sm" onclick="toggleStudioExpand()" id="btnExpandStudio" title="Toggle Full-Width CV Studio">⤢ Expand</button>
+          <button type="button" class="btn btn-sm" onclick="toggleOutlineDrawer()" id="btnToggleOutline" title="Show/Hide Project Reorder Drawer">🗂 Projects</button>
           <div style="min-width:0;">
-            <div style="font-size:0.8rem; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="studioActiveTarget">
+            <div style="font-size:0.78rem; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="studioActiveTarget">
               General Canonical CV (Hanz_CV_Hub Master)
             </div>
-            <div style="font-size:0.68rem; color:var(--text-secondary);" id="studioSubMeta">Hanz_CV_Hub Master Template · Ground-Truth Verified</div>
+            <div style="font-size:0.65rem; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="studioSubMeta">Hanz_CV_Hub Master Template · Ground-Truth Verified</div>
           </div>
         </div>
 
-        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
           <div class="pill-row">
             <button type="button" class="filter-pill active" id="cvLangFrBtn" onclick="switchCvLanguage('fr')">FR · Français</button>
             <button type="button" class="filter-pill" id="cvLangEnBtn" onclick="switchCvLanguage('en')">EN · English</button>
           </div>
-          <select id="studioAtsMode" class="hub-select" style="width:auto;" onchange="switchAtsMode(this.value)">
+          <select id="studioAtsMode" class="hub-select" style="width:auto; padding:4px 7px; font-size:0.71rem;" onchange="switchAtsMode(this.value)">
             <option value="design_two_col">2-Col Navy Sidebar (#163853 + Photo)</option>
             <option value="strict_ats">1-Col Strict ATS (Black/White)</option>
           </select>
@@ -1376,20 +1419,20 @@
         <div class="launchpad-card">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
             <span class="tag tag-live">LIVE MULTI-PORTAL ENGINE READY</span>
-            <span style="font-family:'JetBrains Mono',monospace; font-size:0.71rem; color:var(--text-secondary);">JUNIA JobTeaser · Lever · SmartRecruiters · Greenhouse · Arbeitnow · LinkedIn f_TPR</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text-secondary);">JUNIA JobTeaser · Lever · SmartRecruiters · Greenhouse · Arbeitnow · LinkedIn f_TPR</span>
           </div>
-          <h2 style="font-size:1.12rem; font-weight:800; color:#fff;">Click Search to Scan Live Portals &amp; Corporate ATS</h2>
-          <p style="font-size:0.8rem; color:var(--text-secondary); line-height:1.5;">
+          <h2 style="font-size:1.05rem; font-weight:800; color:#fff; line-height:1.3;">Click Search to Scan Live Portals &amp; Corporate ATS</h2>
+          <p style="font-size:0.79rem; color:var(--text-secondary); line-height:1.5;">
             No static job list is shown until you click <strong>Search Live Internships</strong> or start <strong>Autonomous Mode</strong>. Select your portals on the left (JUNIA JobTeaser, Direct ATS, WTTJ, LinkedIn f_TPR, La Bonne Alternance, Arbeitnow) and hit Search.
           </p>
-          <div style="background:#090e1a; border:1px solid var(--border-subtle); border-radius:10px; padding:10px 12px; font-size:0.75rem; display:flex; flex-direction:column; gap:4px;">
+          <div style="background:#090e1a; border:1px solid var(--border-subtle); border-radius:10px; padding:10px 12px; font-size:0.74rem; display:flex; flex-direction:column; gap:4px; overflow-wrap:anywhere;">
             <div><strong>Active Portals (${portals.length}):</strong> ${esc(portals.length ? portals.join(', ') : 'All Portals')}</div>
             <div><strong>Active Regions:</strong> ${esc(regions.length ? regions.join(', ') : 'All Global (Lille, France, Europe, NA, AU)')}</div>
             <div><strong>Contract Track:</strong> ${esc(FILTER_STATE.contract.toUpperCase())} &nbsp;·&nbsp; <strong>Freshness:</strong> ${esc(tprLabels[FILTER_STATE.freshness] || 'Last 7d')}</div>
             <div><strong>Engineering Domains:</strong> ${esc(domains.length ? domains.join(', ') : 'All Engineering Tracks')}</div>
           </div>
           <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:2px;">Quick-Launch Filter Presets (triggers topbar <strong>Search Live Internships</strong>):</div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <div class="launchpad-presets">
             <button type="button" class="btn btn-sm btn-cyan" onclick="runPresetSearch('lille_stage')">Lille &lt;50km · Stage &amp; Alternance</button>
             <button type="button" class="btn btn-sm btn-cyan" onclick="runPresetSearch('junia_wttj')">JUNIA JobTeaser + WTTJ</button>
             <button type="button" class="btn btn-sm" onclick="runPresetSearch('stm32_c')">STM32 / Embedded C/C++</button>
@@ -1771,6 +1814,214 @@
       };
     }
 
+    const CANONICAL_SKILL_RULES_CLIENT = [
+      { rx: /\bstm32\b|cortex[-\s]?m|nucleo|\bhal\b/i, en: 'STM32', fr: 'STM32', pids: ['robot_stm32', 'thermometer_msp430', 'water_arduino'] },
+      { rx: /\besp32\b|freertos/i, en: 'ESP32', fr: 'ESP32', pids: ['robot_stm32', 'water_arduino'] },
+      { rx: /embedded\s+c\b|c\s+embarqu[ée]|\blangage\s+c\b|(?:^|[\s,:;(])c(?:[\s,.;:)]|$)/i, en: 'Embedded C', fr: 'C embarqué', pids: ['thermometer_msp430', 'water_arduino', 'robot_stm32'] },
+      { rx: /c\+\+17|c\+\+|\bcpp\b|\boop\b|\bpoo\b/i, en: 'C++17 (OOP)', fr: 'C++17 (POO)', pids: ['pos_cpp17', 'robot_stm32', 'water_arduino'] },
+      { rx: /\bpython\b/i, en: 'Python', fr: 'Python', pids: ['portfolio_python', 'logistics_sql'] },
+      { rx: /\biot\b|connected\s+object|objet[s]?\s+connect|intelligent\s+sensor|smart\s+sensor|capteur[s]?\s+intelligent/i, en: 'IoT & Smart Sensors', fr: 'IoT & Capteurs intelligents', pids: ['water_arduino', 'thermometer_msp430', 'robot_stm32'] },
+      { rx: /edge\s+ai|ai\s+at\s+the\s+edge|jetson|raspberry\s+pi|computer\s+vision|vision\s+par\s+ordinateur/i, en: 'Edge AI (Raspberry Pi / Jetson)', fr: 'Edge AI (Raspberry Pi / Jetson)', pids: ['robot_stm32', 'water_arduino'] },
+      { rx: /\bkicad\b|\bpcb\b|schematic|routage|carte[s]?\s+[ée]lectronique/i, en: 'KiCad PCB Design', fr: 'Conception PCB (KiCad)', pids: ['charger_pcb', 'thermometer_msp430'] },
+      { rx: /\bmsp430\b|\bassembly\b|\bassembleur\b/i, en: 'TI MSP430 & Assembly', fr: 'TI MSP430 & Assembleur', pids: ['thermometer_msp430'] },
+      { rx: /\buart\b|\bi2c\b|\bspi\b|\bpwm\b|\badc\b|\bcan\b|\bplc\b|\bipc\b|modbus/i, en: 'Sensor Interfaces (UART/PWM/ADC)', fr: 'Interfaces Capteurs (UART/PWM/ADC)', pids: ['thermometer_msp430', 'water_arduino', 'robot_stm32'] },
+      { rx: /energy\s+efficiency|low[-\s]environmental|low[-\s]power|power\s+management|basse\s+consommation|[ée]nerg[ée]tique/i, en: 'Energy Efficiency & Low-Power Design', fr: 'Optimisation Énergétique & Basse Consommation', pids: ['charger_pcb', 'thermometer_msp430', 'water_arduino'] },
+      { rx: /\bpoc[s]?\b|proof\s+of\s+concept|prototyp|performing\s+tests|validation|test\s+bench/i, en: 'PoC Prototyping & Testing', fr: 'Prototypage PoC, Tests & Validation', pids: ['water_arduino', 'thermometer_msp430', 'charger_pcb'] },
+      { rx: /\bagile\b|\bscrum\b|\bkanban\b/i, en: 'Agile Scrum / Kanban', fr: 'Agile Scrum / Kanban', pids: ['robot_stm32', 'portfolio_python'] },
+      { rx: /\bgit\b|\bgithub\b|\bci\/cd\b/i, en: 'Git / GitHub', fr: 'Git / GitHub', pids: ['portfolio_python', 'pos_cpp17'] },
+      { rx: /\bsql\b|postgresql|data\s+processing|flow\s+management|azure\s+cloud|\bcloud\b/i, en: 'Data Processing & SQL', fr: 'Traitement de Données & SQL', pids: ['logistics_sql', 'portfolio_python'] },
+      { rx: /\brobotics?\b|\brobotique\b|\bautonomous\b|\bautonome\b/i, en: 'Autonomous Robotics', fr: 'Robotique Autonome', pids: ['robot_stm32', 'water_arduino'] },
+    ];
+
+    const KNOWN_EMPLOYERS_CLIENT = [
+      'ALTEN Labs', 'ALTEN', 'Exotec', 'STMicroelectronics', 'Thales', 'Safran',
+      'Dassault Systèmes', 'Dassault Aviation', 'Valeo', 'Renault', 'Ampere', 'Stellantis',
+      'Airbus', 'Schneider Electric', 'NXP Semiconductors', 'NXP', 'Infineon', 'imec',
+      'ASML', 'Bosch', 'Siemens', 'Continental', 'Worldline', 'OVHcloud',
+      'Capgemini Engineering', 'Capgemini', 'Sopra Steria', 'Akkodis', 'Segula',
+      'Assystem', 'SII', 'Naval Group', 'MBDA', 'CEA', 'CNRS', 'Inria', 'Decathlon',
+      'Kipsta', 'EDF', 'Engie', 'Alstom', 'SNCF', 'Legrand', 'Somfy', 'Parrot',
+      'Withings', 'Ledger', 'Verkor', 'Soitec', 'Lynred', 'Kalray',
+    ];
+
+    const KNOWN_CITIES_CLIENT = [
+      'Grenoble', 'Lille', 'Croix', "Villeneuve-d'Ascq", 'Roubaix', 'Paris', 'Île-de-France',
+      'Ile-de-France', 'Saclay', 'Massy', 'Vélizy', 'Toulouse', 'Lyon', 'Rennes',
+      'Sophia-Antipolis', 'Sophia Antipolis', 'Nantes', 'Bordeaux', 'Crolles', 'Rousset',
+      'Tours', 'Leuven', 'Eindhoven', 'Munich', 'Zurich', 'Geneva', 'Cambridge', 'London',
+      'Montreal', 'Toronto', 'Ottawa', 'Sydney', 'Melbourne',
+    ];
+
+    function sanitizeSkillTokensClient(rawSkills, lang) {
+      const isEn = lang === 'en';
+      const defList = isEn
+        ? ['Embedded C', 'STM32/ESP32', 'KiCad PCB', 'C++17']
+        : ['C embarqué', 'STM32/ESP32', 'Conception PCB KiCad', 'C++17'];
+      if (!rawSkills) return defList;
+      const arr = Array.isArray(rawSkills) ? rawSkills : [rawSkills];
+      const clean = [];
+      for (const item of arr) {
+        const s = String(item || '').trim();
+        if (!s) continue;
+        if (s.length <= 42 && !s.includes('\n') && !/\b(we conduct|you will|you are|within our|qualifications)\b/i.test(s)) {
+          if (!clean.includes(s)) clean.push(s);
+        } else {
+          for (const rule of CANONICAL_SKILL_RULES_CLIENT) {
+            if (rule.rx.test(s)) {
+              const lbl = isEn ? rule.en : rule.fr;
+              if (!clean.includes(lbl)) clean.push(lbl);
+            }
+          }
+        }
+      }
+      return clean.length ? clean.slice(0, 6) : defList;
+    }
+
+    function parseOfferAndPromptClient(rawText, currentLang) {
+      const raw = String(rawText || '').trim();
+      const low = raw.toLowerCase();
+      const offerMarkers = [
+        'qualifications', 'missions', 'responsibilities', 'within our', 'within the',
+        'au sein de', 'following project', 'seeking an', 'end-of-studies', "fin d'études",
+        'proof of concept', 'proficient in', 'compétences', 'vous serez', 'you will',
+        'department', 'environments:', 'profil recherché',
+      ];
+      const markerHits = offerMarkers.filter(m => low.includes(m)).length;
+      const isOfferPaste = raw.length > 110 || raw.includes('\n') || markerHits >= 2;
+
+      const enWords = (low.match(/\b(the|and|with|within|you|will|are|our|projects|skills|seeking|student|internship|development|design|testing)\b/g) || []).length;
+      const frWords = (low.match(/\b(les|des|dans|avec|au|sein|vous|êtes|nos|projets|compétences|stage|alternance|développement|conception|ingénieur)\b/g) || []).length;
+      let detectedLang = currentLang || 'fr';
+      if (/translate to english|switch to english|in english|en anglais|lang=en/i.test(low)) {
+        detectedLang = 'en';
+      } else if (/translate to french|switch to french|en français|en francais|in french|lang=fr/i.test(low)) {
+        detectedLang = 'fr';
+      } else if (isOfferPaste) {
+        if (enWords >= frWords + 2) detectedLang = 'en';
+        else if (frWords >= enWords + 2) detectedLang = 'fr';
+      }
+      const isEn = detectedLang === 'en';
+
+      // 1. Company Extraction
+      let company = '';
+      const expComp = raw.match(/(?:^|\n)\s*(?:company|employer|entreprise|soci[ée]t[ée]|organisme)\s*[:\-–]\s*([^\n,|]{2,45})/i);
+      if (expComp && expComp[1]) company = expComp[1].trim().replace(/[.,;:]+$/, '');
+
+      if (!company) {
+        let bestEmp = '';
+        let bestScore = -99;
+        for (const emp of KNOWN_EMPLOYERS_CLIENT) {
+          const escEmp = emp.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const m = new RegExp('\\b' + escEmp + '\\b', 'i').exec(raw);
+          if (m) {
+            let score = emp.length;
+            const before = raw.slice(Math.max(0, m.index - 35), m.index).toLowerCase();
+            const after = raw.slice(m.index + emp.length, m.index + emp.length + 25).toLowerCase();
+            if (/within the|within|at\s|chez\s|join\s|rejoindre\s|au sein de|for\s|pour\s/.test(before)) score += 40;
+            if (/^\s*(?:solution|tool)/.test(after)) score -= 30;
+            if (score > bestScore) { bestScore = score; bestEmp = emp; }
+          }
+        }
+        if (bestEmp && bestScore > 0) company = bestEmp;
+      }
+
+      if (!company) {
+        const forbiddenComp = new Set([
+          'the', 'our', 'a', 'an', 'this', 'that', 'your', 'my', 'innovation', 'innovation department',
+          'department', 'english', 'french', 'français', 'francais', 'anglais', 'stage', 'internship',
+          'alternance', '1 page', 'one page', 'reducing', 'developing', 'design', 'building',
+          'grenoble', 'lille', 'paris', 'lyon', 'toulouse', 'rennes', 'france',
+        ]);
+        const ctxRx = /\b(?:within the|within|chez|at|join|rejoindre|au sein de|au sein du|tailor for|for|pour)\s+([A-Z][A-Za-z0-9&.'\-]*(?:\s+[A-Z][A-Za-z0-9&.'\-]*){0,2}(?:\s+(?:Labs|Lab|Group|Engineering|Robotics|Semiconductors|Systems|Technologies))?)/g;
+        let cm;
+        while ((cm = ctxRx.exec(raw)) !== null) {
+          const cand = (cm[1] || '').trim().replace(/[.,;:()]+$/, '');
+          if (cand && cand.length >= 2 && !forbiddenComp.has(cand.toLowerCase())) {
+            company = cand;
+            break;
+          }
+        }
+      }
+
+      // 2. Location Extraction
+      let location = '';
+      const labLoc = raw.match(/\b(?:within our|in our|at our|au sein de notre|sur notre site de)\s+([A-Z][A-Za-zÀ-ÿ\- ]{2,25}?)\s+(?:lab|laboratory|office|site|center|centre|team|agence)\b/i);
+      if (labLoc && labLoc[1]) {
+        const c = labLoc[1].trim();
+        location = ['grenoble', 'lille', 'paris', 'toulouse', 'lyon', 'rennes', 'sophia-antipolis', 'nantes', 'bordeaux'].includes(c.toLowerCase()) ? `${c}, France` : c;
+      }
+      if (!location) {
+        const outsideParens = raw.replace(/\([^)]*\)/g, ' ');
+        for (const city of KNOWN_CITIES_CLIENT) {
+          const escCity = city.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          if (new RegExp('\\b' + escCity + '\\b', 'i').test(outsideParens)) {
+            location = ['grenoble', 'lille', 'croix', 'paris', 'toulouse', 'lyon', 'rennes', 'sophia-antipolis', 'nantes', 'bordeaux', 'saclay'].includes(city.toLowerCase()) ? `${city}, France` : city;
+            break;
+          }
+        }
+        if (!location) {
+          for (const city of KNOWN_CITIES_CLIENT) {
+            const escCity = city.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            if (new RegExp('\\b' + escCity + '\\b', 'i').test(raw)) {
+              location = ['grenoble', 'lille', 'croix', 'paris', 'toulouse', 'lyon', 'rennes', 'sophia-antipolis', 'nantes', 'bordeaux', 'saclay'].includes(city.toLowerCase()) ? `${city}, France` : city;
+              break;
+            }
+          }
+        }
+      }
+
+      // 3. Mission Topic & Role Title
+      let missionTopic = '';
+      const projM = raw.match(/(?:following project|sujet suivant|mission principale|project topic|sujet de stage)\s*[:\-–]\s*([^\n.]{8,120})/i);
+      if (projM && projM[1]) missionTopic = projM[1].trim().replace(/[.,;:]+$/, '');
+
+      let role = '';
+      const expRole = raw.match(/(?:^|\n)\s*(?:role|job\s*title|position|poste|intitul[ée]|titre)\s*[:\-–]\s*([^\n]{4,90})/i);
+      if (expRole && expRole[1]) role = expRole[1].trim().replace(/[.,;:]+$/, '');
+
+      // 4. Canonical Skills & Promoted Projects
+      const matchedSkills = [];
+      const promoScores = {};
+      for (const rule of CANONICAL_SKILL_RULES_CLIENT) {
+        if (rule.rx.test(raw)) {
+          const lbl = isEn ? rule.en : rule.fr;
+          if (!matchedSkills.includes(lbl)) matchedSkills.push(lbl);
+          rule.pids.forEach((pid, idx) => {
+            promoScores[pid] = (promoScores[pid] || 0) + (idx === 0 ? 8 : 4);
+          });
+        }
+      }
+
+      if (!role && isOfferPaste) {
+        const hasIot = matchedSkills.some(s => s.includes('IoT'));
+        const hasStm = matchedSkills.some(s => s.includes('STM32') || s.includes('MSP430'));
+        const hasPcb = matchedSkills.some(s => s.includes('PCB'));
+        if (hasIot && hasStm) {
+          role = isEn ? 'Embedded Systems & Intelligent IoT Engineering Internship' : 'Stage Ingénieur Systèmes Embarqués & IoT Intelligent';
+        } else if (hasPcb) {
+          role = isEn ? 'Embedded Hardware & PCB Design Engineering Internship' : 'Stage Ingénieur Électronique & Conception PCB';
+        } else if (hasStm) {
+          role = isEn ? 'Embedded Systems & Firmware Engineering Internship (STM32 / C)' : 'Stage Ingénieur Systèmes Embarqués & Firmware (STM32 / C)';
+        } else {
+          role = isEn ? 'Electronics & Embedded Systems Engineering Internship' : 'Stage Ingénieur Électronique & Systèmes Embarqués';
+        }
+      }
+
+      const promotedIds = Object.keys(promoScores).sort((a, b) => promoScores[b] - promoScores[a]);
+      return {
+        isOfferPaste,
+        lang: detectedLang,
+        company,
+        location,
+        role,
+        missionTopic,
+        matchedSkills,
+        promotedIds,
+        promoScores,
+        contractType: /alternan|apprenti|contrat\s+pro/i.test(low) ? 'alternance' : 'stage',
+      };
+    }
+
     function buildClientCvState(job, lang, atsMode) {
       const isEn = lang === 'en';
       const profile = BOOT.ground_truth_profile || {};
@@ -1779,25 +2030,33 @@
       ranked.forEach((p, idx) => { p.visible = idx < 4; });
       const company = job?.company || '';
       const jobTitle = job?.title || '';
+      const location = job?.location || 'Lille, France';
+      const missionTopic = job?.mission_topic || job?.missionTopic || '';
+      const cleanSkills = sanitizeSkillTokensClient(job?.skills, lang);
+      const skillsStr = cleanSkills.slice(0, 5).join(', ');
+      const locShort = location.split(',')[0].trim();
+      const compWithLoc = (company && locShort && !['lille', 'france', 'custom target'].includes(locShort.toLowerCase()) && !company.toLowerCase().includes(locShort.toLowerCase()))
+        ? `${company} (${locShort})`
+        : company;
+
       const role = jobTitle || (isEn
         ? 'Engineering Student (M1) — Electronics & Embedded Systems'
         : 'Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués');
-      const roleSub = jobTitle
+      const roleSub = (jobTitle || company)
         ? (isEn
-            ? `Engineering Student (M1) at JUNIA ISEN Lille | Target: ${company || '3–4 Month Internship (April 2027)'}`
-            : `Étudiant Ingénieur (M1) à JUNIA ISEN Lille | Cible : ${company || 'Stage 3 à 4 mois (Avril 2027)'}`)
+            ? `Seeking a 3–4 Month Internship (April 2027) | Target: ${compWithLoc || '3–4 Month Internship'} — ${cleanSkills.slice(0, 4).join(', ')}`
+            : `Recherche de stage 3–4 mois (Avril 2027) | Cible : ${compWithLoc || 'Stage 3 à 4 mois'} — ${cleanSkills.slice(0, 4).join(', ')}`)
         : (isEn
             ? 'Seeking a 3 to 4-Month Technical Internship | Starting April 2027 | National & International Mobility'
             : "Recherche de stage technique (3 à 4 mois) | À partir d'Avril 2027 | Mobilité nationale & internationale");
-      const headline = jobTitle
+      const headline = (jobTitle || company)
         ? (isEn
-            ? `Engineering Student (M1) — Electronics & Embedded Systems | ${jobTitle}${company ? ' — ' + company : ''}`
-            : `Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués | ${jobTitle}${company ? ' — ' + company : ''}`)
+            ? `Engineering Student (M1) — Electronics & Embedded Systems | ${role}${compWithLoc ? ' — ' + compWithLoc : ''} (${cleanSkills.slice(0, 4).join(', ')})`
+            : `Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués | ${role}${compWithLoc ? ' — ' + compWithLoc : ''} (${cleanSkills.slice(0, 4).join(', ')})`)
         : (isEn
             ? 'Engineering Student (M1) — Electronics & Embedded Systems | Seeking a 3–4 Month Internship (April 2027)'
             : 'Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués | Recherche de stage (3 à 4 mois, Avril 2027)');
 
-      const skillsStr = (job?.skills || ['Embedded C', 'STM32/ESP32', 'KiCad PCB', 'C++17']).slice(0, 4).join(', ');
       const leadershipRaw = (Array.isArray(profile.leadership) ? profile.leadership : []).filter(ex => ex.id === 'aces_president' || ex.id === 'spagard_intern');
       const experience = leadershipRaw.length
         ? leadershipRaw.map(ex => ({
@@ -1847,16 +2106,41 @@
       const github = 'github.com/HanzSintim';
       const portfolio = 'hanzsintim.github.io';
 
-      const defaultSummaryEn = company && jobTitle
-        ? `Engineering student in Electronics and Embedded Systems at JUNIA ISEN Lille (2025 – Present, M1), holding a BSc in Computer Engineering from KNUST, Ghana (2026). Hands-on experience in ${skillsStr}, sensor signal conditioning, and microelectronics. Seeking a 3 to 4-month technical internship or Alternance with ${company} (${jobTitle}) starting April 2027.`
+      const missionClauseEn = missionTopic
+        ? ` to contribute to ${missionTopic.charAt(0).toLowerCase() + missionTopic.slice(1)}`
+        : (jobTitle ? ` (${jobTitle})` : ' in embedded systems, firmware prototyping, and hardware-software validation');
+      const missionClauseFr = missionTopic
+        ? ` afin de contribuer au projet « ${missionTopic} »`
+        : (jobTitle ? ` (${jobTitle})` : ' en systèmes embarqués, prototypage firmware et validation matériel-logiciel');
+
+      const defaultSummaryEn = (company || jobTitle || missionTopic)
+        ? `Engineering student in Electronics and Embedded Systems at JUNIA ISEN Lille (2025 – Present, M1), holding a BSc in Computer Engineering from KNUST, Ghana (2026). Hands-on experience in ${skillsStr}, sensor signal conditioning, and technical team leadership (former Department President of ACES representing 800+ students). Seeking a 3 to 4-month technical internship starting in April 2027${compWithLoc ? ' at ' + compWithLoc : ''}${missionClauseEn}.`
         : `Engineering student in Electronics and Embedded Systems at JUNIA ISEN Lille, holding a BSc in Computer Engineering from KNUST, Ghana (2026). Trained in low-level programming (Embedded C, C++17, MSP430 Assembly), microcontroller architectures (STM32, ESP32, MSP430, Arduino), sensor signal conditioning, and microelectronics. Former Department President of Computer Engineering (ACES, 800+ students). Seeking a 3 to 4-month technical internship starting April 2027 in embedded systems, firmware, or microelectronics.`;
 
-      const defaultSummaryFr = company && jobTitle
-        ? `Étudiant ingénieur en Électronique et Systèmes Embarqués à JUNIA ISEN Lille (2025 – Présent, M1), diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). Expérience pratique en ${skillsStr}, conditionnement de signaux capteurs et microélectronique. À la recherche d'un stage technique de 3 à 4 mois ou d'une alternance au sein de ${company} (${jobTitle}) à partir d'avril 2027.`
+      const defaultSummaryFr = (company || jobTitle || missionTopic)
+        ? `Étudiant ingénieur en Électronique et Systèmes Embarqués à JUNIA ISEN Lille (2025 – Présent, M1), diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). Expérience pratique en ${skillsStr}, conditionnement de signaux capteurs et gestion de projets en équipe (ancien Président du Département ACES représentant plus de 800 étudiants). À la recherche d'un stage technique de 3 à 4 mois à partir d'avril 2027${compWithLoc ? ' au sein de ' + compWithLoc : ''}${missionClauseFr}.`
         : `Étudiant ingénieur en Électronique et Systèmes Embarqués à JUNIA ISEN Lille, diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). Formé à la programmation bas niveau (C embarqué, C++17, Assembleur MSP430), aux architectures microcontrôleurs (STM32, ESP32, MSP430, Arduino), au conditionnement de signaux capteurs et à la microélectronique. Ancien Président du Département de Génie Informatique (ACES, +800 étudiants). À la recherche d'un stage technique de 3 à 4 mois à partir d'avril 2027 en systèmes embarqués, électronique ou microélectronique.`;
 
       const lead = ranked[0]?.title || 'Autonomous Street-Cleaning Robot (STM32 / ESP32)';
-      const outreachMsg = buildClientOutreachMessage(company, role, lang, lead, skillsStr);
+      const outreachMsg = buildClientOutreachMessage(compWithLoc || company, role, lang, lead, skillsStr);
+
+      function reorderSkillLine(lineStr) {
+        if (!lineStr) return '';
+        const items = lineStr.split(',').map(s => s.trim()).filter(Boolean);
+        const front = items.filter(it => cleanSkills.some(cs => it.toLowerCase().includes(cs.toLowerCase()) || cs.toLowerCase().includes(it.toLowerCase())));
+        const back = items.filter(it => !front.includes(it));
+        return [...front, ...back].join(', ');
+      }
+
+      const rawEmbedded = skMatrix.embedded || (isEn
+        ? 'Embedded C, C, C++17, Assembly (MSP430), Python 3, SQL, HTML/CSS, JavaScript'
+        : 'C embarqué, C, C++17, Assembleur (MSP430), Python 3, SQL, HTML/CSS, JavaScript');
+      const rawHardware = skMatrix.hardware || (isEn
+        ? 'STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Ultrasonic & Analog Sensors, KiCad (PCB), Semiconductor Physics'
+        : 'STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Capteurs ultrasoniques & analogiques, KiCad (PCB), Physique des semi-conducteurs');
+      const rawSoftware = skMatrix.software || (isEn
+        ? 'Hardware-Software Debugging (GDB), Signal Chain Validation, Unit & Interface Testing, Linux, Git/GitHub, Edge AI (basics)'
+        : 'Débogage matériel-logiciel (GDB), Validation de chaîne de mesure, Tests unitaires & interfaces, Linux, Git/GitHub, Edge AI (notions)');
 
       const state = {
         meta: {
@@ -1866,7 +2150,8 @@
           job_id: job?.id || 'custom_build',
           company,
           role,
-          location: job?.location || 'Lille, France',
+          location,
+          mission_topic: missionTopic,
           target_url: job?.direct_apply_url || job?.url || '',
         },
         header: {
@@ -1901,18 +2186,12 @@
         projects: ranked,
         experience,
         skills: {
-          embedded: skMatrix.embedded || (isEn
-            ? 'Embedded C, C, C++17, Assembly (MSP430), Python 3, SQL, HTML/CSS, JavaScript'
-            : 'C embarqué, C, C++17, Assembleur (MSP430), Python 3, SQL, HTML/CSS, JavaScript'),
-          hardware: skMatrix.hardware || (isEn
-            ? 'STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Ultrasonic & Analog Sensors, KiCad (PCB), Semiconductor Physics'
-            : 'STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Capteurs ultrasoniques & analogiques, KiCad (PCB), Physique des semi-conducteurs'),
-          software: skMatrix.software || (isEn
-            ? 'Hardware-Software Debugging (GDB), Signal Chain Validation, Unit & Interface Testing, Linux, Git/GitHub, Edge AI (basics)'
-            : 'Débogage matériel-logiciel (GDB), Validation de chaîne de mesure, Tests unitaires & interfaces, Linux, Git/GitHub, Edge AI (notions)'),
+          embedded: reorderSkillLine(rawEmbedded),
+          hardware: reorderSkillLine(rawHardware),
+          software: reorderSkillLine(rawSoftware),
           interpersonal: skMatrix.interpersonal || skMatrix.soft_skills || (isEn
-            ? 'Team Leadership, Analytical Problem-Solving, Rigor, Autonomy, Cross-Cultural Communication'
-            : "Leadership d'équipe, Esprit d'analyse, Rigueur, Autonomie, Communication interculturelle"),
+            ? 'Team Leadership, Agile Scrum / Kanban Teamwork, Analytical Problem-Solving, Rigor, Autonomy'
+            : "Leadership d'équipe, Travail en équipe Agile Scrum / Kanban, Esprit d'analyse, Rigueur, Autonomie"),
           languages: skMatrix.languages || (isEn
             ? 'English: C2 (Native Speaker — Secondary & University Education in English) | French: A2 (Elementary — Duolingo Score: 21; in active progression in Lille)'
             : 'Anglais : C2 (Langue maternelle — scolarité secondaire et universitaire en anglais) | Français : A2 (Élémentaire — Score Duolingo : 21 ; en progression active à Lille)'),
@@ -1924,9 +2203,11 @@
         cover_pitch: '',
         outreach_message: outreachMsg,
       };
+      const topicLineEn = missionTopic ? ` with a direct focus on "${missionTopic}"` : '';
+      const topicLineFr = missionTopic ? ` avec un focus direct sur le sujet « ${missionTopic} »` : '';
       state.cover_pitch = isEn
-        ? `Hanz Ofosuhene-Sintim\nLille, France (National & International Mobility)\nPhone: ${phone} | Email: ${email}\nLinkedIn: ${linkedin} | GitHub: ${github} | Portfolio: ${portfolio}\n\nSubject: Application — ${role}${company ? ' at ' + company : ''}\n\nDear ${company || 'Hiring Team'},\n\nCurrently pursuing my Master of Science (M1) in Electronics and Embedded Systems at JUNIA ISEN Lille (2025 – Present, expected 2028) after graduating with a BSc in Computer Engineering from KNUST, Ghana (2026), I am writing to apply for the ${role} position${company ? ' at ' + company : ''}.\n\nMy academic and hands-on engineering work combines low-level firmware, hardware interfacing, and structured software design:\n• ${lead}\n• Low-level sensor acquisition & conditioning on TI MSP430 (Embedded C & Assembly) and closed-loop Arduino ultrasonic relay control.\n• Object-oriented C++17 POS & self-checkout engine (runtime polymorphism, cent-accurate arithmetic, greedy cash dispenser).\n\nHaving served as President of the Computer Engineering Student Association (ACES, 800+ students), I bring rigor, clear documentation, and proactive teamwork. I would welcome the opportunity to discuss how I can contribute to ${company || 'your engineering team'}.\n\nSincerely,\nHanz Ofosuhene-Sintim`
-        : `Hanz Ofosuhene-Sintim\nLille, France (Mobilité nationale & internationale)\nTél : ${phone} | Email : ${email}\nLinkedIn : ${linkedin} | GitHub : ${github} | Portfolio : ${portfolio}\n\nObjet : Candidature — ${role}${company ? ' chez ' + company : ''}\n\nMadame, Monsieur,\n\nActuellement étudiant ingénieur (Cycle Master M1) en Électronique et Systèmes Embarqués à JUNIA ISEN Lille (2025 – Présent, diplôme prévu en 2028), et titulaire d'un BSc en Génie Informatique de KNUST au Ghana (diplômé en 2026), je vous présente ma candidature${company ? ' au sein de ' + company : ''} pour le poste « ${role} ».\n\nMon parcours associe étroitement électronique matérielle, programmation bas niveau et conception logicielle rigoureuse :\n• ${lead}\n• Acquisition et conditionnement de signaux capteurs sur TI MSP430 (C embarqué & Assembleur) et asservissement matériel sous Arduino.\n• Architecture logicielle C++17 orientée objet (polymorphisme dynamique, calculs financiers exacts en centimes, algorithme glouton).\n\nAncien Président du Département de Génie Informatique (ACES, +800 étudiants), j'allie esprit d'analyse, autonomie et sens des responsabilités. Je reste à votre entière disposition pour un entretien.\n\nVeuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\nHanz Ofosuhene-Sintim`;
+        ? `Hanz Ofosuhene-Sintim\nLille, France (National & International Mobility)\nPhone: ${phone} | Email: ${email}\nLinkedIn: ${linkedin} | GitHub: ${github} | Portfolio: ${portfolio}\n\nSubject: Application — ${role}${compWithLoc ? ' at ' + compWithLoc : ''}\n\nDear ${company || 'Hiring Team'},\n\nCurrently pursuing my Master of Science (M1) in Electronics and Embedded Systems at JUNIA ISEN Lille (2025 – Present, expected 2028) after graduating with a BSc in Computer Engineering from KNUST, Ghana (2026), I am writing to apply for the ${role} position${compWithLoc ? ' at ' + compWithLoc : ''}${topicLineEn}.\n\nMy academic and hands-on engineering work combines low-level firmware, hardware interfacing, and structured software design (${skillsStr}):\n• ${lead}\n• Low-level sensor acquisition & conditioning on TI MSP430 (Embedded C & Assembly) and closed-loop Arduino ultrasonic relay control.\n• Object-oriented C++17 POS & self-checkout engine and Python/SQL systems engineering.\n\nHaving served as President of the Computer Engineering Student Association (ACES, 800+ students), I bring rigor, clear documentation, and proactive Agile teamwork. I would welcome the opportunity to discuss how I can contribute to ${company || 'your engineering team'}.\n\nSincerely,\nHanz Ofosuhene-Sintim`
+        : `Hanz Ofosuhene-Sintim\nLille, France (Mobilité nationale & internationale)\nTél : ${phone} | Email : ${email}\nLinkedIn : ${linkedin} | GitHub : ${github} | Portfolio : ${portfolio}\n\nObjet : Candidature — ${role}${compWithLoc ? ' chez ' + compWithLoc : ''}\n\nMadame, Monsieur,\n\nActuellement étudiant ingénieur (Cycle Master M1) en Électronique et Systèmes Embarqués à JUNIA ISEN Lille (2025 – Présent, diplôme prévu en 2028), et titulaire d'un BSc en Génie Informatique de KNUST au Ghana (diplômé en 2026), je vous présente ma candidature${compWithLoc ? ' au sein de ' + compWithLoc : ''} pour le poste « ${role} »${topicLineFr}.\n\nMon parcours associe étroitement électronique matérielle, programmation bas niveau et conception logicielle rigoureuse (${skillsStr}) :\n• ${lead}\n• Acquisition et conditionnement de signaux capteurs sur TI MSP430 (C embarqué & Assembleur) et asservissement matériel sous Arduino.\n• Architecture logicielle C++17 orientée objet et développement d'outils en Python / SQL.\n\nAncien Président du Département de Génie Informatique (ACES, +800 étudiants), j'allie esprit d'analyse, autonomie et travail en équipe Agile. Je reste à votre entière disposition pour un entretien.\n\nVeuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\nHanz Ofosuhene-Sintim`;
       return validateCvTruthClient(state).cleaned;
     }
 
@@ -2039,11 +2320,25 @@
     }
 
     async function buildInlineCustomCv() {
-      const company = (document.getElementById('inlineCustomCompany')?.value || '').trim() || 'Target Engineering Team';
-      const title = (document.getElementById('inlineCustomRole')?.value || '').trim() || 'Stage / Alternance Ingénieur Systèmes Embarqués';
+      const rawCompInput = (document.getElementById('inlineCustomCompany')?.value || '').trim();
+      const rawRoleInput = (document.getElementById('inlineCustomRole')?.value || '').trim();
       const desc = (document.getElementById('inlineCustomDesc')?.value || '').trim();
-      const lang = CV_STATE?.meta?.lang || 'fr';
+      const curLang = CV_STATE?.meta?.lang || 'fr';
+      const intel = parseOfferAndPromptClient(`${rawCompInput ? 'Company: ' + rawCompInput + '\n' : ''}${rawRoleInput ? 'Role: ' + rawRoleInput + '\n' : ''}${desc}`, curLang);
+      const lang = intel.isOfferPaste ? intel.lang : curLang;
+      const company = rawCompInput || intel.company || (lang === 'en' ? 'Target Engineering Team' : 'Équipe R&D Cible');
+      const title = rawRoleInput || intel.role || (lang === 'en' ? 'Embedded Systems & Electronics Engineering Internship' : 'Stage / Alternance Ingénieur Systèmes Embarqués');
+      const location = intel.location || 'Lille, France';
       const atsPolicy = CV_STATE?.meta?.ats_mode || 'design_two_col';
+
+      if (!rawCompInput && intel.company) {
+        const compEl = document.getElementById('inlineCustomCompany');
+        if (compEl) compEl.value = intel.company;
+      }
+      if (!rawRoleInput && intel.role) {
+        const roleEl = document.getElementById('inlineCustomRole');
+        if (roleEl) roleEl.value = intel.role;
+      }
 
       if (!IS_STATIC_MODE) {
         try {
@@ -2066,7 +2361,7 @@
               CV_STATE.meta.ats_mode = atsPolicy;
               renderStudioFromState();
               const leadTitle = (CV_STATE.projects && CV_STATE.projects[0]) ? CV_STATE.projects[0].title : 'Top Project';
-              const skills = (data.analysis?.matched_skills || []).join(', ') || 'Embedded C, STM32';
+              const skills = (data.analysis?.matched_skills || intel.matchedSkills || []).join(', ') || 'Embedded C, STM32';
               document.getElementById('promptFeedback').textContent =
                 `✅ Drafted Tailored 1-Page CV + Cover Letter + Outreach Message for ${company} (${lang.toUpperCase()}) · Lead #1: ${leadTitle} · Matched: ${skills}`;
               return;
@@ -2075,18 +2370,16 @@
         } catch (e) {}
       }
 
-      const knownKws = ['Embedded C', 'C++17', 'STM32', 'ESP32', 'MSP430', 'KiCad', 'PCB', 'Robotics', 'Arduino', 'PostgreSQL', 'Python', 'UART', 'SPI', 'I2C', 'CAN', 'Linux', 'RTOS', 'Sensors'];
-      const hay = `${title} ${desc}`.toLowerCase();
-      const matched = knownKws.filter(k => hay.includes(k.toLowerCase()));
-      const skills = matched.length ? matched.slice(0, 5) : ['Embedded C', 'STM32', 'KiCad PCB', 'C++17'];
+      const skills = intel.matchedSkills.length ? intel.matchedSkills.slice(0, 6) : sanitizeSkillTokensClient(null, lang);
       const customJob = {
         id: 'custom_inline_' + Date.now(),
         company,
         title,
-        location: 'Lille / France (Custom Target)',
+        location,
+        mission_topic: intel.missionTopic || '',
         region: 'lille',
         is_lille_nearby: true,
-        contract_type: /alternance/i.test(title + ' ' + desc) ? 'alternance' : 'stage',
+        contract_type: intel.contractType || 'stage',
         cv_lang: lang,
         ats_policy: atsPolicy,
         source_type: 'corporate_ats',
@@ -2819,53 +3112,119 @@
         } catch (e) {}
       }
 
-      // Client-side parity fallback (GitHub Pages / offline)
+      // Client-side parity engine (GitHub Pages / offline — 100% synced with cv_architect.py)
       const low = prompt.toLowerCase();
-      const job = JOBS_BY_ID.get(String(SELECTED_JOB_ID)) || null;
+      const prevLayout = CV_STATE.layout ? { ...CV_STATE.layout } : { page_margin_mm: 8, section_gap_px: 5, font_scale: 1.0, line_height: 1.3 };
+      let targetAtsMode = CV_STATE.meta?.ats_mode || 'design_two_col';
+      let curLang = CV_STATE.meta?.lang || 'fr';
+      const intel = parseOfferAndPromptClient(prompt, curLang);
       const actions = [];
-      if (low.includes('english') || low.includes('anglais')) {
-        CV_STATE = buildClientCvState(job, 'en', CV_STATE.meta?.ats_mode);
-        actions.push('Translated CV to canonical English');
-      } else if (low.includes('french') || low.includes('français') || low.includes('francais')) {
-        CV_STATE = buildClientCvState(job, 'fr', CV_STATE.meta?.ats_mode);
-        actions.push('Traduit en Français canonique');
+
+      // 1. Explicit or Offer-Detected Language Switch
+      const explicitEn = /translate to english|switch to english|in english|en anglais|lang=en/i.test(low);
+      const explicitFr = /translate to french|switch to french|en français|en francais|in french|lang=fr/i.test(low);
+      if (explicitEn || explicitFr || (intel.isOfferPaste && intel.lang !== curLang)) {
+        curLang = intel.lang;
+        actions.push(curLang === 'en' ? 'Translated CV to canonical English (EN)' : 'Traduit en Français canonique (FR)');
       }
-      if (low.includes('1 page') || low.includes('condense') || low.includes('fit') || low.includes('compact')) {
-        CV_STATE.layout.font_scale = Math.max(0.84, Number((CV_STATE.layout.font_scale - 0.08).toFixed(2)));
-        CV_STATE.layout.section_gap_px = Math.max(4, CV_STATE.layout.section_gap_px - 3);
-        CV_STATE.layout.page_margin_mm = Math.max(6, CV_STATE.layout.page_margin_mm - 2);
+
+      // 2. Explicit Layout / Template Mode Switch (never triggered by generic "design of the architecture")
+      if (/2-col|two-col|two col|navy sidebar|teal|design cv|design template|deux colonnes|#163853/i.test(low)) {
+        targetAtsMode = 'design_two_col';
+        actions.push('Switched to 2-Col Navy Sidebar (#163853 + Photo) Master template');
+      } else if (/strict ats|1-col|one-col|one col|single col|monocolonne/i.test(low)) {
+        targetAtsMode = 'strict_ats';
+        actions.push('Switched to 1-Col Strict ATS Master template');
+      }
+
+      // 3. Full Pasted Job Offer OR Company / Role / Skill Tailoring
+      if (intel.isOfferPaste || intel.company || intel.role || intel.missionTopic || intel.matchedSkills.length) {
+        const comp = intel.company || CV_STATE.meta?.company || '';
+        const role = intel.role || CV_STATE.meta?.role || '';
+        const loc = intel.location || CV_STATE.meta?.location || 'Lille, France';
+        const mission = intel.missionTopic || CV_STATE.meta?.mission_topic || '';
+        const skills = intel.matchedSkills.length ? intel.matchedSkills : sanitizeSkillTokensClient(null, curLang);
+
+        if (intel.company) {
+          const compEl = document.getElementById('inlineCustomCompany');
+          if (compEl) compEl.value = intel.company;
+        }
+        if (intel.role) {
+          const roleEl = document.getElementById('inlineCustomRole');
+          if (roleEl) roleEl.value = intel.role;
+        }
+
+        const tailoredJob = {
+          id: CV_STATE.meta?.job_id || 'prompt_tailored_' + Date.now(),
+          company: comp,
+          title: role,
+          location: loc,
+          mission_topic: mission,
+          contract_type: intel.contractType || 'stage',
+          skills,
+          description: intel.isOfferPaste ? prompt : '',
+          ats_policy: targetAtsMode,
+        };
+        CV_STATE = buildClientCvState(tailoredJob, curLang, targetAtsMode);
+        CV_STATE.layout = prevLayout;
+
+        // Apply promoted project ranking from prompt keywords
+        if (intel.promotedIds && intel.promotedIds.length) {
+          const scores = intel.promoScores || {};
+          CV_STATE.projects.sort((a, b) => ((scores[b.id] || 0) - (scores[a.id] || 0)) || (a.verification_tier - b.verification_tier));
+          CV_STATE.projects.forEach((p, idx) => { p.visible = idx < 4; });
+        }
+
+        const locShort = loc.split(',')[0].trim();
+        const compLabel = (comp && locShort && !['lille', 'france'].includes(locShort.toLowerCase()) && !comp.toLowerCase().includes(locShort.toLowerCase()))
+          ? `${comp} (${locShort})`
+          : comp;
+        if (compLabel) actions.push(`Tailored CV, Cover Letter & Message for ${compLabel}`);
+        if (intel.matchedSkills.length) actions.push(`Highlighted matched skills: ${intel.matchedSkills.slice(0, 5).join(', ')}`);
+      } else {
+        CV_STATE.meta.lang = curLang;
+        CV_STATE.meta.ats_mode = targetAtsMode;
+      }
+
+      // 4. Compact / Fit to 1 Page
+      if (/1 page|one page|condense|compact|tighter|fit|tenir sur une page|réduire/i.test(low)) {
+        CV_STATE.layout.font_scale = Math.max(0.82, Number((CV_STATE.layout.font_scale - 0.06).toFixed(2)));
+        CV_STATE.layout.section_gap_px = Math.max(3, CV_STATE.layout.section_gap_px - 1);
+        CV_STATE.layout.page_margin_mm = Math.max(6, CV_STATE.layout.page_margin_mm - 1);
         actions.push('Compacted layout for strict 1-page A4');
       }
-      if (low.includes('kicad') || low.includes('pcb') || low.includes('charger')) {
+
+      // 5. Explicit Project Promotion / Hiding
+      if (/kicad\s+pcb\s*#?1|put\s+kicad|charger\s+first/i.test(low)) {
         const idx = CV_STATE.projects.findIndex(p => p.id === 'charger_pcb');
-        if (idx > -1) { const [m] = CV_STATE.projects.splice(idx, 1); m.visible = true; CV_STATE.projects.unshift(m); actions.push('Promoted KiCad Power Charger PCB #1'); }
+        if (idx > -1) {
+          const [m] = CV_STATE.projects.splice(idx, 1);
+          m.visible = true;
+          CV_STATE.projects.unshift(m);
+          CV_STATE.projects.forEach((p, i) => { p.visible = i < 4; });
+          actions.push('Promoted KiCad Power Charger PCB #1');
+        }
       }
-      if (low.includes('stm32') || low.includes('esp32')) {
-        CV_STATE.summary = `${CV_STATE.summary} Core focus: STM32 / ESP32 / Embedded C firmware.`;
-        actions.push('Emphasized STM32 & ESP32 firmware');
+      if (/shorter|trim bullets|concis|short bullets/i.test(low)) {
+        CV_STATE.projects.forEach(p => { p.bullets = (p.bullets || []).slice(0, 2).map(b => b.length > 135 ? b.slice(0, 132).replace(/[ ,;:]+$/, '') + '.' : b); });
+        actions.push('Tightened project bullets for executive scan');
       }
-      if (low.includes('teal') || low.includes('2-col') || low.includes('two col') || low.includes('design')) {
-        CV_STATE.meta.ats_mode = 'design_two_col';
-        actions.push('Switched to canonical Teal 2-Column Design template');
-      } else if (low.includes('strict') || low.includes('1-col') || low.includes('single') || low.includes('ats')) {
-        CV_STATE.meta.ats_mode = 'strict_ats';
-        actions.push('Switched to 1-Col Strict ATS template');
-      }
-      const forMatch = prompt.match(/\b(?:for|chez|pour)\s+([A-Z][A-Za-z0-9&.\- ]{1,30})/i);
-      if (forMatch && forMatch[1]) {
-        const comp = forMatch[1].trim();
-        CV_STATE.meta.company = comp;
-        CV_STATE = buildClientCvState({ company: comp, title: CV_STATE.meta.role, skills: [prompt] }, CV_STATE.meta.lang, CV_STATE.meta.ats_mode);
-        actions.push(`Tailored CV specifically for ${comp}`);
-      }
-      if (low.includes('short') || low.includes('bullet') || low.includes('concis')) {
-        CV_STATE.projects.forEach(p => { p.bullets = (p.bullets || []).slice(0, 1); });
-        actions.push('Trimmed bullets for concise scan');
-      }
+
+      // 6. Clean fallback if no specific rule fired (NEVER dump raw prompt text into summary)
       if (!actions.length) {
-        CV_STATE.summary = `${CV_STATE.summary} ${prompt}`;
-        actions.push(`Applied custom prompt emphasis`);
+        const cleanedFocus = prompt.replace(/^(?:please\s+)?(?:emphasize|focus\s+on|highlight|tailor\s+for|include|add|prioritize|mettre\s+en\s+avant|cibler)\s+/i, '').trim().replace(/[.,;:]+$/, '').slice(0, 75);
+        const fallbackJob = {
+          company: CV_STATE.meta?.company || '',
+          title: CV_STATE.meta?.role || '',
+          location: CV_STATE.meta?.location || 'Lille, France',
+          mission_topic: cleanedFocus,
+          skills: intel.matchedSkills.length ? intel.matchedSkills : sanitizeSkillTokensClient(null, curLang),
+        };
+        CV_STATE = buildClientCvState(fallbackJob, curLang, targetAtsMode);
+        CV_STATE.layout = prevLayout;
+        actions.push(`Tailored CV profile focus toward ${cleanedFocus}`);
       }
+
       renderStudioFromState();
       document.getElementById('promptFeedback').textContent = `✨ ${actions.join(' · ')} (Truth Verified)`;
       document.getElementById('aiPromptInput').value = '';
@@ -3464,6 +3823,13 @@
       const ws = document.getElementById('mainStudioShell');
       const exp = ws.classList.toggle('studio-expanded');
       document.getElementById('btnExpandStudio').textContent = exp ? '⤡ Split View' : '⤢ Expand';
+    }
+    function toggleOutlineDrawer() {
+      const sw = document.getElementById('studioWorkspaceCv');
+      if (!sw) return;
+      const open = sw.classList.toggle('outline-open');
+      const btn = document.getElementById('btnToggleOutline');
+      if (btn) btn.classList.toggle('btn-cyan', open);
     }
     function openModal(id) { document.getElementById(id).classList.add('open'); }
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }

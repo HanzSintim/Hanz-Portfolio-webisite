@@ -917,18 +917,242 @@ def query_inverted_index(
 # PART 5 & 6: TWO-WAY CV STATE, AI PROMPT REFINER, AUDIT & A4 PDF EXPORT
 # ==============================================================================
 
+CANONICAL_SKILL_RULES: List[Tuple[str, str, str, List[str]]] = [
+    (r"\bstm32\b|cortex[-\s]?m|nucleo|hal\b", "STM32", "STM32", ["robot_stm32", "thermometer_msp430", "water_arduino"]),
+    (r"\besp32\b|freertos", "ESP32", "ESP32", ["robot_stm32", "water_arduino"]),
+    (r"embedded\s+c\b|c\s+embarqu[ée]|\blangage\s+c\b|(?:^|[\s,:;(])c(?:[\s,.;:)]|$)", "Embedded C", "C embarqué", ["thermometer_msp430", "water_arduino", "robot_stm32"]),
+    (r"c\+\+17|c\+\+|\bcpp\b|\boop\b|\bpoo\b", "C++17 (OOP)", "C++17 (POO)", ["pos_cpp17", "robot_stm32", "water_arduino"]),
+    (r"\bpython\b", "Python", "Python", ["portfolio_python", "logistics_sql"]),
+    (r"\biot\b|connected\s+object|objet[s]?\s+connect|intelligent\s+sensor|smart\s+sensor|capteur[s]?\s+intelligent", "IoT & Smart Sensors", "IoT & Capteurs intelligents", ["water_arduino", "thermometer_msp430", "robot_stm32"]),
+    (r"edge\s+ai|ai\s+at\s+the\s+edge|jetson|raspberry\s+pi|computer\s+vision|vision\s+par\s+ordinateur", "Edge AI (Raspberry Pi / Jetson)", "Edge AI (Raspberry Pi / Jetson)", ["robot_stm32", "water_arduino"]),
+    (r"\bkicad\b|\bpcb\b|schematic|routage|carte[s]?\s+[ée]lectronique", "KiCad PCB Design", "Conception PCB (KiCad)", ["charger_pcb", "thermometer_msp430"]),
+    (r"\bmsp430\b|\bassembly\b|\bassembleur\b", "TI MSP430 & Assembly", "TI MSP430 & Assembleur", ["thermometer_msp430"]),
+    (r"\buart\b|\bi2c\b|\bspi\b|\bpwm\b|\badc\b|\bcan\b|\bplc\b|\bipc\b|modbus", "Sensor Interfaces (UART/PWM/ADC)", "Interfaces Capteurs (UART/PWM/ADC)", ["thermometer_msp430", "water_arduino", "robot_stm32"]),
+    (r"energy\s+efficiency|low[-\s]environmental|low[-\s]power|power\s+management|basse\s+consommation|[ée]nerg[ée]tique", "Energy Efficiency & Low-Power Design", "Optimisation Énergétique & Basse Consommation", ["charger_pcb", "thermometer_msp430", "water_arduino"]),
+    (r"\bpoc[s]?\b|proof\s+of\s+concept|prototyp|performing\s+tests|validation|test\s+bench", "PoC Prototyping & Testing", "Prototypage PoC, Tests & Validation", ["water_arduino", "thermometer_msp430", "charger_pcb"]),
+    (r"\bagile\b|\bscrum\b|\bkanban\b", "Agile Scrum / Kanban", "Agile Scrum / Kanban", ["robot_stm32", "portfolio_python"]),
+    (r"\bgit\b|\bgithub\b|\bci/cd\b", "Git / GitHub", "Git / GitHub", ["portfolio_python", "pos_cpp17"]),
+    (r"\bsql\b|postgresql|data\s+processing|flow\s+management|azure\s+cloud|\bcloud\b", "Data Processing & SQL", "Traitement de Données & SQL", ["logistics_sql", "portfolio_python"]),
+    (r"\brobotics?\b|\brobotique\b|\bautonomous\b|\bautonome\b", "Autonomous Robotics", "Robotique Autonome", ["robot_stm32", "water_arduino"]),
+]
+
+KNOWN_EMPLOYERS: List[str] = [
+    "ALTEN Labs", "ALTEN", "Exotec", "STMicroelectronics", "Thales", "Safran",
+    "Dassault Systèmes", "Dassault Aviation", "Valeo", "Renault", "Ampere", "Stellantis",
+    "Airbus", "Schneider Electric", "NXP Semiconductors", "NXP", "Infineon", "imec",
+    "ASML", "Bosch", "Siemens", "Continental", "Worldline", "OVHcloud",
+    "Capgemini Engineering", "Capgemini", "Sopra Steria", "Akkodis", "Segula",
+    "Assystem", "SII", "Naval Group", "MBDA", "CEA", "CNRS", "Inria", "Decathlon",
+    "Kipsta", "EDF", "Engie", "Alstom", "SNCF", "Legrand", "Somfy", "Parrot",
+    "Withings", "Ledger", "Verkor", "Soitec", "Lynred", "Kalray",
+]
+
+KNOWN_CITIES: List[str] = [
+    "Grenoble", "Lille", "Croix", "Villeneuve-d'Ascq", "Roubaix", "Paris", "Île-de-France",
+    "Ile-de-France", "Saclay", "Massy", "Vélizy", "Toulouse", "Lyon", "Rennes",
+    "Sophia-Antipolis", "Sophia Antipolis", "Nantes", "Bordeaux", "Crolles", "Rousset",
+    "Tours", "Leuven", "Eindhoven", "Munich", "Zurich", "Geneva", "Cambridge", "London",
+    "Montreal", "Toronto", "Ottawa", "Sydney", "Melbourne",
+]
+
+
+def _sanitize_skill_tokens(raw_skills: Any, lang: str = "fr") -> List[str]:
+    """Ensure skills list NEVER contains raw pasted sentences or paragraphs."""
+    is_en = lang == "en"
+    default_list = (
+        ["Embedded C/C++17", "STM32/ESP32/MSP430", "KiCad PCB", "Hardware-Software Validation"]
+        if is_en else
+        ["C embarqué / C++17", "STM32 / ESP32 / MSP430", "Conception PCB KiCad", "Validation Matériel-Logiciel"]
+    )
+    if not raw_skills:
+        return default_list
+    if isinstance(raw_skills, str):
+        raw_skills = [raw_skills]
+    clean: List[str] = []
+    for item in raw_skills:
+        s = str(item or "").strip()
+        if not s:
+            continue
+        if len(s) <= 42 and "\n" not in s and not re.search(r"\b(we conduct|you will|you are|within our|qualifications)\b", s, flags=re.I):
+            if s not in clean:
+                clean.append(s)
+        else:
+            # Extract canonical skills from long text instead of dumping raw prose
+            for pat, en_lbl, fr_lbl, _ in CANONICAL_SKILL_RULES:
+                if re.search(pat, s, flags=re.I):
+                    lbl = en_lbl if is_en else fr_lbl
+                    if lbl not in clean:
+                        clean.append(lbl)
+    return clean[:6] if clean else default_list
+
+
+def extract_offer_intelligence(text: str, current_lang: str = "fr") -> Dict[str, Any]:
+    """
+    Intelligent parser for pasted job descriptions, company notes, or tailoring prompts.
+    Extracts company, location, role, mission topic, language, canonical skills, and promoted project IDs.
+    """
+    raw = (text or "").strip()
+    low = raw.lower()
+
+    offer_markers = (
+        "qualifications", "missions", "responsibilities", "within our", "within the",
+        "au sein de", "following project", "seeking an", "end-of-studies", "fin d'études",
+        "proof of concept", "proficient in", "compétences", "vous serez", "you will",
+        "department", "environments:", "profil recherché",
+    )
+    marker_hits = sum(1 for m in offer_markers if m in low)
+    is_offer_paste = len(raw) > 110 or "\n" in raw or marker_hits >= 2
+
+    # Language detection
+    en_words = len(re.findall(r"\b(the|and|with|within|you|will|are|our|projects|skills|seeking|student|internship|development|design|testing)\b", low))
+    fr_words = len(re.findall(r"\b(les|des|dans|avec|au|sein|vous|êtes|nos|projets|compétences|stage|alternance|développement|conception|ingénieur)\b", low))
+    detected_lang = current_lang
+    if any(k in low for k in ("translate to english", "switch to english", "in english", "en anglais", "lang=en")):
+        detected_lang = "en"
+    elif any(k in low for k in ("translate to french", "switch to french", "en français", "en francais", "in french", "lang=fr")):
+        detected_lang = "fr"
+    elif is_offer_paste:
+        if en_words >= fr_words + 2:
+            detected_lang = "en"
+        elif fr_words >= en_words + 2:
+            detected_lang = "fr"
+    is_en = detected_lang == "en"
+
+    # 1. Extract Company
+    company = ""
+    explicit_comp = re.search(r"(?:^|\n)\s*(?:company|employer|entreprise|soci[ée]t[ée]|organisme)\s*[:\-–]\s*([^\n,|]{2,45})", raw, flags=re.I)
+    if explicit_comp:
+        company = explicit_comp.group(1).strip(" .,;:")
+
+    if not company:
+        best_emp = ""
+        best_score = -99
+        for emp in KNOWN_EMPLOYERS:
+            m = re.search(r"\b" + re.escape(emp) + r"\b", raw, flags=re.I)
+            if m:
+                score = len(emp)
+                start, end = m.start(), m.end()
+                before = raw[max(0, start - 35):start].lower()
+                after = raw[end:min(len(raw), end + 25)].lower()
+                if any(w in before for w in ("within the", "within", "at ", "chez ", "join ", "rejoindre ", "au sein de", "for ", "pour ")):
+                    score += 40
+                if after.startswith(" solution") or after.startswith(" tool"):
+                    score -= 30
+                if score > best_score:
+                    best_score = score
+                    best_emp = emp
+        if best_emp and best_score > 0:
+            company = best_emp
+
+    if not company:
+        forbidden_comp = {
+            "the", "our", "a", "an", "this", "that", "your", "my", "innovation", "innovation department",
+            "department", "english", "french", "français", "francais", "anglais", "stage", "internship",
+            "alternance", "1 page", "one page", "reducing", "developing", "design", "building",
+            "grenoble", "lille", "paris", "lyon", "toulouse", "rennes", "france",
+        }
+        ctx_matches = re.finditer(
+            r"\b(?:within the|within|chez|at|join|rejoindre|au sein de|au sein du|tailor for|for|pour)\s+([A-Z][A-Za-z0-9&.'\-]*(?:\s+[A-Z][A-Za-z0-9&.'\-]*){0,2}(?:\s+(?:Labs|Lab|Group|Engineering|Robotics|Semiconductors|Systems|Technologies))?)",
+            raw,
+        )
+        for cm in ctx_matches:
+            cand = cm.group(1).strip(" .,;:()")
+            if cand and cand.lower() not in forbidden_comp and len(cand) >= 2:
+                company = cand
+                break
+
+    # 2. Extract Location
+    location = ""
+    lab_loc = re.search(r"\b(?:within our|in our|at our|au sein de notre|sur notre site de)\s+([A-Z][A-Za-zÀ-ÿ\- ]{2,25}?)\s+(?:lab|laboratory|office|site|center|centre|team|agence)\b", raw, flags=re.I)
+    if lab_loc:
+        city_cand = lab_loc.group(1).strip()
+        location = f"{city_cand}, France" if city_cand.title() in ("Grenoble", "Lille", "Paris", "Toulouse", "Lyon", "Rennes", "Sophia-Antipolis", "Nantes", "Bordeaux") else city_cand
+    if not location:
+        # Prefer city mentioned outside parentheses first
+        outside_parens = re.sub(r"\([^)]*\)", " ", raw)
+        for city in KNOWN_CITIES:
+            if re.search(r"\b" + re.escape(city) + r"\b", outside_parens, flags=re.I):
+                location = f"{city}, France" if city in ("Grenoble", "Lille", "Croix", "Paris", "Toulouse", "Lyon", "Rennes", "Sophia-Antipolis", "Nantes", "Bordeaux", "Saclay") else city
+                break
+        if not location:
+            for city in KNOWN_CITIES:
+                if re.search(r"\b" + re.escape(city) + r"\b", raw, flags=re.I):
+                    location = f"{city}, France" if city in ("Grenoble", "Lille", "Croix", "Paris", "Toulouse", "Lyon", "Rennes", "Sophia-Antipolis", "Nantes", "Bordeaux", "Saclay") else city
+                    break
+
+    # 3. Extract Mission Topic & Role Title
+    mission_topic = ""
+    proj_m = re.search(r"(?:following project|sujet suivant|mission principale|project topic|sujet de stage)\s*[:\-–]\s*([^\n.]{8,120})", raw, flags=re.I)
+    if proj_m:
+        mission_topic = proj_m.group(1).strip(" .,;:")
+
+    role = ""
+    explicit_role = re.search(r"(?:^|\n)\s*(?:role|job\s*title|position|poste|intitul[ée]|titre)\s*[:\-–]\s*([^\n]{4,90})", raw, flags=re.I)
+    if explicit_role:
+        role = explicit_role.group(1).strip(" .,;:")
+
+    # 4. Canonical Skills & Promoted Projects
+    matched_skills: List[str] = []
+    promo_scores: Dict[str, int] = {}
+    for pat, en_lbl, fr_lbl, pids in CANONICAL_SKILL_RULES:
+        if re.search(pat, raw, flags=re.I):
+            lbl = en_lbl if is_en else fr_lbl
+            if lbl not in matched_skills:
+                matched_skills.append(lbl)
+            for idx, pid in enumerate(pids):
+                promo_scores[pid] = promo_scores.get(pid, 0) + (8 if idx == 0 else 4)
+
+    if not role and is_offer_paste:
+        has_iot = any("IoT" in s for s in matched_skills)
+        has_stm = any("STM32" in s or "MSP430" in s for s in matched_skills)
+        has_pcb = any("PCB" in s for s in matched_skills)
+        if has_iot and has_stm:
+            role = "Embedded Systems & Intelligent IoT Engineering Internship" if is_en else "Stage Ingénieur Systèmes Embarqués & IoT Intelligent"
+        elif has_pcb:
+            role = "Embedded Hardware & PCB Design Engineering Internship" if is_en else "Stage Ingénieur Électronique & Conception PCB"
+        elif has_stm:
+            role = "Embedded Systems & Firmware Engineering Internship (STM32 / C)" if is_en else "Stage Ingénieur Systèmes Embarqués & Firmware (STM32 / C)"
+        else:
+            role = "Electronics & Embedded Systems Engineering Internship" if is_en else "Stage Ingénieur Électronique & Systèmes Embarqués"
+
+    promoted_ids = [pid for pid, _ in sorted(promo_scores.items(), key=lambda kv: -kv[1])]
+    return {
+        "is_offer_paste": is_offer_paste,
+        "lang": detected_lang,
+        "company": company,
+        "location": location,
+        "role": role,
+        "mission_topic": mission_topic,
+        "matched_skills": matched_skills,
+        "promoted_project_ids": promoted_ids,
+        "promo_scores": promo_scores,
+        "contract_type": "alternance" if re.search(r"alternan|apprenti|contrat\s+pro", low) else "stage",
+    }
+
+
 def _build_canonical_summary(job: Optional[Dict[str, Any]], lang: str) -> str:
     is_en = lang == "en"
     company = (job or {}).get("company") or ""
     role = (job or {}).get("title") or ""
-    skills = ", ".join(((job or {}).get("skills") or ["Embedded C/C++17", "STM32/ESP32/MSP430", "KiCad PCB", "Hardware-Software Validation"])[:4])
+    location = (job or {}).get("location") or ""
+    mission = (job or {}).get("mission_topic") or ""
+    clean_skills = _sanitize_skill_tokens((job or {}).get("skills"), lang=lang)
+    skills_str = ", ".join(clean_skills[:5])
+    loc_tag = f" ({location.split(',')[0].strip()})" if location and location.lower() not in ("lille, france", "france") and location.split(",")[0].strip().lower() not in company.lower() else ""
 
     if is_en:
-        if company and role:
+        if company or role or mission:
+            target_comp = f" at {company}{loc_tag}" if company else ""
+            mission_clause = (
+                f" to contribute to {mission[0].lower() + mission[1:]}"
+                if mission else
+                (f" ({role})" if role else " in embedded systems, firmware prototyping, and hardware-software validation")
+            )
             return (
                 f"Engineering student in Electronics and Embedded Systems at JUNIA ISEN Lille (2025 – Present, M1), holding a BSc in Computer Engineering "
-                f"from KNUST, Ghana (2026). Hands-on experience in {skills}, sensor signal conditioning, and microelectronics. "
-                f"Seeking a 3 to 4-month technical internship or Alternance with {company} ({role}) starting April 2027."
+                f"from KNUST, Ghana (2026). Hands-on experience in {skills_str}, sensor signal conditioning, and technical team leadership "
+                f"(former Department President of ACES representing 800+ students). "
+                f"Seeking a 3 to 4-month technical internship starting in April 2027{target_comp}{mission_clause}."
             )
         return (
             "Engineering student in Electronics and Embedded Systems at JUNIA ISEN Lille, holding a BSc in Computer Engineering from KNUST, Ghana (2026). "
@@ -936,11 +1160,18 @@ def _build_canonical_summary(job: Optional[Dict[str, Any]], lang: str) -> str:
             "sensor signal conditioning, and microelectronics. Former Department President of Computer Engineering (ACES, 800+ students). "
             "Seeking a 3 to 4-month technical internship starting April 2027 in embedded systems, firmware, or microelectronics."
         )
-    if company and role:
+    if company or role or mission:
+        target_comp = f" au sein de {company}{loc_tag}" if company else ""
+        mission_clause = (
+            f" afin de contribuer au projet « {mission} »"
+            if mission else
+            (f" ({role})" if role else " en systèmes embarqués, prototypage firmware et validation matériel-logiciel")
+        )
         return (
             f"Étudiant ingénieur en Électronique et Systèmes Embarqués à JUNIA ISEN Lille (2025 – Présent, M1), diplômé d'un BSc en Génie Informatique "
-            f"de KNUST, Ghana (2026). Expérience pratique en {skills}, conditionnement de signaux capteurs et microélectronique. "
-            f"À la recherche d'un stage technique de 3 à 4 mois ou d'une alternance au sein de {company} ({role}) à partir d'avril 2027."
+            f"de KNUST, Ghana (2026). Expérience pratique en {skills_str}, conditionnement de signaux capteurs et gestion de projets en équipe "
+            f"(ancien Président du Département ACES représentant plus de 800 étudiants). "
+            f"À la recherche d'un stage technique de 3 à 4 mois à partir d'avril 2027{target_comp}{mission_clause}."
         )
     return (
         "Étudiant ingénieur en Électronique et Systèmes Embarqués à JUNIA ISEN Lille, diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). "
@@ -1607,8 +1838,10 @@ def render_cv_state_to_html(cv_state: Dict[str, Any], standalone: bool = True) -
 def refine_cv_state_with_prompt(cv_state: Dict[str, Any], prompt: str) -> Dict[str, Any]:
     """
     Post-generation AI Refinement Console backend parser.
-    Supports English/French switching, 1-page compact fit, keyword/project promotion,
-    project hiding/showing, and bullet shortening, always preserving ground truth.
+    Supports full pasted job offers (extracting company, role, location, mission, and canonical skills),
+    English/French switching, 1-page compact fit, keyword/project promotion,
+    project hiding/showing, and bullet shortening, always preserving ground truth
+    and NEVER dumping raw prompt paragraphs into the CV summary.
     """
     state = copy.deepcopy(cv_state)
     p = (prompt or "").strip()
@@ -1618,42 +1851,134 @@ def refine_cv_state_with_prompt(cv_state: Dict[str, Any], prompt: str) -> Dict[s
     if not low:
         return {"cv_state": state, "applied_actions": ["No prompt supplied"], "truth_report": validate_cv_truth(state)}
 
-    # 1. Language Switch & Template / Company / Role Customization
-    if any(k in low for k in ("translate to english", "switch to english", "in english", "en anglais", "lang=en")):
-        state = build_initial_cv_state(
-            job={"id": state["meta"].get("job_id"), "company": state["meta"].get("company"), "title": state["meta"].get("role"), "location": state["meta"].get("location")},
-            lang="en",
-            template_id=state["meta"].get("template_id", "ws_en_ats").replace("_fr_", "_en_"),
-        )
-        actions.append("Translated CV to canonical English (EN)")
-    elif any(k in low for k in ("translate to french", "switch to french", "en français", "en francais", "in french", "lang=fr")):
-        state = build_initial_cv_state(
-            job={"id": state["meta"].get("job_id"), "company": state["meta"].get("company"), "title": state["meta"].get("role"), "location": state["meta"].get("location")},
-            lang="fr",
-            template_id=state["meta"].get("template_id", "ws_fr_ats").replace("_en_", "_fr_"),
-        )
-        actions.append("Traduction canonique en Français (FR)")
+    cur_meta = state.setdefault("meta", {})
+    cur_lang = cur_meta.get("lang", "fr")
+    cur_ats_mode = cur_meta.get("ats_mode", "design_two_col")
+    intel = extract_offer_intelligence(p, current_lang=cur_lang)
 
-    if any(k in low for k in ("2-col", "two col", "teal", "design cv", "deux colonnes")):
+    # 1. Explicit or Offer-Detected Language Switch
+    target_lang = intel["lang"]
+    explicit_en = any(k in low for k in ("translate to english", "switch to english", "in english", "en anglais", "lang=en"))
+    explicit_fr = any(k in low for k in ("translate to french", "switch to french", "en français", "en francais", "in french", "lang=fr"))
+    if explicit_en or explicit_fr or (intel["is_offer_paste"] and target_lang != cur_lang):
+        new_comp = intel["company"] or cur_meta.get("company", "")
+        new_role = intel["role"] or cur_meta.get("role", "")
+        new_loc = intel["location"] or cur_meta.get("location", "Lille, France")
+        tmpl_id = (f"ws_{target_lang}_design" if cur_ats_mode == "design_two_col" else f"ws_{target_lang}_ats")
+        state = build_initial_cv_state(
+            job={
+                "id": cur_meta.get("job_id", "custom_build"),
+                "company": new_comp,
+                "title": new_role,
+                "location": new_loc,
+                "mission_topic": intel["mission_topic"],
+                "skills": intel["matched_skills"] or None,
+                "description": p if intel["is_offer_paste"] else "",
+            },
+            lang=target_lang,
+            template_id=tmpl_id,
+        )
+        state["meta"]["ats_mode"] = cur_ats_mode
+        cur_meta = state["meta"]
+        cur_lang = target_lang
+        actions.append(
+            "Translated CV to canonical English (EN)" if target_lang == "en" else "Traduction canonique en Français (FR)"
+        )
+
+    # 2. Explicit Layout / Template Mode Switch (never triggered by generic "design of the architecture")
+    if any(k in low for k in ("2-col", "two-col", "two col", "navy sidebar", "teal", "design cv", "design template", "deux colonnes", "#163853")):
         state["meta"]["ats_mode"] = "design_two_col"
         state["meta"]["template_id"] = "ws_en_design" if state["meta"].get("lang") == "en" else "ws_fr_design"
-        actions.append("Switched to 2-Column Teal Engineering Design layout")
-    elif any(k in low for k in ("strict ats", "1-col", "one col", "single col", "monocolonne")):
+        actions.append("Switched to 2-Column Navy Sidebar (#163853 + Photo) Master layout")
+    elif any(k in low for k in ("strict ats", "1-col", "one-col", "one col", "single col", "monocolonne")):
         state["meta"]["ats_mode"] = "strict_ats"
         state["meta"]["template_id"] = "ws_en_ats" if state["meta"].get("lang") == "en" else "ws_fr_ats"
-        actions.append("Switched to 1-Column Strict ATS template")
+        actions.append("Switched to 1-Column Strict ATS Master template")
 
-    comp_match = re.search(r"\b(?:for|pour|at|chez)\s+([A-Z][A-Za-z0-9&\.\- ]{1,32})", p)
-    if comp_match and not any(w in comp_match.group(1).lower() for w in ("english", "french", "français", "1 page", "one page")):
-        new_comp = comp_match.group(1).strip(" .,;:")
-        state["meta"]["company"] = new_comp
-        state["summary"] = _build_canonical_summary(
-            {"company": new_comp, "title": state["meta"].get("role"), "skills": ["Embedded C", "STM32/ESP32", "KiCad PCB", "C++17"]},
-            state["meta"].get("lang", "fr"),
-        )
-        actions.append(f"Targeted summary & header toward {new_comp}")
+    # 3. Full Pasted Job Offer OR Company / Role / Skill Tailoring
+    if intel["is_offer_paste"] or intel["company"] or intel["role"] or intel["mission_topic"] or intel["matched_skills"]:
+        comp = intel["company"] or state["meta"].get("company", "")
+        loc = intel["location"] or state["meta"].get("location", "Lille, France")
+        role = intel["role"] or state["meta"].get("role", "")
+        mission = intel["mission_topic"]
+        skills_list = intel["matched_skills"] or _sanitize_skill_tokens(None, lang=cur_lang)
+        is_en = cur_lang == "en"
 
-    # 2. Compact / Fit to 1 Page
+        if comp:
+            state["meta"]["company"] = comp
+        if loc:
+            state["meta"]["location"] = loc
+        if role:
+            state["meta"]["role"] = role
+
+        # Update Header Role & Subtitle cleanly
+        header = state.setdefault("header", {})
+        if role:
+            header["role_title"] = role
+        focus_short = ", ".join(skills_list[:4])
+        loc_short = loc.split(",")[0].strip() if loc else ""
+        comp_with_loc = f"{comp} ({loc_short})" if (comp and loc_short and loc_short.lower() not in comp.lower()) else (comp or loc_short)
+        if is_en:
+            header["role_sub"] = (
+                f"Seeking a 3–4 Month Internship (April 2027) | Target: {comp_with_loc} — {focus_short}"
+                if comp_with_loc else
+                f"Seeking a 3–4 Month Internship (April 2027) | Focus: {focus_short}"
+            )
+            header["headline"] = (
+                f"Engineering Student (M1) — Electronics & Embedded Systems | {role or 'Technical Internship'}"
+                f"{(' — ' + comp_with_loc) if comp_with_loc else ''} ({focus_short})"
+            )
+        else:
+            header["role_sub"] = (
+                f"Recherche de stage 3–4 mois (Avril 2027) | Cible : {comp_with_loc} — {focus_short}"
+                if comp_with_loc else
+                f"Recherche de stage 3–4 mois (Avril 2027) | Focus : {focus_short}"
+            )
+            header["headline"] = (
+                f"Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués | {role or 'Stage Technique'}"
+                f"{(' — ' + comp_with_loc) if comp_with_loc else ''} ({focus_short})"
+            )
+
+        # Re-rank Projects based on extracted skills
+        promo_scores = intel["promo_scores"]
+        if promo_scores:
+            projects = state.get("projects", [])
+            projects.sort(key=lambda pr: (-promo_scores.get(pr.get("id"), 0), pr.get("verification_tier", 3)))
+            for idx, proj in enumerate(projects):
+                proj["visible"] = idx < 4
+
+        # Reorder Skills inside each category so offer-matched skills appear first
+        sk_dict = state.setdefault("skills", {})
+        for sk_key in ("embedded", "hardware", "software", "interpersonal"):
+            raw_line = sk_dict.get(sk_key, "")
+            if not raw_line:
+                continue
+            items = [it.strip() for it in raw_line.split(",") if it.strip()]
+            matched_front = [it for it in items if any(w.lower() in it.lower() or it.lower() in w.lower() for w in skills_list)]
+            rest_back = [it for it in items if it not in matched_front]
+            sk_dict[sk_key] = ", ".join(matched_front + rest_back)
+
+        job_ctx = {
+            "company": comp,
+            "title": role,
+            "location": loc,
+            "mission_topic": mission,
+            "skills": skills_list,
+            "description": p if intel["is_offer_paste"] else "",
+            "contract_type": intel["contract_type"],
+        }
+        state["summary"] = _build_canonical_summary(job_ctx, cur_lang)
+        state["cover_pitch"] = _build_cover_pitch(job_ctx, cur_lang, state.get("projects", []))
+        state["outreach_message"] = _build_outreach_message(job_ctx, cur_lang, state.get("projects", []))
+
+        if comp:
+            actions.append(f"Tailored CV, Cover Letter & Outreach Message for {comp_with_loc}")
+        if intel["matched_skills"]:
+            actions.append(f"Highlighted matched skills: {', '.join(intel['matched_skills'][:5])}")
+        if intel["promoted_project_ids"]:
+            actions.append(f"Ranked top relevant projects: {', '.join(intel['promoted_project_ids'][:3])}")
+
+    # 4. Compact / Fit to 1 Page
     if any(k in low for k in ("1 page", "one page", "fit", "compact", "tighter", "condense", "smaller", "overflow", "réduire", "tenir sur une page", "tighten")):
         layout = state.setdefault("layout", {})
         layout["font_scale"] = max(0.80, round(float(layout.get("font_scale", 0.94)) - 0.06, 2))
@@ -1670,41 +1995,7 @@ def refine_cv_state_with_prompt(cv_state: Dict[str, Any], prompt: str) -> Dict[s
                     proj["bullets"] = proj["bullets"][:2]
         actions.append(f"Compacted layout for strict 1-page A4 fit (font_scale={layout['font_scale']}, margin={layout['page_margin_mm']}mm)")
 
-    # 3. Project / Keyword Emphasis & Reordering
-    keyword_targets = [
-        ("stm32", ["robot_stm32", "thermometer_msp430", "water_arduino"]),
-        ("esp32", ["robot_stm32", "water_arduino"]),
-        ("kicad", ["charger_pcb", "thermometer_msp430"]),
-        ("pcb", ["charger_pcb", "thermometer_msp430"]),
-        ("c++", ["pos_cpp17", "water_arduino"]),
-        ("sql", ["logistics_sql", "portfolio_python"]),
-        ("postgres", ["logistics_sql"]),
-        ("python", ["portfolio_python", "logistics_sql"]),
-        ("msp430", ["thermometer_msp430", "water_arduino"]),
-        ("arduino", ["water_arduino", "thermometer_msp430"]),
-        ("charger", ["charger_pcb"]),
-        ("water", ["water_arduino"]),
-        ("robotics", ["robot_stm32", "water_arduino"]),
-        ("robotique", ["robot_stm32", "water_arduino"]),
-    ]
-    if any(k in low for k in ("emphasize", "focus", "highlight", "prioritize", "first", "top", "put ", "build", "tailor", "mettre en avant", "prioriser")):
-        promo_scores: Dict[str, int] = {}
-        promoted_ids: List[str] = []
-        for kw, pids in keyword_targets:
-            if kw in low:
-                for rank_idx, pid in enumerate(pids):
-                    promo_scores[pid] = promo_scores.get(pid, 0) + (10 if rank_idx == 0 else 3)
-                    if pid not in promoted_ids:
-                        promoted_ids.append(pid)
-        if promoted_ids:
-            projects = state.get("projects", [])
-            for proj in projects:
-                if proj.get("id") in promoted_ids:
-                    proj["visible"] = True
-            projects.sort(key=lambda pr: (-promo_scores.get(pr.get("id"), 0), pr.get("verification_tier", 3)))
-            actions.append(f"Promoted matching projects first: {', '.join(promoted_ids)}")
-
-    # 4. Hide / Show specific projects
+    # 5. Explicit Project Hiding / Showing / Promotion
     hide_map = {"robot": "robot_stm32", "leclerc": "pos_cpp17", "water": "water_arduino", "charger": "charger_pcb", "pcb": "charger_pcb", "logistics": "logistics_sql", "portfolio": "portfolio_python", "msp430": "thermometer_msp430"}
     if any(k in low for k in ("hide ", "remove ", "drop ", "masquer ", "retirer ")):
         for kw, pid in hide_map.items():
@@ -1721,16 +2012,25 @@ def refine_cv_state_with_prompt(cv_state: Dict[str, Any], prompt: str) -> Dict[s
                         proj["visible"] = True
                         actions.append(f"Enabled project: {proj['title']}")
 
-    # 5. Concise bullets
+    # 6. Concise bullets
     if any(k in low for k in ("shorter", "concise", "trim bullets", "concis", "court")):
         for proj in state.get("projects", []):
             proj["bullets"] = [b[:135].rstrip(" ,;:") + ("." if len(b) > 135 else "") for b in proj.get("bullets", [])[:2]]
         actions.append("Tightened project bullets for executive scan speed")
 
     if not actions:
-        # Custom summary focus fallback
-        state["summary"] = f"{state['summary']} Emphasis: {p[:120]}."
-        actions.append(f"Applied custom emphasis note: '{p[:60]}'")
+        # Clean focus synthesis (never dump raw prompt sentences verbatim)
+        cleaned_focus = re.sub(r"^(?:please\s+)?(?:emphasize|focus\s+on|highlight|tailor\s+for|include|add|prioritize|mettre\s+en\s+avant|cibler)\s+", "", p, flags=re.I).strip(" .,;:")
+        cleaned_focus = cleaned_focus[:75].strip()
+        job_ctx = {
+            "company": state["meta"].get("company", ""),
+            "title": state["meta"].get("role", ""),
+            "location": state["meta"].get("location", ""),
+            "mission_topic": cleaned_focus,
+            "skills": intel["matched_skills"] or None,
+        }
+        state["summary"] = _build_canonical_summary(job_ctx, cur_lang)
+        actions.append(f"Tailored CV profile focus toward {cleaned_focus}")
 
     truth_report = validate_cv_truth(state)
     state = truth_report["rewritten_payload"]

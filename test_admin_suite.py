@@ -343,6 +343,36 @@ class TestAdminOverhaulSuite(unittest.TestCase):
         self.assertEqual(prop_res.status_code, 200)
         self.assertTrue(prop_res.get_json()["ok"])
 
+        # 4. Verify pasting a raw job offer (e.g. ALTEN Labs Grenoble IoT/STM32) into /admin/api/cv/refine
+        # intelligently extracts company, location, mission & canonical skills without dumping raw offer text
+        alten_offer = (
+            "At the Innovation Department, we conduct research projects across a wide range of experimental fields and sectors. "
+            "These innovative projects, developed in teams, are supervised by our experts within the ALTEN Labs "
+            "(Ile-de-France, Toulouse, Grenoble, Rennes, and Sophia-Antipolis) and aim to address our clients' challenges "
+            "by providing them with original and disruptive technological solutions. Within our Grenoble lab, you will be "
+            "supported by an Innovation Lead (Project Manager) to help you develop your skills on the following project: "
+            "Development of intelligent IoT systems for reducing environmental impact. Development of several Proof of Concept (PoCs) "
+            "on low-environmental-impact solutions. Design of the architecture of intelligent sensors and systems based on STM32 "
+            "with AI at the edge (environments: STM32, Jetson Nano, IPC and PLC with Schneider Electric solution, Azure Cloud). "
+            "Qualifications: You are a final-year engineering student seeking an end-of-studies internship and have specialized "
+            "in Electronics and Embedded Systems. Proficient in C, Python, STM32 development, Raspberry Pi or Jetson, and Git."
+        )
+        ref_res = client.post("/admin/api/cv/refine", json={"cv_state": st_fr, "prompt": alten_offer})
+        self.assertEqual(ref_res.status_code, 200)
+        rjson = ref_res.get_json()
+        self.assertTrue(rjson["truth_report"]["truth_verified"])
+        st_alten = rjson["cv_state"]
+        self.assertEqual(st_alten["meta"]["lang"], "en")
+        self.assertEqual(st_alten["meta"]["company"], "ALTEN Labs")
+        self.assertEqual(st_alten["meta"]["location"], "Grenoble, France")
+        self.assertNotIn("At the Innovation Department, we conduct research projects", st_alten["summary"])
+        self.assertNotIn("reducing environmental impact D", st_alten["summary"])
+        self.assertIn("ALTEN Labs", st_alten["summary"])
+        self.assertIn("STM32", st_alten["summary"])
+        self.assertIn("intelligent IoT systems", st_alten["summary"])
+        self.assertIn("ALTEN Labs", st_alten["cover_pitch"])
+        self.assertIn("ALTEN Labs", st_alten["outreach_message"]["body"])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

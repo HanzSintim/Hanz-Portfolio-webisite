@@ -617,12 +617,23 @@ def _first_match(patterns: List[str], text: str) -> str:
 
 
 def extract_company_role(text: str) -> Tuple[str, str]:
+    try:
+        import cv_architect
+        intel = cv_architect.extract_offer_intelligence(text or "")
+        comp = intel.get("company") or ""
+        rl = intel.get("role") or intel.get("mission_topic") or ""
+        if comp or rl:
+            return comp, rl
+    except Exception:
+        pass
     company = _first_match([
         r"^\s*(?:entreprise|soci[ée]t[ée]|company|employer|employeur)\s*[:\-–]\s*(.+)$",
-        r"\b(?:chez|rejoindre|join|at)\s+([A-Z][\w&.'\- ]{1,40}?)(?:[,.!\n]| et | and | pour | to |$)",
+        r"\b(?:within the|within|chez|rejoindre|join|at)\s+([A-Z][\w&.'\- ]{1,40}?)(?:[,.!\n()]| et | and | pour | to |$)",
     ], text)
+    if company and company.lower() in ("the innovation department", "innovation department", "the", "our"):
+        company = ""
     role = _first_match([
-        r"^\s*(?:poste|intitul[ée]|titre|job\s?title|role|position)\s*[:\-–]\s*(.+)$",
+        r"^\s*(?:poste|intitul[ée]|titre|job\s?title|role|position|following project)\s*[:\-–]\s*(.+)$",
         r"^(.*\b(?:stage|stagiaire|alternance|alternant|internship|intern|apprenti)\b.*)$",
         r"^(.*\b(?:ing[ée]nieur|engineer|d[ée]veloppeur|developer)\b.*)$",
     ], text)
