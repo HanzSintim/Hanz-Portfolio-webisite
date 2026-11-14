@@ -273,96 +273,328 @@
     .proj-btns { display: flex; gap: 4px; }
 
     .a4-viewport {
-      flex: 1; overflow-y: auto; overflow-x: auto; padding: 16px;
+      flex: 1; overflow-y: auto; overflow-x: auto; padding: 18px;
       background: radial-gradient(circle at top, #172033 0%, #090e1a 100%);
       display: flex; justify-content: center; align-items: flex-start;
     }
+    #a4ScaleWrap {
+      position: relative;
+      margin: 0 auto;
+      transition: width 0.12s ease, height 0.12s ease;
+    }
 
-    /* Exact 1:1 A4 Paper Container (210mm x 297mm) */
+    /* Exact 1:1 A4 Paper Container (210mm x 297mm) — Matches Hanz_CV_Hub Masters */
     #a4Sheet {
       width: 210mm;
       height: 297mm;
       background: #ffffff;
-      color: #0f172a;
+      color: #000000;
       box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.15);
-      border-radius: 3px;
+      border-radius: 2px;
       overflow: hidden;
-      padding: var(--cv-page-margin, 8mm);
-      font-family: "Inter", "Segoe UI", Arial, sans-serif;
-      font-size: calc(9.2pt * var(--cv-font-scale, 0.94));
-      line-height: var(--cv-line-height, 1.24);
-      display: flex;
-      flex-direction: column;
-      gap: var(--cv-section-gap, 5px);
       position: relative;
-      transform-origin: top center;
+      transform-origin: top left;
+      box-sizing: border-box;
     }
-    #a4Sheet.cv-sheet-teal {
+
+    /* MODE 1: 1-Col Strict ATS Master (CV_Ingenieur_FR_ATS / CV_Engineering_EN_ATS) */
+    #a4Sheet.cv-sheet-ats {
+      padding: var(--cv-page-margin, 8mm) 13mm;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: calc(8.9pt * var(--cv-font-scale, 1));
+      line-height: var(--cv-line-height, 1.3);
+      color: #000000;
+      background: #ffffff;
+      display: block;
+    }
+    #a4Sheet.cv-sheet-ats h1 {
+      font-size: calc(15.5pt * var(--cv-font-scale, 1));
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 2px;
+      color: #000000;
+    }
+    #a4Sheet.cv-sheet-ats .subtitle {
+      font-size: calc(9.5pt * var(--cv-font-scale, 1));
+      font-weight: bold;
+      margin-bottom: 3px;
+      color: #000000;
+    }
+    #a4Sheet.cv-sheet-ats .contact {
+      font-size: calc(8.4pt * var(--cv-font-scale, 1));
+      margin-bottom: 6px;
+      padding-bottom: 5px;
+      border-bottom: 1.5px solid #000000;
+      color: #000000;
+    }
+    #a4Sheet.cv-sheet-ats h2 {
+      font-size: calc(9.6pt * var(--cv-font-scale, 1));
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 1.5px;
+      margin-top: var(--cv-section-gap, 6px);
+      margin-bottom: 4px;
+      color: #000000;
+    }
+    #a4Sheet.cv-sheet-ats .summary {
+      font-size: calc(8.6pt * var(--cv-font-scale, 1));
+      text-align: justify;
+      margin-bottom: 4px;
+    }
+    #a4Sheet.cv-sheet-ats .entry { margin-bottom: 4.5px; }
+    #a4Sheet.cv-sheet-ats .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      font-size: calc(8.9pt * var(--cv-font-scale, 1));
+    }
+    #a4Sheet.cv-sheet-ats .entry-title { font-weight: bold; }
+    #a4Sheet.cv-sheet-ats .entry-date {
+      font-weight: bold;
+      font-size: calc(8.4pt * var(--cv-font-scale, 1));
+      white-space: nowrap;
+    }
+    #a4Sheet.cv-sheet-ats .entry-sub {
+      font-size: calc(8.5pt * var(--cv-font-scale, 1));
+      font-style: italic;
+      margin-bottom: 1.5px;
+    }
+    #a4Sheet.cv-sheet-ats ul {
+      margin-left: 15px;
+      margin-top: 1px;
+      padding-left: 0;
+      font-size: calc(8.5pt * var(--cv-font-scale, 1));
+    }
+    #a4Sheet.cv-sheet-ats li { margin-bottom: 1px; }
+    #a4Sheet.cv-sheet-ats .skills-list {
+      list-style-type: disc;
+      margin-left: 15px;
+      font-size: calc(8.5pt * var(--cv-font-scale, 1));
+    }
+    #a4Sheet.cv-sheet-ats .skills-list li { margin-bottom: 1.5px; }
+
+    /* MODE 2: 2-Col #163853 Navy Sidebar + Photo + Timeline Master (CV_Ingenieur_FR / CV_Engineering_EN) */
+    #a4Sheet.cv-sheet-design {
       padding: 0;
-      display: grid;
-      grid-template-columns: 33% 67%;
-      gap: 0;
+      display: flex;
+      flex-direction: row;
+      font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+      color: #2b2b2b;
+      background: #ffffff;
     }
-    .cv-teal-sidebar {
-      background: #2e8b8b;
+    #a4Sheet.cv-sheet-design .sidebar {
+      width: 33.5%;
+      background-color: #163853;
       color: #ffffff;
-      padding: var(--cv-page-margin, 8mm) 6mm;
+      padding: 20px 18px 18px 18px;
       display: flex;
       flex-direction: column;
-      gap: var(--cv-section-gap, 5px);
-      font-size: calc(8.4pt * var(--cv-font-scale, 0.94));
+      justify-content: space-between;
     }
-    .cv-teal-sidebar .cv-sec-title {
+    #a4Sheet.cv-sheet-design .photo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+    #a4Sheet.cv-sheet-design .photo-wrap img {
+      width: 124px;
+      height: 124px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3.5px solid #ffffff;
+      display: block;
+    }
+    #a4Sheet.cv-sheet-design .s-section { margin-bottom: 4px; }
+    #a4Sheet.cv-sheet-design .s-title {
+      font-size: calc(9.8pt * var(--cv-font-scale, 1));
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
       color: #ffffff;
       border-bottom: 1.5px solid rgba(255, 255, 255, 0.45);
-      font-size: calc(8.8pt * var(--cv-font-scale, 0.94));
+      padding-bottom: 3px;
+      margin-bottom: 6px;
     }
-    .cv-teal-main {
-      padding: var(--cv-page-margin, 8mm);
+    #a4Sheet.cv-sheet-design .contact-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: calc(7.8pt * var(--cv-font-scale, 1));
+      line-height: 1.35;
+    }
+    #a4Sheet.cv-sheet-design .contact-list li {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 4px;
+      color: #eaf1f6;
+    }
+    #a4Sheet.cv-sheet-design .c-icon {
+      width: 15px;
+      font-weight: bold;
+      color: #ffffff;
+      flex-shrink: 0;
+      font-size: 8pt;
+    }
+    #a4Sheet.cv-sheet-design .c-text { word-break: break-word; }
+    #a4Sheet.cv-sheet-design .edu-block { margin-bottom: 7px; }
+    #a4Sheet.cv-sheet-design .edu-year { font-size: calc(7.8pt * var(--cv-font-scale, 1)); font-weight: 700; color: #ffffff; }
+    #a4Sheet.cv-sheet-design .edu-school { font-size: calc(8.2pt * var(--cv-font-scale, 1)); font-weight: 700; color: #ffffff; line-height: 1.2; }
+    #a4Sheet.cv-sheet-design .edu-loc { font-size: calc(7.4pt * var(--cv-font-scale, 1)); color: #cbd9e4; font-style: italic; margin-bottom: 1px; }
+    #a4Sheet.cv-sheet-design .edu-deg { font-size: calc(7.7pt * var(--cv-font-scale, 1)); color: #eaf1f6; line-height: 1.25; }
+    #a4Sheet.cv-sheet-design .edu-sub { font-size: calc(7.2pt * var(--cv-font-scale, 1)); color: #cbd9e4; line-height: 1.2; margin-top: 1px; }
+    #a4Sheet.cv-sheet-design .skill-group { margin-bottom: 5px; }
+    #a4Sheet.cv-sheet-design .skill-group-title { font-size: calc(7.7pt * var(--cv-font-scale, 1)); font-weight: 700; color: #ffffff; margin-bottom: 1px; }
+    #a4Sheet.cv-sheet-design .skill-list { font-size: calc(7.4pt * var(--cv-font-scale, 1)); color: #dce7ef; line-height: 1.28; }
+    #a4Sheet.cv-sheet-design .s-list {
+      list-style: disc;
+      margin-left: 14px;
+      padding-left: 0;
+      font-size: calc(7.5pt * var(--cv-font-scale, 1));
+      color: #eaf1f6;
+      line-height: 1.3;
+    }
+    #a4Sheet.cv-sheet-design .s-list li { margin-bottom: 2px; }
+    #a4Sheet.cv-sheet-design .main {
+      width: 66.5%;
+      background-color: #ffffff;
+      padding: 20px 22px 16px 20px;
       display: flex;
       flex-direction: column;
-      gap: var(--cv-section-gap, 5px);
+      justify-content: space-between;
     }
-    .cv-teal-main .cv-sec-title {
-      color: #2e8b8b;
-      border-bottom: 1.5px solid #2e8b8b;
+    #a4Sheet.cv-sheet-design .header { margin-bottom: 4px; }
+    #a4Sheet.cv-sheet-design .name {
+      font-size: calc(20pt * var(--cv-font-scale, 1));
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #2b2b2b;
+      line-height: 1.05;
     }
-    .cv-teal-namebanner {
-      border-bottom: 2px solid #2e8b8b;
-      padding-bottom: 4px;
-      margin-bottom: 2px;
+    #a4Sheet.cv-sheet-design .name span { color: #163853; }
+    #a4Sheet.cv-sheet-design .role-title {
+      font-size: calc(9.8pt * var(--cv-font-scale, 1));
+      font-weight: 600;
+      color: #163853;
+      margin-top: 3px;
+      letter-spacing: 0.2px;
     }
-    .cv-teal-namebanner .cv-h1 { color: #0f172a; }
-    .cv-teal-namebanner .cv-headline { color: #2e8b8b; font-weight: 700; }
-    .cv-teal-namebanner .cv-avail { color: #0f766e; font-weight: 700; }
+    #a4Sheet.cv-sheet-design .role-sub { font-size: calc(8.1pt * var(--cv-font-scale, 1)); color: #555555; margin-top: 1px; }
+    #a4Sheet.cv-sheet-design .header-bar { width: 48px; height: 3.5px; background-color: #163853; margin-top: 6px; }
+    #a4Sheet.cv-sheet-design .m-section { margin-top: 4px; }
+    #a4Sheet.cv-sheet-design .m-title {
+      font-size: calc(10pt * var(--cv-font-scale, 1));
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #163853;
+      border-bottom: 1.5px solid #163853;
+      padding-bottom: 2.5px;
+      margin-bottom: 6px;
+    }
+    #a4Sheet.cv-sheet-design .profile-text {
+      font-size: calc(8.1pt * var(--cv-font-scale, 1));
+      color: #3a3a3a;
+      line-height: 1.36;
+      text-align: justify;
+    }
+    #a4Sheet.cv-sheet-design .timeline {
+      border-left: 1.5px solid #163853;
+      margin-left: 5px;
+      padding-left: 13px;
+    }
+    #a4Sheet.cv-sheet-design .t-item { position: relative; margin-bottom: 7.5px; }
+    #a4Sheet.cv-sheet-design .t-item:last-child { margin-bottom: 0; }
+    #a4Sheet.cv-sheet-design .t-dot {
+      position: absolute;
+      left: -18px;
+      top: 3px;
+      width: 8.5px;
+      height: 8.5px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      border: 2px solid #163853;
+    }
+    #a4Sheet.cv-sheet-design .t-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+    #a4Sheet.cv-sheet-design .t-title { font-size: calc(8.5pt * var(--cv-font-scale, 1)); font-weight: 700; color: #1f1f1f; }
+    #a4Sheet.cv-sheet-design .t-date { font-size: calc(7.6pt * var(--cv-font-scale, 1)); font-weight: 700; color: #163853; white-space: nowrap; }
+    #a4Sheet.cv-sheet-design .t-meta { font-size: calc(7.6pt * var(--cv-font-scale, 1)); font-style: italic; color: #555555; margin-bottom: 2px; }
+    #a4Sheet.cv-sheet-design .t-ul {
+      margin-left: 13px;
+      padding-left: 0;
+      font-size: calc(7.85pt * var(--cv-font-scale, 1));
+      color: #333333;
+      line-height: 1.3;
+    }
+    #a4Sheet.cv-sheet-design .t-ul li { margin-bottom: 1.5px; }
+
     #a4Sheet [contenteditable="true"] {
       outline: none;
-      border-radius: 3px;
+      border-radius: 2px;
       transition: background 0.12s, box-shadow 0.12s;
     }
-    #a4Sheet [contenteditable="true"]:hover { background: rgba(34, 211, 238, 0.08); }
+    #a4Sheet [contenteditable="true"]:hover { background: rgba(34, 211, 238, 0.10); }
     #a4Sheet [contenteditable="true"]:focus {
-      background: rgba(16, 185, 129, 0.1);
+      background: rgba(16, 185, 129, 0.14);
       box-shadow: 0 0 0 1.5px #10b981;
     }
-    .cv-header-ats { border-bottom: 2px solid #0f172a; padding-bottom: 5px; }
-    .cv-h1 { font-size: calc(15pt * var(--cv-font-scale, 0.94)); font-weight: 800; letter-spacing: 0.3px; }
-    .cv-headline { font-size: calc(9.1pt * var(--cv-font-scale, 0.94)); font-weight: 600; opacity: 0.92; margin-top: 1px; }
-    .cv-contact { font-size: calc(7.9pt * var(--cv-font-scale, 0.94)); opacity: 0.88; margin-top: 2px; }
-    .cv-avail { font-size: calc(8pt * var(--cv-font-scale, 0.94)); font-weight: 700; color: #0f766e; margin-top: 1px; }
-    .cv-sec-title {
-      font-size: calc(9pt * var(--cv-font-scale, 0.94)); font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.6px; color: #0f172a; border-bottom: 1.5px solid #cbd5e1;
-      padding-bottom: 1px; margin-bottom: 3px;
+
+    .website-sync-bar {
+      padding: 6px 14px;
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), rgba(6, 182, 212, 0.10));
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.72rem;
     }
-    .cv-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-    .cv-row strong { font-size: calc(8.8pt * var(--cv-font-scale, 0.94)); }
-    .cv-date { font-size: calc(7.8pt * var(--cv-font-scale, 0.94)); color: #475569; font-weight: 600; white-space: nowrap; }
-    .cv-sub { font-size: calc(7.9pt * var(--cv-font-scale, 0.94)); color: #334155; font-style: italic; margin-bottom: 1px; }
-    .cv-tier-inline { font-style: normal; font-weight: 700; color: #0f766e; }
-    #a4Sheet ul { padding-left: 14px; font-size: calc(8.3pt * var(--cv-font-scale, 0.94)); }
-    #a4Sheet li { margin-bottom: 1px; }
-    .cv-entry { margin-bottom: 3px; }
+    .deliverable-tabs-bar {
+      padding: 6px 14px;
+      background: #080d18;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .deliverable-tab-btn {
+      padding: 5px 11px;
+      border-radius: 7px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      border: 1px solid var(--border-subtle);
+      background: #101829;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.14s;
+    }
+    .deliverable-tab-btn.active {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.24), rgba(16, 185, 129, 0.22));
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+    }
+    .deliverable-panel {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      background: #0a101d;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .deliverable-panel.active { display: flex; }
+
     .inline-custom-cv-bar {
       padding: 7px 14px;
       background: linear-gradient(180deg, #0d1527, #0a101d);
@@ -373,7 +605,7 @@
     }
     .inline-custom-grid {
       display: grid;
-      grid-template-columns: 1fr 1.1fr 1.5fr auto;
+      grid-template-columns: 0.95fr 1.05fr 1.45fr auto auto;
       gap: 6px;
       align-items: center;
     }
@@ -666,9 +898,9 @@
           <span class="btn btn-sm" onclick="toggleStudioExpand()" id="btnExpandStudio" title="Toggle Full-Width CV Studio">⤢ Expand</span>
           <div style="min-width:0;">
             <div style="font-size:0.8rem; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="studioActiveTarget">
-              General Canonical CV (No Role Selected)
+              General Canonical CV (Hanz_CV_Hub Master)
             </div>
-            <div style="font-size:0.68rem; color:var(--text-secondary);" id="studioSubMeta">Tier 1 &amp; 2 Ranked · Ground-Truth Verified</div>
+            <div style="font-size:0.68rem; color:var(--text-secondary);" id="studioSubMeta">Hanz_CV_Hub Master Template · Ground-Truth Verified</div>
           </div>
         </div>
 
@@ -678,14 +910,33 @@
             <button type="button" class="filter-pill" id="cvLangEnBtn" onclick="switchCvLanguage('en')">EN · English</button>
           </div>
           <select id="studioAtsMode" class="hub-select" style="width:auto;" onchange="switchAtsMode(this.value)">
-            <option value="strict_ats">1-Col Strict ATS</option>
-            <option value="design_two_col">Teal Engineering Design</option>
+            <option value="design_two_col">2-Col Navy Sidebar (#163853 + Photo)</option>
+            <option value="strict_ats">1-Col Strict ATS (Black/White)</option>
           </select>
           <button type="button" class="btn btn-sm" onclick="undoCvState()" id="btnUndo" disabled>↩ Undo</button>
           <button type="button" class="btn btn-sm" onclick="redoCvState()" id="btnRedo" disabled>↪ Redo</button>
           <span class="overflow-pill overflow-ok" id="overflowIndicator">✅ 1 Page OK</span>
           <button type="button" class="btn btn-sm btn-amber" onclick="autoFitOnePage()">✨ Auto-Fit 1 Page</button>
           <button type="button" class="btn btn-sm btn-primary" onclick="openPreflightModal()">🚀 Prepare Application Package</button>
+        </div>
+      </div>
+
+      <!-- Live Website <-> CV Builder Constant Connection Bar -->
+      <div class="website-sync-bar" id="websiteSyncBanner">
+        <div style="display:flex; align-items:center; gap:7px; min-width:0;">
+          <span class="pulse-live"></span>
+          <strong style="color:#6ee7b7;">🌐 Website Connected:</strong>
+          <span id="websiteSyncSummaryText" style="color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            Synced with api/v1/projects.json · Monitoring new &amp; modified website projects
+          </span>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button type="button" class="btn btn-sm btn-cyan" onclick="openWebsiteSyncModal()" id="btnOpenWebsiteSync">
+            🔄 Website Project Suggestions (<span id="websiteSyncCountBadge">0</span>)
+          </button>
+          <button type="button" class="btn btn-sm" onclick="propagateWebsiteChangesToAllCvs()" title="Propagate validated website project edits to all existing CVs in Hanz_CV_Hub">
+            ⚡ Sync Validated Edits to CVs
+          </button>
         </div>
       </div>
 
@@ -700,12 +951,12 @@
           <span class="slider-val" id="valGap">5px</span>
         </label>
         <label class="slider-ctrl">Font Scale
-          <input type="range" id="slFont" min="0.78" max="1.10" step="0.02" value="0.94" oninput="updateLayoutSlider('font_scale', this.value)" />
-          <span class="slider-val" id="valFont">0.94×</span>
+          <input type="range" id="slFont" min="0.78" max="1.10" step="0.02" value="1.00" oninput="updateLayoutSlider('font_scale', this.value)" />
+          <span class="slider-val" id="valFont">1.00×</span>
         </label>
         <label class="slider-ctrl">Line Height
-          <input type="range" id="slLine" min="1.10" max="1.50" step="0.02" value="1.24" oninput="updateLayoutSlider('line_height', this.value)" />
-          <span class="slider-val" id="valLine">1.24</span>
+          <input type="range" id="slLine" min="1.10" max="1.50" step="0.02" value="1.30" oninput="updateLayoutSlider('line_height', this.value)" />
+          <span class="slider-val" id="valLine">1.30</span>
         </label>
         <label class="slider-ctrl" style="margin-left:auto;">Zoom
           <input type="range" id="slZoom" min="0.55" max="1.00" step="0.05" value="0.72" oninput="updatePreviewZoom(this.value)" />
@@ -713,25 +964,104 @@
         </label>
       </div>
 
-      <!-- Inline Custom CV Builder & Prompt Panel (Always Visible) -->
-      <div class="inline-custom-cv-bar">
+      <!-- Inline Company / Role / Screenshot Composer (Drafts CV + Cover Letter + Outreach Message) -->
+      <div class="inline-custom-cv-bar" id="inlineComposerBar">
         <div class="inline-custom-grid">
-          <input type="text" id="inlineCustomCompany" placeholder="Target Company (e.g. Exotec, Thales, STMicro)" />
-          <input type="text" id="inlineCustomRole" placeholder="Target Role (e.g. Stage STM32 / Firmware)" />
-          <input type="text" id="inlineCustomDesc" placeholder="Paste Offer URL, Job Keywords or Custom Focus..." />
-          <button type="button" class="btn btn-sm btn-primary" onclick="buildInlineCustomCv()">⚡ Build / Tailor CV</button>
+          <input type="text" id="inlineCustomCompany" placeholder="Company (e.g. Exotec, Thales, STMicro)" />
+          <input type="text" id="inlineCustomRole" placeholder="What I'm looking for / Role (e.g. Stage STM32)" />
+          <input type="text" id="inlineCustomDesc" placeholder="Type company/job info, paste URL, or Ctrl+V screenshot..." />
+          <input type="file" id="offerImageInput" accept="image/*" style="display:none;" onchange="handleOfferImageUpload(this.files[0])" />
+          <button type="button" class="btn btn-sm btn-cyan" onclick="document.getElementById('offerImageInput').click()" title="Upload or Ctrl+V paste a picture/screenshot with company or job info">
+            📷 Image / Screenshot
+          </button>
+          <button type="button" class="btn btn-sm btn-primary" onclick="buildInlineCustomCv()">
+            ⚡ Draft CV + Letter + Message
+          </button>
         </div>
       </div>
 
-      <!-- Outline Controls + Live A4 Sheet -->
-      <div class="studio-workspace">
+      <!-- 3 Deliverable Tabs: 1-Page CV | Cover Letter | Message to Company -->
+      <div class="deliverable-tabs-bar">
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button type="button" class="deliverable-tab-btn active" id="tabBtnCv" onclick="switchDeliverableTab('cv')">
+            📄 1. Tailored 1-Page CV (Master Template)
+          </button>
+          <button type="button" class="deliverable-tab-btn" id="tabBtnLetter" onclick="switchDeliverableTab('letter')">
+            ✉️ 2. Cover Letter (Lettre de Motivation)
+          </button>
+          <button type="button" class="deliverable-tab-btn" id="tabBtnMessage" onclick="switchDeliverableTab('message')">
+            💬 3. Message to Company (Email &amp; LinkedIn)
+          </button>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button type="button" class="btn btn-sm btn-primary" onclick="saveFullApplicationPack()" title="Save ATS CV + Design CV + Cover Letter + Outreach Message to Hanz_CV_Hub">
+            💾 Save Full Pack to CV Hub
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 1: Outline Controls + Live A4 Sheet -->
+      <div class="studio-workspace" id="studioWorkspaceCv">
         <div class="studio-outline">
-          <div class="filter-title"><span>Ranked Projects (Tier 1–3)</span></div>
+          <div class="filter-title"><span>Master &amp; Website Projects</span></div>
           <div id="projectOutlineList" style="display:flex; flex-direction:column; gap:6px;"></div>
         </div>
 
         <div class="a4-viewport">
-          <div id="a4Sheet" role="document" aria-label="1-Page A4 Editable CV Sheet"></div>
+          <div id="a4ScaleWrap">
+            <div id="a4Sheet" role="document" aria-label="1-Page A4 Editable CV Sheet"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Tailored Cover Letter (Lettre de Motivation) -->
+      <div class="deliverable-panel" id="studioWorkspaceLetter">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="font-size:0.88rem; color:#f8fafc;">✉️ Tailored Cover Letter / Lettre de Motivation</strong>
+            <div style="font-size:0.72rem; color:var(--text-secondary);">Automatically drafted from Hanz's canonical profile &amp; target company/role. Fully editable.</div>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="btn btn-sm btn-cyan" onclick="copyStudioText('studioCoverLetterTextarea', 'Cover Letter copied to clipboard!')">📋 Copy Cover Letter</button>
+            <button type="button" class="btn btn-sm" onclick="downloadCoverLetterTxt()">⬇ Download .TXT</button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="saveFullApplicationPack()">💾 Save Pack to Hanz_CV_Hub</button>
+          </div>
+        </div>
+        <textarea id="studioCoverLetterTextarea" class="cms-textarea" style="flex:1; min-height:380px; font-size:0.82rem; line-height:1.55; padding:14px;" oninput="if(CV_STATE){CV_STATE.cover_pitch=this.value;}"></textarea>
+      </div>
+
+      <!-- TAB 3: Outreach Message to Company (Email / Portal Message + LinkedIn Note) -->
+      <div class="deliverable-panel" id="studioWorkspaceMessage">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong style="font-size:0.88rem; color:#f8fafc;">💬 Direct Message to Company (Recruiter Email &amp; LinkedIn Outreach)</strong>
+            <div style="font-size:0.72rem; color:var(--text-secondary);">Ready to send via email, company contact form, or LinkedIn DM to hiring managers.</div>
+          </div>
+          <button type="button" class="btn btn-sm btn-primary" onclick="saveFullApplicationPack()">💾 Save Pack to Hanz_CV_Hub</button>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <label style="font-size:0.74rem; font-weight:700; color:var(--accent-cyan);">EMAIL / APPLICATION SUBJECT LINE</label>
+            <button type="button" class="btn btn-sm" onclick="copyStudioText('studioMsgSubject', 'Subject line copied!')">📋 Copy Subject</button>
+          </div>
+          <input type="text" id="studioMsgSubject" class="cms-input" oninput="syncOutreachMessageFromInputs()" />
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:5px; flex:1;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <label style="font-size:0.74rem; font-weight:700; color:var(--accent-cyan);">DIRECT EMAIL / PORTAL MESSAGE TO HIRING TEAM</label>
+            <button type="button" class="btn btn-sm btn-cyan" onclick="copyStudioText('studioMsgBody', 'Outreach message copied!')">📋 Copy Message</button>
+          </div>
+          <textarea id="studioMsgBody" class="cms-textarea" style="min-height:210px; font-size:0.81rem; line-height:1.5;" oninput="syncOutreachMessageFromInputs()"></textarea>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <label style="font-size:0.74rem; font-weight:700; color:#6ee7b7;">LINKEDIN CONNECTION / RECRUITER NOTE (&lt; 300 CHARS)</label>
+            <button type="button" class="btn btn-sm" onclick="copyStudioText('studioMsgLinkedin', 'LinkedIn note copied!')">📋 Copy LinkedIn Note</button>
+          </div>
+          <textarea id="studioMsgLinkedin" class="cms-textarea" style="min-height:70px; font-size:0.8rem;" oninput="syncOutreachMessageFromInputs()"></textarea>
         </div>
       </div>
 
@@ -741,7 +1071,7 @@
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Condense to fit strictly on 1 page')">Condense to 1 page</button>
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Translate to English')">Translate to EN</button>
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Traduire en Français')">Traduire en FR</button>
-          <button type="button" class="chip-btn" onclick="applyQuickPrompt('Switch to Teal 2-Col Design template')">Teal 2-Col Design</button>
+          <button type="button" class="chip-btn" onclick="applyQuickPrompt('Switch to Navy Sidebar 2-Col Design template')">2-Col Navy Design (#163853)</button>
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Switch to Strict 1-Col ATS template')">1-Col Strict ATS</button>
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Emphasize STM32 & ESP32 firmware')">Emphasize STM32</button>
           <button type="button" class="chip-btn" onclick="applyQuickPrompt('Put KiCad Charger PCB first')">KiCad PCB #1</button>
@@ -751,9 +1081,32 @@
           <input type="text" id="aiPromptInput" placeholder="Post-generation prompt: e.g. 'Translate to English, emphasize STM32, and condense to 1 page'..." onkeydown="if(event.key==='Enter'){runAiPromptRefinement();}" />
           <button type="button" class="btn btn-primary" onclick="runAiPromptRefinement()">✨ Apply Refinement</button>
         </div>
-        <div class="prompt-feedback" id="promptFeedback">Ready — direct inline edits &amp; AI prompts automatically enforce KNUST 2026 / JUNIA M1 truth rules.</div>
+        <div class="prompt-feedback" id="promptFeedback">Ready — Hanz_CV_Hub master templates active. Paste company info or a screenshot to draft CV + Cover Letter + Message.</div>
       </div>
     </main>
+  </div>
+
+  <!-- WEBSITE <-> CV HUB CONSTANT CONNECTION & SUGGESTIONS MODAL -->
+  <div class="modal-backdrop" id="websiteSyncModal">
+    <div class="modal-card" style="max-width:780px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:0.72rem; color:#6ee7b7; font-weight:700; letter-spacing:0.08em;">LIVE WEBSITE (API/V1/PROJECTS.JSON) ⇄ CV BUILDER CONNECTION</div>
+          <h2 style="font-size:1.12rem; font-weight:800; margin-top:2px;">Website Project Suggestions &amp; Existing CV Sync</h2>
+        </div>
+        <button type="button" class="btn btn-sm" onclick="closeModal('websiteSyncModal')">✕ Close</button>
+      </div>
+      <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.45;">
+        Whenever you add a new project to your portfolio website or edit &amp; validate an existing project, the CV Builder detects it automatically:
+        <strong>new website projects</strong> are suggested below with 2-bullet FR/EN CV summaries, and <strong>validated website changes</strong> propagate across your existing CVs in <code>Hanz_CV_Hub</code>.
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button type="button" class="btn btn-sm btn-cyan" onclick="refreshWebsiteSyncStatus(true)">🔄 Check Website Projects Now</button>
+        <button type="button" class="btn btn-sm btn-primary" onclick="propagateWebsiteChangesToAllCvs()">⚡ Propagate All Validated Website Changes to Existing CVs</button>
+      </div>
+      <div id="websiteSyncModalStatus" style="display:none; padding:8px 11px; border-radius:8px; background:rgba(16,185,129,0.16); border:1px solid rgba(16,185,129,0.4); color:#6ee7b7; font-size:0.75rem;"></div>
+      <div id="websiteSyncListContainer" style="display:flex; flex-direction:column; gap:10px; max-height:420px; overflow-y:auto;"></div>
+    </div>
   </div>
 
   <!-- SAFE HUMAN-IN-THE-LOOP PRE-FLIGHT MODAL -->
@@ -1341,13 +1694,40 @@
     function rankProjectsClient(job, lang) {
       const profile = BOOT.ground_truth_profile || {};
       const isEn = lang === 'en';
-      const hay = `${job?.title || ''} ${(job?.skills || []).join(' ')} ${job?.description || ''} ${job?.company || ''}`.toLowerCase();
+      const hay = `${job?.title || ''} ${(job?.skills || []).join(' ')} ${job?.description || ''} ${job?.company || ''}`.trim().toLowerCase();
+      const dateMapEn = {
+        robot_stm32: '2026 – Present (Ongoing)',
+        thermometer_msp430: '2025',
+        water_arduino: '2024',
+        pos_cpp17: '2024 – 2026',
+        charger_pcb: '2024',
+        logistics_sql: '2024 – 2025',
+        portfolio_python: '2025 – 2026',
+      };
+      const dateMapFr = {
+        robot_stm32: '2026 – En cours',
+        thermometer_msp430: '2025',
+        water_arduino: '2024',
+        pos_cpp17: '2024 – 2026',
+        charger_pcb: '2024',
+        logistics_sql: '2024 – 2025',
+        portfolio_python: '2025 – 2026',
+      };
+      const masterOrder = {
+        robot_stm32: 0,
+        thermometer_msp430: 1,
+        water_arduino: 2,
+        pos_cpp17: 3,
+        charger_pcb: 4,
+        logistics_sql: 5,
+        portfolio_python: 6,
+      };
       const ranked = (profile.projects || []).map(p => {
         const tier = p.verification_tier || 3;
         const tierBonus = tier === 1 ? 8 : (tier === 2 ? 4 : 0);
         let kwScore = 0;
         for (const kw of (p.keywords || [])) {
-          if (hay.includes(kw.toLowerCase())) kwScore += 3;
+          if (hay && hay.includes(kw.toLowerCase())) kwScore += 3;
         }
         if (tier === 1 && kwScore > 0) kwScore += 2.5;
         return {
@@ -1356,16 +1736,39 @@
           completion_status: p.completion_status,
           tier_badge: isEn ? p.badge_en : p.badge_fr,
           title: isEn ? p.title_en : p.title_fr,
-          date: p.id === 'robot_stm32' ? (isEn ? '2026 – Present (Active R&D)' : '2026 – En cours (R&D Active)') : (p.id === 'thermometer_msp430' ? '2025' : '2024 – 2026'),
+          meta: isEn ? (p.meta_en || '') : (p.meta_fr || ''),
+          date: (isEn ? dateMapEn : dateMapFr)[p.id] || '2024 – 2026',
           stack: [...(p.stack || [])],
-          bullets: [...(isEn ? p.bullets_en : p.bullets_fr)],
+          bullets: [...(isEn ? p.bullets_en : p.bullets_fr)].slice(0, 2),
           match_score: tierBonus + kwScore,
           visible: true,
         };
       });
-      ranked.sort((a, b) => (b.match_score - a.match_score) || (a.verification_tier - b.verification_tier));
+      if (!hay) {
+        ranked.sort((a, b) => (masterOrder[a.id] ?? 99) - (masterOrder[b.id] ?? 99));
+      } else {
+        ranked.sort((a, b) => (b.match_score - a.match_score) || (a.verification_tier - b.verification_tier));
+      }
       ranked.forEach((p, idx) => { p.visible = idx < 4; });
       return ranked;
+    }
+
+    function buildClientOutreachMessage(company, role, lang, leadTitle, skillsStr) {
+      const isEn = lang === 'en';
+      const comp = company || (isEn ? 'your engineering team' : 'votre équipe R&D');
+      const rl = role || (isEn ? 'Embedded Systems & Electronics Engineering Intern' : 'Stage Ingénieur Systèmes Embarqués & Électronique');
+      if (isEn) {
+        return {
+          subject: `Application: ${rl} — Hanz Ofosuhene-Sintim (JUNIA ISEN Lille)`,
+          body: `Hello ${comp} Team,\n\nI am an M1 Engineering student in Electronics and Embedded Systems at JUNIA ISEN Lille, holding a BSc in Computer Engineering from KNUST (2026), and I am writing regarding the "${rl}" opportunity.\n\nThrough my hands-on projects (${leadTitle}, TI MSP430 C/Assembly sensor acquisition, closed-loop control, and C++17 OOP software architecture) and my experience as former President of the Computer Engineering Student Association (ACES, 800+ students), I have built strong practical skills in ${skillsStr}.\n\nI have attached my tailored 1-page CV and cover letter and would welcome a brief technical conversation at your convenience.\n\nBest regards,\nHanz Ofosuhene-Sintim\n+33 6 05 73 14 16 | hanzsintim@gmail.com\nlinkedin.com/in/hanzofosuhene-sintim | hanzsintim.github.io`,
+          linkedin_note: `Hello, M1 Embedded Systems & Electronics student at JUNIA ISEN Lille (BSc Computer Eng. KNUST '26). Very interested in ${rl} at ${comp} (${skillsStr}). Would love to connect!`,
+        };
+      }
+      return {
+        subject: `Candidature : ${rl} — Hanz Ofosuhene-Sintim (JUNIA ISEN Lille)`,
+        body: `Bonjour l'équipe ${comp},\n\nActuellement étudiant ingénieur (Cycle Master M1) en Électronique et Systèmes Embarqués à JUNIA ISEN Lille, et diplômé d'un BSc en Génie Informatique de KNUST (2026), je vous contacte au sujet de l'opportunité « ${rl} ».\n\nÀ travers mes projets techniques (${leadTitle}, acquisition capteurs TI MSP430 en C/Assembleur, asservissement matériel et architecture C++17 POO) ainsi que mon mandat d'ancien Président du Département de Génie Informatique (ACES, +800 étudiants), j'ai développé une maîtrise concrète de ${skillsStr}.\n\nJe vous joins mon CV d'une page ainsi que ma lettre de motivation, et reste à votre entière disposition pour un court échange technique.\n\nBien cordialement,\nHanz Ofosuhene-Sintim\n+33 6 05 73 14 16 | hanzsintim@gmail.com\nlinkedin.com/in/hanzofosuhene-sintim | hanzsintim.github.io`,
+        linkedin_note: `Bonjour, étudiant ingénieur M1 Électronique & Systèmes Embarqués à JUNIA ISEN Lille (BSc Computer Eng. KNUST '26). Très intéressé par ${rl} chez ${comp}. Au plaisir d'échanger !`,
+      };
     }
 
     function buildClientCvState(job, lang, atsMode) {
@@ -1373,49 +1776,93 @@
       const profile = BOOT.ground_truth_profile || {};
       const owner = profile.owner || {};
       const ranked = rankProjectsClient(job, lang);
-      ranked.forEach((p, idx) => { p.visible = idx < 3; });
+      ranked.forEach((p, idx) => { p.visible = idx < 4; });
       const company = job?.company || '';
-      const role = job?.title || (isEn ? 'Embedded Systems & Microelectronics Engineer' : 'Ingénieur Systèmes Embarqués & Microélectronique');
+      const jobTitle = job?.title || '';
+      const role = jobTitle || (isEn
+        ? 'Engineering Student (M1) — Electronics & Embedded Systems'
+        : 'Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués');
+      const roleSub = jobTitle
+        ? (isEn
+            ? `Engineering Student (M1) at JUNIA ISEN Lille | Target: ${company || '3–4 Month Internship (April 2027)'}`
+            : `Étudiant Ingénieur (M1) à JUNIA ISEN Lille | Cible : ${company || 'Stage 3 à 4 mois (Avril 2027)'}`)
+        : (isEn
+            ? 'Seeking a 3 to 4-Month Technical Internship | Starting April 2027 | National & International Mobility'
+            : "Recherche de stage technique (3 à 4 mois) | À partir d'Avril 2027 | Mobilité nationale & internationale");
+      const headline = jobTitle
+        ? (isEn
+            ? `Engineering Student (M1) — Electronics & Embedded Systems | ${jobTitle}${company ? ' — ' + company : ''}`
+            : `Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués | ${jobTitle}${company ? ' — ' + company : ''}`)
+        : (isEn
+            ? 'Engineering Student (M1) — Electronics & Embedded Systems | Seeking a 3–4 Month Internship (April 2027)'
+            : 'Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués | Recherche de stage (3 à 4 mois, Avril 2027)');
+
       const skillsStr = (job?.skills || ['Embedded C', 'STM32/ESP32', 'KiCad PCB', 'C++17']).slice(0, 4).join(', ');
-      const leadershipRaw = Array.isArray(profile.leadership) ? profile.leadership : [];
+      const leadershipRaw = (Array.isArray(profile.leadership) ? profile.leadership : []).filter(ex => ex.id === 'aces_president' || ex.id === 'spagard_intern');
       const experience = leadershipRaw.length
         ? leadershipRaw.map(ex => ({
             id: ex.id,
             title: isEn ? ex.role_en : ex.role_fr,
-            org: isEn ? (ex.org_en || ex.location || '') : (ex.org_fr || ex.location || ''),
+            org: isEn ? (ex.organization || ex.org_en || '') : (ex.organization_fr || ex.organization || ''),
             period: isEn ? ex.period_en : ex.period_fr,
             bullets: [...((isEn ? ex.bullets_en : ex.bullets_fr) || [])].slice(0, 2),
           }))
         : [
             {
               id: 'aces_president',
-              title: isEn ? 'President of the Computer Engineering Student Association (ACES — 800+ Students)' : 'Président du Département Génie Informatique (ACES — +800 Étudiants)',
-              org: 'KNUST · Kumasi, Ghana',
-              period: isEn ? 'Aug 2025 – May 2026 (Completed)' : 'Août 2025 – Mai 2026 (Mandat achevé)',
-              bullets: [isEn ? 'Led executive board, academic/technical workshops, and CODEFEST 2026 industrial hackathon.' : 'Direction du bureau exécutif, ateliers techniques, budget et hackathon CODEFEST 2026.'],
+              title: isEn ? 'President of the Computer Engineering Student Association (ACES)' : 'Président du Département Génie Informatique (ACES)',
+              org: 'KNUST, Kumasi, Ghana',
+              period: isEn ? 'Aug 2025 – May 2026' : 'Août 2025 – Mai 2026',
+              bullets: isEn
+                ? [
+                    'Elected student representative for 800+ engineering students; led the executive board, budget management, and academic coordination.',
+                    'Organized industrial technical workshops, embedded & software mentoring sessions, and the annual CODEFEST hackathon.'
+                  ]
+                : [
+                    "Direction du bureau exécutif représentant plus de 800 étudiants ingénieurs : gestion budgétaire, coordination académique et représentation auprès de l'administration.",
+                    "Organisation d'ateliers techniques industriels, de sessions de mentorat en programmation/électronique et du hackathon annuel CODEFEST."
+                  ],
             },
             {
               id: 'spagard_intern',
-              title: isEn ? 'Software Engineering & QA Testing Intern — Spagard Technologies' : 'Stagiaire Développement Logiciel & Tests — Spagard Technologies',
-              org: 'IT Services & QA Unit',
-              period: isEn ? 'Oct – Dec 2023 (3 months)' : 'Oct – Déc 2023 (3 mois)',
-              bullets: [isEn ? 'Built backend modules, structured relational SQL schemas, and executed systematic debugging.' : 'Développement serveur, structuration SQL relationnelle et tests systématiques de validation.'],
-            },
-            {
-              id: 'aces_care',
-              title: isEn ? 'Founder & Coordinator — ACES Care Community Tech Initiative' : 'Fondateur & Coordinateur — Initiative Sociale ACES Care',
-              org: 'Community Outreach · Ghana',
-              period: '2025',
-              bullets: [isEn ? 'Organized solidarity technical campaigns and student STEM mentoring programs.' : 'Organisation de campagnes de solidarité étudiante et mentorat technique STEM.'],
+              title: isEn ? 'Software Development & QA Testing Intern — Spagard Technologies' : 'Stagiaire Développement Logiciel & Tests — Spagard Technologies',
+              org: 'Accra, Ghana',
+              period: isEn ? 'Oct – Dec 2023' : 'Oct – Déc 2023',
+              bullets: isEn
+                ? [
+                    'Developed backend modules and structured relational SQL databases for internal management applications.',
+                    'Executed unit tests, integration testing, and systematic debugging across staging environments prior to deployment.'
+                  ]
+                : [
+                    "Participation au développement de modules applicatifs et à la structuration de bases de données relationnelles SQL pour des outils internes.",
+                    "Exécution de plans de tests unitaires, identification d'anomalies fonctionnelles et rédaction de rapports de validation."
+                  ],
             },
           ];
 
       const skMatrix = (profile.skills_matrix && (isEn ? profile.skills_matrix.en : profile.skills_matrix.fr)) || {};
+      const phone = owner.phone || '+33 6 05 73 14 16';
+      const email = owner.email || 'hanzsintim@gmail.com';
+      const linkedin = 'linkedin.com/in/hanzofosuhene-sintim';
+      const github = 'github.com/HanzSintim';
+      const portfolio = 'hanzsintim.github.io';
+
+      const defaultSummaryEn = company && jobTitle
+        ? `Engineering student in Electronics and Embedded Systems at JUNIA ISEN Lille (2025 – Present, M1), holding a BSc in Computer Engineering from KNUST, Ghana (2026). Hands-on experience in ${skillsStr}, sensor signal conditioning, and microelectronics. Seeking a 3 to 4-month technical internship or Alternance with ${company} (${jobTitle}) starting April 2027.`
+        : `Engineering student in Electronics and Embedded Systems at JUNIA ISEN Lille, holding a BSc in Computer Engineering from KNUST, Ghana (2026). Trained in low-level programming (Embedded C, C++17, MSP430 Assembly), microcontroller architectures (STM32, ESP32, MSP430, Arduino), sensor signal conditioning, and microelectronics. Former Department President of Computer Engineering (ACES, 800+ students). Seeking a 3 to 4-month technical internship starting April 2027 in embedded systems, firmware, or microelectronics.`;
+
+      const defaultSummaryFr = company && jobTitle
+        ? `Étudiant ingénieur en Électronique et Systèmes Embarqués à JUNIA ISEN Lille (2025 – Présent, M1), diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). Expérience pratique en ${skillsStr}, conditionnement de signaux capteurs et microélectronique. À la recherche d'un stage technique de 3 à 4 mois ou d'une alternance au sein de ${company} (${jobTitle}) à partir d'avril 2027.`
+        : `Étudiant ingénieur en Électronique et Systèmes Embarqués à JUNIA ISEN Lille, diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). Formé à la programmation bas niveau (C embarqué, C++17, Assembleur MSP430), aux architectures microcontrôleurs (STM32, ESP32, MSP430, Arduino), au conditionnement de signaux capteurs et à la microélectronique. Ancien Président du Département de Génie Informatique (ACES, +800 étudiants). À la recherche d'un stage technique de 3 à 4 mois à partir d'avril 2027 en systèmes embarqués, électronique ou microélectronique.`;
+
+      const lead = ranked[0]?.title || 'Autonomous Street-Cleaning Robot (STM32 / ESP32)';
+      const outreachMsg = buildClientOutreachMessage(company, role, lang, lead, skillsStr);
+
       const state = {
         meta: {
           lang,
-          ats_mode: atsMode || (job?.ats_policy === 'design_two_col' ? 'design_two_col' : 'strict_ats'),
-          template_id: isEn ? 'ws_en_ats' : 'ws_fr_ats',
+          ats_mode: atsMode || (job?.ats_policy === 'strict_ats' ? 'strict_ats' : 'design_two_col'),
+          template_id: isEn ? 'ws_en_design' : 'ws_fr_design',
           job_id: job?.id || 'custom_build',
           company,
           role,
@@ -1424,17 +1871,26 @@
         },
         header: {
           full_name: owner.full_name || 'HANZ OFOSUHENE-SINTIM',
-          headline: isEn
-            ? 'Embedded Systems & Microelectronics Engineer — M1 JUNIA ISEN Lille · BSc KNUST (2026)'
-            : 'Ingénieur Systèmes Embarqués & Microélectronique — M1 JUNIA ISEN Lille · Diplômé BSc KNUST (2026)',
-          contact_line: `Lille, France | ${owner.phone || '+33 6 05 73 14 16'} | ${owner.email || 'hanzsintim@gmail.com'} | linkedin.com/in/hanzofosuhene-sintim | github.com/HanzSintim | hanzsintim.github.io`,
+          role_title: role,
+          role_sub: roleSub,
+          headline,
+          photo_url: IS_STATIC_MODE ? 'static/images/Hans_circle_navy.jpg' : '/static/images/Hans_circle_navy.jpg',
+          phone,
+          email,
+          linkedin,
+          github,
+          portfolio,
+          contact_line: isEn
+            ? `Lille, France (National & International Mobility) | Phone: ${phone} | Email: ${email}`
+            : `Lille, France (Mobilité nationale & internationale) | Tél : ${phone} | Email : ${email}`,
+          links_line: isEn
+            ? `LinkedIn: ${linkedin} | GitHub: ${github} | Portfolio: ${portfolio}`
+            : `LinkedIn : ${linkedin} | GitHub : ${github} | Portfolio : ${portfolio}`,
           availability: isEn
-            ? 'Seeking 3–4 Month Engineering Internship (from April 2027) & Alternance (Sept 2027)'
-            : 'Recherche Stage Ingénieur 3–4 mois (dès Avril 2027) & Alternance M2 (Sept 2027)',
+            ? 'Available April 2027 (3–4 Month Internship) & Alternance Sept 2027 (M2)'
+            : 'Disponible Stage 3–4 mois dès Avril 2027 & Alternance Sept 2027 (M2)',
         },
-        summary: isEn
-          ? `Master of Science (M1) Engineering student in Microelectronics, Nanotechnology & Embedded Systems at JUNIA ISEN Lille (2026 – Present) and BSc Computer Engineering graduate from KNUST, Ghana (Completed 2026). Hands-on validated experience in ${skillsStr}, seeking a 3–4 month internship or Alternance${company ? ' with ' + company : ''} from April 2027.`
-          : `Étudiant en Master 1 (M1) Microélectronique, Nanotechnologies & Systèmes Embarqués à JUNIA ISEN Lille (2026 – Présent), diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). Expérience concrète en ${skillsStr}, disponible dès avril 2027 pour un stage de 3–4 mois ou une alternance${company ? ' chez ' + company : ''}.`,
+        summary: isEn ? defaultSummaryEn : defaultSummaryFr,
         education: (profile.academic_timeline || []).map(ed => ({
           id: ed.id,
           degree: isEn ? ed.degree_en : ed.degree_fr,
@@ -1445,30 +1901,181 @@
         projects: ranked,
         experience,
         skills: {
-          embedded: skMatrix.embedded || 'Embedded C, C/C++17 (OOP), Assembly (TI MSP430), STM32, ESP32, Arduino',
-          hardware: skMatrix.hardware || 'KiCad (Schematic, PCB Layout, Chemical Etching), UART/SPI/I2C/PWM, ADC, Oscilloscope',
-          software: skMatrix.software || 'Python 3, Flask REST API, PostgreSQL (3NF), Linux, Git, GDB / Unit Testing',
-          soft_skills: skMatrix.soft_skills || (isEn ? 'Engineering leadership (800+ students), bilingual collaboration, technical rigor' : 'Leadership associatif (+800 étudiants), travail en équipe multiculturelle, rigueur technique'),
-          languages: isEn ? 'English: C2 (Native / Bilingual) · French: A2 (JUNIA Lille Immersion — Intensive Progression)' : 'Anglais : C2 (Natif / Bilingue) · Français : A2 (Immersion JUNIA Lille — Progression Intensive)',
-          interests: isEn ? 'Robotics prototyping, open-source hardware, football, student technical mentoring' : 'Prototypage robotique, électronique open-source, football, mentorat technique étudiant',
+          embedded: skMatrix.embedded || (isEn
+            ? 'Embedded C, C, C++17, Assembly (MSP430), Python 3, SQL, HTML/CSS, JavaScript'
+            : 'C embarqué, C, C++17, Assembleur (MSP430), Python 3, SQL, HTML/CSS, JavaScript'),
+          hardware: skMatrix.hardware || (isEn
+            ? 'STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Ultrasonic & Analog Sensors, KiCad (PCB), Semiconductor Physics'
+            : 'STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Capteurs ultrasoniques & analogiques, KiCad (PCB), Physique des semi-conducteurs'),
+          software: skMatrix.software || (isEn
+            ? 'Hardware-Software Debugging (GDB), Signal Chain Validation, Unit & Interface Testing, Linux, Git/GitHub, Edge AI (basics)'
+            : 'Débogage matériel-logiciel (GDB), Validation de chaîne de mesure, Tests unitaires & interfaces, Linux, Git/GitHub, Edge AI (notions)'),
+          interpersonal: skMatrix.interpersonal || skMatrix.soft_skills || (isEn
+            ? 'Team Leadership, Analytical Problem-Solving, Rigor, Autonomy, Cross-Cultural Communication'
+            : "Leadership d'équipe, Esprit d'analyse, Rigueur, Autonomie, Communication interculturelle"),
+          languages: skMatrix.languages || (isEn
+            ? 'English: C2 (Native Speaker — Secondary & University Education in English) | French: A2 (Elementary — Duolingo Score: 21; in active progression in Lille)'
+            : 'Anglais : C2 (Langue maternelle — scolarité secondaire et universitaire en anglais) | Français : A2 (Élémentaire — Score Duolingo : 21 ; en progression active à Lille)'),
+          interests: skMatrix.interests || (isEn
+            ? 'World history & geopolitics, modern technological innovations, engineering systems architecture, Organizing Lead at GHAFRA Nord (Lille)'
+            : "Histoire mondiale & géopolitique, innovations technologiques, architecture des systèmes d'ingénierie, Responsable d'organisation chez GHAFRA Nord (Lille)"),
         },
-        layout: CV_STATE?.layout ? { ...CV_STATE.layout } : { page_margin_mm: 8, section_gap_px: 5, font_scale: 0.94, line_height: 1.24 },
+        layout: CV_STATE?.layout ? { ...CV_STATE.layout } : { page_margin_mm: 8, section_gap_px: 5, font_scale: 1.0, line_height: 1.3 },
         cover_pitch: '',
+        outreach_message: outreachMsg,
       };
-      const lead = ranked[0]?.title || 'Automated Water Tank Control & KiCad Power Charger PCB';
       state.cover_pitch = isEn
-        ? `Dear ${company || 'Hiring Team'},\n\nCurrently in Master 1 (M1) Microelectronics, Nanotechnology & Embedded Systems at JUNIA ISEN Lille (2026 – Present) after graduating with my BSc in Computer Engineering from KNUST (Completed 2026), I am excited to apply for ${role}.\n\nLed by verified hands-on engineering work (${lead}, TI MSP430 C/Assembly acquisition, KiCad PCB fabrication, and C++17 OOP architecture), plus leadership as former ACES Department President (Aug 2025 – May 2026), I look forward to contributing immediately.\n\nBest regards,\nHanz Ofosuhene-Sintim`
-        : `Madame, Monsieur (${company || 'Équipe Recrutement'}),\n\nActuellement en Master 1 (M1) Microélectronique, Nanotechnologies & Systèmes Embarqués à JUNIA ISEN Lille (2026 – Présent), après l'obtention de mon BSc en Génie Informatique à KNUST (diplômé en 2026), je candidate avec enthousiasme au poste « ${role} ».\n\nAppuyé sur mes réalisations matérielles et logicielles validées (${lead}, acquisition bas niveau MSP430 C/Assembleur, PCB KiCad, moteur logiciel C++17 POO) et mon mandat d'ancien Président ACES (Août 2025 – Mai 2026), je serais ravi d'échanger en entretien.\n\nCordialement,\nHanz Ofosuhene-Sintim`;
+        ? `Hanz Ofosuhene-Sintim\nLille, France (National & International Mobility)\nPhone: ${phone} | Email: ${email}\nLinkedIn: ${linkedin} | GitHub: ${github} | Portfolio: ${portfolio}\n\nSubject: Application — ${role}${company ? ' at ' + company : ''}\n\nDear ${company || 'Hiring Team'},\n\nCurrently pursuing my Master of Science (M1) in Electronics and Embedded Systems at JUNIA ISEN Lille (2025 – Present, expected 2028) after graduating with a BSc in Computer Engineering from KNUST, Ghana (2026), I am writing to apply for the ${role} position${company ? ' at ' + company : ''}.\n\nMy academic and hands-on engineering work combines low-level firmware, hardware interfacing, and structured software design:\n• ${lead}\n• Low-level sensor acquisition & conditioning on TI MSP430 (Embedded C & Assembly) and closed-loop Arduino ultrasonic relay control.\n• Object-oriented C++17 POS & self-checkout engine (runtime polymorphism, cent-accurate arithmetic, greedy cash dispenser).\n\nHaving served as President of the Computer Engineering Student Association (ACES, 800+ students), I bring rigor, clear documentation, and proactive teamwork. I would welcome the opportunity to discuss how I can contribute to ${company || 'your engineering team'}.\n\nSincerely,\nHanz Ofosuhene-Sintim`
+        : `Hanz Ofosuhene-Sintim\nLille, France (Mobilité nationale & internationale)\nTél : ${phone} | Email : ${email}\nLinkedIn : ${linkedin} | GitHub : ${github} | Portfolio : ${portfolio}\n\nObjet : Candidature — ${role}${company ? ' chez ' + company : ''}\n\nMadame, Monsieur,\n\nActuellement étudiant ingénieur (Cycle Master M1) en Électronique et Systèmes Embarqués à JUNIA ISEN Lille (2025 – Présent, diplôme prévu en 2028), et titulaire d'un BSc en Génie Informatique de KNUST au Ghana (diplômé en 2026), je vous présente ma candidature${company ? ' au sein de ' + company : ''} pour le poste « ${role} ».\n\nMon parcours associe étroitement électronique matérielle, programmation bas niveau et conception logicielle rigoureuse :\n• ${lead}\n• Acquisition et conditionnement de signaux capteurs sur TI MSP430 (C embarqué & Assembleur) et asservissement matériel sous Arduino.\n• Architecture logicielle C++17 orientée objet (polymorphisme dynamique, calculs financiers exacts en centimes, algorithme glouton).\n\nAncien Président du Département de Génie Informatique (ACES, +800 étudiants), j'allie esprit d'analyse, autonomie et sens des responsabilités. Je reste à votre entière disposition pour un entretien.\n\nVeuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\nHanz Ofosuhene-Sintim`;
       return validateCvTruthClient(state).cleaned;
     }
 
-    function buildInlineCustomCv() {
+    function switchDeliverableTab(tab) {
+      const cvWrap = document.getElementById('studioWorkspaceCv');
+      const letterWrap = document.getElementById('studioWorkspaceLetter');
+      const msgWrap = document.getElementById('studioWorkspaceMessage');
+      document.getElementById('tabBtnCv')?.classList.toggle('active', tab === 'cv');
+      document.getElementById('tabBtnLetter')?.classList.toggle('active', tab === 'letter');
+      document.getElementById('tabBtnMessage')?.classList.toggle('active', tab === 'message');
+      if (cvWrap) cvWrap.style.display = tab === 'cv' ? 'grid' : 'none';
+      if (letterWrap) letterWrap.classList.toggle('active', tab === 'letter');
+      if (msgWrap) msgWrap.classList.toggle('active', tab === 'message');
+    }
+
+    function syncOutreachMessageFromInputs() {
+      if (!CV_STATE) return;
+      if (!CV_STATE.outreach_message) CV_STATE.outreach_message = {};
+      CV_STATE.outreach_message.subject = document.getElementById('studioMsgSubject')?.value || '';
+      CV_STATE.outreach_message.body = document.getElementById('studioMsgBody')?.value || '';
+      CV_STATE.outreach_message.linkedin_note = document.getElementById('studioMsgLinkedin')?.value || '';
+    }
+
+    function copyStudioText(elId, toastMsg) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      navigator.clipboard?.writeText(el.value || el.textContent || '');
+      document.getElementById('promptFeedback').textContent = `📋 ${toastMsg}`;
+    }
+
+    function downloadCoverLetterTxt() {
+      const txt = document.getElementById('studioCoverLetterTextarea')?.value || CV_STATE?.cover_pitch || '';
+      const comp = (CV_STATE?.meta?.company || 'Company').replace(/[^A-Za-z0-9_-]+/g, '_');
+      const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `Cover_Letter_${comp}_Hanz_Ofosuhene_Sintim.txt`;
+      a.click();
+    }
+
+    async function saveFullApplicationPack() {
+      if (!CV_STATE) return;
+      syncOutreachMessageFromInputs();
+      const company = CV_STATE.meta?.company || (document.getElementById('inlineCustomCompany')?.value || '').trim() || 'Target_Company';
+      const role = CV_STATE.meta?.role || (document.getElementById('inlineCustomRole')?.value || '').trim() || 'Engineering_Intern';
+      document.getElementById('promptFeedback').textContent = `⏳ Saving Full Application Pack (ATS CV + Design CV + Cover Letter + Message) for ${company}...`;
+      if (!IS_STATIC_MODE) {
+        try {
+          const resp = await fetch('/admin/api/cv/save-pack', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              cv_state: CV_STATE,
+              company,
+              role,
+              lang: CV_STATE.meta?.lang || 'fr',
+              cover_letter: CV_STATE.cover_pitch || '',
+              outreach_message: CV_STATE.outreach_message || {},
+              export_pdfs: true,
+            }),
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            document.getElementById('promptFeedback').textContent =
+              `✅ Saved Full Pack (ATS CV + Design CV + Cover Letter + Message) to ${data.folder || 'Hanz_CV_Hub/Applications'}`;
+            return;
+          }
+        } catch (e) {}
+      }
+      downloadCoverLetterTxt();
+      setTimeout(() => window.print(), 250);
+    }
+
+    async function handleOfferImageUpload(file) {
+      if (!file) return;
+      document.getElementById('promptFeedback').textContent = `📷 Running OCR on "${file.name || 'pasted screenshot'}" and drafting CV + Cover Letter + Message...`;
+      const lang = CV_STATE?.meta?.lang || 'fr';
+      const prevAtsMode = CV_STATE?.meta?.ats_mode || 'design_two_col';
+
+      if (!IS_STATIC_MODE) {
+        try {
+          const fd = new FormData();
+          fd.append('image', file, file.name || 'screenshot.png');
+          fd.append('auto_draft', '1');
+          fd.append('lang', 'auto');
+          const resp = await fetch('/admin/api/cv/extract-image', { method: 'POST', body: fd });
+          if (resp.ok) {
+            const data = await resp.json();
+            const ana = data.analysis || {};
+            if (ana.company) document.getElementById('inlineCustomCompany').value = ana.company;
+            if (ana.role) document.getElementById('inlineCustomRole').value = ana.role;
+            if (data.text) document.getElementById('inlineCustomDesc').value = data.text.replace(/\s+/g, ' ').slice(0, 360);
+            if (data.cv_state) {
+              pushUndoSnapshot();
+              CV_STATE = data.cv_state;
+              CV_STATE.meta.ats_mode = prevAtsMode;
+              renderStudioFromState();
+            }
+            const skills = (ana.matched_skills || []).join(', ') || 'Embedded Systems';
+            document.getElementById('promptFeedback').textContent =
+              `📷 Extracted image info (${ana.company || 'Company'} — ${ana.role || 'Role'}) · Matched: ${skills} · Drafted CV + Cover Letter + Message!`;
+            return;
+          }
+        } catch (e) {}
+      }
+      // Fallback: use filename clues if running static
+      const fname = (file.name || 'Company_Offer').replace(/\.[a-z0-9]+$/i, '').replace(/[_-]+/g, ' ');
+      document.getElementById('inlineCustomDesc').value = fname;
+      await buildInlineCustomCv();
+    }
+
+    async function buildInlineCustomCv() {
       const company = (document.getElementById('inlineCustomCompany')?.value || '').trim() || 'Target Engineering Team';
       const title = (document.getElementById('inlineCustomRole')?.value || '').trim() || 'Stage / Alternance Ingénieur Systèmes Embarqués';
       const desc = (document.getElementById('inlineCustomDesc')?.value || '').trim();
       const lang = CV_STATE?.meta?.lang || 'fr';
-      const atsPolicy = CV_STATE?.meta?.ats_mode || 'strict_ats';
-      const knownKws = ['Embedded C', 'C++17', 'STM32', 'ESP32', 'KiCad', 'PCB', 'Robotics', 'Arduino', 'PostgreSQL', 'Python', 'UART', 'SPI', 'I2C', 'CAN', 'Linux', 'RTOS', 'Sensors'];
+      const atsPolicy = CV_STATE?.meta?.ats_mode || 'design_two_col';
+
+      if (!IS_STATIC_MODE) {
+        try {
+          const resp = await fetch('/admin/api/cv/generate-pack', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              company,
+              role: title,
+              offer_text: `${title} ${desc}`,
+              lang,
+              template_id: atsPolicy === 'design_two_col' ? `ws_${lang}_design` : `ws_${lang}_ats`,
+            }),
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data.cv_state) {
+              pushUndoSnapshot();
+              CV_STATE = data.cv_state;
+              CV_STATE.meta.ats_mode = atsPolicy;
+              renderStudioFromState();
+              const leadTitle = (CV_STATE.projects && CV_STATE.projects[0]) ? CV_STATE.projects[0].title : 'Top Project';
+              const skills = (data.analysis?.matched_skills || []).join(', ') || 'Embedded C, STM32';
+              document.getElementById('promptFeedback').textContent =
+                `✅ Drafted Tailored 1-Page CV + Cover Letter + Outreach Message for ${company} (${lang.toUpperCase()}) · Lead #1: ${leadTitle} · Matched: ${skills}`;
+              return;
+            }
+          }
+        } catch (e) {}
+      }
+
+      const knownKws = ['Embedded C', 'C++17', 'STM32', 'ESP32', 'MSP430', 'KiCad', 'PCB', 'Robotics', 'Arduino', 'PostgreSQL', 'Python', 'UART', 'SPI', 'I2C', 'CAN', 'Linux', 'RTOS', 'Sensors'];
       const hay = `${title} ${desc}`.toLowerCase();
       const matched = knownKws.filter(k => hay.includes(k.toLowerCase()));
       const skills = matched.length ? matched.slice(0, 5) : ['Embedded C', 'STM32', 'KiCad PCB', 'C++17'];
@@ -1497,9 +2104,185 @@
       pushUndoSnapshot();
       CV_STATE = buildClientCvState(customJob, lang, atsPolicy);
       renderStudioFromState();
-      const leadTitle = (CV_STATE.projects && CV_STATE.projects[0]) ? CV_STATE.projects[0].title : 'Top Tier-1 Project';
+      const leadTitle = (CV_STATE.projects && CV_STATE.projects[0]) ? CV_STATE.projects[0].title : 'Top Project';
       document.getElementById('promptFeedback').textContent =
-        `Built & Tailored 1-Page CV for ${company} (${lang.toUpperCase()} / ${atsPolicy}) — Lead Project #1: ${leadTitle} · Skills matched: ${skills.join(', ')}`;
+        `✅ Drafted Tailored 1-Page CV + Cover Letter + Outreach Message for ${company} (${lang.toUpperCase()}) · Lead #1: ${leadTitle} · Skills: ${skills.join(', ')}`;
+    }
+
+    // Website <-> CV Hub Sync & Suggestions Functions
+    let WEBSITE_SYNC_STATE = BOOT.website_sync || { suggestions: [], summary: { new_project_suggestions: 0, changed_project_updates: 0 } };
+
+    function renderWebsiteSyncBanner() {
+      const s = WEBSITE_SYNC_STATE || {};
+      const suggestions = Array.isArray(s.suggestions) ? s.suggestions : [];
+      const newCount = suggestions.filter(x => x.type === 'new').length;
+      const chgCount = suggestions.filter(x => x.type === 'changed').length;
+      const total = suggestions.length;
+      const badgeEl = document.getElementById('websiteSyncCountBadge');
+      if (badgeEl) badgeEl.textContent = String(total);
+      const summaryEl = document.getElementById('websiteSyncSummaryText');
+      if (summaryEl) {
+        if (total > 0) {
+          summaryEl.textContent = `${newCount} new website project(s) ready to add to CVs · ${chgCount} modified website project(s) to sync`;
+        } else {
+          summaryEl.textContent = `All website projects (api/v1/projects.json) synced with Hanz_CV_Hub CVs`;
+        }
+      }
+    }
+
+    async function refreshWebsiteSyncStatus(includeLive) {
+      if (!IS_STATIC_MODE) {
+        try {
+          const resp = await fetch('/admin/api/cv/website-sync?live=' + (includeLive ? '1' : '0'));
+          if (resp.ok) {
+            WEBSITE_SYNC_STATE = await resp.json();
+            renderWebsiteSyncBanner();
+            renderWebsiteSyncModalList();
+            return;
+          }
+        } catch (e) {}
+      }
+      renderWebsiteSyncBanner();
+      renderWebsiteSyncModalList();
+    }
+
+    function openWebsiteSyncModal() {
+      refreshWebsiteSyncStatus(false);
+      openModal('websiteSyncModal');
+    }
+
+    function renderWebsiteSyncModalList() {
+      const container = document.getElementById('websiteSyncListContainer');
+      if (!container) return;
+      const suggestions = Array.isArray(WEBSITE_SYNC_STATE?.suggestions) ? WEBSITE_SYNC_STATE.suggestions : [];
+      if (!suggestions.length) {
+        container.innerHTML = `<div style="padding:14px; border-radius:8px; background:#090e1a; border:1px solid var(--border-subtle); font-size:0.8rem; color:#6ee7b7;">✅ All website projects are currently in sync with your CVs in Hanz_CV_Hub.</div>`;
+        return;
+      }
+      container.innerHTML = suggestions.map((sg, idx) => {
+        const isNew = sg.type === 'new';
+        const frB = (sg.proposed_fr_bullets || []).join('\n');
+        const enB = (sg.proposed_en_bullets || []).join('\n');
+        return `
+          <div style="padding:12px; border-radius:10px; background:#090e1a; border:1px solid var(--border-subtle); display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+              <div>
+                <span class="tag ${isNew ? 'tag-lille' : 'tag-alt'}">${isNew ? 'NEW WEBSITE PROJECT' : 'MODIFIED ON WEBSITE'}</span>
+                <strong style="font-size:0.86rem; margin-left:6px;">${esc(sg.title_en || sg.title_fr)}</strong>
+              </div>
+              <div style="display:flex; gap:6px;">
+                <button type="button" class="btn btn-sm btn-cyan" onclick="applyWebsiteSuggestion('${esc(sg.id)}', ${idx}, false)">
+                  ➕ Add to Studio CV
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" onclick="applyWebsiteSuggestion('${esc(sg.id)}', ${idx}, true)">
+                  ${isNew ? '💾 Add to All Hanz_CV_Hub CVs' : '⚡ Propagate Update to Existing CVs'}
+                </button>
+              </div>
+            </div>
+            <div style="font-size:0.74rem; color:var(--text-secondary);">${esc(sg.reason || '')}</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div>
+                <label style="font-size:0.68rem; color:var(--accent-cyan); font-weight:700;">SUGGESTED FR CV BULLETS (2 LINES)</label>
+                <textarea id="wsSugFr_${idx}" class="cms-textarea" style="min-height:66px; font-size:0.73rem;">${esc(frB)}</textarea>
+              </div>
+              <div>
+                <label style="font-size:0.68rem; color:var(--accent-cyan); font-weight:700;">SUGGESTED EN CV BULLETS (2 LINES)</label>
+                <textarea id="wsSugEn_${idx}" class="cms-textarea" style="min-height:66px; font-size:0.73rem;">${esc(enB)}</textarea>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    async function applyWebsiteSuggestion(suggestionId, idx, updateMasterCvs) {
+      const frLines = (document.getElementById(`wsSugFr_${idx}`)?.value || '').split('\n').map(s => s.trim()).filter(Boolean).slice(0, 2);
+      const enLines = (document.getElementById(`wsSugEn_${idx}`)?.value || '').split('\n').map(s => s.trim()).filter(Boolean).slice(0, 2);
+      const statusBanner = document.getElementById('websiteSyncModalStatus');
+      if (statusBanner) {
+        statusBanner.style.display = 'block';
+        statusBanner.textContent = `⏳ Syncing "${suggestionId}" with CV Project Pool & CVs...`;
+      }
+
+      if (!IS_STATIC_MODE) {
+        try {
+          const resp = await fetch('/admin/api/cv/website-sync/apply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              mode: 'single',
+              suggestion_id: suggestionId,
+              fr_bullets: frLines,
+              en_bullets: enLines,
+              target_slot: 3,
+              update_master_cvs: Boolean(updateMasterCvs),
+              export_pdfs: false,
+            }),
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (statusBanner) {
+              statusBanner.textContent = `✅ Synced "${suggestionId}"! Updated ${(data.updated_files || []).length} CV file(s).`;
+            }
+          }
+        } catch (e) {}
+      }
+
+      // Also inject/update immediately in the live Studio CV_STATE
+      const sg = (WEBSITE_SYNC_STATE?.suggestions || []).find(s => s.id === suggestionId);
+      if (sg && CV_STATE) {
+        pushUndoSnapshot();
+        const isEn = CV_STATE.meta?.lang === 'en';
+        const existingIdx = (CV_STATE.projects || []).findIndex(p => p.id === suggestionId);
+        const newEntry = {
+          id: suggestionId,
+          verification_tier: 1,
+          completion_status: 'COMPLETED_SOFTWARE',
+          tier_badge: isEn ? 'Website Verified' : 'Vérifié Site Web',
+          title: isEn ? (sg.title_en || sg.title_fr) : (sg.title_fr || sg.title_en),
+          meta: isEn ? (sg.meta_en || '') : (sg.meta_fr || ''),
+          date: isEn ? (sg.date_en || '2025 – 2026') : (sg.date_fr || '2025 – 2026'),
+          stack: sg.keywords || [],
+          bullets: isEn ? enLines : frLines,
+          visible: true,
+        };
+        if (existingIdx >= 0) {
+          CV_STATE.projects[existingIdx] = { ...CV_STATE.projects[existingIdx], ...newEntry };
+        } else {
+          CV_STATE.projects.splice(3, 0, newEntry);
+          CV_STATE.projects.forEach((p, i) => { p.visible = i < 4; });
+        }
+        renderStudioFromState();
+      }
+      await refreshWebsiteSyncStatus(false);
+    }
+
+    async function propagateWebsiteChangesToAllCvs() {
+      const statusBanner = document.getElementById('websiteSyncModalStatus');
+      if (statusBanner) {
+        statusBanner.style.display = 'block';
+        statusBanner.textContent = '⏳ Propagating validated website project changes across all existing CVs in Hanz_CV_Hub...';
+      }
+      document.getElementById('promptFeedback').textContent = '⏳ Propagating validated website project changes across existing CVs...';
+      if (!IS_STATIC_MODE) {
+        try {
+          const resp = await fetch('/admin/api/cv/website-sync/apply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mode: 'propagate_all', export_pdfs: false }),
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            const msg = `✅ Website ⇄ CV Sync complete: ${data.propagated_count || 0} modified project(s) propagated across ${(data.updated_files || []).length} CV file(s).`;
+            if (statusBanner) statusBanner.textContent = msg;
+            document.getElementById('promptFeedback').textContent = msg;
+            await refreshWebsiteSyncStatus(false);
+            return;
+          }
+        } catch (e) {}
+      }
+      const msg = '✅ Website projects verified against live CV Studio state.';
+      if (statusBanner) statusBanner.textContent = msg;
+      document.getElementById('promptFeedback').textContent = msg;
     }
 
     function pushUndoSnapshot() {
@@ -1553,7 +2336,7 @@
         } catch (e) {}
       }
       pushUndoSnapshot();
-      CV_STATE = buildClientCvState(job, targetLang, job.ats_policy || 'strict_ats');
+      CV_STATE = buildClientCvState(job, targetLang, job.ats_policy || 'design_two_col');
       job.pipeline_status = 'cv_tailored';
       updatePipelineCounts();
       renderStudioFromState();
@@ -1569,50 +2352,19 @@
       const title = (document.getElementById('customRoleTitleInput').value || '').trim();
       const offerUrl = (document.getElementById('customRoleUrlInput').value || '').trim();
       const lang = document.getElementById('customRoleLangSelect').value || 'fr';
-      const atsPolicy = document.getElementById('customRoleAtsSelect').value || 'strict_ats';
+      const atsPolicy = document.getElementById('customRoleAtsSelect').value || 'design_two_col';
       const desc = (document.getElementById('customRoleDescInput').value || '').trim();
       if (!company || !title) return;
 
-      const knownKws = ['Embedded C', 'C++17', 'STM32', 'ESP32', 'KiCad', 'PCB', 'Robotics', 'Arduino', 'PostgreSQL', 'Python', 'UART', 'SPI', 'I2C', 'CAN', 'Linux', 'RTOS', 'Sensors'];
-      const hay = `${title} ${desc}`.toLowerCase();
-      const matchedSkills = knownKws.filter(k => hay.includes(k.toLowerCase()));
-      const skills = matchedSkills.length ? matchedSkills.slice(0, 5) : ['Embedded C', 'STM32', 'KiCad PCB', 'C++17'];
-
-      const customJob = {
-        id: 'custom_' + Date.now(),
-        company,
-        title,
-        location: 'Lille / France (Custom Target)',
-        region: 'lille',
-        is_lille_nearby: true,
-        contract_type: /alternance/i.test(title + ' ' + desc) ? 'alternance' : 'stage',
-        cv_lang: lang,
-        ats_policy: atsPolicy,
-        source_type: 'corporate_ats',
-        portal_sources: ['direct_ats', 'junia_jobteaser', 'wttj', 'linkedin_live'],
-        direct_apply_url: offerUrl || `https://junia.jobteaser.com/fr/job-offers?q=${encodeURIComponent(company + ' ' + title)}`,
-        description: desc,
-        skills,
-        match_score: 97,
-        posted_hours_ago: 1,
-        posted_ago: 'Custom Offer',
-        pipeline_status: 'cv_tailored',
-      };
-
-      JOBS_BY_ID.set(customJob.id, customJob);
-      if (!JOBS.some(j => j.id === customJob.id)) JOBS.unshift(customJob);
-      hydrateInvertedIndex(rebuildClientInvertedIndex(JOBS), JOBS);
-      SELECTED_JOB_ID = customJob.id;
-
-      pushUndoSnapshot();
-      CV_STATE = buildClientCvState(customJob, lang, atsPolicy);
-      renderStudioFromState();
+      document.getElementById('inlineCustomCompany').value = company;
+      document.getElementById('inlineCustomRole').value = title;
+      document.getElementById('inlineCustomDesc').value = desc || offerUrl;
+      if (CV_STATE) {
+        CV_STATE.meta.lang = lang;
+        CV_STATE.meta.ats_mode = atsPolicy;
+      }
       closeModal('customRoleModal');
-
-      const leadTitle = (CV_STATE.projects && CV_STATE.projects[0]) ? CV_STATE.projects[0].title : 'Top Tier-1 Project';
-      document.getElementById('promptFeedback').textContent =
-        `✅ Tailored 1-Page CV for ${company} (${lang.toUpperCase()}) — Lead Project #1: ${leadTitle} · Skills: ${skills.join(', ')}`;
-      if (HAS_SEARCHED || AUTO_MODE.enabled) runO1Filter();
+      buildInlineCustomCv();
     }
 
     function switchCvLanguage(lang) {
@@ -1620,7 +2372,8 @@
       pushUndoSnapshot();
       const job = JOBS_BY_ID.get(String(SELECTED_JOB_ID)) || null;
       const prevLayout = CV_STATE.layout;
-      CV_STATE = buildClientCvState(job, lang, CV_STATE.meta?.ats_mode || 'strict_ats');
+      const prevMode = CV_STATE.meta?.ats_mode || 'design_two_col';
+      CV_STATE = buildClientCvState(job, lang, prevMode);
       CV_STATE.layout = prevLayout;
       renderStudioFromState();
     }
@@ -1637,7 +2390,8 @@
       if (!tmpl) return;
       pushUndoSnapshot();
       const job = JOBS_BY_ID.get(String(SELECTED_JOB_ID)) || null;
-      CV_STATE = buildClientCvState(job, tmpl.lang, tmpl.ats_mode);
+      const isDesign = tid.toLowerCase().includes('design') || tid.toLowerCase().includes('non_ats') || tmpl.ats_mode === 'design_two_col';
+      CV_STATE = buildClientCvState(job, tmpl.lang, isDesign ? 'design_two_col' : 'strict_ats');
       CV_STATE.meta.template_id = tid;
       renderStudioFromState();
     }
@@ -1666,7 +2420,7 @@
 
     function applyCssLayoutVars() {
       const sheet = document.getElementById('a4Sheet');
-      const l = CV_STATE.layout || { page_margin_mm: 9, section_gap_px: 9, font_scale: 1.0, line_height: 1.32 };
+      const l = CV_STATE.layout || { page_margin_mm: 8, section_gap_px: 5, font_scale: 1.0, line_height: 1.3 };
       sheet.style.setProperty('--cv-page-margin', `${l.page_margin_mm}mm`);
       sheet.style.setProperty('--cv-section-gap', `${l.section_gap_px}px`);
       sheet.style.setProperty('--cv-font-scale', `${l.font_scale}`);
@@ -1683,9 +2437,16 @@
     }
 
     function updatePreviewZoom(val) {
+      const z = parseFloat(val) || 0.72;
       const sheet = document.getElementById('a4Sheet');
-      sheet.style.transform = `scale(${val})`;
-      document.getElementById('valZoom').textContent = `${Math.round(val * 100)}%`;
+      const wrap = document.getElementById('a4ScaleWrap');
+      if (sheet) sheet.style.transform = `scale(${z})`;
+      if (wrap) {
+        wrap.style.width = `calc(210mm * ${z})`;
+        wrap.style.height = `calc(297mm * ${z})`;
+      }
+      const lbl = document.getElementById('valZoom');
+      if (lbl) lbl.textContent = `${Math.round(z * 100)}%`;
     }
 
     function measureOverflow() {
@@ -1709,10 +2470,10 @@
       let step = 0;
       while (measureOverflow() && step < 16) {
         step++;
-        if (CV_STATE.layout.font_scale > 0.78) CV_STATE.layout.font_scale = Number((CV_STATE.layout.font_scale - 0.02).toFixed(2));
+        if (CV_STATE.layout.font_scale > 0.80) CV_STATE.layout.font_scale = Number((CV_STATE.layout.font_scale - 0.02).toFixed(2));
         if (CV_STATE.layout.section_gap_px > 2) CV_STATE.layout.section_gap_px -= 1;
         if (CV_STATE.layout.page_margin_mm > 5) CV_STATE.layout.page_margin_mm = Number((CV_STATE.layout.page_margin_mm - 0.5).toFixed(1));
-        if (CV_STATE.layout.line_height > 1.12) CV_STATE.layout.line_height = Number((CV_STATE.layout.line_height - 0.02).toFixed(2));
+        if (CV_STATE.layout.line_height > 1.14) CV_STATE.layout.line_height = Number((CV_STATE.layout.line_height - 0.02).toFixed(2));
         applyCssLayoutVars();
       }
       if (measureOverflow()) {
@@ -1734,14 +2495,34 @@
       CV_STATE = cleanRes.cleaned;
 
       const isEn = (CV_STATE.meta?.lang || 'fr') === 'en';
-      const isTealTwoCol = CV_STATE.meta?.ats_mode === 'design_two_col';
+      const isDesignTwoCol = CV_STATE.meta?.ats_mode === 'design_two_col';
       document.getElementById('cvLangFrBtn').classList.toggle('active', !isEn);
       document.getElementById('cvLangEnBtn').classList.toggle('active', isEn);
-      document.getElementById('studioAtsMode').value = CV_STATE.meta?.ats_mode || 'strict_ats';
+      document.getElementById('studioAtsMode').value = isDesignTwoCol ? 'design_two_col' : 'strict_ats';
 
-      const targetText = CV_STATE.meta?.company ? `${CV_STATE.meta.company} — ${CV_STATE.meta.role}` : 'General Canonical CV (JUNIA M1 / KNUST 2026)';
+      const targetText = CV_STATE.meta?.company
+        ? `${CV_STATE.meta.company} — ${CV_STATE.meta.role}`
+        : (isEn ? 'General Master CV (JUNIA ISEN M1 / KNUST 2026)' : 'CV Général Maître (JUNIA ISEN M1 / KNUST 2026)');
       document.getElementById('studioActiveTarget').textContent = targetText;
-      document.getElementById('studioSubMeta').textContent = `${isEn ? 'English (EN)' : 'Français (FR)'} · ${(isTealTwoCol ? 'Teal 2-Col Design' : '1-Col Strict ATS')} · Ground-Truth Verified`;
+      document.getElementById('studioSubMeta').textContent = `${isEn ? 'English (EN)' : 'Français (FR)'} · ${(isDesignTwoCol ? '2-Col Navy Sidebar (#163853 + Photo)' : '1-Col Strict ATS (Black/White)')} · Hanz_CV_Hub Master`;
+
+      // Sync Deliverable Tabs (Cover Letter & Outreach Message)
+      const clArea = document.getElementById('studioCoverLetterTextarea');
+      if (clArea) clArea.value = CV_STATE.cover_pitch || '';
+      const msgObj = CV_STATE.outreach_message || buildClientOutreachMessage(
+        CV_STATE.meta?.company || '',
+        CV_STATE.meta?.role || '',
+        CV_STATE.meta?.lang || 'fr',
+        (CV_STATE.projects && CV_STATE.projects[0]) ? CV_STATE.projects[0].title : 'STM32 & MSP430 Embedded Projects',
+        'Embedded C, STM32/ESP32, KiCad PCB, C++17'
+      );
+      CV_STATE.outreach_message = msgObj;
+      const subjInput = document.getElementById('studioMsgSubject');
+      const bodyInput = document.getElementById('studioMsgBody');
+      const liInput = document.getElementById('studioMsgLinkedin');
+      if (subjInput) subjInput.value = msgObj.subject || '';
+      if (bodyInput) bodyInput.value = msgObj.body || '';
+      if (liInput) liInput.value = msgObj.linkedin_note || '';
 
       // Render Project Outline
       const outline = document.getElementById('projectOutlineList');
@@ -1749,7 +2530,7 @@
         <div class="proj-item ${p.visible ? '' : 'hidden-proj'}">
           <div class="proj-item-top">
             <div>
-              <div class="proj-tier">Tier ${p.verification_tier}</div>
+              <div class="proj-tier">Tier ${p.verification_tier} · ${esc(p.date || '')}</div>
               <div style="font-weight:700; line-height:1.25;">${esc(p.title)}</div>
             </div>
           </div>
@@ -1760,135 +2541,223 @@
           </div>
         </div>`).join('');
 
-      // Render Two-Way Editable A4 Sheet
+      // Render Two-Way Editable A4 Sheet matching Hanz_CV_Hub Masters 1:1
       const sheet = document.getElementById('a4Sheet');
-      sheet.className = isTealTwoCol ? 'cv-sheet-teal' : '';
+      sheet.className = isDesignTwoCol ? 'cv-sheet-design' : 'cv-sheet-ats';
       const h = CV_STATE.header || {};
-      const labels = isEn
-        ? { prof: 'PROFILE', edu: 'EDUCATION', proj: 'TECHNICAL PROJECTS (TIER-VERIFIED)', exp: 'PROFESSIONAL EXPERIENCE & LEADERSHIP', sk: 'SKILLS', langint: 'LANGUAGES & INTERESTS' }
-        : { prof: 'PROFIL', edu: 'FORMATION', proj: 'PROJETS TECHNIQUES (VÉRIFIÉS PAR TIER)', exp: 'EXPÉRIENCES PROFESSIONNELLES & LEADERSHIP', sk: 'COMPÉTENCES', langint: "LANGUES & CENTRES D'INTÉRÊT" };
-
-      const eduHtml = (CV_STATE.education || []).map((ed, i) => `
-        <div class="cv-entry">
-          <div class="cv-row">
-            <strong contenteditable="true" data-bind="education.${i}.degree">${esc(ed.degree)}</strong>
-            <span class="cv-date" contenteditable="true" data-bind="education.${i}.period">${esc(ed.period)}</span>
-          </div>
-          <div class="cv-sub" contenteditable="true" data-bind="education.${i}.institution">${esc(ed.institution)} — ${esc(ed.notes)}</div>
-        </div>`).join('');
-
-      const projHtml = (CV_STATE.projects || []).map((p, i) => {
-        if (!p.visible) return '';
-        const bullets = (p.bullets || []).slice(0, 2).map((b, bi) => `<li contenteditable="true" data-bind="projects.${i}.bullets.${bi}">${esc(b)}</li>`).join('');
-        return `
-          <div class="cv-entry">
-            <div class="cv-row">
-              <strong contenteditable="true" data-bind="projects.${i}.title">${esc(p.title)}</strong>
-              <span class="cv-date" contenteditable="true" data-bind="projects.${i}.date">${esc(p.date)}</span>
-            </div>
-            <div class="cv-sub"><span class="cv-tier-inline">${esc(p.tier_badge)}</span> · ${esc((p.stack || []).slice(0, 5).join(', '))}</div>
-            <ul>${bullets}</ul>
-          </div>`;
-      }).join('');
-
-      const expHtml = (CV_STATE.experience || []).map((ex, i) => {
-        const bullets = (ex.bullets || []).slice(0, 2).map((b, bi) => `<li contenteditable="true" data-bind="experience.${i}.bullets.${bi}">${esc(b)}</li>`).join('');
-        return `
-          <div class="cv-entry">
-            <div class="cv-row">
-              <strong contenteditable="true" data-bind="experience.${i}.title">${esc(ex.title)}</strong>
-              <span class="cv-date" contenteditable="true" data-bind="experience.${i}.period">${esc(ex.period)}</span>
-            </div>
-            <div class="cv-sub">${esc(ex.org)}</div>
-            <ul>${bullets}</ul>
-          </div>`;
-      }).join('');
-
       const sk = CV_STATE.skills || {};
-      const skillsListHtml = `
-        <ul>
-          <li><strong>${isEn ? 'Embedded & Software' : 'Embarqué & Logiciel'}:</strong> <span contenteditable="true" data-bind="skills.embedded">${esc(sk.embedded)}</span></li>
-          <li><strong>${isEn ? 'Hardware & PCB' : 'Matériel & PCB'}:</strong> <span contenteditable="true" data-bind="skills.hardware">${esc(sk.hardware)}</span></li>
-          <li><strong>${isEn ? 'Systems & Tools' : 'Systèmes & Outils'}:</strong> <span contenteditable="true" data-bind="skills.software">${esc(sk.software)}</span></li>
-          <li><strong>${isEn ? 'Interpersonal' : 'Savoir-être'}:</strong> <span contenteditable="true" data-bind="skills.soft_skills">${esc(sk.soft_skills || '')}</span></li>
-        </ul>`;
-      const langIntHtml = `
-        <ul>
-          <li><strong>${isEn ? 'Languages' : 'Langues'}:</strong> <span contenteditable="true" data-bind="skills.languages">${esc(sk.languages)}</span></li>
-          <li><strong>${isEn ? 'Interests' : "Centres d'intérêt"}:</strong> <span contenteditable="true" data-bind="skills.interests">${esc(sk.interests || '')}</span></li>
-        </ul>`;
+      const phone = h.phone || '+33 6 05 73 14 16';
+      const email = h.email || 'hanzsintim@gmail.com';
+      const linkedin = h.linkedin || 'linkedin.com/in/hanzofosuhene-sintim';
+      const github = h.github || 'github.com/HanzSintim';
+      const portfolio = h.portfolio || 'hanzsintim.github.io';
+      const photoUrl = h.photo_url || (IS_STATIC_MODE ? 'static/images/Hans_circle_navy.jpg' : '/static/images/Hans_circle_navy.jpg');
 
-      if (isTealTwoCol) {
+      if (isDesignTwoCol) {
+        const fullNameRaw = (h.full_name || 'HANZ OFOSUHENE-SINTIM').trim();
+        const spIdx = fullNameRaw.indexOf(' ');
+        const nameHtml = spIdx > 0
+          ? `${esc(fullNameRaw.slice(0, spIdx))} <span contenteditable="true" data-bind="header.full_name">${esc(fullNameRaw.slice(spIdx + 1))}</span>`
+          : `<span contenteditable="true" data-bind="header.full_name">${esc(fullNameRaw)}</span>`;
+
+        const eduSidebarHtml = (CV_STATE.education || []).map((ed, i) => {
+          const instRaw = ed.institution || '';
+          const parts = instRaw.split(/—|\|/);
+          const schoolName = (parts[0] || '').trim();
+          const schoolLoc = (parts[1] || '').trim();
+          const degRaw = ed.degree || '';
+          const degParts = degRaw.split('—');
+          const degMain = (degParts[0] || '').trim();
+          const degSub = (degParts[1] || ed.notes || '').trim();
+          return `
+            <div class="edu-block">
+              <div class="edu-year" contenteditable="true" data-bind="education.${i}.period">${esc(ed.period)}</div>
+              <div class="edu-school" contenteditable="true" data-bind="education.${i}.institution">${esc(schoolName)}</div>
+              ${schoolLoc ? `<div class="edu-loc">${esc(schoolLoc)}</div>` : ''}
+              <div class="edu-deg" contenteditable="true" data-bind="education.${i}.degree">${esc(degMain)}</div>
+              ${degSub ? `<div class="edu-sub" contenteditable="true" data-bind="education.${i}.notes">${esc(degSub)}</div>` : ''}
+            </div>`;
+        }).join('');
+
+        const projTimelineHtml = (CV_STATE.projects || []).map((p, i) => {
+          if (!p.visible) return '';
+          const metaLine = p.meta || (p.stack || []).slice(0, 4).join(' | ');
+          const bullets = (p.bullets || []).slice(0, 2).map((b, bi) => `<li contenteditable="true" data-bind="projects.${i}.bullets.${bi}">${esc(b)}</li>`).join('');
+          return `
+            <div class="t-item">
+              <div class="t-dot"></div>
+              <div class="t-head">
+                <span class="t-title" contenteditable="true" data-bind="projects.${i}.title">${esc(p.title)}</span>
+                <span class="t-date" contenteditable="true" data-bind="projects.${i}.date">${esc(p.date)}</span>
+              </div>
+              <div class="t-meta" contenteditable="true" data-bind="projects.${i}.meta">${esc(metaLine)}</div>
+              <ul class="t-ul">${bullets}</ul>
+            </div>`;
+        }).join('');
+
+        const expTimelineHtml = (CV_STATE.experience || []).map((ex, i) => {
+          const bullets = (ex.bullets || []).slice(0, 2).map((b, bi) => `<li contenteditable="true" data-bind="experience.${i}.bullets.${bi}">${esc(b)}</li>`).join('');
+          return `
+            <div class="t-item">
+              <div class="t-dot"></div>
+              <div class="t-head">
+                <span class="t-title" contenteditable="true" data-bind="experience.${i}.title">${esc(ex.title)}</span>
+                <span class="t-date" contenteditable="true" data-bind="experience.${i}.period">${esc(ex.period)}</span>
+              </div>
+              <div class="t-meta" contenteditable="true" data-bind="experience.${i}.org">${esc(ex.org)}</div>
+              <ul class="t-ul">${bullets}</ul>
+            </div>`;
+        }).join('');
+
+        const langParts = String(sk.languages || '').split('|').map(s => s.trim()).filter(Boolean);
+        const langLiHtml = langParts.length
+          ? langParts.map(lp => `<li contenteditable="true" data-bind="skills.languages">${esc(lp)}</li>`).join('')
+          : `<li contenteditable="true" data-bind="skills.languages">${esc(sk.languages || '')}</li>`;
+
         sheet.innerHTML = `
-          <aside class="cv-teal-sidebar">
-            <section>
-              <div class="cv-sec-title">CONTACT</div>
-              <div style="font-size:0.9em; line-height:1.45; word-break:break-word;" contenteditable="true" data-bind="header.contact_line">${esc(h.contact_line)}</div>
-            </section>
-            <section>
-              <div class="cv-sec-title">${labels.sk}</div>
-              ${skillsListHtml}
-            </section>
-            <section>
-              <div class="cv-sec-title">${labels.langint}</div>
-              ${langIntHtml}
-            </section>
+          <aside class="sidebar">
+            <div class="photo-wrap">
+              <img src="${esc(photoUrl)}" alt="Hanz Ofosuhene-Sintim" onerror="this.src='/static/images/Hans_circle_navy.jpg'" />
+            </div>
+            <div class="s-section">
+              <div class="s-title">${isEn ? 'Contact' : 'Coordonnées'}</div>
+              <ul class="contact-list">
+                <li><span class="c-icon">☎</span><span class="c-text" contenteditable="true" data-bind="header.phone">${esc(phone)}</span></li>
+                <li><span class="c-icon">✉</span><span class="c-text" contenteditable="true" data-bind="header.email">${esc(email)}</span></li>
+                <li><span class="c-icon">⌂</span><span class="c-text">${isEn ? 'Lille, France (National & International Mobility)' : 'Lille, France (Mobilité nationale & internationale)'}</span></li>
+                <li><span class="c-icon">in</span><span class="c-text">${esc(linkedin)}</span></li>
+                <li><span class="c-icon">&lt;/&gt;</span><span class="c-text">${esc(github)}<br>${esc(portfolio)}</span></li>
+              </ul>
+            </div>
+            <div class="s-section">
+              <div class="s-title">${isEn ? 'Education' : 'Formation'}</div>
+              ${eduSidebarHtml}
+            </div>
+            <div class="s-section">
+              <div class="s-title">${isEn ? 'Skills' : 'Compétences'}</div>
+              <div class="skill-group">
+                <div class="skill-group-title">${isEn ? 'Low-Level & Programming' : 'Programmation & Bas Niveau'}</div>
+                <div class="skill-list" contenteditable="true" data-bind="skills.embedded">${esc(sk.embedded)}</div>
+              </div>
+              <div class="skill-group">
+                <div class="skill-group-title">${isEn ? 'Embedded Systems & Hardware' : 'Systèmes Embarqués & Matériel'}</div>
+                <div class="skill-list" contenteditable="true" data-bind="skills.hardware">${esc(sk.hardware)}</div>
+              </div>
+              <div class="skill-group">
+                <div class="skill-group-title">${isEn ? 'Testing, Analysis & Tools' : 'Tests, Analyse & Outils'}</div>
+                <div class="skill-list" contenteditable="true" data-bind="skills.software">${esc(sk.software)}</div>
+              </div>
+              <div class="skill-group">
+                <div class="skill-group-title">${isEn ? 'Interpersonal Skills' : 'Savoir-être'}</div>
+                <div class="skill-list" contenteditable="true" data-bind="skills.interpersonal">${esc(sk.interpersonal || sk.soft_skills || '')}</div>
+              </div>
+            </div>
+            <div class="s-section">
+              <div class="s-title">${isEn ? 'Languages' : 'Langues'}</div>
+              <ul class="s-list">${langLiHtml}</ul>
+            </div>
+            <div class="s-section">
+              <div class="s-title">${isEn ? 'Interests & Activities' : 'Activités & Intérêts'}</div>
+              <ul class="s-list">
+                <li contenteditable="true" data-bind="skills.interests">${esc(sk.interests || '')}</li>
+              </ul>
+            </div>
           </aside>
-          <div class="cv-teal-main">
-            <header class="cv-teal-namebanner">
-              <div class="cv-h1" contenteditable="true" data-bind="header.full_name">${esc(h.full_name)}</div>
-              <div class="cv-headline" contenteditable="true" data-bind="header.headline">${esc(h.headline)}</div>
-              <div class="cv-avail" contenteditable="true" data-bind="header.availability">${esc(h.availability)}</div>
+          <main class="main">
+            <header class="header">
+              <div class="name">${nameHtml}</div>
+              <div class="role-title" contenteditable="true" data-bind="header.role_title">${esc(h.role_title || CV_STATE.meta?.role || '')}</div>
+              <div class="role-sub" contenteditable="true" data-bind="header.role_sub">${esc(h.role_sub || h.availability || '')}</div>
+              <div class="header-bar"></div>
             </header>
-            <section>
-              <div class="cv-sec-title">${labels.prof}</div>
-              <p contenteditable="true" data-bind="summary">${esc(CV_STATE.summary)}</p>
+            <section class="m-section">
+              <div class="m-title">${isEn ? 'Profile' : 'Profil'}</div>
+              <p class="profile-text" contenteditable="true" data-bind="summary">${esc(CV_STATE.summary)}</p>
             </section>
-            <section>
-              <div class="cv-sec-title">${labels.edu}</div>
-              ${eduHtml}
+            <section class="m-section">
+              <div class="m-title">${isEn ? 'Technical Projects' : 'Projets Techniques'}</div>
+              <div class="timeline">${projTimelineHtml}</div>
             </section>
-            <section>
-              <div class="cv-sec-title">${labels.proj}</div>
-              ${projHtml}
+            <section class="m-section">
+              <div class="m-title">${isEn ? 'Professional Experience & Leadership' : 'Expériences Professionnelles & Leadership'}</div>
+              <div class="timeline">${expTimelineHtml}</div>
             </section>
-            <section>
-              <div class="cv-sec-title">${labels.exp}</div>
-              ${expHtml}
-            </section>
-          </div>`;
+          </main>`;
       } else {
+        const eduAtsHtml = (CV_STATE.education || []).map((ed, i) => {
+          const degLine = (ed.notes && !String(ed.degree || '').includes(ed.notes))
+            ? `${ed.degree} — ${ed.notes}`
+            : ed.degree;
+          return `
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title" contenteditable="true" data-bind="education.${i}.institution">${esc(ed.institution)}</span>
+                <span class="entry-date" contenteditable="true" data-bind="education.${i}.period">${esc(ed.period)}</span>
+              </div>
+              <div class="entry-sub" contenteditable="true" data-bind="education.${i}.degree">${esc(degLine)}</div>
+            </div>`;
+        }).join('');
+
+        const projAtsHtml = (CV_STATE.projects || []).map((p, i) => {
+          if (!p.visible) return '';
+          const metaStr = p.meta || (p.stack || []).slice(0, 4).join(', ');
+          const fullTitle = (metaStr && !String(p.title || '').includes(metaStr)) ? `${p.title} (${metaStr})` : p.title;
+          const bullets = (p.bullets || []).slice(0, 2).map((b, bi) => `<li contenteditable="true" data-bind="projects.${i}.bullets.${bi}">${esc(b)}</li>`).join('');
+          return `
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title" contenteditable="true" data-bind="projects.${i}.title">${esc(fullTitle)}</span>
+                <span class="entry-date" contenteditable="true" data-bind="projects.${i}.date">${esc(p.date)}</span>
+              </div>
+              <ul>${bullets}</ul>
+            </div>`;
+        }).join('');
+
+        const expAtsHtml = (CV_STATE.experience || []).map((ex, i) => {
+          const fullRole = ex.org ? `${ex.title} — ${ex.org}` : ex.title;
+          const bullets = (ex.bullets || []).slice(0, 2).map((b, bi) => `<li contenteditable="true" data-bind="experience.${i}.bullets.${bi}">${esc(b)}</li>`).join('');
+          return `
+            <div class="entry">
+              <div class="entry-header">
+                <span class="entry-title" contenteditable="true" data-bind="experience.${i}.title">${esc(fullRole)}</span>
+                <span class="entry-date" contenteditable="true" data-bind="experience.${i}.period">${esc(ex.period)}</span>
+              </div>
+              <ul>${bullets}</ul>
+            </div>`;
+        }).join('');
+
+        const contactLine = h.contact_line || (isEn
+          ? `Lille, France (National & International Mobility) | Phone: ${phone} | Email: ${email}`
+          : `Lille, France (Mobilité nationale & internationale) | Tél : ${phone} | Email : ${email}`);
+        const linksLine = h.links_line || `LinkedIn : ${linkedin} | GitHub : ${github} | Portfolio : ${portfolio}`;
+
         sheet.innerHTML = `
-          <header class="cv-header-ats">
-            <div class="cv-h1" contenteditable="true" data-bind="header.full_name">${esc(h.full_name)}</div>
-            <div class="cv-headline" contenteditable="true" data-bind="header.headline">${esc(h.headline)}</div>
-            <div class="cv-contact" contenteditable="true" data-bind="header.contact_line">${esc(h.contact_line)}</div>
-            <div class="cv-avail" contenteditable="true" data-bind="header.availability">${esc(h.availability)}</div>
-          </header>
-          <section>
-            <div class="cv-sec-title">${labels.prof}</div>
-            <p contenteditable="true" data-bind="summary">${esc(CV_STATE.summary)}</p>
-          </section>
-          <section>
-            <div class="cv-sec-title">${labels.edu}</div>
-            ${eduHtml}
-          </section>
-          <section>
-            <div class="cv-sec-title">${labels.proj}</div>
-            ${projHtml}
-          </section>
-          <section>
-            <div class="cv-sec-title">${labels.exp}</div>
-            ${expHtml}
-          </section>
-          <section>
-            <div class="cv-sec-title">${labels.sk}</div>
-            ${skillsListHtml}
-          </section>
-          <section>
-            <div class="cv-sec-title">${labels.langint}</div>
-            ${langIntHtml}
-          </section>`;
+          <h1 contenteditable="true" data-bind="header.full_name">${esc(h.full_name || 'HANZ OFOSUHENE-SINTIM')}</h1>
+          <div class="subtitle" contenteditable="true" data-bind="header.headline">${esc(h.headline || '')}</div>
+          <div class="contact">
+            <span contenteditable="true" data-bind="header.contact_line">${esc(contactLine)}</span><br>
+            <span contenteditable="true" data-bind="header.links_line">${esc(linksLine)}</span>
+          </div>
+          <h2>${isEn ? 'Profile' : 'Profil'}</h2>
+          <p class="summary" contenteditable="true" data-bind="summary">${esc(CV_STATE.summary)}</p>
+          <h2>${isEn ? 'Education' : 'Formation'}</h2>
+          ${eduAtsHtml}
+          <h2>${isEn ? 'Technical Projects' : 'Projets Techniques'}</h2>
+          ${projAtsHtml}
+          <h2>${isEn ? 'Professional Experience & Leadership' : 'Expériences Professionnelles & Leadership'}</h2>
+          ${expAtsHtml}
+          <h2>${isEn ? 'Skills' : 'Compétences'}</h2>
+          <ul class="skills-list">
+            <li><strong>${isEn ? 'Low-Level & Programming' : 'Programmation & Bas Niveau'} :</strong> <span contenteditable="true" data-bind="skills.embedded">${esc(sk.embedded)}</span></li>
+            <li><strong>${isEn ? 'Embedded Systems & Hardware' : 'Systèmes Embarqués & Matériel'} :</strong> <span contenteditable="true" data-bind="skills.hardware">${esc(sk.hardware)}</span></li>
+            <li><strong>${isEn ? 'Testing, Analysis & Tools' : 'Tests, Analyse & Outils'} :</strong> <span contenteditable="true" data-bind="skills.software">${esc(sk.software)}</span></li>
+            <li><strong>${isEn ? 'Interpersonal Skills' : 'Savoir-être'} :</strong> <span contenteditable="true" data-bind="skills.interpersonal">${esc(sk.interpersonal || sk.soft_skills || '')}</span></li>
+          </ul>
+          <h2>${isEn ? 'Languages & Interests' : "Langues & Centres d'Intérêt"}</h2>
+          <ul class="skills-list">
+            <li><strong>${isEn ? 'Languages' : 'Langues'} :</strong> <span contenteditable="true" data-bind="skills.languages">${esc(sk.languages)}</span></li>
+            <li><strong>${isEn ? 'Interests & Extracurriculars' : "Centres d'intérêt & Engagement"} :</strong> <span contenteditable="true" data-bind="skills.interests">${esc(sk.interests || '')}</span></li>
+          </ul>`;
       }
 
       applyCssLayoutVars();
@@ -2600,11 +3469,28 @@
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
     function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
-    // Boot Sequence: Enforce Empty-Until-Search Gate in Pane 2 + Ground-Truth Canonical CV in Pane 3
+    // Global Ctrl+V Screenshot / Image Paste Handler for CV + Cover Letter + Message Drafting
+    document.addEventListener('paste', (ev) => {
+      const items = ev.clipboardData?.items;
+      if (!items) return;
+      for (const item of items) {
+        if (item.type && item.type.startsWith('image/')) {
+          const blob = item.getAsFile();
+          if (blob) {
+            ev.preventDefault();
+            handleOfferImageUpload(blob);
+            break;
+          }
+        }
+      }
+    });
+
+    // Boot Sequence: Enforce Empty-Until-Search Gate in Pane 2 + Hanz_CV_Hub Master CV in Pane 3
     applyStaticGatekeeperState();
     hydrateInvertedIndex(BOOT.inverted_index, BOOT.jobs);
     renderSearchLaunchpad();
-    CV_STATE = buildClientCvState(null, 'fr', 'strict_ats');
+    renderWebsiteSyncBanner();
+    CV_STATE = buildClientCvState(null, 'fr', 'design_two_col');
     renderStudioFromState();
     updatePreviewZoom(0.72);
     updateAutoUi();

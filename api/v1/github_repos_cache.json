@@ -1,8 +1,8 @@
 {
   "username": "HanzSintim",
   "source": "live_github_api",
-  "fetched_ts": 1794527695.7673445,
-  "fetched_at": "2026-11-12 23:54:55 UTC",
+  "fetched_ts": 1794674151.499104,
+  "fetched_at": "2026-11-14 16:35:51 UTC",
   "repo_count": 4,
   "repos": [
     {
@@ -10,10 +10,10 @@
       "full_name": "HanzSintim/Hanz-Portfolio-webisite",
       "html_url": "https://github.com/HanzSintim/Hanz-Portfolio-webisite",
       "description": "This webistes contains all info about my professional life and my journey to becoming a embedded architecheral engineer ",
-      "language": "HTML",
+      "language": "Python",
       "stargazers_count": 0,
       "fork": false,
-      "updated_at": "2026-11-04T23:13:10Z",
+      "updated_at": "2026-11-13T04:11:13Z",
       "topics": [],
       "verified": true
     },

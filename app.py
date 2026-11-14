@@ -410,6 +410,271 @@ def admin_api_cv_export():
     return jsonify(export_res)
 
 
+@app.route("/admin/api/cv/extract-image", methods=["POST"])
+@admin_required
+def admin_api_cv_extract_image():
+    """
+    Extract text from an uploaded or pasted screenshot/image of a job posting or company info
+    using Windows Native WinRT OCR (Windows.Media.Ocr.OcrEngine), then optionally draft the
+    tailored 1-page CV + Cover Letter + Outreach Message.
+    """
+    import base64
+    import cv_studio
+
+    image_bytes = b""
+    filename = "screenshot.png"
+    auto_draft = True
+    lang_hint = "auto"
+
+    if request.files and "image" in request.files:
+        f = request.files["image"]
+        filename = f.filename or "screenshot.png"
+        image_bytes = f.read()
+        auto_draft = request.form.get("auto_draft", "1") != "0"
+        lang_hint = request.form.get("lang", "auto")
+    else:
+        payload = request.get_json(silent=True) or {}
+        data_url = str(payload.get("image_data_url") or payload.get("image_base64") or "").strip()
+        filename = str(payload.get("filename") or "screenshot.png")
+        auto_draft = bool(payload.get("auto_draft", True))
+        lang_hint = str(payload.get("lang") or "auto")
+        if data_url:
+            if "," in data_url:
+                data_url = data_url.split(",", 1)[1]
+            try:
+                image_bytes = base64.b64decode(data_url)
+            except Exception as exc:
+                return jsonify({"ok": False, "error": f"Invalid base64 image payload: {exc}"}), 400
+
+    ocr_res = cv_studio.extract_text_from_image(image_bytes, filename=filename)
+    if not ocr_res.get("ok"):
+        return jsonify(ocr_res), 400
+
+    extracted_text = ocr_res.get("extracted_text") or ocr_res.get("text") or ""
+    detected_lang = ocr_res.get("lang") or ("en" if lang_hint == "en" else "fr")
+    if lang_hint in ("fr", "en"):
+        detected_lang = lang_hint
+
+    analysis_summary = {
+        "company": ocr_res.get("company") or "Target Company",
+        "role": ocr_res.get("role") or "Embedded Systems Intern",
+        "lang": detected_lang,
+        "contract": ocr_res.get("contract") or "stage",
+        "location": "Lille, France",
+        "matched_skills": ocr_res.get("matched_skills") or [],
+    }
+
+    resp: Dict[str, Any] = {
+        "ok": True,
+        "text": extracted_text,
+        "engine": ocr_res.get("ocr_engine", "Windows.Media.Ocr"),
+        "analysis": analysis_summary,
+    }
+
+    if auto_draft:
+        pack = cv_studio.generate_pack({
+            "company": analysis_summary["company"],
+            "role": analysis_summary["role"],
+            "text": extracted_text,
+            "lang": detected_lang,
+            "contract": analysis_summary["contract"],
+        })
+        req_info = pack.get("request") or {}
+        matched_labels = [m["label"] for m in (pack.get("analysis", {}).get("matched") or [])]
+        analysis_summary["company"] = req_info.get("company") or analysis_summary["company"]
+        analysis_summary["role"] = req_info.get("role") or analysis_summary["role"]
+        analysis_summary["matched_skills"] = matched_labels or analysis_summary["matched_skills"]
+
+        synthetic_job = {
+            "id": "custom_image_offer",
+            "company": analysis_summary["company"],
+            "title": analysis_summary["role"],
+            "location": "Lille, France",
+            "contract_type": analysis_summary["contract"],
+            "description": extracted_text,
+            "skills": analysis_summary["matched_skills"],
+        }
+        cv_state = build_initial_cv_state(
+            job=synthetic_job,
+            lang=detected_lang,
+            template_id=f"ws_{detected_lang}_design",
+        )
+        cv_state["cover_pitch"] = pack.get("letter", "")
+        cv_state["outreach_message"] = {
+            "subject": (pack.get("message") or {}).get("subject", ""),
+            "body": (pack.get("message") or {}).get("body", ""),
+            "linkedin_note": (pack.get("message") or {}).get("short_dm") or (pack.get("message") or {}).get("linkedin_note", ""),
+        }
+        resp["pack"] = pack
+        resp["cv_state"] = cv_state
+        resp["rendered_html"] = render_cv_state_to_html(cv_state, standalone=False)
+
+    return jsonify(resp)
+
+
+@app.route("/admin/api/cv/generate-pack", methods=["POST"])
+@admin_required
+def admin_api_cv_generate_pack():
+    """
+    Generate a complete tailored Application Pack from company/role/offer info:
+    1. Tailored 1-Page CV (both Master 2-Col #163853 Navy Sidebar Design & Master 1-Col Strict ATS)
+    2. Tailored Cover Letter (Lettre de Motivation)
+    3. Tailored Outreach Message (Email / Portal Message + <300 char LinkedIn Connection Note)
+    """
+    import cv_studio
+
+    payload = request.get_json(silent=True) or {}
+    company = str(payload.get("company") or "").strip()
+    role = str(payload.get("role") or payload.get("title") or "").strip()
+    offer_text = str(payload.get("offer_text") or payload.get("description") or "").strip()
+    lang = str(payload.get("lang") or "auto").strip().lower()
+    contract = str(payload.get("contract") or "stage").strip().lower()
+    location = str(payload.get("location") or "Lille, France").strip()
+    template_id = str(payload.get("template_id") or "").strip()
+    extra_project_ids = payload.get("extra_project_ids") or []
+
+    pack = cv_studio.generate_pack({
+        "company": company,
+        "role": role,
+        "text": offer_text,
+        "lang": lang,
+        "contract": contract,
+        "project_ids": extra_project_ids if extra_project_ids else None,
+    })
+    req_info = pack.get("request") or {}
+    resolved_lang = req_info.get("lang") or ("en" if lang == "en" else "fr")
+    if not template_id:
+        template_id = f"ws_{resolved_lang}_design"
+
+    matched_labels = [m["label"] for m in (pack.get("analysis", {}).get("matched") or [])]
+    resolved_company = req_info.get("company") or company or "Target Company"
+    resolved_role = req_info.get("role") or role or "Embedded Systems Engineering Intern"
+
+    synthetic_job = {
+        "id": str(payload.get("job_id") or "custom_pack"),
+        "company": resolved_company,
+        "title": resolved_role,
+        "location": location,
+        "contract_type": req_info.get("contract") or contract,
+        "description": offer_text,
+        "skills": matched_labels,
+    }
+    cv_state = build_initial_cv_state(job=synthetic_job, lang=resolved_lang, template_id=template_id)
+    cover_letter = pack.get("letter") or cv_state.get("cover_pitch", "")
+    raw_msg = pack.get("message") or {}
+    outreach_message = {
+        "subject": raw_msg.get("subject", ""),
+        "body": raw_msg.get("body", ""),
+        "linkedin_note": (raw_msg.get("short_dm") or raw_msg.get("linkedin_note") or "")[:300],
+    }
+    cv_state["cover_pitch"] = cover_letter
+    cv_state["outreach_message"] = outreach_message
+
+    return jsonify({
+        "ok": True,
+        "lang": resolved_lang,
+        "analysis": {
+            "company": resolved_company,
+            "role": resolved_role,
+            "location": location,
+            "contract": req_info.get("contract") or contract,
+            "matched_skills": matched_labels,
+            "focus": pack.get("focus"),
+        },
+        "cv_state": cv_state,
+        "rendered_html": render_cv_state_to_html(cv_state, standalone=False),
+        "ats_html": pack.get("ats_html", ""),
+        "design_html": pack.get("design_html", ""),
+        "cover_letter": cover_letter,
+        "outreach_message": outreach_message,
+    })
+
+
+@app.route("/admin/api/cv/save-pack", methods=["POST"])
+@admin_required
+def admin_api_cv_save_pack():
+    """Save the complete application pack (ATS CV + Design CV + Cover Letter + Outreach Message) to Hanz_CV_Hub."""
+    import cv_studio
+
+    payload = request.get_json(silent=True) or {}
+    cv_state = payload.get("cv_state") or build_initial_cv_state()
+    meta = cv_state.get("meta") or {}
+    lang = str(payload.get("lang") or meta.get("lang") or "fr").lower()
+    company = str(payload.get("company") or meta.get("company") or "Target_Company").strip()
+    role = str(payload.get("role") or meta.get("role") or "Engineering_Intern").strip()
+    cover_letter = str(payload.get("cover_letter") or cv_state.get("cover_pitch") or "").strip()
+    outreach_msg = payload.get("outreach_message") or cv_state.get("outreach_message") or {}
+
+    save_res = cv_studio.save_pack(
+        raw={"company": company, "role": role, "lang": lang, "text": f"{company} {role}"},
+        letter=cover_letter,
+        message=outreach_msg if isinstance(outreach_msg, dict) else {"subject": f"Application — {role}", "body": str(outreach_msg)},
+        export_pdfs=bool(payload.get("export_pdfs", True)),
+    )
+    hub_export = export_cv_to_hub_output(cv_state)
+    save_res["hub_output"] = hub_export
+    return jsonify(save_res)
+
+
+@app.route("/admin/api/cv/website-sync", methods=["GET"])
+@admin_required
+def admin_api_cv_website_sync():
+    """Return live Website (api/v1/projects.json) <-> CV Hub sync status & suggestions."""
+    import cv_studio
+
+    include_live = request.args.get("live", "0") == "1"
+    sync_data = cv_studio.compute_sync(include_live=include_live)
+    sync_data["website_projects"] = load_or_seed_projects()
+    return jsonify(sync_data)
+
+
+@app.route("/admin/api/cv/website-sync/apply", methods=["POST"])
+@admin_required
+def admin_api_cv_website_sync_apply():
+    """
+    Apply a website project suggestion (add new website project to CVs or propagate a
+    modified website project across all existing CVs in Hanz_CV_Hub & workspace templates).
+    """
+    import cv_studio
+
+    payload = request.get_json(silent=True) or {}
+    action_mode = str(payload.get("mode") or "single").strip().lower()
+    if action_mode == "propagate_all":
+        res = cv_studio.propagate_validated_website_changes(
+            export_pdfs=bool(payload.get("export_pdfs", False))
+        )
+        res["propagated_count"] = len(res.get("auto_updated", []))
+        res["updated_files"] = [f for item in res.get("auto_updated", []) for f in item.get("updated_files", [])]
+        return jsonify(res)
+
+    suggestion_id = str(payload.get("suggestion_id") or "").strip()
+    if not suggestion_id:
+        return jsonify({"ok": False, "error": "Missing suggestion_id"}), 400
+
+    sync_state = cv_studio.compute_sync(include_live=False)
+    sug = next((s for s in sync_state.get("suggestions", []) if s.get("slug") == suggestion_id or s.get("id") == suggestion_id), None)
+    if not sug:
+        return jsonify({"ok": False, "error": f"Suggestion '{suggestion_id}' not found"}), 404
+
+    proposal = copy.deepcopy(sug.get("proposal") or {})
+    if payload.get("fr_bullets"):
+        proposal.setdefault("fr", {})["bullets"] = list(payload["fr_bullets"])[:2]
+    if payload.get("en_bullets"):
+        proposal.setdefault("en", {})["bullets"] = list(payload["en_bullets"])[:2]
+
+    action_obj = {
+        "type": "add" if sug.get("type") == "new" else "update",
+        "slug": sug["slug"],
+        "pid": sug.get("pid") or sug["slug"],
+        "fields": proposal,
+    }
+    res = cv_studio.apply_sync(
+        action_obj,
+        export_pdfs=bool(payload.get("export_pdfs", False)),
+    )
+    return jsonify(res)
+
+
 @app.route("/admin/upload-resume", methods=["POST"])
 @admin_required
 def admin_upload_resume():
@@ -532,9 +797,17 @@ def admin_update_projects():
             ensure_ascii=False,
         )
 
+    sync_propagated = 0
+    try:
+        import cv_studio
+        prop_res = cv_studio.propagate_validated_website_changes(export_pdfs=False)
+        sync_propagated = int(prop_res.get("propagated_count", 0))
+    except Exception:
+        pass
+
     build_static_bundle()
     flash(
-        "Successfully saved mutated projects.json and recompiled static index.html.",
+        f"Successfully saved mutated projects.json, propagated {sync_propagated} project update(s) to existing CVs, and recompiled static index.html.",
         "success",
     )
     return redirect(url_for("admin_dashboard"))

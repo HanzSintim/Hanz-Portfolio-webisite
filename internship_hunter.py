@@ -1842,6 +1842,13 @@ def update_job_pipeline_status(job_id: str, new_status: str) -> Dict[str, Any]:
 def get_boot_sync_payload(force_github: bool = False) -> Dict[str, Any]:
     """Return full boot payload for the 3-Pane Admin Workstation and static export."""
     from cv_architect import SEARCH_PORTAL_SOURCES
+    try:
+        import cv_studio
+        website_sync = cv_studio.compute_sync(include_live=False)
+        website_projects = cv_studio.load_local_projects_json()
+    except Exception:
+        website_sync = {"ok": False, "suggestions": [], "summary": {"new_project_suggestions": 0, "changed_project_updates": 0}}
+        website_projects = []
 
     state = load_hunter_state()
     profile = load_ground_truth_profile()
@@ -1858,6 +1865,8 @@ def get_boot_sync_payload(force_github: bool = False) -> Dict[str, Any]:
         "ground_truth_profile": profile,
         "github_repos": gh,
         "cv_hub_templates": hub_templates,
+        "website_sync": website_sync,
+        "website_projects": website_projects,
         "autonomous_enabled": state.get("autonomous_enabled", False),
         "last_run_at": state.get("last_run_at", ""),
         "stats": state.get("stats", {}),

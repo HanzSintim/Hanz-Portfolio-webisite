@@ -277,13 +277,71 @@ class TestAdminOverhaulSuite(unittest.TestCase):
 
         # 5. Zero regional flag emojis (frFR / gbEN bug prevention) across .py and templates/*.html
         flag_rx = re.compile(r"[\U0001F1E6-\U0001F1FF]{2}")
-        for rel in ["app.py", "cv_architect.py", "internship_hunter.py", "data_engine.py",
+        for rel in ["app.py", "cv_architect.py", "cv_studio.py", "internship_hunter.py", "data_engine.py",
                     "templates/index.html", "templates/admin_dashboard.html", "templates/cv_en.html", "templates/cv_fr.html"]:
             p = pathlib.Path(BASE_DIR) / rel
             txt = p.read_text(encoding="utf-8")
             self.assertIsNone(flag_rx.search(txt), f"Flag emoji found in {rel}")
             self.assertNotIn("frFR", txt, f"frFR found in {rel}")
             self.assertNotIn("gbEN", txt, f"gbEN found in {rel}")
+
+    def test_08_hub_master_fidelity_image_pack_and_website_sync(self):
+        """
+        Part 8: Verify Hanz_CV_Hub master template fidelity (#163853 Navy sidebar + Photo + Timeline
+        and 1-Col Strict ATS), Company/Screenshot -> CV + Cover Letter + Outreach Message generation,
+        and live Website (api/v1/projects.json) <-> CV Builder sync.
+        """
+        from cv_architect import build_initial_cv_state, render_cv_state_to_html
+        import cv_studio
+
+        # 1. Verify default FR & EN states match Hanz_CV_Hub master order and canonical wording
+        st_fr = build_initial_cv_state(job=None, lang="fr", template_id="ws_fr_design")
+        self.assertEqual(st_fr["meta"]["ats_mode"], "design_two_col")
+        vis_ids = [p["id"] for p in st_fr["projects"] if p.get("visible")]
+        self.assertEqual(vis_ids, ["robot_stm32", "thermometer_msp430", "water_arduino", "pos_cpp17"])
+        self.assertEqual(len(st_fr["education"]), 2)
+        self.assertEqual(len(st_fr["experience"]), 2)
+        self.assertIn("2025 – Présent (Diplôme 2028)", st_fr["education"][0]["period"])
+        self.assertIn("2022 – 2026 (Diplôme obtenu en 2026)", st_fr["education"][1]["period"])
+
+        design_html = render_cv_state_to_html(st_fr, standalone=True)
+        for token in ["#163853", "photo-wrap", "timeline", "t-dot", "Score Duolingo : 21", "GHAFRA Nord"]:
+            self.assertIn(token, design_html, f"Missing Hanz_CV_Hub Design Master token: {token}")
+
+        # 2. Verify /admin/api/cv/generate-pack returns CV + Cover Letter + Outreach Message
+        client = app.test_client()
+        client.post("/admin/login", data={"password": ADMIN_PASSWORD})
+
+        pack_res = client.post(
+            "/admin/api/cv/generate-pack",
+            json={
+                "company": "STMicroelectronics",
+                "role": "Stage Ingénieur Firmware STM32 & Capteurs",
+                "offer_text": "Stage M1 de 4 mois dès Avril 2027 à Grenoble : programmation C embarqué sur STM32, MSP430, UART, I2C, KiCad PCB.",
+                "lang": "fr",
+            },
+        )
+        self.assertEqual(pack_res.status_code, 200)
+        pjson = pack_res.get_json()
+        self.assertTrue(pjson["ok"])
+        self.assertIn("STMicroelectronics", pjson["cover_letter"])
+        self.assertIn("STMicroelectronics", pjson["outreach_message"]["subject"])
+        self.assertIn("STMicroelectronics", pjson["outreach_message"]["body"])
+        self.assertTrue(len(pjson["outreach_message"]["linkedin_note"]) <= 300)
+        self.assertIn("#163853", pjson["design_html"])
+        self.assertIn("8mm 13mm", pjson["ats_html"])
+
+        # 3. Verify /admin/api/cv/website-sync returns live connection status & suggestions
+        sync_res = client.get("/admin/api/cv/website-sync")
+        self.assertEqual(sync_res.status_code, 200)
+        sjson = sync_res.get_json()
+        self.assertTrue(sjson["ok"])
+        self.assertGreaterEqual(sjson["local_website_count"], 6)
+        self.assertIsInstance(sjson["suggestions"], list)
+
+        prop_res = client.post("/admin/api/cv/website-sync/apply", json={"mode": "propagate_all", "export_pdfs": False})
+        self.assertEqual(prop_res.status_code, 200)
+        self.assertTrue(prop_res.get_json()["ok"])
 
 
 if __name__ == "__main__":

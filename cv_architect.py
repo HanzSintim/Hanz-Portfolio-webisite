@@ -370,6 +370,25 @@ def rank_projects_for_job(
         github_url = matched_repo.get("html_url") if matched_repo else f"https://github.com/HanzSintim"
         github_verified = bool(matched_repo and matched_repo.get("verified", True))
 
+        proj_date_map_en = {
+            "robot_stm32": "2026 – Present (Ongoing)",
+            "thermometer_msp430": "2025",
+            "water_arduino": "2024",
+            "pos_cpp17": "2024 – 2026",
+            "charger_pcb": "2024",
+            "logistics_sql": "2024 – 2025",
+            "portfolio_python": "2025 – 2026",
+        }
+        proj_date_map_fr = {
+            "robot_stm32": "2026 – En cours",
+            "thermometer_msp430": "2025",
+            "water_arduino": "2024",
+            "pos_cpp17": "2024 – 2026",
+            "charger_pcb": "2024",
+            "logistics_sql": "2024 – 2025",
+            "portfolio_python": "2025 – 2026",
+        }
+
         ranked.append({
             "id": proj["id"],
             "verification_tier": tier,
@@ -377,13 +396,8 @@ def rank_projects_for_job(
             "tier_label": proj["tier_label_en"] if is_en else proj["tier_label_fr"],
             "tier_badge": proj["badge_en"] if is_en else proj["badge_fr"],
             "title": proj["title_en"] if is_en else proj["title_fr"],
-            "date": "2026 – Present (Active R&D)" if (proj["id"] == "robot_stm32" and is_en) else (
-                "2026 – En cours (R&D Active)" if proj["id"] == "robot_stm32" else (
-                    "2024 – 2026" if proj["id"] in ("pos_cpp17", "portfolio_python") else (
-                        "2025" if proj["id"] == "thermometer_msp430" else "2024 – 2025"
-                    )
-                )
-            ),
+            "meta": proj.get("meta_en" if is_en else "meta_fr", ""),
+            "date": (proj_date_map_en if is_en else proj_date_map_fr).get(proj["id"], "2024 – 2026"),
             "stack": list(proj.get("stack") or []),
             "bullets": list(proj["bullets_en"] if is_en else proj["bullets_fr"]),
             "keywords": list(proj.get("keywords") or []),
@@ -394,7 +408,19 @@ def rank_projects_for_job(
             "visible": True,
         })
 
-    ranked.sort(key=lambda p: (-p["match_score"], p["verification_tier"], p["id"]))
+    master_order = {
+        "robot_stm32": 0,
+        "thermometer_msp430": 1,
+        "water_arduino": 2,
+        "pos_cpp17": 3,
+        "charger_pcb": 4,
+        "logistics_sql": 5,
+        "portfolio_python": 6,
+    }
+    if not full_hay.strip():
+        ranked.sort(key=lambda p: master_order.get(p["id"], 99))
+    else:
+        ranked.sort(key=lambda p: (-p["match_score"], p["verification_tier"], p["id"]))
     if max_projects and max_projects > 0:
         return ranked[:max_projects]
     return ranked
@@ -895,58 +921,106 @@ def _build_canonical_summary(job: Optional[Dict[str, Any]], lang: str) -> str:
     is_en = lang == "en"
     company = (job or {}).get("company") or ""
     role = (job or {}).get("title") or ""
-    skills = ", ".join(((job or {}).get("skills") or ["Embedded C", "STM32/ESP32", "KiCad PCB", "C++17"])[:4])
+    skills = ", ".join(((job or {}).get("skills") or ["Embedded C/C++17", "STM32/ESP32/MSP430", "KiCad PCB", "Hardware-Software Validation"])[:4])
 
     if is_en:
         if company and role:
             return (
-                f"Master of Science (M1) Engineering student in Microelectronics, Nanotechnology & Embedded Systems at JUNIA ISEN Lille (2026 – Present) "
-                f"and BSc Computer Engineering graduate from KNUST, Ghana (Completed 2026). Hands-on validated experience in {skills}, "
-                f"seeking a 3 to 4-month internship or Alternance with {company} ({role}) starting April 2027."
+                f"Engineering student in Electronics and Embedded Systems at JUNIA ISEN Lille (2025 – Present, M1), holding a BSc in Computer Engineering "
+                f"from KNUST, Ghana (2026). Hands-on experience in {skills}, sensor signal conditioning, and microelectronics. "
+                f"Seeking a 3 to 4-month technical internship or Alternance with {company} ({role}) starting April 2027."
             )
         return (
-            "Master of Science (M1) Engineering student in Microelectronics, Nanotechnology & Embedded Systems at JUNIA ISEN Lille (2026 – Present) "
-            "and BSc Computer Engineering graduate from KNUST, Ghana (Completed 2026). Skilled in Embedded C/C++17, STM32/ESP32/MSP430 firmware, "
-            "KiCad PCB design, and hardware-software validation. Seeking a 3 to 4-month internship starting April 2027."
+            "Engineering student in Electronics and Embedded Systems at JUNIA ISEN Lille, holding a BSc in Computer Engineering from KNUST, Ghana (2026). "
+            "Trained in low-level programming (Embedded C, C++17, MSP430 Assembly), microcontroller architectures (STM32, ESP32, MSP430, Arduino), "
+            "sensor signal conditioning, and microelectronics. Former Department President of Computer Engineering (ACES, 800+ students). "
+            "Seeking a 3 to 4-month technical internship starting April 2027 in embedded systems, firmware, or microelectronics."
         )
     if company and role:
         return (
-            f"Étudiant en Master 1 (M1) Microélectronique, Nanotechnologies & Systèmes Embarqués à JUNIA ISEN Lille (2026 – Présent), "
-            f"diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). Maîtrise pratique de {skills}, "
-            f"disponible dès avril 2027 pour un stage de 3 à 4 mois ou une alternance au sein de {company} ({role})."
+            f"Étudiant ingénieur en Électronique et Systèmes Embarqués à JUNIA ISEN Lille (2025 – Présent, M1), diplômé d'un BSc en Génie Informatique "
+            f"de KNUST, Ghana (2026). Expérience pratique en {skills}, conditionnement de signaux capteurs et microélectronique. "
+            f"À la recherche d'un stage technique de 3 à 4 mois ou d'une alternance au sein de {company} ({role}) à partir d'avril 2027."
         )
     return (
-        "Étudiant en Master 1 (M1) Microélectronique, Nanotechnologies & Systèmes Embarqués à JUNIA ISEN Lille (2026 – Présent), "
-        "diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). Compétent en C/C++17 embarqué, microcontrôleurs STM32/ESP32/MSP430, "
-        "conception PCB KiCad et validation matériel-logiciel. Disponible pour un stage dès avril 2027."
+        "Étudiant ingénieur en Électronique et Systèmes Embarqués à JUNIA ISEN Lille, diplômé d'un BSc en Génie Informatique de KNUST, Ghana (2026). "
+        "Formé à la programmation bas niveau (C embarqué, C++17, Assembleur MSP430), aux architectures microcontrôleurs (STM32, ESP32, MSP430, Arduino), "
+        "au conditionnement de signaux capteurs et à la microélectronique. Ancien Président du Département de Génie Informatique (ACES, +800 étudiants). "
+        "À la recherche d'un stage technique de 3 à 4 mois à partir d'avril 2027 en systèmes embarqués, électronique ou microélectronique."
     )
 
 
 def _build_cover_pitch(job: Optional[Dict[str, Any]], lang: str, ranked_projects: List[Dict[str, Any]]) -> str:
     company = (job or {}).get("company") or ("your engineering team" if lang == "en" else "votre équipe R&D")
-    role = (job or {}).get("title") or ("Embedded Systems & Microelectronics Engineer" if lang == "en" else "Ingénieur Systèmes Embarqués & Microélectronique")
-    lead = ranked_projects[0]["title"] if ranked_projects else "Automated Water Tank Control & KiCad Power Charger PCB"
-    if lang == "en":
-        return (
-            f"Subject: Application — {role} | Hanz Ofosuhene-Sintim (M1 JUNIA ISEN Lille)\n\n"
-            f"Dear {company} Hiring Team,\n\n"
-            f"Currently pursuing my Master 1 (M1) in Microelectronics, Nanotechnology & Embedded Systems at JUNIA ISEN Lille (2026 – Present) "
-            f"after graduating with a BSc in Computer Engineering from KNUST (Completed 2026), I am eager to join {company} for the {role} opening.\n\n"
-            f"My verified hands-on work — led by {lead} alongside MSP430 C/Assembly acquisition, KiCad PCB layout, and C++17 OOP architecture — "
-            f"aligns directly with your technical stack. As former Department President of ACES representing 800+ engineering students (Aug 2025 – May 2026), "
-            f"I bring rigor, clear documentation, and immediate ownership to hardware-software teams.\n\n"
-            f"Best regards,\nHanz Ofosuhene-Sintim\nhanzsintim@gmail.com | +33 6 05 73 14 16"
+    role = (job or {}).get("title") or ("Embedded Systems & Electronics Engineering Intern" if lang == "en" else "Stagiaire Ingénieur Systèmes Embarqués & Électronique")
+    loc = (job or {}).get("location") or "Lille, France"
+    desc = (job or {}).get("description") or ""
+    try:
+        import cv_studio
+        analysis = cv_studio.analyze_offer(
+            company=company,
+            role=role,
+            offer_text=f"{role} {desc} {' '.join((job or {}).get('skills') or [])}",
+            lang=lang,
+            contract=str((job or {}).get("contract_type") or "stage"),
+            location=loc,
         )
-    return (
-        f"Objet : Candidature — {role} | Hanz Ofosuhene-Sintim (M1 JUNIA ISEN Lille)\n\n"
-        f"Madame, Monsieur l'équipe recrutement de {company},\n\n"
-        f"Actuellement en Master 1 (M1) Microélectronique, Nanotechnologies & Systèmes Embarqués à JUNIA ISEN Lille (2026 – Présent), "
-        f"après l'obtention de mon BSc en Génie Informatique à KNUST (diplômé en 2026), je souhaite rejoindre {company} sur l'opportunité « {role} ».\n\n"
-        f"Mes réalisations matérielles et logicielles validées — notamment {lead}, l'acquisition bas niveau sur TI MSP430 (C & Assembleur), "
-        f"le routage PCB sous KiCad et la programmation C++17 POO — répondent directement à vos enjeux techniques. Ancien Président du département ACES "
-        f"représentant plus de 800 étudiants ingénieurs (Août 2025 – Mai 2026), je serais ravi d'échanger lors d'un entretien.\n\n"
-        f"Cordialement,\nHanz Ofosuhene-Sintim\nhanzsintim@gmail.com | +33 6 05 73 14 16"
-    )
+        return cv_studio.build_cover_letter(analysis, lang)
+    except Exception:
+        lead = ranked_projects[0]["title"] if ranked_projects else "Autonomous Street-Cleaning Robot (STM32/ESP32) & TI MSP430 Digital Thermometer"
+        if lang == "en":
+            return (
+                f"Hanz Ofosuhene-Sintim\nLille, France | +33 6 05 73 14 16 | hanzsintim@gmail.com\n\n"
+                f"Subject: Application — {role} | Hanz Ofosuhene-Sintim (JUNIA ISEN Lille)\n\n"
+                f"Dear {company} Hiring Team,\n\n"
+                f"Currently pursuing my Engineering Degree (M1) in Electronics and Embedded Systems at JUNIA ISEN Lille "
+                f"after graduating with a BSc in Computer Engineering from KNUST (2026), I am writing to apply for the {role} opening at {company}.\n\n"
+                f"My hands-on engineering projects — led by {lead} alongside MSP430 C/Assembly acquisition, KiCad PCB layout, and C++17 OOP architecture — "
+                f"align directly with your technical stack. As former Department President of ACES representing 800+ engineering students (Aug 2025 – May 2026), "
+                f"I bring rigor, clear documentation, and immediate ownership to hardware-software teams.\n\n"
+                f"Sincerely,\nHanz Ofosuhene-Sintim"
+            )
+        return (
+            f"Hanz Ofosuhene-Sintim\nLille, France | +33 6 05 73 14 16 | hanzsintim@gmail.com\n\n"
+            f"Objet : Candidature — {role} | Hanz Ofosuhene-Sintim (JUNIA ISEN Lille)\n\n"
+            f"Madame, Monsieur,\n\n"
+            f"Actuellement étudiant ingénieur (Cycle Master M1) en Électronique et Systèmes Embarqués à JUNIA ISEN Lille, "
+            f"et titulaire d'un BSc en Génie Informatique de KNUST (diplômé en 2026), je vous présente ma candidature chez {company} pour le poste « {role} ».\n\n"
+            f"Mes réalisations matérielles et logicielles — notamment {lead}, l'acquisition bas niveau sur TI MSP430 (C & Assembleur), "
+            f"le routage PCB sous KiCad et la programmation C++17 POO — répondent directement à vos enjeux techniques. Ancien Président du département ACES "
+            f"représentant plus de 800 étudiants ingénieurs (Août 2025 – Mai 2026), je serais ravi d'échanger lors d'un entretien.\n\n"
+            f"Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\nHanz Ofosuhene-Sintim"
+        )
+
+
+def _build_outreach_message(job: Optional[Dict[str, Any]], lang: str, ranked_projects: List[Dict[str, Any]]) -> Dict[str, str]:
+    company = (job or {}).get("company") or ("your engineering team" if lang == "en" else "votre équipe R&D")
+    role = (job or {}).get("title") or ("Embedded Systems & Electronics Engineering Intern" if lang == "en" else "Stage Ingénieur Systèmes Embarqués & Électronique")
+    loc = (job or {}).get("location") or "Lille, France"
+    desc = (job or {}).get("description") or ""
+    try:
+        import cv_studio
+        analysis = cv_studio.analyze_offer(
+            company=company,
+            role=role,
+            offer_text=f"{role} {desc} {' '.join((job or {}).get('skills') or [])}",
+            lang=lang,
+            contract=str((job or {}).get("contract_type") or "stage"),
+            location=loc,
+        )
+        return cv_studio.build_message(analysis, lang)
+    except Exception:
+        if lang == "en":
+            return {
+                "subject": f"Application: {role} — Hanz Ofosuhene-Sintim (JUNIA ISEN Lille)",
+                "body": f"Hello {company} Team,\n\nI am an M1 Electronics & Embedded Systems engineering student at JUNIA ISEN Lille (holding a BSc in Computer Engineering from KNUST, 2026) and I am very interested in {role}.\n\nBest regards,\nHanz Ofosuhene-Sintim\n+33 6 05 73 14 16 | hanzsintim@gmail.com",
+                "linkedin_note": f"Hello, M1 Embedded Systems & Electronics student at JUNIA ISEN Lille (BSc Computer Eng. KNUST '26). Very interested in {role} at {company}.",
+            }
+        return {
+            "subject": f"Candidature : {role} — Hanz Ofosuhene-Sintim (JUNIA ISEN Lille)",
+            "body": f"Bonjour l'équipe {company},\n\nÉtudiant ingénieur (M1) en Électronique et Systèmes Embarqués à JUNIA ISEN Lille (diplômé d'un BSc en Génie Informatique de KNUST, 2026), je vous contacte au sujet de l'opportunité « {role} ».\n\nBien cordialement,\nHanz Ofosuhene-Sintim\n+33 6 05 73 14 16 | hanzsintim@gmail.com",
+            "linkedin_note": f"Bonjour, étudiant ingénieur M1 Systèmes Embarqués à JUNIA ISEN Lille (BSc Computer Eng. KNUST '26). Très intéressé par {role} chez {company}.",
+        }
 
 
 def build_initial_cv_state(
@@ -954,7 +1028,7 @@ def build_initial_cv_state(
     lang: str = "fr",
     template_id: str = "ws_fr_ats",
 ) -> Dict[str, Any]:
-    """Build two-way editable JSON cvState strictly grounded in ground_truth_profile.json and matching canonical ATS / 2-Col Teal templates."""
+    """Build two-way editable JSON cvState strictly grounded in ground_truth_profile.json and matching Hanz_CV_Hub master ATS & Design (#163853 Navy Sidebar) templates."""
     profile = load_ground_truth_profile()
     owner = profile["owner"]
     lang = "en" if str(lang).lower().startswith("en") else "fr"
@@ -962,27 +1036,53 @@ def build_initial_cv_state(
 
     if not template_id:
         template_id = "ws_en_ats" if is_en else "ws_fr_ats"
-    ats_mode = "design_two_col" if ("design" in template_id.lower() and "ats" not in template_id.lower()) else "strict_ats"
+    tl = template_id.lower()
+    ats_mode = "design_two_col" if ("design" in tl or "non_ats" in tl or tl in ("ws_fr_design", "ws_en_design")) else "strict_ats"
 
     ranked_projects = rank_projects_for_job(job, lang=lang, max_projects=0)
     for i, proj in enumerate(ranked_projects):
         proj["visible"] = i < 4
-        # Keep top 2 concise bullets by default for strict 1-page canonical ATS alignment
+        # Keep top 2 concise bullets by default for strict 1-page canonical alignment
         if len(proj.get("bullets", [])) > 2:
             proj["bullets"] = proj["bullets"][:2]
 
-    role_label = (job or {}).get("title") or (
-        "Engineering Student (M1) — Electronics & Embedded Systems | Seeking a 3–4 Month Internship (April 2027)"
-        if is_en else
-        "Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués | Recherche de stage (3 à 4 mois, Avril 2027)"
-    )
+    job_title = (job or {}).get("title") or ""
+    company_name = (job or {}).get("company") or ""
+    if job_title:
+        role_label = job_title
+        role_sub = (
+            f"Engineering Student (M1) at JUNIA ISEN Lille | Target: {company_name or '3–4 Month Internship (April 2027)'}"
+            if is_en else
+            f"Étudiant Ingénieur (M1) à JUNIA ISEN Lille | Cible : {company_name or 'Stage 3 à 4 mois (Avril 2027)'}"
+        )
+        headline = (
+            f"Engineering Student (M1) — Electronics & Embedded Systems | {job_title}{(' — ' + company_name) if company_name else ''}"
+            if is_en else
+            f"Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués | {job_title}{(' — ' + company_name) if company_name else ''}"
+        )
+    else:
+        role_label = (
+            "Engineering Student (M1) — Electronics & Embedded Systems"
+            if is_en else
+            "Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués"
+        )
+        role_sub = (
+            "Seeking a 3 to 4-Month Technical Internship | Starting April 2027 | National & International Mobility"
+            if is_en else
+            "Recherche de stage technique (3 à 4 mois) | À partir d'Avril 2027 | Mobilité nationale & internationale"
+        )
+        headline = (
+            "Engineering Student (M1) — Electronics & Embedded Systems | Seeking a 3–4 Month Internship (April 2027)"
+            if is_en else
+            "Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués | Recherche de stage (3 à 4 mois, Avril 2027)"
+        )
 
     education = []
     for ed in profile.get("academic_timeline", []):
         education.append({
             "id": ed["id"],
             "degree": ed["degree_en"] if is_en else ed["degree_fr"],
-            "institution": f"{ed['institution']} | {ed['location']}",
+            "institution": f"{ed['institution']} — {ed['location']}",
             "period": ed["period_en"] if is_en else ed["period_fr"],
             "notes": ed["notes_en"] if is_en else ed["notes_fr"],
         })
@@ -1005,14 +1105,13 @@ def build_initial_cv_state(
     sk_m = (profile.get("skills_matrix") or {}).get("en" if is_en else "fr", {})
     default_skills = {
         "embedded": sk_m.get("embedded", "Embedded C, C, C++17, Assembly (MSP430), Python 3, SQL, HTML/CSS, JavaScript"),
-        "hardware": sk_m.get("hardware", "STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Sensors, KiCad (PCB), Semiconductor Physics"),
-        "software": sk_m.get("software", "Hardware-Software Debugging (GDB), Signal Chain Validation, Unit & Interface Testing, Linux, Git"),
+        "hardware": sk_m.get("hardware", "STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Ultrasonic & Analog Sensors, KiCad (PCB), Semiconductor Physics"),
+        "software": sk_m.get("software", "Hardware-Software Debugging (GDB), Signal Chain Validation, Unit & Interface Testing, Linux, Git/GitHub, Edge AI (basics)"),
         "interpersonal": sk_m.get("interpersonal", "Team Leadership, Analytical Problem-Solving, Rigor, Autonomy, Cross-Cultural Communication"),
-        "languages": sk_m.get("languages", "English: C2 (Native Speaker — BSc in Ghana) | French: A2 (Academic immersion in Lille)"),
-        "interests": sk_m.get("interests", "World history, engineering systems architecture, Organizing Lead at GHAFRA Nord (Lille)"),
+        "languages": sk_m.get("languages", "English: C2 (Native Speaker — Secondary & University Education in English) | French: A2 (Elementary — Duolingo Score: 21; in active progression in Lille)"),
+        "interests": sk_m.get("interests", "World history & geopolitics, modern technological innovations, engineering systems architecture, Organizing Lead at GHAFRA Nord (Lille)"),
     }
 
-    company_name = (job or {}).get("company", "")
     phone = owner.get("phone", "+33 6 05 73 14 16")
     email = owner.get("email", "hanzsintim@gmail.com")
     linkedin = owner.get("linkedin_url", "linkedin.com/in/hanzofosuhene-sintim").replace("https://www.", "").replace("https://", "")
@@ -1032,15 +1131,25 @@ def build_initial_cv_state(
         },
         "header": {
             "full_name": owner["full_name"].upper(),
-            "headline": (
-                f"{role_label}{(' — ' + company_name) if company_name else ''}"
-            ),
+            "role_title": role_label,
+            "role_sub": role_sub,
+            "headline": headline,
+            "photo_url": "/static/images/Hans_circle_navy.jpg",
+            "phone": phone,
+            "email": email,
+            "linkedin": linkedin,
+            "github": github,
+            "portfolio": portfolio,
             "contact_line": (
                 f"Lille, France (National & International Mobility) | Phone: {phone} | Email: {email}"
                 if is_en else
                 f"Lille, France (Mobilité nationale & internationale) | Tél : {phone} | Email : {email}"
             ),
-            "links_line": f"LinkedIn : {linkedin} | GitHub : {github} | Portfolio : {portfolio}",
+            "links_line": (
+                f"LinkedIn: {linkedin} | GitHub: {github} | Portfolio: {portfolio}"
+                if is_en else
+                f"LinkedIn : {linkedin} | GitHub : {github} | Portfolio : {portfolio}"
+            ),
             "availability": (
                 "Available April 2027 (3–4 Month Internship) & Alternance Sept 2027 (M2)"
                 if is_en else
@@ -1054,11 +1163,12 @@ def build_initial_cv_state(
         "skills": default_skills,
         "layout": {
             "page_margin_mm": 8,
-            "section_gap_px": 4,
-            "font_scale": 0.94,
-            "line_height": 1.24,
+            "section_gap_px": 5,
+            "font_scale": 1.0,
+            "line_height": 1.3,
         },
         "cover_pitch": _build_cover_pitch(job, lang, ranked_projects),
+        "outreach_message": _build_outreach_message(job, lang, ranked_projects),
     }
 
     report = validate_cv_truth(state)
@@ -1066,7 +1176,11 @@ def build_initial_cv_state(
 
 
 def render_cv_state_to_html(cv_state: Dict[str, Any], standalone: bool = True) -> str:
-    """Render two-way cvState into a strict 1-page A4 HTML sheet matching canonical ATS or 2-Col Teal Design templates."""
+    """
+    Render two-way cvState into a strict 1-page A4 HTML sheet matching Hanz_CV_Hub master templates:
+    - strict_ats: 1-Column Black/White A4 (`padding: 8mm 13mm`, `Arial, Helvetica, sans-serif`, `8.9pt`)
+    - design_two_col: 2-Column `#163853` Navy Left Sidebar (33.5% width) with Circular Portrait Photo + Right Main Timeline (66.5% width)
+    """
     linted = validate_cv_truth(cv_state)
     st = linted["rewritten_payload"]
     meta = st.get("meta") or {}
@@ -1076,9 +1190,9 @@ def render_cv_state_to_html(cv_state: Dict[str, Any], standalone: bool = True) -
     layout = st.get("layout") or {}
 
     margin_mm = float(layout.get("page_margin_mm", 8))
-    sec_gap = float(layout.get("section_gap_px", 4))
-    font_scale = float(layout.get("font_scale", 0.94))
-    line_h = float(layout.get("line_height", 1.24))
+    sec_gap = float(layout.get("section_gap_px", 5))
+    font_scale = float(layout.get("font_scale", 1.0))
+    line_h = float(layout.get("line_height", 1.3))
 
     header = st.get("header") or {}
     esc = html_lib.escape
@@ -1090,134 +1204,400 @@ def render_cv_state_to_html(cv_state: Dict[str, Any], standalone: bool = True) -
         "experience": "PROFESSIONAL EXPERIENCE & LEADERSHIP" if is_en else "EXPÉRIENCES PROFESSIONNELLES & LEADERSHIP",
         "skills": "SKILLS" if is_en else "COMPÉTENCES",
         "lang_int": "LANGUAGES & INTERESTS" if is_en else "LANGUES & CENTRES D'INTÉRÊT",
+        "contact": "CONTACT" if is_en else "COORDONNÉES",
+        "languages_only": "LANGUAGES" if is_en else "LANGUES",
+        "interests_only": "INTERESTS & ACTIVITIES" if is_en else "ACTIVITÉS & INTÉRÊTS",
     }
 
-    edu_html = []
-    for ed in st.get("education", []):
-        edu_html.append(
-            f'<div class="cv-entry"><div class="cv-row"><strong>{esc(ed.get("institution", ""))}</strong>'
-            f'<span class="cv-date">{esc(ed.get("period", ""))}</span></div>'
-            f'<div class="cv-sub">{esc(ed.get("degree", ""))}</div></div>'
-        )
-
-    proj_html = []
-    for p in st.get("projects", []):
-        if not p.get("visible", True):
-            continue
-        bullets_li = "".join(f"<li>{esc(b)}</li>" for b in p.get("bullets", []))
-        proj_html.append(
-            f'<div class="cv-entry"><div class="cv-row"><strong>{esc(p.get("title", ""))}</strong>'
-            f'<span class="cv-date">{esc(p.get("date", ""))}</span></div>'
-            f'<ul>{bullets_li}</ul></div>'
-        )
-
-    exp_html = []
-    for ex in st.get("experience", []):
-        bullets_li = "".join(f"<li>{esc(b)}</li>" for b in ex.get("bullets", []))
-        exp_html.append(
-            f'<div class="cv-entry"><div class="cv-row"><strong>{esc(ex.get("title", ""))}</strong>'
-            f'<span class="cv-date">{esc(ex.get("period", ""))}</span></div>'
-            f'<div class="cv-sub">{esc(ex.get("org", ""))}</div>'
-            f'<ul>{bullets_li}</ul></div>'
-        )
-
     skills = st.get("skills") or {}
-    skills_html = (
-        f'<ul class="cv-skills">'
-        f'<li><strong>{"Low-Level & Programming" if is_en else "Programmation & Bas Niveau"} :</strong> {esc(skills.get("embedded", ""))}</li>'
-        f'<li><strong>{"Embedded Systems & Hardware" if is_en else "Systèmes Embarqués & Matériel"} :</strong> {esc(skills.get("hardware", ""))}</li>'
-        f'<li><strong>{"Testing, Analysis & Tools" if is_en else "Tests, Analyse & Outils"} :</strong> {esc(skills.get("software", ""))}</li>'
-        f'<li><strong>{"Interpersonal" if is_en else "Savoir-être"} :</strong> {esc(skills.get("interpersonal", "Team Leadership, Analytical Problem-Solving, Rigor, Autonomy" if is_en else "Leadership d\'équipe, Esprit d\'analyse, Rigueur, Autonomie"))}</li>'
-        f'</ul>'
-    )
-
-    lang_int_html = (
-        f'<ul class="cv-skills">'
-        f'<li><strong>{"Languages" if is_en else "Langues"} :</strong> {esc(skills.get("languages", ""))}</li>'
-        f'<li><strong>{"Interests & Extracurriculars" if is_en else "Centres d\'intérêt"} :</strong> {esc(skills.get("interests", "World history, engineering systems, GHAFRA Nord (Lille)"))}</li>'
-        f'</ul>'
-    )
-
-    contact_links = esc(header.get("links_line") or "LinkedIn : linkedin.com/in/hanzofosuhene-sintim | GitHub : github.com/HanzSintim | Portfolio : hanzsintim.github.io")
+    phone = header.get("phone") or "+33 6 05 73 14 16"
+    email = header.get("email") or "hanzsintim@gmail.com"
+    linkedin = header.get("linkedin") or "linkedin.com/in/hanzofosuhene-sintim"
+    github = header.get("github") or "github.com/HanzSintim"
+    portfolio = header.get("portfolio") or "hanzsintim.github.io"
+    contact_links = esc(header.get("links_line") or f"LinkedIn : {linkedin} | GitHub : {github} | Portfolio : {portfolio}")
 
     if ats_mode == "design_two_col":
+        photo_src = header.get("photo_url") or "/static/images/Hans_circle_navy.jpg"
+        if standalone:
+            try:
+                import cv_studio
+                data_uri = cv_studio.get_portrait_data_uri()
+                if data_uri:
+                    photo_src = data_uri
+            except Exception:
+                pass
+
+        edu_sidebar = []
+        for ed in st.get("education", []):
+            inst_raw = ed.get("institution", "")
+            school_part = inst_raw.split("—")[0].split("|")[0].strip()
+            loc_part = ""
+            if "—" in inst_raw:
+                loc_part = inst_raw.split("—", 1)[1].strip()
+            elif "|" in inst_raw:
+                loc_part = inst_raw.split("|", 1)[1].strip()
+            deg_raw = ed.get("degree", "")
+            deg_main = deg_raw.split("—")[0].strip() if "—" in deg_raw else deg_raw
+            deg_sub = deg_raw.split("—", 1)[1].strip() if "—" in deg_raw else (ed.get("notes", "") or "")
+            edu_sidebar.append(
+                f'<div class="edu-block">'
+                f'<div class="edu-year">{esc(ed.get("period", ""))}</div>'
+                f'<div class="edu-school">{esc(school_part)}</div>'
+                f'<div class="edu-loc">{esc(loc_part)}</div>'
+                f'<div class="edu-deg">{esc(deg_main)}</div>'
+                f'{f"<div class=\'edu-sub\'>{esc(deg_sub)}</div>" if deg_sub else ""}'
+                f'</div>'
+            )
+
+        proj_timeline = []
+        for p in st.get("projects", []):
+            if not p.get("visible", True):
+                continue
+            bullets_li = "".join(f"<li>{esc(b)}</li>" for b in p.get("bullets", []))
+            meta_line = p.get("meta") or " | ".join((p.get("stack") or [])[:4])
+            proj_timeline.append(
+                f'<div class="t-item">'
+                f'<div class="t-dot"></div>'
+                f'<div class="t-head">'
+                f'<span class="t-title">{esc(p.get("title", ""))}</span>'
+                f'<span class="t-date">{esc(p.get("date", ""))}</span>'
+                f'</div>'
+                f'{f"<div class=\'t-meta\'>{esc(meta_line)}</div>" if meta_line else ""}'
+                f'<ul class="t-ul">{bullets_li}</ul>'
+                f'</div>'
+            )
+
+        exp_timeline = []
+        for ex in st.get("experience", []):
+            bullets_li = "".join(f"<li>{esc(b)}</li>" for b in ex.get("bullets", []))
+            exp_timeline.append(
+                f'<div class="t-item">'
+                f'<div class="t-dot"></div>'
+                f'<div class="t-head">'
+                f'<span class="t-title">{esc(ex.get("title", ""))}</span>'
+                f'<span class="t-date">{esc(ex.get("period", ""))}</span>'
+                f'</div>'
+                f'<div class="t-meta">{esc(ex.get("org", ""))}</div>'
+                f'<ul class="t-ul">{bullets_li}</ul>'
+                f'</div>'
+            )
+
+        sidebar_skills_html = (
+            f'<div class="skill-group">'
+            f'<div class="skill-group-title">{"Low-Level & Programming" if is_en else "Programmation & Bas Niveau"}</div>'
+            f'<div class="skill-list">{esc(skills.get("embedded", ""))}</div>'
+            f'</div>'
+            f'<div class="skill-group">'
+            f'<div class="skill-group-title">{"Embedded Systems & Hardware" if is_en else "Systèmes Embarqués & Matériel"}</div>'
+            f'<div class="skill-list">{esc(skills.get("hardware", ""))}</div>'
+            f'</div>'
+            f'<div class="skill-group">'
+            f'<div class="skill-group-title">{"Testing, Analysis & Tools" if is_en else "Tests, Analyse & Outils"}</div>'
+            f'<div class="skill-list">{esc(skills.get("software", ""))}</div>'
+            f'</div>'
+            f'<div class="skill-group">'
+            f'<div class="skill-group-title">{"Interpersonal Skills" if is_en else "Savoir-être"}</div>'
+            f'<div class="skill-list">{esc(skills.get("interpersonal", ""))}</div>'
+            f'</div>'
+        )
+
+        lang_raw = skills.get("languages", "")
+        lang_parts = [pt.strip() for pt in lang_raw.split("|") if pt.strip()]
+        if not lang_parts:
+            lang_parts = [
+                "English: C2 (Native Speaker — Secondary & University Education in English)" if is_en else "Anglais : C2 (Langue maternelle — scolarité secondaire et universitaire en anglais)",
+                "French: A2 (Elementary — Duolingo Score: 21; in active progression in Lille)" if is_en else "Français : A2 (Élémentaire — Score Duolingo : 21 ; en progression active à Lille)",
+            ]
+        lang_li = "".join(f"<li>{esc(lp)}</li>" for lp in lang_parts)
+
+        int_raw = skills.get("interests", "")
+        int_li = f"<li>{esc(int_raw)}</li>"
+
+        role_title_str = header.get("role_title") or (
+            "Engineering Student (M1) — Electronics & Embedded Systems"
+            if is_en else
+            "Étudiant Ingénieur (M1) — Électronique & Systèmes Embarqués"
+        )
+        role_sub_str = header.get("role_sub") or (
+            "Seeking a 3 to 4-Month Technical Internship | Starting April 2027 | National & International Mobility"
+            if is_en else
+            "Recherche de stage technique (3 à 4 mois) | À partir d'Avril 2027 | Mobilité nationale & internationale"
+        )
+        full_name_raw = header.get("full_name", "HANZ OFOSUHENE-SINTIM")
+        if " " in full_name_raw:
+            first_tok, rest_tok = full_name_raw.split(" ", 1)
+            name_html = f"{esc(first_tok)} <span>{esc(rest_tok)}</span>"
+        else:
+            name_html = f"<span>{esc(full_name_raw)}</span>"
+
         body_content = f"""
-        <div class="a4-sheet-inner is-two-col" style="--cv-page-margin:{margin_mm}mm;--cv-section-gap:{sec_gap}px;--cv-font-scale:{font_scale};--cv-line-height:{line_h};">
-          <div class="teal-top-bar"></div>
-          <header class="cv-header teal-header">
-            <h1>{esc(header.get("full_name", "HANZ OFOSUHENE-SINTIM"))}</h1>
-            <div class="cv-headline">{esc(header.get("headline", ""))}</div>
-            <div class="cv-contact">{esc(header.get("contact_line", ""))} | {contact_links}</div>
-          </header>
-          <div class="teal-cols">
-            <div class="teal-left">
-              <section class="cv-sec"><h2>{labels["profile"]}</h2><p class="cv-summary">{esc(st.get("summary", ""))}</p></section>
-              <section class="cv-sec"><h2>{labels["projects"]}</h2>{''.join(proj_html)}</section>
-              <section class="cv-sec"><h2>{labels["experience"]}</h2>{''.join(exp_html)}</section>
-              <section class="cv-sec"><h2>{labels["education"]}</h2>{''.join(edu_html)}</section>
+        <div class="page a4-sheet-inner is-two-col" style="--cv-page-margin:{margin_mm}mm;--cv-section-gap:{sec_gap}px;--cv-font-scale:{font_scale};--cv-line-height:{line_h};">
+          <aside class="sidebar">
+            <div class="photo-wrap">
+              <img src="{esc(photo_src)}" alt="Hanz Ofosuhene-Sintim">
             </div>
-            <aside class="teal-right">
-              <section class="cv-sec"><h2>{labels["skills"]}</h2>{skills_html}</section>
-              <section class="cv-sec"><h2>{labels["lang_int"]}</h2>{lang_int_html}</section>
-              <section class="cv-sec"><h2>{"AVAILABILITY" if is_en else "DISPONIBILITÉ"}</h2><p class="cv-summary">{esc(header.get("availability", ""))}</p></section>
-            </aside>
-          </div>
+            <div class="s-section">
+              <div class="s-title">{labels["contact"]}</div>
+              <ul class="contact-list">
+                <li><span class="c-icon">☎</span><span class="c-text">{esc(phone)}</span></li>
+                <li><span class="c-icon">✉</span><span class="c-text">{esc(email)}</span></li>
+                <li><span class="c-icon">⌂</span><span class="c-text">{"Lille, France (National & International Mobility)" if is_en else "Lille, France (Mobilité nationale & internationale)"}</span></li>
+                <li><span class="c-icon">in</span><span class="c-text">{esc(linkedin)}</span></li>
+                <li><span class="c-icon">&lt;/&gt;</span><span class="c-text">{esc(github)}<br>{esc(portfolio)}</span></li>
+              </ul>
+            </div>
+            <div class="s-section">
+              <div class="s-title">{labels["education"]}</div>
+              {''.join(edu_sidebar)}
+            </div>
+            <div class="s-section">
+              <div class="s-title">{labels["skills"]}</div>
+              {sidebar_skills_html}
+            </div>
+            <div class="s-section">
+              <div class="s-title">{labels["languages_only"]}</div>
+              <ul class="s-list">{lang_li}</ul>
+            </div>
+            <div class="s-section">
+              <div class="s-title">{labels["interests_only"]}</div>
+              <ul class="s-list">{int_li}</ul>
+            </div>
+          </aside>
+          <main class="main">
+            <header class="header">
+              <div class="name">{name_html}</div>
+              <div class="role-title">{esc(role_title_str)}</div>
+              <div class="role-sub">{esc(role_sub_str)}</div>
+              <div class="header-bar"></div>
+            </header>
+            <section class="m-section">
+              <div class="m-title">{labels["profile"]}</div>
+              <p class="profile-text">{esc(st.get("summary", ""))}</p>
+            </section>
+            <section class="m-section">
+              <div class="m-title">{labels["projects"]}</div>
+              <div class="timeline">{''.join(proj_timeline)}</div>
+            </section>
+            <section class="m-section">
+              <div class="m-title">{labels["experience"]}</div>
+              <div class="timeline">{''.join(exp_timeline)}</div>
+            </section>
+          </main>
         </div>
         """
     else:
+        edu_html = []
+        for ed in st.get("education", []):
+            deg_str = ed.get("degree", "")
+            notes_str = ed.get("notes", "")
+            sub_line = f"{deg_str} — {notes_str}" if (notes_str and notes_str not in deg_str) else deg_str
+            edu_html.append(
+                f'<div class="entry">'
+                f'<div class="entry-header">'
+                f'<span class="entry-title">{esc(ed.get("institution", ""))}</span>'
+                f'<span class="entry-date">{esc(ed.get("period", ""))}</span>'
+                f'</div>'
+                f'<div class="entry-sub">{esc(sub_line)}</div>'
+                f'</div>'
+            )
+
+        proj_html = []
+        for p in st.get("projects", []):
+            if not p.get("visible", True):
+                continue
+            bullets_li = "".join(f"<li>{esc(b)}</li>" for b in p.get("bullets", []))
+            meta_str = p.get("meta") or ""
+            title_full = f"{p.get('title', '')} ({meta_str})" if (meta_str and meta_str not in p.get("title", "")) else p.get("title", "")
+            proj_html.append(
+                f'<div class="entry">'
+                f'<div class="entry-header">'
+                f'<span class="entry-title">{esc(title_full)}</span>'
+                f'<span class="entry-date">{esc(p.get("date", ""))}</span>'
+                f'</div>'
+                f'<ul>{bullets_li}</ul>'
+                f'</div>'
+            )
+
+        exp_html = []
+        for ex in st.get("experience", []):
+            bullets_li = "".join(f"<li>{esc(b)}</li>" for b in ex.get("bullets", []))
+            title_org = f"{ex.get('title', '')} — {ex.get('org', '')}" if ex.get("org") else ex.get("title", "")
+            exp_html.append(
+                f'<div class="entry">'
+                f'<div class="entry-header">'
+                f'<span class="entry-title">{esc(title_org)}</span>'
+                f'<span class="entry-date">{esc(ex.get("period", ""))}</span>'
+                f'</div>'
+                f'<ul>{bullets_li}</ul>'
+                f'</div>'
+            )
+
+        skills_html = (
+            f'<ul class="skills-list">'
+            f'<li><strong>{"Low-Level & Programming" if is_en else "Programmation & Bas Niveau"} :</strong> {esc(skills.get("embedded", ""))}</li>'
+            f'<li><strong>{"Embedded Systems & Hardware" if is_en else "Systèmes Embarqués & Matériel"} :</strong> {esc(skills.get("hardware", ""))}</li>'
+            f'<li><strong>{"Testing, Analysis & Tools" if is_en else "Tests, Analyse & Outils"} :</strong> {esc(skills.get("software", ""))}</li>'
+            f'<li><strong>{"Interpersonal Skills" if is_en else "Savoir-être"} :</strong> {esc(skills.get("interpersonal", ""))}</li>'
+            f'</ul>'
+        )
+
+        lang_int_html = (
+            f'<ul class="skills-list">'
+            f'<li><strong>{"Languages" if is_en else "Langues"} :</strong> {esc(skills.get("languages", ""))}</li>'
+            f'<li><strong>{"Interests & Extracurriculars" if is_en else "Centres d\'intérêt & Engagement"} :</strong> {esc(skills.get("interests", ""))}</li>'
+            f'</ul>'
+        )
+
         body_content = f"""
-        <div class="a4-sheet-inner" style="--cv-page-margin:{margin_mm}mm;--cv-section-gap:{sec_gap}px;--cv-font-scale:{font_scale};--cv-line-height:{line_h};">
-          <header class="cv-header">
-            <h1>{esc(header.get("full_name", "HANZ OFOSUHENE-SINTIM"))}</h1>
-            <div class="cv-headline">{esc(header.get("headline", ""))}</div>
-            <div class="cv-contact">{esc(header.get("contact_line", ""))}<br>{contact_links}</div>
-          </header>
-          <section class="cv-sec"><h2>{labels["profile"]}</h2><p class="cv-summary">{esc(st.get("summary", ""))}</p></section>
-          <section class="cv-sec"><h2>{labels["education"]}</h2>{''.join(edu_html)}</section>
-          <section class="cv-sec"><h2>{labels["projects"]}</h2>{''.join(proj_html)}</section>
-          <section class="cv-sec"><h2>{labels["experience"]}</h2>{''.join(exp_html)}</section>
-          <section class="cv-sec"><h2>{labels["skills"]}</h2>{skills_html}</section>
-          <section class="cv-sec"><h2>{labels["lang_int"]}</h2>{lang_int_html}</section>
+        <div class="a4-sheet-inner is-ats" style="--cv-page-margin:{margin_mm}mm;--cv-section-gap:{sec_gap}px;--cv-font-scale:{font_scale};--cv-line-height:{line_h};">
+          <h1>{esc(header.get("full_name", "HANZ OFOSUHENE-SINTIM"))}</h1>
+          <div class="subtitle">{esc(header.get("headline", ""))}</div>
+          <div class="contact">{esc(header.get("contact_line", ""))}<br>{contact_links}</div>
+          <h2>{labels["profile"]}</h2>
+          <p class="summary">{esc(st.get("summary", ""))}</p>
+          <h2>{labels["education"]}</h2>
+          {''.join(edu_html)}
+          <h2>{labels["projects"]}</h2>
+          {''.join(proj_html)}
+          <h2>{labels["experience"]}</h2>
+          {''.join(exp_html)}
+          <h2>{labels["skills"]}</h2>
+          {skills_html}
+          <h2>{labels["lang_int"]}</h2>
+          {lang_int_html}
         </div>
         """
 
     css = """
     @page { size: A4 portrait; margin: 0; }
+    :root { --cv-navy: #163853; --cv-legacy-accent: #2e8b8b; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       width: 210mm; height: 297mm; background: #ffffff; color: #000000;
       font-family: Arial, Helvetica, sans-serif;
       -webkit-print-color-adjust: exact; print-color-adjust: exact;
     }
-    .a4-sheet-inner {
+    /* Strict 1-Col ATS Master Layout (Matches Hanz_CV_Hub/FR/ATS & EN/ATS 1:1) */
+    .a4-sheet-inner.is-ats {
       width: 210mm; min-height: 297mm; max-height: 297mm; overflow: hidden;
-      padding: var(--cv-page-margin, 8mm) 11mm;
-      font-size: calc(8.9pt * var(--cv-font-scale, 0.94));
-      line-height: var(--cv-line-height, 1.24);
-      display: flex; flex-direction: column; gap: var(--cv-section-gap, 4px);
+      padding: var(--cv-page-margin, 8mm) 13mm;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: calc(8.9pt * var(--cv-font-scale, 1));
+      line-height: var(--cv-line-height, 1.3);
+      color: #000000; background: #ffffff;
     }
-    .a4-sheet-inner.is-two-col { padding: 0 9mm 7mm 9mm; }
-    .teal-top-bar { height: 10px; background: #2e8b8b; margin: 0 -9mm 4px -9mm; }
-    .cv-header { padding-bottom: 4px; border-bottom: 1.5px solid #000000; }
-    .teal-header { background: #f4f8f8; border-bottom: 2px solid #2e8b8b; padding: 6px 8px; }
-    .cv-header h1 { font-size: calc(15pt * var(--cv-font-scale, 0.94)); font-weight: 700; text-transform: uppercase; margin-bottom: 1px; }
-    .cv-headline { font-size: calc(9.2pt * var(--cv-font-scale, 0.94)); font-weight: 700; margin-bottom: 2px; }
-    .cv-contact { font-size: calc(8.4pt * var(--cv-font-scale, 0.94)); }
-    .teal-cols { display: flex; gap: 14px; align-items: flex-start; }
-    .teal-left { flex: 0 0 62%; display: flex; flex-direction: column; gap: var(--cv-section-gap, 4px); }
-    .teal-right { flex: 1; background: #eef6f6; padding: 8px; border-radius: 4px; display: flex; flex-direction: column; gap: 6px; }
-    .cv-sec h2 {
-      font-size: calc(9.5pt * var(--cv-font-scale, 0.94)); font-weight: 700; text-transform: uppercase;
-      border-bottom: 1px solid #000000; padding-bottom: 1px; margin-bottom: 2.5px; color: #000000;
+    .a4-sheet-inner.is-ats h1 {
+      font-size: calc(15.5pt * var(--cv-font-scale, 1));
+      font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; color: #000000;
     }
-    .is-two-col .cv-sec h2 { border-bottom: 2px solid #2e8b8b; color: #0f3f3f; }
-    .cv-entry { margin-bottom: 3px; }
-    .cv-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: calc(8.9pt * var(--cv-font-scale, 0.94)); }
-    .cv-date { font-size: calc(8.3pt * var(--cv-font-scale, 0.94)); font-weight: 700; white-space: nowrap; }
-    .cv-sub { font-size: calc(8.4pt * var(--cv-font-scale, 0.94)); margin-bottom: 1px; color: #222222; }
-    .cv-sec ul { padding-left: 15px; font-size: calc(8.3pt * var(--cv-font-scale, 0.94)); }
-    .cv-sec li { margin-bottom: 0.5px; }
-    .cv-summary { font-size: calc(8.6pt * var(--cv-font-scale, 0.94)); text-align: justify; }
+    .a4-sheet-inner.is-ats .subtitle {
+      font-size: calc(9.5pt * var(--cv-font-scale, 1));
+      font-weight: bold; margin-bottom: 3px; color: #000000;
+    }
+    .a4-sheet-inner.is-ats .contact {
+      font-size: calc(8.4pt * var(--cv-font-scale, 1));
+      margin-bottom: 6px; padding-bottom: 5px; border-bottom: 1.5px solid #000000; color: #000000;
+    }
+    .a4-sheet-inner.is-ats h2 {
+      font-size: calc(9.6pt * var(--cv-font-scale, 1));
+      font-weight: bold; text-transform: uppercase;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 1.5px; margin-top: var(--cv-section-gap, 6px); margin-bottom: 4px; color: #000000;
+    }
+    .a4-sheet-inner.is-ats .summary {
+      font-size: calc(8.6pt * var(--cv-font-scale, 1));
+      text-align: justify; margin-bottom: 4px;
+    }
+    .a4-sheet-inner.is-ats .entry { margin-bottom: 4.5px; }
+    .a4-sheet-inner.is-ats .entry-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: calc(8.9pt * var(--cv-font-scale, 1));
+    }
+    .a4-sheet-inner.is-ats .entry-title { font-weight: bold; }
+    .a4-sheet-inner.is-ats .entry-date {
+      font-weight: bold; font-size: calc(8.4pt * var(--cv-font-scale, 1)); white-space: nowrap;
+    }
+    .a4-sheet-inner.is-ats .entry-sub {
+      font-size: calc(8.5pt * var(--cv-font-scale, 1)); font-style: italic; margin-bottom: 1.5px;
+    }
+    .a4-sheet-inner.is-ats ul {
+      margin-left: 15px; margin-top: 1px; font-size: calc(8.5pt * var(--cv-font-scale, 1));
+    }
+    .a4-sheet-inner.is-ats li { margin-bottom: 1px; }
+    .a4-sheet-inner.is-ats .skills-list {
+      list-style-type: disc; margin-left: 15px; font-size: calc(8.5pt * var(--cv-font-scale, 1));
+    }
+    .a4-sheet-inner.is-ats .skills-list li { margin-bottom: 1.5px; }
+
+    /* 2-Column #163853 Navy Sidebar Design Master Layout (Matches Hanz_CV_Hub Non_ATS_Design 1:1) */
+    .page.is-two-col {
+      width: 210mm; height: 297mm; display: flex; flex-direction: row; overflow: hidden; padding: 0;
+      font-family: 'Segoe UI', Arial, Helvetica, sans-serif; color: #2b2b2b; background: #ffffff;
+    }
+    .page.is-two-col .sidebar {
+      width: 33.5%; background-color: #163853; color: #ffffff;
+      padding: 20px 18px 18px 18px; display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .page.is-two-col .photo-wrap { display: flex; justify-content: center; margin-bottom: 4px; }
+    .page.is-two-col .photo-wrap img {
+      width: 124px; height: 124px; border-radius: 50%; object-fit: cover; border: 3.5px solid #ffffff; display: block;
+    }
+    .page.is-two-col .s-section { margin-bottom: 4px; }
+    .page.is-two-col .s-title {
+      font-size: calc(9.8pt * var(--cv-font-scale, 1)); font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.1px; color: #ffffff; border-bottom: 1.5px solid rgba(255, 255, 255, 0.45);
+      padding-bottom: 3px; margin-bottom: 6px;
+    }
+    .page.is-two-col .contact-list { list-style: none; font-size: calc(7.8pt * var(--cv-font-scale, 1)); line-height: 1.35; }
+    .page.is-two-col .contact-list li { display: flex; align-items: flex-start; margin-bottom: 4px; color: #eaf1f6; }
+    .page.is-two-col .c-icon { width: 15px; font-weight: bold; color: #ffffff; flex-shrink: 0; font-size: 8pt; }
+    .page.is-two-col .c-text { word-break: break-word; }
+    .page.is-two-col .edu-block { margin-bottom: 7px; }
+    .page.is-two-col .edu-year { font-size: calc(7.8pt * var(--cv-font-scale, 1)); font-weight: 700; color: #ffffff; }
+    .page.is-two-col .edu-school { font-size: calc(8.2pt * var(--cv-font-scale, 1)); font-weight: 700; color: #ffffff; line-height: 1.2; }
+    .page.is-two-col .edu-loc { font-size: calc(7.4pt * var(--cv-font-scale, 1)); color: #cbd9e4; font-style: italic; margin-bottom: 1px; }
+    .page.is-two-col .edu-deg { font-size: calc(7.7pt * var(--cv-font-scale, 1)); color: #eaf1f6; line-height: 1.25; }
+    .page.is-two-col .edu-sub { font-size: calc(7.2pt * var(--cv-font-scale, 1)); color: #cbd9e4; line-height: 1.2; margin-top: 1px; }
+    .page.is-two-col .skill-group { margin-bottom: 5px; }
+    .page.is-two-col .skill-group-title { font-size: calc(7.7pt * var(--cv-font-scale, 1)); font-weight: 700; color: #ffffff; margin-bottom: 1px; }
+    .page.is-two-col .skill-list { font-size: calc(7.4pt * var(--cv-font-scale, 1)); color: #dce7ef; line-height: 1.28; }
+    .page.is-two-col .s-list { list-style: disc; margin-left: 14px; font-size: calc(7.5pt * var(--cv-font-scale, 1)); color: #eaf1f6; line-height: 1.3; }
+    .page.is-two-col .s-list li { margin-bottom: 2px; }
+    .page.is-two-col .main {
+      width: 66.5%; background-color: #ffffff; padding: 20px 22px 16px 20px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .page.is-two-col .header { margin-bottom: 4px; }
+    .page.is-two-col .name {
+      font-size: calc(20pt * var(--cv-font-scale, 1)); font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.6px; color: #2b2b2b; line-height: 1.05;
+    }
+    .page.is-two-col .name span { color: #163853; }
+    .page.is-two-col .role-title {
+      font-size: calc(9.8pt * var(--cv-font-scale, 1)); font-weight: 600; color: #163853; margin-top: 3px; letter-spacing: 0.2px;
+    }
+    .page.is-two-col .role-sub { font-size: calc(8.1pt * var(--cv-font-scale, 1)); color: #555555; margin-top: 1px; }
+    .page.is-two-col .header-bar { width: 48px; height: 3.5px; background-color: #163853; margin-top: 6px; }
+    .page.is-two-col .m-section { margin-top: 4px; }
+    .page.is-two-col .m-title {
+      font-size: calc(10pt * var(--cv-font-scale, 1)); font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: #163853; border-bottom: 1.5px solid #163853; padding-bottom: 2.5px; margin-bottom: 6px;
+    }
+    .page.is-two-col .profile-text { font-size: calc(8.1pt * var(--cv-font-scale, 1)); color: #3a3a3a; line-height: 1.36; text-align: justify; }
+    .page.is-two-col .timeline { border-left: 1.5px solid #163853; margin-left: 5px; padding-left: 13px; }
+    .page.is-two-col .t-item { position: relative; margin-bottom: 7.5px; }
+    .page.is-two-col .t-item:last-child { margin-bottom: 0; }
+    .page.is-two-col .t-dot {
+      position: absolute; left: -18px; top: 3px; width: 8.5px; height: 8.5px;
+      border-radius: 50%; background-color: #ffffff; border: 2px solid #163853;
+    }
+    .page.is-two-col .t-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .page.is-two-col .t-title { font-size: calc(8.5pt * var(--cv-font-scale, 1)); font-weight: 700; color: #1f1f1f; }
+    .page.is-two-col .t-date { font-size: calc(7.6pt * var(--cv-font-scale, 1)); font-weight: 700; color: #163853; white-space: nowrap; }
+    .page.is-two-col .t-meta { font-size: calc(7.6pt * var(--cv-font-scale, 1)); font-style: italic; color: #555555; margin-bottom: 2px; }
+    .page.is-two-col .t-ul { margin-left: 13px; font-size: calc(7.85pt * var(--cv-font-scale, 1)); color: #333333; line-height: 1.3; }
+    .page.is-two-col .t-ul li { margin-bottom: 1.5px; }
     """
     if not standalone:
         return body_content

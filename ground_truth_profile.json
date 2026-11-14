@@ -15,43 +15,30 @@
   "academic_timeline": [
     {
       "id": "junia_m1",
-      "degree_en": "Master of Science (M1) in Microelectronics, Nanotechnology & Embedded Systems",
-      "degree_fr": "Cycle Ingénieur (Master M1) — Microélectronique, Nanotechnologies & Systèmes Embarqués",
+      "degree_en": "Master's Degree in Engineering (M1) — Specialisation: Electronics and Embedded Systems",
+      "degree_fr": "Cycle Ingénieur (Master M1) — Spécialisation : Électronique et Systèmes Embarqués",
       "institution": "JUNIA ISEN — Grande École d'Ingénieurs",
       "location": "Lille, France",
-      "period_en": "2026 – Present (Expected 2029)",
-      "period_fr": "2026 – Présent (Diplôme 2029)",
-      "start_year": 2026,
+      "period_en": "2025 – Present (Expected 2028)",
+      "period_fr": "2025 – Présent (Diplôme 2028)",
+      "start_year": 2025,
       "status": "in_progress",
-      "notes_en": "Current M1 Engineering student focusing on Embedded C/C++, STM32/ESP32 firmware, VHDL/FPGA, KiCad PCB design, and micro-systems.",
-      "notes_fr": "Étudiant ingénieur en M1 axé sur le C/C++ embarqué, microcontrôleurs STM32/ESP32, VHDL/FPGA, conception PCB KiCad et microsystèmes."
+      "notes_en": "Specialisation: Electronics & Embedded Systems",
+      "notes_fr": "Spécialisation : Électronique & Systèmes Embarqués"
     },
     {
       "id": "knust_bsc",
-      "degree_en": "BSc in Computer Engineering",
-      "degree_fr": "BSc (Licence) en Génie Informatique (Computer Engineering)",
-      "institution": "Kwame Nkrumah University of Science and Technology (KNUST)",
+      "degree_en": "Bachelor of Science (BSc) in Computer Engineering",
+      "degree_fr": "Bachelor of Science (BSc) en Génie Informatique",
+      "institution": "KWAME NKRUMAH UNIVERSITY OF SCIENCE AND TECHNOLOGY (KNUST)",
       "location": "Kumasi, Ghana",
       "period_en": "2022 – 2026 (Completed / Graduated 2026)",
       "period_fr": "2022 – 2026 (Diplôme obtenu en 2026)",
       "start_year": 2022,
       "end_year": 2026,
       "status": "completed",
-      "notes_en": "Graduated BSc in Computer Engineering. Former Department President of ACES (Association of Computer Engineering Students, Aug 2025 – May 2026) representing 800+ engineering students.",
-      "notes_fr": "Diplômé en Génie Informatique (2026). Ancien Président du Département ACES (Août 2025 – Mai 2026) représentant plus de 800 étudiants ingénieurs."
-    },
-    {
-      "id": "presec_shs",
-      "degree_en": "General Science (WASSCE)",
-      "degree_fr": "Baccalauréat Scientifique (General Science)",
-      "institution": "Presbyterian Boys' Secondary School (PRESEC-Legon)",
-      "location": "Accra, Ghana",
-      "period_en": "Completed 2022",
-      "period_fr": "Obtenu en 2022",
-      "end_year": 2022,
-      "status": "completed",
-      "notes_en": "Completed secondary education in General Science (Physics, Elective Mathematics, Chemistry).",
-      "notes_fr": "Études secondaires scientifiques (Mathématiques, Physique, Chimie)."
+      "notes_en": "Graduated 2026 · Former ACES Department President (2025–2026)",
+      "notes_fr": "Diplômé 2026 · Ancien Président du Département ACES (2025–2026)"
     }
   ],
   "leadership": [
@@ -117,7 +104,7 @@
       "hardware": "STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Capteurs, KiCad (PCB), Physique des semi-conducteurs",
       "software": "Tests matériel-logiciel, Débogage (GDB), Validation chaîne de mesure, Tests unitaires, Linux, Git",
       "interpersonal": "Leadership d'équipe, Esprit d'analyse, Rigueur, Autonomie, Communication interculturelle",
-      "languages": "Anglais : C2 (Langue maternelle — BSc au Ghana) | Français : A2 (Immersion académique à Lille, Duolingo : 21)",
+      "languages": "Anglais : C2 (Langue maternelle — scolarité secondaire et universitaire en anglais) | Français : A2 (Élémentaire — Score Duolingo : 21 ; en progression active à Lille)",
       "interests": "Lectures historiques, étude du fonctionnement des systèmes scientifiques et techniques, Responsable organisation GHAFRA Nord (Lille)"
     },
     "en": {
@@ -125,7 +112,7 @@
       "hardware": "STM32, ESP32, MSP430, Arduino Uno, UART, PWM, Sensors, KiCad (PCB), Semiconductor Physics",
       "software": "Hardware-Software Debugging (GDB), Signal Chain Validation, Unit & Interface Testing, Linux, Git",
       "interpersonal": "Team Leadership, Analytical Problem-Solving, Rigor, Autonomy, Cross-Cultural Communication",
-      "languages": "English: C2 (Native Speaker — BSc in Ghana) | French: A2 (Academic immersion in Lille, Duolingo Score: 21)",
+      "languages": "English: C2 (Native Speaker — Secondary & University Education in English) | French: A2 (Elementary — Duolingo Score: 21; in active progression in Lille)",
       "interests": "Reading world history, exploring how physical/engineering systems work, Organizing Lead at GHAFRA Nord (Lille)"
     }
   },
@@ -200,22 +187,22 @@
       "tier_label_en": "Tier 1 — Hardware & System Validated",
       "tier_label_fr": "Tier 1 — Matériel & Système Validé",
       "completion_status": "completed_validated",
-      "title_en": "Automatic Water Tank Level Monitoring & Closed-Loop Control",
-      "title_fr": "Système Automatisé de Régulation de Niveau d'Eau en Boucle Fermée",
+      "title_en": "Automated Water Level Control System — Arduino Uno & Ultrasonic Sensors",
+      "title_fr": "Système Automatisé de Contrôle de Niveau d'Eau — Arduino Uno & Capteurs Ultrasoniques",
+      "meta_en": "Embedded Control & Sensor Calibration · Arduino Uno (C/C++), Ultrasonic Sensors",
+      "meta_fr": "Contrôle-commande embarqué · Arduino Uno (C/C++), Capteurs Ultrasoniques",
       "badge_en": "Tier 1 · Completed & Hardware Validated",
       "badge_fr": "Tier 1 · Matériel Validé",
-      "stack": ["Arduino", "Embedded C", "Ultrasonic ToF Sensor", "Relay Hysteresis", "16x2 LCD", "Oscilloscope"],
+      "stack": ["Arduino Uno (C/C++)", "Capteurs Ultrasoniques", "Relay Hysteresis", "16x2 LCD"],
       "keywords": ["arduino", "c", "embedded", "sensor", "ultrasonic", "relay", "hysteresis", "lcd", "control", "closed-loop", "automation", "iot", "capteur", "embarqué", "temps réel", "régulation"],
       "github_repo_hints": ["water", "tank", "arduino", "ultrasonic", "level"],
       "bullets_en": [
-        "Engineered closed-loop embedded pump controller on Arduino MCU reading HC-SR04 Ultrasonic Time-of-Flight telemetry.",
-        "Implemented deterministic software hysteresis thresholds to prevent relay chatter and protect switching hardware.",
-        "Integrated real-time I2C/parallel 16x2 LCD state diagnostics and verified timing margins on bench test."
+        "Programmed deterministic microcontroller logic in C/C++ for automatic pump actuation governed by calibrated level thresholds.",
+        "Performed sensor accuracy analysis and threshold hysteresis testing to ensure reliable closed-loop fluid regulation."
       ],
       "bullets_fr": [
-        "Conception d'un régulateur en boucle fermée sur microcontrôleur Arduino exploitant un capteur ultrasonore Time-of-Flight.",
-        "Implémentation d'un contrôle par hystérésis logicielle évitant les rebonds du relais de puissance et sécurisant l'actionneur.",
-        "Intégration d'un affichage LCD 16x2 temps réel pour le diagnostic d'état et validation expérimentale sur banc d'essai."
+        "Implémentation de la logique microcontrôleur en C/C++ pour le déclenchement automatique d'une pompe selon des seuils de niveau calibrés.",
+        "Exécution de tests fonctionnels et filtrage des mesures ultrasoniques afin de garantir la stabilité de l'asservissement."
       ]
     },
     {
@@ -224,8 +211,10 @@
       "tier_label_en": "Tier 1 — Hardware & System Validated",
       "tier_label_fr": "Tier 1 — Matériel & Système Validé",
       "completion_status": "completed_validated",
-      "title_en": "Custom Power Charger PCB (KiCad & Fabrication)",
-      "title_fr": "Conception & Fabrication de PCB Chargeur sur Mesure (KiCad)",
+      "title_en": "Custom Power Charger PCB — KiCad Schematic Capture & Fabrication",
+      "title_fr": "Conception & Fabrication de PCB Chargeur sur Mesure — KiCad",
+      "meta_en": "Hardware Design & Validation · KiCad, PCB Layout, Chemical Copper Etching, Soldering",
+      "meta_fr": "Conception matérielle & Tests · KiCad, Routage PCB, Gravure chimique, Soudure",
       "badge_en": "Tier 1 · Completed & Hardware Validated",
       "badge_fr": "Tier 1 · Matériel Validé",
       "stack": ["KiCad", "PCB Layout", "Schematic Capture", "Copper Etching", "Soldering", "Multimeter Validation"],
@@ -233,13 +222,11 @@
       "github_repo_hints": ["pcb", "charger", "kicad", "power"],
       "bullets_en": [
         "Captured schematic and routed single/double-layer power regulation PCB in KiCad respecting clearance and trace-width rules.",
-        "Executed chemical copper etching, through-hole/SMD component soldering, and thermal/voltage load validation.",
-        "Verified ripple suppression, short-circuit protection, and charging regulation stages using bench multimeter and oscilloscope."
+        "Executed chemical copper etching, component soldering, and bench multimeter/oscilloscope voltage regulation validation."
       ],
       "bullets_fr": [
         "Saisie de schéma et routage de carte électronique sous KiCad avec respect des règles d'isolement et de largeur de pistes.",
-        "Réalisation complète : gravure chimique du cuivre, soudure des composants traversants/CMS et contrôle de continuité.",
-        "Validation des étages de régulation, ondulation résiduelle et tenue en charge au multimètre et à l'oscilloscope."
+        "Réalisation complète : gravure chimique du cuivre, soudure des composants et validation des étages de régulation sous charge."
       ]
     },
     {
@@ -248,8 +235,10 @@
       "tier_label_en": "Tier 1 — Hardware & System Validated",
       "tier_label_fr": "Tier 1 — Matériel & Système Validé",
       "completion_status": "completed_validated",
-      "title_en": "Smart Logistics & Delivery Management System (PostgreSQL 3NF)",
-      "title_fr": "Système de Gestion Logistique & Livraison Intelligente (PostgreSQL 3NF)",
+      "title_en": "Smart Logistics & Delivery Management System — PostgreSQL 3NF",
+      "title_fr": "Système de Gestion Logistique & Livraison Intelligente — PostgreSQL 3NF",
+      "meta_en": "Relational Database Architecture · PostgreSQL, 3NF Normalization, ACID Transactions",
+      "meta_fr": "Architecture de données relationnelle · PostgreSQL, Normalisation 3NF, Transactions ACID",
       "badge_en": "Tier 1 · Completed & System Validated",
       "badge_fr": "Tier 1 · Système Validé",
       "stack": ["PostgreSQL", "SQL", "ERD Modeling", "3NF Normalization", "Associative Tables", "ACID Transactions"],
@@ -257,13 +246,11 @@
       "github_repo_hints": ["logistics", "delivery", "sql", "postgres", "database"],
       "bullets_en": [
         "Architected relational schema normalized to Third Normal Form (3NF) with strict foreign-key and associative junction tables.",
-        "Eliminated update/deletion anomalies across multi-carrier dispatch, parcel tracking, and route assignment workflows.",
-        "Wrote indexed analytical SQL queries and ACID-compliant transactional updates for reliable dispatch state."
+        "Wrote indexed analytical SQL queries and ACID-compliant transactional updates for multi-carrier dispatch and parcel tracking."
       ],
       "bullets_fr": [
         "Architecture d'une base de données relationnelle normalisée en 3e Forme Normale (3NF) avec tables associatives et clés étrangères.",
-        "Élimination des anomalies de redondance sur le suivi des colis, transporteurs et affectations de tournées.",
-        "Rédaction de requêtes SQL indexées et transactions ACID garantissant l'intégrité des flux logistiques."
+        "Rédaction de requêtes SQL indexées et transactions ACID garantissant l'intégrité du suivi des colis et tournées."
       ]
     },
     {
@@ -272,22 +259,22 @@
       "tier_label_en": "Tier 1 — Hardware & System Validated",
       "tier_label_fr": "Tier 1 — Matériel & Système Validé",
       "completion_status": "completed_validated",
-      "title_en": "Digital Thermometer & Signal Acquisition Chain (TI MSP430)",
-      "title_fr": "Thermomètre Numérique & Chaîne d'Acquisition Bas Niveau (TI MSP430)",
+      "title_en": "Digital Thermometer & Signal Acquisition Chain — MSP430 Microcontroller (C & Assembly)",
+      "title_fr": "Thermomètre Numérique & Chaîne d'Acquisition — Microcontrôleur MSP430 (C & Assembleur)",
+      "meta_en": "Embedded Measurement System · MSP430 Microcontroller, C & Assembly",
+      "meta_fr": "Système de mesure embarqué · Microcontrôleur MSP430, C & Assembleur",
       "badge_en": "Tier 1 · Completed & Hardware Validated",
       "badge_fr": "Tier 1 · Matériel Validé",
-      "stack": ["Embedded C", "MSP430 Assembly", "TI MSP430", "10-bit ADC", "Register-Level I/O", "Multiplexed 7-Segment"],
+      "stack": ["Microcontrôleur MSP430", "C & Assembleur", "ADC", "Calibration"],
       "keywords": ["msp430", "assembly", "assembleur", "adc", "c", "embedded", "embarqué", "firmware", "signal", "acquisition", "register", "microcontroller", "microcontrôleur", "test", "debug", "vhdl", "fpga"],
       "github_repo_hints": ["msp430", "thermometer", "assembly", "adc"],
       "bullets_en": [
-        "Programmed bare-metal register drivers in C and Assembly on TI MSP430 configuring 10-bit ADC and multiplexed 7-segment display.",
-        "Reduced thermal measurement noise via fixed-point rolling averaging and deterministic timer interrupt sampling.",
-        "Debugged register states step-by-step via JTAG/Spy-Bi-Wire and bench oscilloscope signal verification."
+        "Designed and programmed low-level firmware in C and Assembly on a TI MSP430 microcontroller for precision temperature measurement.",
+        "Analyzed and validated the complete signal processing chain from analog sensor capture and ADC conversion to calibrated digital readout."
       ],
       "bullets_fr": [
-        "Programmation bas niveau par manipulation directe des registres (C & Assembleur TI MSP430) : ADC 10 bits et afficheurs 7 segments.",
-        "Réduction du bruit de mesure par filtrage glissant en virgule fixe et échantillonnage déterministe par interruption timer.",
-        "Débogage matériel pas à pas via JTAG/Spy-Bi-Wire et caractérisation des signaux à l'oscilloscope."
+        "Conception et programmation bas niveau (C et Assembleur) d'un système d'acquisition thermique sur architecture MSP430.",
+        "Analyse et validation de la chaîne complète de traitement : capture analogique, conversion CAN (ADC), calibrage et affichage numérique."
       ]
     },
     {
@@ -296,22 +283,22 @@
       "tier_label_en": "Tier 2 — Completed Core Software",
       "tier_label_fr": "Tier 2 — Logiciel Principal Validé",
       "completion_status": "completed_core_software",
-      "title_en": "E.Leclerc / ACES MART Hybrid Self-Checkout Engine (C++17 OOP Software Engine)",
-      "title_fr": "Moteur Logiciel de Caisse Hybride E.Leclerc / ACES MART (C++17 POO)",
+      "title_en": "E.Leclerc Self-Checkout Terminal & Online Sales Architecture — C++17, OOP, STL",
+      "title_fr": "Terminal Libre-Service E.Leclerc & Architecture de Vente (C++17)",
+      "meta_en": "Software Architecture & Validation Testing · C++17, OOP, Custom Data Structures",
+      "meta_fr": "Architecture logicielle & Tests unitaires · C++17, POO, Structures de données",
       "badge_en": "Tier 2 · Completed C++17 Software Engine",
       "badge_fr": "Tier 2 · Moteur Logiciel C++17 Validé",
-      "stack": ["C++17", "OOP Polymorphism", "virtual / dynamic_cast", "Integer Centime Math", "Greedy Change Dispenser", "CLI Engine"],
+      "stack": ["C++17", "POO", "Structures de données", "dynamic_cast", "Tests unitaires"],
       "keywords": ["c++", "cpp", "c++17", "oop", "poo", "polymorphism", "software", "logiciel", "pos", "checkout", "algorithm", "algorithme", "testing", "unit", "embedded", "embarqué"],
       "github_repo_hints": ["leclerc", "aces", "pos", "checkout", "cpp", "c++"],
       "bullets_en": [
-        "Architected a deterministic C++17 OOP software engine with abstract base classes, runtime polymorphism (virtual & dynamic_cast), and RAII state.",
-        "Replaced IEEE-754 floating-point currency math with exact integer centime arithmetic to guarantee zero rounding drift.",
-        "Implemented greedy coin/bill change dispenser algorithm with bounded inventory rollback and exhaustive edge-case unit tests."
+        "Architected a zero-dependency C++17 transaction engine evolving an online sales server architecture into an interactive self-checkout terminal.",
+        "Executed boundary and unit testing on runtime polymorphic (dynamic_cast) weight verification and a 12-denomination Euro change algorithm."
       ],
       "bullets_fr": [
-        "Conception d'un moteur logiciel déterministe en C++17 (POO, polymorphisme dynamique via virtual & dynamic_cast, gestion RAII).",
-        "Élimination des erreurs d'arrondi flottant par arithmétique entière exacte en centimes sur l'ensemble du pipeline de transaction.",
-        "Implémentation d'un algorithme glouton de rendu de monnaie avec gestion stricte des stocks de coupures et tests unitaires."
+        "Conception en C++17 d'un moteur transactionnel sans bibliothèque tierce (évolution d'une plateforme serveur vers un terminal caisse libre-service).",
+        "Validation et tests des algorithmes critiques : vérification dynamique de poids (dynamic_cast) et rendu monnaie optimal sur 12 coupures Euro."
       ]
     },
     {
@@ -320,8 +307,10 @@
       "tier_label_en": "Tier 2 — Completed Core Software",
       "tier_label_fr": "Tier 2 — Logiciel Principal Validé",
       "completion_status": "completed_core_software",
-      "title_en": "Bilingual Systems Engineering Portfolio & Admin Telemetry Engine (Python 3 / Flask)",
-      "title_fr": "Portfolio Ingénieur Bilingue & Moteur de Télémétrie Admin (Python 3 / Flask)",
+      "title_en": "Bilingual Systems Engineering Portfolio & Admin Telemetry Engine — Python 3 / Flask",
+      "title_fr": "Moteur de Portfolio & Télémétrie en Python 3 / Flask",
+      "meta_en": "Full-Stack Python & REST API · Python 3.12, Flask, O(1) Inverted Index",
+      "meta_fr": "Architecture Python & API REST · Python 3.12, Flask, Index Inversé O(1)",
       "badge_en": "Tier 2 · Completed Software Engine",
       "badge_fr": "Tier 2 · Moteur Logiciel Validé",
       "stack": ["Python 3", "Flask", "REST API", "i18n Middleware", "O(1) Inverted Index", "Static Site Generator"],
@@ -329,13 +318,11 @@
       "github_repo_hints": ["portfolio", "hanz", "flask", "admin"],
       "bullets_en": [
         "Built bilingual Python 3 / Flask application serving REST endpoints, O(1) inverted-index query engine, and static site compilation.",
-        "Designed ground-truth schema validators, dynamic project ranking logic, and automated headless PDF build pipelines.",
-        "Enforced automated regression suites validating link integrity, i18n parity, and zero-hallucination data contracts."
+        "Designed ground-truth schema validators, dynamic project ranking logic, and automated headless PDF build pipelines."
       ],
       "bullets_fr": [
         "Développement d'une architecture Python 3 / Flask exposant des API REST, un moteur d'index inversé O(1) et un générateur statique.",
-        "Intégration d'un validateur de données canoniques, classement dynamique de projets et compilation PDF automatisée.",
-        "Mise en place de tests de régression automatisés vérifiant les endpoints API, le bilinguisme FR/EN et l'intégrité des données."
+        "Intégration d'un validateur de données canoniques, classement dynamique de projets et compilation PDF automatisée."
       ]
     },
     {
@@ -344,22 +331,22 @@
       "tier_label_en": "Tier 3 — Active R&D (M1 Team Project)",
       "tier_label_fr": "Tier 3 — R&D Active (Projet d'Équipe M1)",
       "completion_status": "active_rd_in_progress",
-      "title_en": "Autonomous Street-Cleaning Robot (Active R&D — M1 Team Project)",
-      "title_fr": "Robot Autonome de Nettoyage Urbain (R&D Active — Projet d'Équipe M1)",
-      "badge_en": "Tier 3 · Active R&D — M1 Team Project",
-      "badge_fr": "Tier 3 · R&D Active — Projet d'Équipe M1",
-      "stack": ["STM32", "ESP32", "Embedded C/C++", "UART/PWM", "Computer Vision", "Sensor Fusion"],
+      "title_en": "Autonomous Street-Cleaning Robot — JUNIA ISEN Lille (7-Member M1 Active R&D Team)",
+      "title_fr": "Robot Autonome de Nettoyage Urbain — JUNIA ISEN Lille",
+      "meta_en": "M1 R&D Team Project (7 Engineering Students) · Embedded C, STM32, ESP32, UART",
+      "meta_fr": "Projet R&D M1 (Équipe de 7 élèves-ingénieurs) · C Embarqué, STM32, ESP32, UART",
+      "badge_en": "Projet R&D M1 (7-Member Team)",
+      "badge_fr": "Projet R&D M1 (Équipe de 7 élèves-ingénieurs)",
+      "stack": ["C Embarqué", "STM32", "ESP32", "UART"],
       "keywords": ["stm32", "esp32", "robot", "robotics", "robotique", "vision", "computer vision", "uart", "spi", "i2c", "pwm", "rtos", "freertos", "embedded", "embarqué", "autonomous", "autonome", "lidar", "imu"],
       "github_repo_hints": ["robot", "street", "cleaning", "stm32", "esp32"],
       "bullets_en": [
-        "Ongoing JUNIA Lille M1 7-member R&D team project developing a dual-MCU (STM32 real-time actuation + ESP32 telemetry) mobile platform.",
-        "Designing low-level C/C++ motor PWM control, UART inter-MCU framing, and ultrasonic/vision obstacle avoidance loops.",
-        "Integrating bench telemetry logging and hardware-in-the-loop sensor validation tests for modular chassis subsystems."
+        "Developed real-time Embedded C firmware on an STM32 microcontroller for PWM H-bridge motor control, paired with ESP32 wireless telemetry.",
+        "Conducted hardware-software integration testing, UART serial frame analysis (AI camera), and closed-loop control verification."
       ],
       "bullets_fr": [
-        "Projet d'équipe R&D en cours à JUNIA Lille (7 étudiants M1) : architecture bi-microcontrôleurs STM32 (temps réel) + ESP32 (télémétrie).",
-        "Développement bas niveau en C/C++ de l'asservissement moteur PWM, communication UART inter-MCU et évitement d'obstacles.",
-        "Mise en place de protocoles de tests sur banc et validation matérielle en boucle des capteurs et sous-ensembles."
+        "Développement en C embarqué de la commande moteur temps-réel (PWM pont en H) sur microcontrôleur STM32, couplée à une télémétrie sans fil sur ESP32.",
+        "Réalisation des tests d'intégration matériel-logiciel, analyse des trames série UART (caméra IA) et validation des boucles de contrôle."
       ]
     }
   ]
